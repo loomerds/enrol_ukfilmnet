@@ -1,0 +1,1 @@
+There are no API changes in core libraries which would affect this plugin to report.
