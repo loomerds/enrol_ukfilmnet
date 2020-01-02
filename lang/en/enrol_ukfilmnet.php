@@ -23,23 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-/*$string['choosereadme'] = '
-<div class="clearfix">
-<h2>UkFilmNet</h2>
-<h3>About</h3>
-<p>UkFilmNet is a child theme of the Boost theme.</p>
-<h3>Theme Credits</h3>
-<p>Author: G J Barnard<br>
-Contact: <a href="http://moodle.org/user/profile.php?id=442195">Moodle profile</a><br>
-Website: <a href="http://about.me/gjbarnard">about.me/gjbarnard</a>
-</p>
-<h3>More information</h3>
-<p><a href="ukfilmnet/Readme.md">How to use this theme.</a></p>
-</div></div>';
-
 $string['configtitle'] = 'UkFilmNet';
 $string['pluginname'] = 'UkFilmNet';
-
+/*
 $string['region-side-pre'] = 'Left';
 $string['region-side-nav'] = 'Nav';
 
