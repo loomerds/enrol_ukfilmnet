@@ -15,16 +15,33 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Development data generator.
+ * Generator tool functions.
  *
  * @package    enrol_ukfilmnet
- * @copyright  2019, Doug Loomer 
+ * @copyright  2019, Doug Loomer
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(__DIR__ . '/../../../config.php');
 
-// This index page was previously in use, for now it redirects to the ukfilmnet enrolment
-// start page.
+/** The user is put onto a waiting list and therefore the enrolment not active 
+ * (used in user_enrolments->status) 
+ */
 
-redirect(new moodle_url('/enrol/ukfilmnet/enrol_start.php'));
+namespace enrol_ukfilmnet\output;
+
+class renderer extends \plugin_renderer_base {
+
+    /*
+     * Renders the HTML for the index page.
+     * 
+     */
+
+     public function render_applicantpage(\templatable $applicantpage) {
+
+        // Calls export_for_template function of applicantpage class in file
+        // /enrol/ukfilmnet/classes/output/applicatpage.php
+        $data = $applicantpage->export_for_template($this);
+        // Calls render_from_template function of 
+        return $this->render_from_template('enrol_ukfilmnet/applicantpage', $data);
+     }
+}

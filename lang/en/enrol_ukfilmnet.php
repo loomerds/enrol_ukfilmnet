@@ -23,8 +23,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
-$string['configtitle'] = 'UkFilmNet';
-$string['pluginname'] = 'UkFilmNet';
+$string['configtitle'] = 'UKfilmNet';
+$string['pluginname'] = 'UKfilmNet simple enrolment';
+$string['applicant_title'] = 'Teacher Info';
+$string['applicant_heading'] = 'Teacher Application: Basic Information';
+
+
 /*
 $string['region-side-pre'] = 'Left';
 $string['region-side-nav'] = 'Nav';

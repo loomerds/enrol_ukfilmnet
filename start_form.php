@@ -66,7 +66,7 @@ class enrol_start_start_form extends moodleform {
         //$mform->addElement('html', '<p>'.$instance->customtext1.'</p>');
 
         $mform->addElement('html', '<p>'.'please do something'.'</p>');
-
+        echo "howdy";
         
         /*$comment_title = get_string('comment', 'enrol_apply');
         if($instance->customtext2 != ''){
