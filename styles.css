@@ -1,0 +1,39 @@
+.ukfn-enrol-page-title {
+    margin-left: 30px;
+}
+
+.ukfn-enrol-main {
+    width: 100%;
+}
+
+.ukfn-progress-list-area {
+    width:30%; 
+    position:relative; 
+    float:left; 
+    text-align:center;
+}
+
+.ukfn-progress-titlebox {
+    display:inline-block; 
+    width: 100%;
+    margin-top: 30px;
+}
+
+.ukfn-progress-title, .ukfn-progress-items {
+    border-width: 1px; 
+    border-style: solid;
+    width: 180px; 
+    display:inline-block;    
+}
+.ukfn-progress-title {
+    border-bottom: 0px; 
+    margin-bottom: 0px;
+    padding: 10px 10px;
+}
+
+.ukfn-progress-items p {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 2em;
+}
+
