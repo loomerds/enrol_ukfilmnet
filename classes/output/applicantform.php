@@ -39,10 +39,25 @@ class applicant_form extends \moodleform {
         global $CFG;
 
         $mform = $this->_form; // Don't forget the underscore! 
-
-        $mform->addElement('text', 'email', get_string('email')); // Add elements to your form
-        $mform->setType('email', PARAM_NOTAGS);                   //Set type of element
-        $mform->setDefault('email', 'Please enter email');        //Default value
+        $current_roles = ['Select your current role',
+                          get_string('applicant-role-ukteacher', 'enrol_ukfilmnet'), 
+                          get_string('applicant-role-teacherbsa', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-uksupplyteacher', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-instructor18plus', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-instructor17minus', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-student17minus', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-student18plus', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-industryprofessional', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-educationconsultant', 'enrol_ukfilmnet'),
+                          get_string('applicant-role-parentguardian', 'enrol_ukfilmnet')];
+        $mform->addElement('select', 'type', get_string('applicant-current-role', 'enrol_ukfilmnet'), $current_roles, ['class'=>'ukfn-applicant-current-roles']);
+        $mform->addElement('text', 'email', get_string('applicant-email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']); // Add elements to your form
+        $mform->setType('email', PARAM_NOTAGS);
+        $mform->addElement('text', 'firstname', get_string('applicant-firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
+        $mform->setType('firstname', PARAM_TEXT);
+        $mform->addElement('text', 'familyname', get_string('applicant-familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
+        $mform->setType('familyname', PARAM_TEXT);
+        
             
     }
     //Custom validation should be added here

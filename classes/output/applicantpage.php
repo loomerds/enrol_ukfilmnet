@@ -45,6 +45,7 @@ class applicantpage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
+        //$data->plugin_heading = get_string('plugin_heading', 'enrol_ukfilmnet')
         $data->sometext = $this->sometext;
         $data->emailinput = $this->get_applicant_content();
         return $data;

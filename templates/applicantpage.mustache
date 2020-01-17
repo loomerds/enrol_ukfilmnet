@@ -32,20 +32,21 @@
 
 }}
 
-<h3 class='ukfn-enrol-page-title'>Teacher Signup</h3>
+<h3 class='ukfn-enrol-page-title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}: {{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</h3>
 <div class='ukfn-enrol-main'>
     <div class='ukfn-progress-list-area'>
         <div class='ukfn-progress-titlebox'>
-            <h5 class='ukfn-progress-title'>Signup Progress</h5>
+            <h5 class='ukfn-progress-title'>{{#str}}progressbox_title, enrol_ukfilmnet{{/str}}</h5>
         </div>
         <div class='ukfn-progress-items'>
-            <p style='background-color: #060; color: white;'>Teacher Information</p>
-            <p>School Information</p>
-            <p>Quals Information</p>
-            <p>Enrol Students</p>
+            <p class='item-current'>{{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class=''>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p>{{#str}}quals_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
         </div>
     </div>
-    <div style='width:70%; position: relative; float:right;'>
-        <p>{{{emailinput}}}</p>
+    <div class='ukfn-applicantinfo-section'>
+        <p>{{#str}}applicant_instructions, enrol_ukfilmnet{{/str}}</p>
+        {{{emailinput}}}
     </div>
 </div>

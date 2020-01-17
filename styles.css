@@ -1,5 +1,6 @@
 .ukfn-enrol-page-title {
     margin-left: 30px;
+    margin-top: -30px;
 }
 
 .ukfn-enrol-main {
@@ -34,6 +35,27 @@
 .ukfn-progress-items p {
     padding-left: 0px;
     padding-right: 0px;
-    line-height: 2em;
+    margin-bottom: 0px;
+    line-height: 2.5em;
+}
+
+.ukfn-progress-items p.item-complete {
+    background-color: #060; 
+    color: white;
+}
+
+.ukfn-progress-items p.item-current {
+    background-color: #b22222; 
+    color: #ffffff;
+}
+
+.ukfn-applicantinfo-section {
+    width:70%; 
+    position: relative; 
+    float:right;
+}
+
+.ukfn-applicant-email, .ukfn-applicant-firstname, .ukfn-applicant-familyname, .ukfn-applicant-current-roles {
+    width: 500px;
 }
 

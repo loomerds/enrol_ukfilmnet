@@ -23,85 +23,40 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later.
  */
 
+ // General Descriptors
 $string['configtitle'] = 'UKfilmNet';
 $string['pluginname'] = 'UKfilmNet simple enrolment';
+$string['plugin_heading'] = 'Teacher Signup';
+
+// Page Title Descriptors 
 $string['applicant_title'] = 'Teacher Info';
-$string['applicant_heading'] = 'Teacher Application: Basic Information';
+$string['institution_title'] = 'School Info';
+$string['quals_title'] = 'Quals Info';
+$string['students_title'] = 'Enrol Students';
 
+// Subtitles/Progress Items List Descriptors
+$string['progressbox_title'] = ' Signup Progress';
+$string['applicant_subheading'] = 'Teacher Information';
+$string['institution_subheading'] = 'School Information';
+$string['quals_subheading'] = 'Quals Information';
+$string['students_subheading'] = 'Enrol Students';
 
-/*
-$string['region-side-pre'] = 'Left';
-$string['region-side-nav'] = 'Nav';
+// 
+$string['applicant_instructions'] = 'Please enter your school email address, first name and family name below, then click the \"Next\" button.';
+$string['applicant-current-role'] = 'Current role';
+$string['applicant-email'] = 'Work email';
+$string['applicant-firstname'] = 'First name';
+$string['applicant-familyname'] = 'Family name';
 
-// Misc.
-$string['backtotop'] = 'Back to top';
-$string['enter'] = 'Enter';
-$string['example'] = 'Example';
-$string['gotobottom'] = 'Go to the bottom of the page';
-$string['privacypolicy'] = 'Privacy policy';
-$string['sitepolicy'] = 'Site policy';
-$string['stylecover'] = 'Cover';
-$string['stylestretch'] = 'Stretch';
+// Current Role Descriptors
+$string['applicant-role-ukteacher'] = '1. UK Teacher/lecturer under contract with UK education organisation';
+$string['applicant-role-teacherbsa'] = '2. Teacher/lecturer under contract with BSA recognised by UK DIE OFSTED';
+$string['applicant-role-uksupplyteacher'] = '3. UK Supply/freelance teacher/lecturer (no single organisation';
+$string['applicant-role-instructor18plus'] = '4. Instructor of only 18s and above';
+$string['applicant-role-instructor17minus'] = '5. Instructor of under 18s';
+$string['applicant-role-student17minus'] = '6. Student under 18';
+$string['applicant-role-student18plus'] = '7. Student 18 and above';
+$string['applicant-role-industryprofessional'] = '8. Industry professional';
+$string['applicant-role-educationconsultant'] = '9. Education Consultant';
+$string['applicant-role-parentguardian'] = '10. Parent/Guardian';
 
-// General.
-$string['generalheading'] = 'General';
-$string['generalheadingsub'] = 'General settings';
-$string['generalheadingdesc'] = 'Configure the general settings for UkFilmNet here.';
-
-$string['privacypolicydesc'] = 'Set the URL for the privacy policy.';
-$string['sitepolicydesc'] = 'Set the URL for the site policy.';
-
-$string['customcss'] = 'Custom CSS';
-$string['customcssdesc'] = 'Add custom CSS to the theme.';
-
-// Frontpage Carousel.
-$string['frontpagecarouselheading'] = 'Frontpage carousel';
-$string['frontpagecarouselheadingsub'] = 'Frontpage carousel settings';
-$string['frontpagecarouselheadingdesc'] = 'Configure the settings for the frontpage carousel of UkFilmNet here.';
-$string['frontpagecarouselslides'] = 'Frontpage slides';
-$string['frontpagecarouselslidesdesc'] = 'Number of frontpage slides between {$a->lower} and {$a->upper}.  After changing and \'Saving changes\', refresh the page.';
-$string['frontpagecarouselinterval'] = 'Frontpage slide interval';
-$string['frontpagecarouselintervaldesc'] = 'Number of milliseconds between slides, choose between {$a->lower} and {$a->upper} milliseconds.';
-$string['frontpageslideno'] = 'Frontpage slide {$a->number}';
-$string['frontpageslidenodesc'] = 'Enter the settings for frontpage slide {$a->number}.';
-$string['frontpageenableslide'] = 'Frontpage slide {$a->number} enable';
-$string['frontpageenableslidedesc'] = 'Enable or disable frontpage slide {$a->number}.';
-$string['frontpageslidetitle'] = 'Frontpage slide {$a->number} title';
-$string['frontpageslidetitledesc'] = 'Title for frontpage slide {$a->number}.';
-$string['frontpageslidecaption'] = 'Frontpage slide {$a->number} caption';
-$string['frontpageslidecaptiondesc'] = 'Caption for frontpage slide {$a->number}.';
-$string['frontpageslideimage'] = 'Frontpage slide {$a->number} image';
-$string['frontpageslideimagedesc'] = 'Image for frontpage slide {$a->number}.';
-$string['frontpageslideimagetext'] = 'Frontpage slide {$a->number} image text';
-$string['frontpageslideimagetextdesc'] = 'Image alternative description text for frontpage slide {$a->number}.';
-
-// Login background.
-$string['loginbackgroundheading'] = 'Login background';
-$string['loginbackgroundheadingsub'] = 'Login background image settings';
-$string['loginbackgroundheadingdesc'] = 'Set the login background image settings.  Note: The login form will only be the theme\'s when an image has been set.';
-$string['loginbackground'] = 'Login background image';
-$string['loginbackgrounddesc'] = 'Upload your own login background image.  Select the style of the image below.';
-$string['loginbackgroundstyle'] = 'Login background style';
-$string['loginbackgroundstyledesc'] = 'Select the style for the uploaded image.';
-$string['loginbackgroundopacity'] = 'Login box background opacity when there is a background image';
-$string['loginbackgroundopacitydesc'] = 'Login background opacity for the login box when there is a background image.';
-
-// Information.
-$string['informationheading'] = 'Information';
-$string['informationheadingsub'] = 'Information settings page';
-$string['informationheadingdesc'] = 'Information about the theme and details on configuration information for the site.';
-$string['themecustomstylesheading'] = 'Styles';
-$string['themecustomstylesheadingdesc'] = 'Custom theme styles.';
-$string['themetinymceheading'] = 'TinyMCE';
-$string['themetinymceheadingdesc'] = 'TinyMCE configuration to use.  Note: Add / copy the values to the given setting names.';
-$string['themecoursesheading'] = 'Courses';
-$string['themecoursesheadingdesc'] = 'Courses configuration to use.  Note: Add / change / copy the values to the given setting names.';
-
-// ukfilmnet_admin_setting_configinteger.
-$string['asconfigintlower'] = '{$a->value} is less than the lower range limit of {$a->lower}';
-$string['asconfigintupper'] = '{$a->value} is greater than the upper range limit of {$a->upper}';
-$string['asconfigintnan'] = '{$a->value} is not a number';
-
-// Privacy.
-$string['privacy:nop'] = 'The UkFilmNet theme stores has settings that pertain to its configuration.  It also may inherit settings and user preferences from the parent Boost theme, please examine the \'Plugin privacy compliance registry\' for \'Boost\' for details.  For the settings, it is your responsibility to ensure that no user data is entered in any of the free text fields.  Setting a setting will result in that action being logged within the core Moodle logging system against the user whom changed it, this is outside of the themes control, please see the core logging system for privacy compliance for this.  When uploading images, you should avoid uploading images with embedded location data (EXIF GPS) included or other such personal data.  It would be possible to extract any location / personal data from the images.  Please examine the code carefully to be sure that it complies with your interpretation of your privacy laws.  I am not a lawyer and my analysis is based on my interpretation.  If you have any doubt then remove the theme forthwith.';
-*/
