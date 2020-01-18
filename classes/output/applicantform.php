@@ -39,29 +39,36 @@ class applicant_form extends \moodleform {
         global $CFG;
 
         $mform = $this->_form; // Don't forget the underscore! 
-        $current_roles = ['Select your current role',
-                          get_string('applicant-role-ukteacher', 'enrol_ukfilmnet'), 
-                          get_string('applicant-role-teacherbsa', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-uksupplyteacher', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-instructor18plus', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-instructor17minus', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-student17minus', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-student18plus', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-industryprofessional', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-educationconsultant', 'enrol_ukfilmnet'),
-                          get_string('applicant-role-parentguardian', 'enrol_ukfilmnet')];
-        $mform->addElement('select', 'type', get_string('applicant-current-role', 'enrol_ukfilmnet'), $current_roles, ['class'=>'ukfn-applicant-current-roles']);
-        $mform->addElement('text', 'email', get_string('applicant-email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']); // Add elements to your form
+        $current_roles = ['0'=>get_string('applicant_role_instruction', 'enrol_ukfilmnet'),
+                          '01'=>get_string('applicant_role_ukteacher', 'enrol_ukfilmnet'), 
+                          '02'=>get_string('applicant_role_teacherbsa', 'enrol_ukfilmnet'),
+                          '03'=>get_string('applicant_role_uksupplyteacher', 'enrol_ukfilmnet'),
+                          '04'=>get_string('applicant_role_instructor18plus', 'enrol_ukfilmnet'),
+                          '05'=>get_string('applicant_role_instructor17minus', 'enrol_ukfilmnet'),
+                          '06'=>get_string('applicant_role_student17minus', 'enrol_ukfilmnet'),
+                          '07'=>get_string('applicant_role_student18plus', 'enrol_ukfilmnet'),
+                          '08'=>get_string('applicant_role_industryprofessional', 'enrol_ukfilmnet'),
+                          '09'=>get_string('applicant_role_educationconsultant', 'enrol_ukfilmnet'),
+                          '10'=>get_string('applicant_role_parentguardian', 'enrol_ukfilmnet')];
+        $mform->addElement('select', 'role', get_string('applicant_current_role', 'enrol_ukfilmnet'), $current_roles, ['class'=>'ukfn-applicant-current-roles']);
+        $mform->addRule('role', get_string('error_missing_role', 'enrol_ukfilmnet'), 'minlength', 2, 'server');
+        $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']); // Add elements to your form
         $mform->setType('email', PARAM_NOTAGS);
-        $mform->addElement('text', 'firstname', get_string('applicant-firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
+        $mform->addRule('email', get_string('error_missing_email', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('text', 'firstname', get_string('applicant_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
         $mform->setType('firstname', PARAM_TEXT);
-        $mform->addElement('text', 'familyname', get_string('applicant-familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
+        $mform->addRule('firstname', get_string('error_missing_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('text', 'familyname', get_string('applicant_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-familyname']);
         $mform->setType('familyname', PARAM_TEXT);
-        
-            
+        $mform->addRule('familyname', get_string('error_missing_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-buttons']);            
     }
     //Custom validation should be added here
     function validation($data, $files) {
-        return array();
+        $errors = array();
+
+        
+            //if($data[])
+        return $errors;
     }
 }

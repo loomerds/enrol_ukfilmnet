@@ -47,20 +47,20 @@ class applicantpage implements \renderable, \templatable {
         $data = new stdClass();
         //$data->plugin_heading = get_string('plugin_heading', 'enrol_ukfilmnet')
         $data->sometext = $this->sometext;
-        $data->emailinput = $this->get_applicant_content();
+        $data->applicantinput = $this->get_applicant_content();
         return $data;
     }
 
     public function get_applicant_content() {
 
-        $emailinput = '';
+        $applicantinput = '';
 
         //Instantiate simplehtml_form 
         $mform = new applicant_form();
         
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            //Handle form cancel operation, if cancel button is present on form
+            redirect('https://ukfilmnet.org');
         } else if ($fromform = $mform->get_data()) {
         //In this case you process validated data. $mform->get_data() returns data posted in form.
         } else {
@@ -71,9 +71,9 @@ class applicantpage implements \renderable, \templatable {
         //$mform->set_data($toform);
         //displays the form
         //$mform->display();
-            $emailinput = $mform->render();
+            $applicantinput = $mform->render();
         }
-        return $emailinput;
+        return $applicantinput;
     }
 
 }

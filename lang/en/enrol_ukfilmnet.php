@@ -42,21 +42,33 @@ $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 
 // 
-$string['applicant_instructions'] = 'Please enter your school email address, first name and family name below, then click the \"Next\" button.';
-$string['applicant-current-role'] = 'Current role';
-$string['applicant-email'] = 'Work email';
-$string['applicant-firstname'] = 'First name';
-$string['applicant-familyname'] = 'Family name';
+$string['applicant_instructions'] = 'Welcome to the UKfilmNet Teacher Signup process.</br></br>Before providing the information requested below, please take time to <strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">read the UKfilmNet PRIVACY NOTICE</a></strong>. Then enter your current educational role, school email address, first name, and family name below.';
+$string['applicant_agreement'] = '</br><u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+$string['applicant_current_role'] = 'Current role';
+$string['applicant_email'] = 'School email';
+$string['applicant_firstname'] = 'First name';
+$string['applicant_familyname'] = 'Family name';
 
 // Current Role Descriptors
-$string['applicant-role-ukteacher'] = '1. UK Teacher/lecturer under contract with UK education organisation';
-$string['applicant-role-teacherbsa'] = '2. Teacher/lecturer under contract with BSA recognised by UK DIE OFSTED';
-$string['applicant-role-uksupplyteacher'] = '3. UK Supply/freelance teacher/lecturer (no single organisation';
-$string['applicant-role-instructor18plus'] = '4. Instructor of only 18s and above';
-$string['applicant-role-instructor17minus'] = '5. Instructor of under 18s';
-$string['applicant-role-student17minus'] = '6. Student under 18';
-$string['applicant-role-student18plus'] = '7. Student 18 and above';
-$string['applicant-role-industryprofessional'] = '8. Industry professional';
-$string['applicant-role-educationconsultant'] = '9. Education Consultant';
-$string['applicant-role-parentguardian'] = '10. Parent/Guardian';
+$string['applicant_role_instruction'] = 'Choose a role';
+$string['applicant_role_ukteacher'] = '1. UK Teacher/lecturer under contract with UK education organisation';
+$string['applicant_role_teacherbsa'] = '2. Teacher/lecturer under contract with BSA recognised by UK DIE OFSTED';
+$string['applicant_role_uksupplyteacher'] = '3. UK Supply/freelance teacher/lecturer (no single organisation';
+$string['applicant_role_instructor18plus'] = '4. Instructor of only 18s and above';
+$string['applicant_role_instructor17minus'] = '5. Instructor of under 18s';
+$string['applicant_role_student17minus'] = '6. Student under 18';
+$string['applicant_role_student18plus'] = '7. Student 18 and above';
+$string['applicant_role_industryprofessional'] = '8. Industry professional';
+$string['applicant_role_educationconsultant'] = '9. Education Consultant';
+$string['applicant_role_parentguardian'] = '10. Parent/Guardian';
+
+// Button Labels
+$string['button_next'] = 'Next';
+$string['button_submit'] = 'Submit';
+
+// Error Messages
+$string['error_missing_role'] = 'Missing current role';
+$string['error_missing_email'] = 'Missing school email address';
+$string['error_missing_firstname'] = 'Missing first name';
+$string['error_missing_familyname'] = 'Missing family name';
 

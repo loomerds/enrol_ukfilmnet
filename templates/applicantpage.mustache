@@ -32,7 +32,7 @@
 
 }}
 
-<h3 class='ukfn-enrol-page-title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}: {{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</h3>
+<h3 class='ukfn-enrol-page-title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}</h3>
 <div class='ukfn-enrol-main'>
     <div class='ukfn-progress-list-area'>
         <div class='ukfn-progress-titlebox'>
@@ -46,7 +46,11 @@
         </div>
     </div>
     <div class='ukfn-applicantinfo-section'>
-        <p>{{#str}}applicant_instructions, enrol_ukfilmnet{{/str}}</p>
-        {{{emailinput}}}
+        <h4 class='ukfn-applicant-subheading'>{{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</h4>
+        <div class='ukfn-applicant-content'>
+            <p>{{#str}}applicant_instructions, enrol_ukfilmnet{{/str}}</p>
+            {{{applicantinput}}}
+            <p>{{#str}}applicant_agreement, enrol_ukfilmnet{{/str}}</p>
+        </div>
     </div>
 </div>

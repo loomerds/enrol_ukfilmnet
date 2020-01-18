@@ -55,7 +55,20 @@
     float:right;
 }
 
-.ukfn-applicant-email, .ukfn-applicant-firstname, .ukfn-applicant-familyname, .ukfn-applicant-current-roles {
-    width: 500px;
+.ukfn-applicant-subheading {
+    color: #b22222;
+    text-align:center;
+}
+
+.ukfn-applicant-content {
+    margin-top: 20px;
+}
+
+.ukfn-applicant-email, .ukfn-applicant-firstname, .ukfn-applicant-familyname, .ukfn-applicant-current-roles, .ukfn-applicant-subheading {
+    width: 600px;
+}
+
+.ukfn-applicant-current-roles {
+    margin-top: 20px;
 }
 
