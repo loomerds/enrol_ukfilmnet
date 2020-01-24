@@ -38,7 +38,7 @@ class applicant_form extends \moodleform {
     public function definition() {
         global $CFG;
 
-        $mform = $this->_form; // Don't forget the underscore! 
+        $mform = $this->_form; 
         $current_roles = ['0'=>get_string('applicant_role_instruction', 'enrol_ukfilmnet'),
                           '01'=>get_string('applicant_role_ukteacher', 'enrol_ukfilmnet'), 
                           '02'=>get_string('applicant_role_teacherbsa', 'enrol_ukfilmnet'),
@@ -51,8 +51,8 @@ class applicant_form extends \moodleform {
                           '09'=>get_string('applicant_role_educationconsultant', 'enrol_ukfilmnet'),
                           '10'=>get_string('applicant_role_parentguardian', 'enrol_ukfilmnet')];
         $mform->addElement('select', 'role', get_string('applicant_current_role', 'enrol_ukfilmnet'), $current_roles, ['class'=>'ukfn-applicant-current-roles']);
-        $mform->addRule('role', get_string('error_missing_role', 'enrol_ukfilmnet'), 'minlength', 2, 'server');
-        $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']); // Add elements to your form
+        $mform->addRule('role', null, 'required', null, 'server');
+        $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']);
         $mform->setType('email', PARAM_NOTAGS);
         $mform->addRule('email', get_string('error_missing_email', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('text', 'firstname', get_string('applicant_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
@@ -65,10 +65,18 @@ class applicant_form extends \moodleform {
     }
     //Custom validation should be added here
     function validation($data, $files) {
-        $errors = array();
-
+        $errors = parent::validation($data, $files);
         
-            //if($data[])
+        //if($data['role'] !== '01' && $data['role'] !== '02' && $data['role'] !== '03') {
+        if((int)$data['role'] > (int)get_string('roleallowed_range_max', 'enrol_ukfilmnet')) {
+            $errors['role'] = get_string('error_role_limits', 'enrol_ukfilmnet');
+        }
+        if($data['role'] === '0') {
+            $errors['role'] = get_string('error_missing_role', 'enrol_ukfilmnet');
+        }
+        if(strpos($data['email'], '@') === false) {
+            $errors['email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
+        }
         return $errors;
     }
 }

@@ -15,7 +15,6 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * UkFilmNet theme.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2019, Doug Loomer 
@@ -26,28 +25,45 @@
  // General Descriptors
 $string['configtitle'] = 'UKfilmNet';
 $string['pluginname'] = 'UKfilmNet simple enrolment';
-$string['plugin_heading'] = 'Teacher Signup';
+$string['plugin_heading'] = 'UKfilmNet Signup';
 
 // Page Title Descriptors 
-$string['applicant_title'] = 'Teacher Info';
+$string['applicant_title'] = 'Applicant Info';
 $string['institution_title'] = 'School Info';
 $string['quals_title'] = 'Quals Info';
 $string['students_title'] = 'Enrol Students';
+$string['verifyemail_title'] = 'Verify Email';
 
 // Subtitles/Progress Items List Descriptors
 $string['progressbox_title'] = ' Signup Progress';
-$string['applicant_subheading'] = 'Teacher Information';
+$string['applicant_subheading'] = 'Applicant Information';
+$string['emailverify_subheading'] = 'Applicant Email Verification';
 $string['institution_subheading'] = 'School Information';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 
 // 
-$string['applicant_instructions'] = 'Welcome to the UKfilmNet Teacher Signup process.</br></br>Before providing the information requested below, please take time to <strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">read the UKfilmNet PRIVACY NOTICE</a></strong>. Then enter your current educational role, school email address, first name, and family name below.';
-$string['applicant_agreement'] = '</br><u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+$string['applicant_instructions'] = 'Welcome to the UKfilmNet Signup process.</br>
+</br>Before providing the information requested below, please take time to 
+<strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">
+read the UKfilmNet PRIVACY NOTICE</a></strong>. Then input your current educational role, 
+school email address, first name, and family name.';
+$string['applicant_agreement'] = '</br><u>Important notice!</u> When you click on the 
+"Submit" button above you are verifying that you have read, understand, and agree to our 
+PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
 $string['applicant_current_role'] = 'Current role';
 $string['applicant_email'] = 'School email';
 $string['applicant_firstname'] = 'First name';
 $string['applicant_familyname'] = 'Family name';
+$string['applicant_username'] = 'Username';
+$string['applicant_password'] = 'Password';
+$string['emailverify_instructions'] = 'Thank you for submitting your basic UKfilmNet account 
+creation information.</br></br>Before we continue the Signup process, we need to verify 
+that the email address you provided is valid. To that end, we have sent an email to you at the 
+email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.</br></br>In that email we have provided you with:<ul><li>your UKfilmNet username</li>
+<li>your UKfilmNet password</li> <li>a 6 digit Verification code</li></ul>
+Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verification code below and click on the "Submit" 
+button to log in, verify your email address, and continue the signup process.</br></br>';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role';
@@ -71,4 +87,13 @@ $string['error_missing_role'] = 'Missing current role';
 $string['error_missing_email'] = 'Missing school email address';
 $string['error_missing_firstname'] = 'Missing first name';
 $string['error_missing_familyname'] = 'Missing family name';
+$string['error_role_limits'] = 'Sorry, but at this time ukfilmnet is only available to applicants in roles 1-3.';
+$string['error_invalid_email'] = 'You must enter a VALID email address';
+$string['error_missing_code'] = 'Missing verification code';
+$string['error_missing_username'] = 'Missing username';
+$string['error_missing_password'] = 'Missing password';
 
+// String variables
+$string['roleallowed_range_max'] = '03';
+
+$string['verification_code'] = 'Verification code';

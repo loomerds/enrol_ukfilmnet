@@ -23,15 +23,16 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-
+//require_login();
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
+$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title(get_string('applicant_title', 'enrol_ukfilmnet'));
+$PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
 //$PAGE->set_heading("Some Heading");
 
 //$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
 $PAGE->navbar->add('Applicant info');
+$PAGE->navbar->add('Verify email');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
@@ -42,8 +43,8 @@ echo $output->header();
 //echo $OUTPUT->heading(get_string('enrolmentoptions','enrol'));
 //echo $output->heading("There is some kind of heading here");
 
-$applicantpage = new \enrol_ukfilmnet\output\applicantpage();
-echo $output->render_applicantpage($applicantpage);
+$emailverifypage = new \enrol_ukfilmnet\output\emailverifypage();
+echo $output->render_emailverifypage($emailverifypage);
 
 
 

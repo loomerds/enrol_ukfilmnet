@@ -28,14 +28,11 @@ namespace enrol_ukfilmnet\output;
 defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
-use moodle_url;
-
-require_once('applicantform.php');
+require_once('emailverifyform.php');
 require_once('signuplib.php');
-//require_once($CFG->libdir.'/adminlib.php');
 
 // This is a Template Class it collects/creates the data for a template
-class applicantpage implements \renderable, \templatable {
+class emailverifypage implements \renderable, \templatable {
 
     var $sometext = null;
 
@@ -47,16 +44,16 @@ class applicantpage implements \renderable, \templatable {
         $data = new stdClass();
         //$data->plugin_heading = get_string('plugin_heading', 'enrol_ukfilmnet')
         //$data->sometext = $this->sometext;
-        $data->applicantinput = $this->get_applicant_content();
+        $data->emailverifyinput = $this->get_emailverify_content();
         return $data;
     }
 
-    public function get_applicant_content() {
+    public function get_emailverify_content() {
 
         global $CFG;
-        
-        $applicantinput = '';
-        $mform = new applicant_form();
+
+        $emailverifyinput = '';
+        $mform = new emailverify_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
@@ -64,11 +61,14 @@ class applicantpage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            var_dump($form_data);
-            $newuser = (object) array('email'=>$form_data->email,'username'=>make_username($form_data->email),'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role);
-            create_applicant_user($newuser,'ukfilmnet');
-            //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
-            redirect(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
+            //var_dump($form_data);
+            
+
+            //$newuser = (object) array('email'=>$form_data->email,'username'=>make_username($form_data->email),'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role);
+            //create_applicant_user($newuser,'ukfilmnet');
+            
+            applicant_login($form_data->username, $form_data->password);
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.
@@ -77,9 +77,9 @@ class applicantpage implements \renderable, \templatable {
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
-            $applicantinput = $mform->render();
+            $emailverifyinput = $mform->render();
         }
-        return $applicantinput;
+        return $emailverifyinput;
     }
 
 }

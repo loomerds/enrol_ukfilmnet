@@ -44,4 +44,13 @@ class renderer extends \plugin_renderer_base {
         // Calls render_from_template function of 
         return $this->render_from_template('enrol_ukfilmnet/applicantpage', $data);
      }
+
+     public function render_emailverifypage(\templatable $emailverifypage) {
+
+      // Calls export_for_template function of applicantpage class in file
+      // /enrol/ukfilmnet/classes/output/applicatpage.php
+      $data = $emailverifypage->export_for_template($this);
+      // Calls render_from_template function of 
+      return $this->render_from_template('enrol_ukfilmnet/emailverifypage', $data);
+   }
 }
