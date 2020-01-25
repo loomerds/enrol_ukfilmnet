@@ -32,6 +32,7 @@ use moodle_url;
 
 require_once('applicantform.php');
 require_once('signuplib.php');
+require_once($CFG->libdir.'/datalib.php');
 //require_once($CFG->libdir.'/adminlib.php');
 
 // This is a Template Class it collects/creates the data for a template
@@ -64,10 +65,19 @@ class applicantpage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            var_dump($form_data);
-            $newuser = (object) array('email'=>$form_data->email,'username'=>make_username($form_data->email),'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role);
-            create_applicant_user($newuser,'ukfilmnet');
-            //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+            
+            //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
+            $username = make_username($form_data->email);
+            $password = 'ukfilmnet';
+            $code = generate_random_verification_code();
+            $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
+
+            $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
+            $user = create_applicant_user($newuser, $password);
+            
+            email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
+
+            // NOTE...this redirect is causing a warning and needs to be fixed
             redirect(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed

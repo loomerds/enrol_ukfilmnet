@@ -66,6 +66,8 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     $newuser->firstname = $applicantinfo->firstname;
     $newuser->lastname = $applicantinfo->lastname;
     $newuser->profile_field_currentrole = $applicantinfo->currentrole;
+    $newuser->profile_field_verificationcode = $applicantinfo->verificationcode;
+    $newuser->profile_field_applicationprogress = $applicantinfo->applicationprogress;
     
     if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
         $newuser->lang = $CFG->lang;
@@ -107,4 +109,8 @@ function applicant_login($username, $password) {
     
     $user = authenticate_user_login($username, $password);
     complete_user_login($user);
+}
+
+function generate_random_verification_code() {
+    return rand(111111, 999999);
 }

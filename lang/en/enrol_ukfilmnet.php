@@ -60,7 +60,8 @@ $string['applicant_password'] = 'Password';
 $string['emailverify_instructions'] = 'Thank you for submitting your basic UKfilmNet account 
 creation information.</br></br>Before we continue the Signup process, we need to verify 
 that the email address you provided is valid. To that end, we have sent an email to you at the 
-email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.</br></br>In that email we have provided you with:<ul><li>your UKfilmNet username</li>
+email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.
+</br></br>In that email we have provided you with:<ul><li>your UKfilmNet username</li>
 <li>your UKfilmNet password</li> <li>a 6 digit Verification code</li></ul>
 Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verification code below and click on the "Submit" 
 button to log in, verify your email address, and continue the signup process.</br></br>';
@@ -92,8 +93,19 @@ $string['error_invalid_email'] = 'You must enter a VALID email address';
 $string['error_missing_code'] = 'Missing verification code';
 $string['error_missing_username'] = 'Missing username';
 $string['error_missing_password'] = 'Missing password';
+$string['error_code_mismatch'] = 'The Verification code you entered is invalid';
+$string['error_username_mismatch'] = 'The UKfilmnet username you entered is invalid';
+$string['error_password_mismatch'] = 'The UKfilmnet password you entered is invalid';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
 
 $string['verification_code'] = 'Verification code';
+
+// Email strings
+$string['verification_subject'] = 'UKfilmNet Email Verification';
+$string['verification_text'] = 'Thank you for requesting a UKfilmNet account. As a part of the signup process, we are
+providing you with the following important items:<ul><li>UKfilmNet Username: <strong>{$a->username}</strong></li>
+<li>UKfilmNet Password: <strong>{$a->password}</strong></li> <li>your Email Verification Code: <strong>{$a->code}</strong></li></ul>
+Please return to the UKfilmNet signup page titled Applicant Email Verification and input your username, password, and 
+verification code. Then click "Submit" to continue the UKfilmNet Signup process.</br></br>Your Friends at UKfilmNet';

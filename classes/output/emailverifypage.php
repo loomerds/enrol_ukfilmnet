@@ -66,8 +66,9 @@ class emailverifypage implements \renderable, \templatable {
 
             //$newuser = (object) array('email'=>$form_data->email,'username'=>make_username($form_data->email),'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role);
             //create_applicant_user($newuser,'ukfilmnet');
-            
+            // NOTE...this call is apparently  and needs to be fixed
             applicant_login($form_data->username, $form_data->password);
+            // NOTE...this redirect is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
