@@ -85,12 +85,8 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
 
     $applicantrole = $DB->get_record('role', array('shortname'=>'applicant'));
     $systemcontext = context_system::instance();
-    //var_dump($applicantrole->id);
-    //var_dump($newuser->id);
-    //var_dump($systemcontext->id);
+    
     role_assign($applicantrole->id, $newuser->id, $systemcontext->id);
-
-    //var_dump(get_user_roles($systemcontext, $newuser->id));
 
     $user = get_complete_user_data('id', $newuser->id);
     set_user_preference('auth_forcepasswordchange', 0, $user);
@@ -108,9 +104,13 @@ function make_username($email) {
 function applicant_login($username, $password) {
     
     $user = authenticate_user_login($username, $password);
-    complete_user_login($user);
+    return complete_user_login($user);
 }
 
 function generate_random_verification_code() {
     return rand(111111, 999999);
+}
+
+function make_random_password() {
+    return 'ukfilm'.rand(1000, 9999);
 }

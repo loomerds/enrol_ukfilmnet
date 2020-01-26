@@ -42,8 +42,6 @@ class emailverifypage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
-        //$data->plugin_heading = get_string('plugin_heading', 'enrol_ukfilmnet')
-        //$data->sometext = $this->sometext;
         $data->emailverifyinput = $this->get_emailverify_content();
         return $data;
     }
@@ -61,14 +59,16 @@ class emailverifypage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            //var_dump($form_data);
             
-
-            //$newuser = (object) array('email'=>$form_data->email,'username'=>make_username($form_data->email),'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role);
-            //create_applicant_user($newuser,'ukfilmnet');
-            // NOTE...this call is apparently  and needs to be fixed
-            applicant_login($form_data->username, $form_data->password);
             // NOTE...this redirect is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
+            $verified_user = applicant_login($form_data->username, $form_data->password);
+            if($verified_user !== null) {
+                profile_load_data($verified_user);
+                $verified_user->profile_field_emailverified = true;
+                $verified_user->profile_field_applicationprogress = 3;
+                profile_save_data($verified_user);
+            }
+            // NOTE...this call is a warning and needs to be fixed
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed

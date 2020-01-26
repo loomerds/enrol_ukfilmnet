@@ -67,7 +67,6 @@ class applicant_form extends \moodleform {
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
         
-        //if($data['role'] !== '01' && $data['role'] !== '02' && $data['role'] !== '03') {
         if((int)$data['role'] > (int)get_string('roleallowed_range_max', 'enrol_ukfilmnet')) {
             $errors['role'] = get_string('error_role_limits', 'enrol_ukfilmnet');
         }

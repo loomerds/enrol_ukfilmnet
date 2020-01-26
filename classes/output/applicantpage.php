@@ -46,8 +46,6 @@ class applicantpage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
-        //$data->plugin_heading = get_string('plugin_heading', 'enrol_ukfilmnet')
-        //$data->sometext = $this->sometext;
         $data->applicantinput = $this->get_applicant_content();
         return $data;
     }
@@ -67,8 +65,10 @@ class applicantpage implements \renderable, \templatable {
             $form_data = $mform->get_data();
             
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
-            $username = make_username($form_data->email);
-            $password = 'ukfilmnet';
+            //$username = make_username($form_data->email);
+            $username = $form_data->email;
+            //$password = 'ukfilmnet';
+            $password = make_random_password();
             $code = generate_random_verification_code();
             $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
 
