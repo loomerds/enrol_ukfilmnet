@@ -23,7 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-//require_login();
+global $SESSION;
+
+$SESSION->email_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
@@ -31,43 +33,18 @@ $PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
 //$PAGE->set_heading("Some Heading");
 
 //$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
-$PAGE->navbar->add('Applicant info');
+//$PAGE->navbar->add('Applicant info');
 $PAGE->navbar->add('Verify email');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();
 
-
-
-//echo $OUTPUT->heading(get_string('enrolmentoptions','enrol'));
-//echo $output->heading("There is some kind of heading here");
-
 $emailverifypage = new \enrol_ukfilmnet\output\emailverifypage();
 echo $output->render_emailverifypage($emailverifypage);
 
-
-
-/*
-//include applicantform.php
-require_once('applicantform.php');
- 
-//Instantiate simplehtml_form 
-$mform = new applicant_form();
- 
-//Form processing and displaying is done here
-if ($mform->is_cancelled()) {
-    //Handle form cancel operation, if cancel button is present on form
-} else if ($fromform = $mform->get_data()) {
-  //In this case you process validated data. $mform->get_data() returns data posted in form.
-} else {
-  // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-  // or on the first display of the form.
- 
-  //Set default data (if any)
-  //$mform->set_data($toform);
-  //displays the form
-  $mform->display();
-}*/
-
 echo $output->footer();
+if($SESSION->email_info_complete === true){
+    $SESSION->email_info_complete === false;
+    echo "<script>location.href='/enrol/ukfilmnet/school.php'</script>";
+}  

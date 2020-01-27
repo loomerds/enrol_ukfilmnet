@@ -48,7 +48,7 @@ class emailverifypage implements \renderable, \templatable {
 
     public function get_emailverify_content() {
 
-        global $CFG;
+        global $CFG, $SESSION;
 
         $emailverifyinput = '';
         $mform = new emailverify_form();
@@ -60,7 +60,7 @@ class emailverifypage implements \renderable, \templatable {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
             
-            // NOTE...this redirect is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
+            // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
             $verified_user = applicant_login($form_data->username, $form_data->password);
             if($verified_user !== null) {
                 profile_load_data($verified_user);
@@ -68,13 +68,12 @@ class emailverifypage implements \renderable, \templatable {
                 $verified_user->profile_field_applicationprogress = 3;
                 profile_save_data($verified_user);
             }
-            // NOTE...this call is a warning and needs to be fixed
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
+            $SESSION->email_info_complete = true;
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.
             $toform = $mform->get_data();
-            
+            $SESSION->email_info_complete = false;
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form

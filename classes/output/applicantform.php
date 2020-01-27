@@ -61,10 +61,11 @@ class applicant_form extends \moodleform {
         $mform->addElement('text', 'familyname', get_string('applicant_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-familyname']);
         $mform->setType('familyname', PARAM_TEXT);
         $mform->addRule('familyname', get_string('error_missing_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-buttons']);            
+        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here
     function validation($data, $files) {
+        global $SESSION;
         $errors = parent::validation($data, $files);
         
         if((int)$data['role'] > (int)get_string('roleallowed_range_max', 'enrol_ukfilmnet')) {
@@ -76,6 +77,7 @@ class applicant_form extends \moodleform {
         if(strpos($data['email'], '@') === false) {
             $errors['email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }
+        
         return $errors;
     }
 }

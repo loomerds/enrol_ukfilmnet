@@ -23,50 +23,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
+global $DB, $SESSION;
 
+$SESSION->applicant_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('applicant_title', 'enrol_ukfilmnet'));
-//$PAGE->set_heading("Some Heading");
-
-//$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
 $PAGE->navbar->add('Applicant info');
-
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
-
 echo $output->header();
-
-
-
-//echo $OUTPUT->heading(get_string('enrolmentoptions','enrol'));
-//echo $output->heading("There is some kind of heading here");
-
 $applicantpage = new \enrol_ukfilmnet\output\applicantpage();
 echo $output->render_applicantpage($applicantpage);
-
-
-
-/*
-//include applicantform.php
-require_once('applicantform.php');
- 
-//Instantiate simplehtml_form 
-$mform = new applicant_form();
- 
-//Form processing and displaying is done here
-if ($mform->is_cancelled()) {
-    //Handle form cancel operation, if cancel button is present on form
-} else if ($fromform = $mform->get_data()) {
-  //In this case you process validated data. $mform->get_data() returns data posted in form.
-} else {
-  // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-  // or on the first display of the form.
- 
-  //Set default data (if any)
-  //$mform->set_data($toform);
-  //displays the form
-  $mform->display();
-}*/
-
 echo $output->footer();
+if($SESSION->applicant_info_complete === true){
+    $SESSION->applicant_info_complete === false;
+    echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
+}    

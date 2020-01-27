@@ -49,7 +49,7 @@ class emailverify_form extends \moodleform {
         $mform->addElement('text', 'code', get_string('verification_code', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
         $mform->setType('code', PARAM_NOTAGS);
         $mform->addRule('code', get_string('error_missing_code', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-buttons']);            
+        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here
     function validation($data, $files) {

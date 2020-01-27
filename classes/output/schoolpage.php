@@ -30,14 +30,12 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-require_once('applicantform.php');
+require_once('schoolform.php');
 require_once('signuplib.php');
 require_once($CFG->libdir.'/datalib.php');
-//require_once($CFG->libdir.'/adminlib.php');
 
 // This is a Template Class it collects/creates the data for a template
-class applicantpage implements \renderable, \templatable {
-
+class schoolpage implements \renderable, \templatable {
     var $sometext = null;
 
     public function __construct($sometext = null) {
@@ -46,16 +44,16 @@ class applicantpage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
-        $data->applicantinput = $this->get_applicant_content();
+        $data->schoolinput = $this->get_school_content();
         return $data;
     }
 
-    public function get_applicant_content() {
+    public function get_school_content() {
 
-        global $CFG, $SESSION;
+        global $CFG, $USER;
         
-        $applicantinput = '';
-        $mform = new applicant_form();
+        $schoolinput = '';
+        $mform = new school_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
@@ -63,10 +61,21 @@ class applicantpage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
+            //var_dump($form_data);
+            profile_load_data($USER);
+            $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
+            $USER->profile_field_schoolname = $form_data->school_name;
+            $USER->profile_field_schoolcountry = $form_data->school_country;
+            $USER->profile_field_safeguarding_contact_firstname = $form_data->contact_firstname;
+            $USER->profile_field_safeguarding_contact_familyname = $form_data->contact_familyname;
+            $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
+            $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
+            $USER->profile_field_applicationprogress = 4;
+            profile_save_data($USER);
             
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
             //$username = make_username($form_data->email);
-            $username = $form_data->email;
+            /*$username = $form_data->email;
             $password = make_random_password();
             $code = generate_random_verification_code();
             $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
@@ -75,19 +84,20 @@ class applicantpage implements \renderable, \templatable {
             $user = create_applicant_user($newuser, $password);
             
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
-            $SESSION->applicant_info_complete = true;
-            
+
+            // NOTE...this redirect is causing a warning and needs to be fixed
+            redirect(new moodle_url('/enrol/ukfilmnet/emailverify.php'));*/
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.
             $toform = $mform->get_data();
-            $SESSION->applicant_info_complete = false;
+            
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
-            $applicantinput = $mform->render();
+            $schoolinput = $mform->render();
         }
-        return $applicantinput;
+        return $schoolinput;
     }
 
 }

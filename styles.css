@@ -49,7 +49,7 @@
     color: #ffffff;
 }
 
-.ukfn-applicantinfo-section {
+.ukfn-applicantinfo-section, .ukfn-emailverify-section, .ukfn-schoolinfo-section {
     width:70%; 
     position: relative; 
     float:right;
@@ -69,11 +69,34 @@
     width: 600px;
 }
 
+.ukfn-last-input{
+    margin-bottom: 30px;
+}
+
 .ukfn-verification-content {
     width: 700px;
 }
 
 .ukfn-applicant-current-roles, .ukfn-verification-content {
     margin-top: 20px;
+}
+
+.ukfn-contact-info {
+    width: 400px;
+}
+
+.ukfn-indent-20 {
+    position: relative;
+    margin-left: 60px !important;
+}
+
+.ukfn-consent-checkbox-label {
+    position: relative;
+    margin-left: 20px;
+}
+
+.ukfn-consent-checkbox {
+    position: relative;
+    margin-left: -300px;
 }
 

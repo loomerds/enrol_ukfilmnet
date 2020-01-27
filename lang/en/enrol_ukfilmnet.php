@@ -57,6 +57,9 @@ $string['applicant_firstname'] = 'First name';
 $string['applicant_familyname'] = 'Family name';
 $string['applicant_username'] = 'Username';
 $string['applicant_password'] = 'Password';
+
+
+
 $string['emailverify_instructions'] = 'Thank you for submitting your basic UKfilmNet account 
 creation information.</br></br>Before we continue the Signup process, we need to verify 
 that the email address you provided is valid. To that end, we have sent an email to you at the 
@@ -66,8 +69,21 @@ email address you provided. If you do not see the email we sent, please make sur
 Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verification code below and click on the "Submit" 
 button to log in, verify your email address, and continue the signup process.</br></br>';
 
+$string['school_instructions'] = 'In keeping with governmental requirements for student safeguarding, please provide the 
+information requested below. You must also authorize UKfilmNet to contact your employing school directly to confirm the 
+information you are providing.</br></br>';
+$string['contact_info_label'] = '<h5 class="ukfn-contact-info">School Safeguarding Officer Information</h5>';
+$string['contact_email'] = 'School email';
+$string['contact_firstname'] = 'First name';
+$string['contact_familyname'] = 'Family name';
+$string['contact_phone'] = 'Phone number';
+$string['consent_to_contact'] = '<div class="ukfn-consent-checkbox-label">I understand that by checking this box and 
+clicking on "Submit" below <strong>I authorize UKfilmNet to contact my employer</strong> to verify the information I am 
+submitting</div>';
+
+
 // Current Role Descriptors
-$string['applicant_role_instruction'] = 'Choose a role';
+$string['applicant_role_instruction'] = 'Choose a role...';
 $string['applicant_role_ukteacher'] = '1. UK Teacher/lecturer under contract with UK education organisation';
 $string['applicant_role_teacherbsa'] = '2. Teacher/lecturer under contract with BSA recognised by UK DIE OFSTED';
 $string['applicant_role_uksupplyteacher'] = '3. UK Supply/freelance teacher/lecturer (no single organisation';
@@ -78,6 +94,18 @@ $string['applicant_role_student18plus'] = '7. Student 18 and above';
 $string['applicant_role_industryprofessional'] = '8. Industry professional';
 $string['applicant_role_educationconsultant'] = '9. Education Consultant';
 $string['applicant_role_parentguardian'] = '10. Parent/Guardian';
+
+// Country Discriptors
+$string['school_country_instruction'] = 'Choose a country...';
+$string['school_country_label'] = 'Country of school';
+$string['GB'] = 'United Kingdom';
+$string['US'] = 'United States';
+
+// School Name Discriptors
+$string['school_name_label'] = 'Name of school';
+$string['school_name_instruction'] = 'Choose a school...';
+$string['school1'] = 'Bob White Academy';
+$string['school2'] = 'Den of Thieves College Prep School';
 
 // Button Labels
 $string['button_next'] = 'Next';
@@ -96,9 +124,18 @@ $string['error_missing_password'] = 'Missing password';
 $string['error_code_mismatch'] = 'The Verification code you entered is invalid';
 $string['error_username_mismatch'] = 'The UKfilmnet username you entered is invalid';
 $string['error_password_mismatch'] = 'The UKfilmnet password you entered is invalid';
+$string['error_missing_country'] = 'Missing country of school';
+$string['error_missing_contact_email'] = 'Missing school email address of contact';
+$string['error_missing_contact_firstname'] = 'Missing first name of contact';
+$string['error_missing_contact_familyname'] = 'Missing family name of contact';
+$string['error_missing_school_name'] = 'Missing school name';
+$string['error_missing_contact_phone'] = 'Missing phone number';
+$string['error_missing_school_consent_to_contact'] = 'You must authorize UKfilmNet to contact your school employer to verifiy the information you are submitting';
+
 
 // String variables
 $string['roleallowed_range_max'] = '03';
+
 
 $string['verification_code'] = 'Verification code';
 
