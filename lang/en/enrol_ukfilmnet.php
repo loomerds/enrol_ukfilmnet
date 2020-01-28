@@ -132,7 +132,6 @@ $string['error_missing_school_name'] = 'Missing school name';
 $string['error_missing_contact_phone'] = 'Missing phone number';
 $string['error_missing_school_consent_to_contact'] = 'You must authorize UKfilmNet to contact your school employer to verifiy the information you are submitting';
 
-
 // String variables
 $string['roleallowed_range_max'] = '03';
 
@@ -141,8 +140,44 @@ $string['verification_code'] = 'Verification code';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
-$string['verification_text'] = 'Thank you for requesting a UKfilmNet account. As a part of the signup process, we are
-providing you with the following important items:<ul><li>UKfilmNet Username: <strong>{$a->username}</strong></li>
-<li>UKfilmNet Password: <strong>{$a->password}</strong></li> <li>your Email Verification Code: <strong>{$a->code}</strong></li></ul>
-Please return to the UKfilmNet signup page titled Applicant Email Verification and input your username, password, and 
-verification code. Then click "Submit" to continue the UKfilmNet Signup process.</br></br>Your Friends at UKfilmNet';
+$string['verification_text'] = '
+Thank you for requesting a UKfilmNet account. As a part of the signup process, we are providing you with the following important items:
+<ul>
+<li>UKfilmNet Username: <strong>{$a->username}</strong></li>
+<li>UKfilmNet Password: <strong>{$a->password}</strong></li>
+<li>your Email Verification Code: <strong>{$a->code}</strong></li>
+</ul>
+Please return to the UKfilmNet signup page titled Applicant Email Verification and input your username, password, and verification code. Then click "Submit" to continue the UKfilmNet Signup process.</br>
+</br>
+Your Friends at UKfilmNet';
+$string['assurance_subject'] = 'Reference in Respect of {$a->applicant_firstname} {$a->applicant_familyname}';
+$string['assurance_text'] = '
+{$a->schoolname}</br>
+{$a->contact_firstname} {$a->contact_familyname}</br>
+</br>
+<strong>Dear {$a->contact_firstname} {$a->contact_familyname},</br>
+</br>
+RE: Reference In Respect Of {$a->applicant_firstname} {$a->applicant_familyname}</strong></br>
+</br>
+One of your employees has requested access to UKfilmNet – which is a learning resource aimed at better supporting teacher/lecturer of media and film. The resource has been created by former and current teacher/lecturer, university staff and industry experts in film and media.</br>
+</br>
+<strong>What have they requested access to?</strong></br>
+</br>
+The online platform uses Moodle to create learning spaces which give teacher/lecturer and lecturers access to the students where they currently teach at {$a->schoolname}. It allows them to view hundreds of master-classes co-created with the BBC, Channel4, Sky News, NBC, and hundreds of experts from UK and US higher education, centres of excellence and broadcasters.</br>
+</br>
+The learning space allows your employee to set quizzes, share resources, create forums and promote communal learning, discovering and discussion in the craft of film and media.</br>
+</br>
+For reasons of safeguarding, your employee will not have access to students other than those from your organisation they currently teach. They will however be able to ask questions, seek advice and get help from hundreds of other teacher/lecturer of the same subject using the online resource and its virtual staff-room and forums. Likewise, those teachers/lecturers will not have access to students from other schools. This again is for reasons of safeguarding.</br>
+</br>
+<strong>Safeguarding Request</strong></br>
+</br>
+In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname} we are required to take reasonable steps to confirm that the individual is who they say they are, and that they are employed by you. Please could either yourself or your designated Safeguarding lead complete, sign and upload the attached <strong>Reference request for {$a->applicant_firstname} {$a->applicant_familyname}</strong> in order that we can consider the application for access to the resource and other professional colleagues in developing their CPD, skills and knowledge.</br>
+</br>
+Please note that as part of the process you may receive a reminder of this request, but please note that after 4 weeks, the application from <strong>{$a->applicant_firstname} {$a->applicant_familyname}</strong> will automatically be deleted if the reference has not been received. <strong>As part of the requirements for access to the resource, your employee’s account details will be shared by email with the organisational head or designated Safeguarding lead, to ensure additional supervision and transparency of online activity conducted by the employee and his/her students.</strong></br>
+</br>
+If you have any queries, please email safeguarding@ukfilmnet.org where we hope to address any further questions.</br>
+</br>
+Yours Sincerely,</br>
+</br>
+Dom Foulsham</br>
+Director of Curriculum | UKfilmNet.org';

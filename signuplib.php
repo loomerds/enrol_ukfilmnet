@@ -114,3 +114,26 @@ function generate_random_verification_code() {
 function make_random_password() {
     return 'ukfilm'.rand(1000, 9999);
 }
+
+/*public function get_list_of_uk_schools($returnall = false, $lang = null) {
+    global $CFG;
+
+    if ($lang === null) {
+        $lang = current_language();
+    }
+
+    $uk_schools = $this->load_component_strings('core_countries', $lang);
+    core_collator::asort($uk_schools);
+    if (!$returnall and !empty($CFG->allcountrycodes)) {
+        $enabled = explode(',', $CFG->allcountrycodes);
+        $return = array();
+        foreach ($enabled as $c) {
+            if (isset($countries[$c])) {
+                $return[$c] = $countries[$c];
+            }
+        }
+        return $return;
+    }
+
+    return $countries;
+}*/

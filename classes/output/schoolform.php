@@ -54,9 +54,11 @@ class school_form extends \moodleform {
         $mform->addElement('select', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_name, ['class'=>'ukfn-school-name']);
         $mform->addRule('school_name', null, 'required', null, 'server');
 
-        $school_country = ['0'=>get_string('school_country_instruction', 'enrol_ukfilmnet'),
+        /*$school_country = ['0'=>get_string('school_country_instruction', 'enrol_ukfilmnet'),
                           'US'=>get_string('US', 'enrol_ukfilmnet'),
-                          'GB'=>get_string('GB', 'enrol_ukfilmnet')];
+                          'GB'=>get_string('GB', 'enrol_ukfilmnet')];*/
+       
+        $school_country = get_string_manager()->get_list_of_countries();
         $mform->addElement('select', 'school_country', get_string('school_country_label', 'enrol_ukfilmnet'), $school_country, ['class'=>'ukfn-school-country']);
         $mform->addRule('school_country', null, 'required', null, 'server');
         $mform->addElement('checkbox', 'school_consent_to_contact', get_string('consent_to_contact', 'enrol_ukfilmnet'));

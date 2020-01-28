@@ -72,21 +72,29 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
             $USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
-            
+            //var_dump($USER->profile_field_safeguarding_contact_email);
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
             //$username = make_username($form_data->email);
-            /*$username = $form_data->email;
-            $password = make_random_password();
-            $code = generate_random_verification_code();
-            $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
+            $schoolname = $form_data->school_name;
+            $schoolcountry = $form_data->school_country;
+            $contact_firstname = $form_data->contact_firstname;
+            $contact_familyname = $form_data->contact_familyname;
+            //var_dump($USER);
+            $applicant_firstname = $USER->firstname;
+            $applicant_familyname = $USER->lastname;
 
-            $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
-            $user = create_applicant_user($newuser, $password);
+            $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
+            $contact_user = create_applicant_user($newuser, 'make_random_password');
+
+            $emailvariables = (object) array('schoolname'=>$schoolname, 
+                                             'schoolcountry'=>$schoolcountry, 
+                                             'contact_firstname'=>$contact_firstname,
+                                             'contact_familyname'=>$contact_familyname,
+                                             'applicant_firstname'=>$applicant_firstname,
+                                             'applicant_familyname'=>$applicant_familyname);
             
-            email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
-
-            // NOTE...this redirect is causing a warning and needs to be fixed
-            redirect(new moodle_url('/enrol/ukfilmnet/emailverify.php'));*/
+            email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
+            //var_dump(mail($form_data->contact_email, get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables)));
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.
