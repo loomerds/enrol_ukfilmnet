@@ -25,24 +25,23 @@
 require(__DIR__ . '/../../config.php');
 require_login();
 global $USER;
+profile_save_data($USER);
 
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
+$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/safeguarding.php'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
-//$PAGE->set_heading("Some Heading");
+$PAGE->set_title(get_string('safeguarding_title', 'enrol_ukfilmnet'));
 
-//$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
-$PAGE->navbar->add('School info');
+$PAGE->navbar->add('Safeguarding');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();
 
-$schoolpage = new \enrol_ukfilmnet\output\schoolpage(null);
-echo $output->render_schoolpage($schoolpage);
+$safeguardingpage = new \enrol_ukfilmnet\output\safeguardingpage(null);
+echo $output->render_safeguardingpage($safeguardingpage);
 
 echo $output->footer();
-if($USER->profile_field_applicationprogress === 4){
+if($USER->profile_field_applicationprogress === 5){
     echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
 }

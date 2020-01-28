@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/schoolpage
+    @template enrol_ukfilmnet/emailverifypage
 
-    Template which defines a school information page.
+    Template which defines a email verification page.
 
     Classes required for JS:
     * none
@@ -34,23 +34,23 @@
 
 <h3 class='ukfn-enrol-page-title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}</h3>
 <div class='ukfn-enrol-main'>
-    <div class='ukfn-progress-list-area'>
+    <!--<div class='ukfn-progress-list-area'>
         <div class='ukfn-progress-titlebox'>
-            <h5 class='ukfn-progress-title'>{{#str}}progressbox_title, enrol_ukfilmnet{{/str}}</h5>
+            <h5 class='ukfn-progress-title'>{{#str}}assurance_title, enrol_ukfilmnet{{/str}}</h5>
         </div>
         <div class='ukfn-progress-items'>
             <p class='item-complete'>{{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class='item-complete'>{{#str}}emailverification_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class='item-current'>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class='item-current'>{{#str}}emailverification_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class=''>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
             <p class=''>{{#str}}safeguardingreview_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class=''>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
         </div>
-    </div>
+    </div>-->
     <div class='ukfn-applicantinfo-section'>
-        <h4 class='ukfn-applicant-subheading'>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</h4>
+        <h4 class='ukfn-applicant-subheading'>{{#str}}assurance_subheading, enrol_ukfilmnet{{/str}}</h4>
         <div class='ukfn-applicant-content'>
-            <p>{{#str}}school_instructions, enrol_ukfilmnet{{/str}}</p>
-            {{{schoolinput}}}
+            <p>{{#str}}assurance_instructions, enrol_ukfilmnet{{/str}}</p>
+            {{{emailverifyinput}}}
             <p></p>
         </div>
     </div>

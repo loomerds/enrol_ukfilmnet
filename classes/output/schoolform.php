@@ -54,16 +54,14 @@ class school_form extends \moodleform {
         $mform->addElement('select', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_name, ['class'=>'ukfn-school-name']);
         $mform->addRule('school_name', null, 'required', null, 'server');
 
-        /*$school_country = ['0'=>get_string('school_country_instruction', 'enrol_ukfilmnet'),
-                          'US'=>get_string('US', 'enrol_ukfilmnet'),
-                          'GB'=>get_string('GB', 'enrol_ukfilmnet')];*/
-       
         $school_country = get_string_manager()->get_list_of_countries();
-        $mform->addElement('select', 'school_country', get_string('school_country_label', 'enrol_ukfilmnet'), $school_country, ['class'=>'ukfn-school-country']);
+        $selectcountry = $mform->addElement('select', 'school_country', get_string('school_country_label', 'enrol_ukfilmnet'), $school_country, ['class'=>'ukfn-school-country']);
+        $selectcountry->setSelected('GB');
         $mform->addRule('school_country', null, 'required', null, 'server');
         $mform->addElement('checkbox', 'school_consent_to_contact', get_string('consent_to_contact', 'enrol_ukfilmnet'));
+        $mform->setDefault('school_consent_to_contact', 0);
         $mform->addRule('school_consent_to_contact', null, 'required', null, 'server');
-
+        
         $mform->addElement('static', 'contact_info_label', get_string('contact_info_label', 'enrol_ukfilmnet', null));
         $mform->addElement('text', 'contact_firstname', get_string('contact_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20']);
         $mform->setType('contact_firstname', PARAM_TEXT);
@@ -77,10 +75,13 @@ class school_form extends \moodleform {
         $mform->addElement('text', 'contact_phone', get_string('contact_phone', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20 ukfn-last-input']);
         $mform->setType('contact_phone', PARAM_NOTAGS);
         $mform->addRule('contact_phone', get_string('error_missing_contact_phone', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('hidden', 'role', null);
+        $mform->setType('role', PARAM_ACTION);
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here
     function validation($data, $files) {
+        //var_dump($stdClass);
         $errors = parent::validation($data, $files);
         
         if($data['school_name'] === '0') {
@@ -92,10 +93,9 @@ class school_form extends \moodleform {
         if($data['contact_email'] && strpos( $data['contact_email'], '@') === false) {
             $errors['contact_email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }
-        if(!$data['school_consent_to_contact']) {
+        if(!array_key_exists('school_consent_to_contact', $data)) {
             $errors['school_consent_to_contact'] = get_string('error_missing_school_consent_to_contact', 'enrol_ukfilmnet');
         }
-        //redirect(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
         
         return $errors;
     }

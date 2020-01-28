@@ -30,27 +30,31 @@ $string['plugin_heading'] = 'UKfilmNet Signup';
 // Page Title Descriptors 
 $string['applicant_title'] = 'Applicant Info';
 $string['institution_title'] = 'School Info';
+$string['safeguarding_title'] = 'Safeguarding';
 $string['quals_title'] = 'Quals Info';
 $string['students_title'] = 'Enrol Students';
 $string['verifyemail_title'] = 'Verify Email';
+$string['assurance_title'] = 'Assurance';
 
 // Subtitles/Progress Items List Descriptors
 $string['progressbox_title'] = ' Signup Progress';
 $string['applicant_subheading'] = 'Applicant Information';
 $string['emailverify_subheading'] = 'Applicant Email Verification';
+$string['emailverification_subheading'] = 'Email Verification';
 $string['institution_subheading'] = 'School Information';
+$string['safeguardingreview_subheading'] = 'Safguarding Review';
+$string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 
-// 
-$string['applicant_instructions'] = 'Welcome to the UKfilmNet Signup process.</br>
-</br>Before providing the information requested below, please take time to 
-<strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">
-read the UKfilmNet PRIVACY NOTICE</a></strong>. Then input your current educational role, 
-school email address, first name, and family name.';
-$string['applicant_agreement'] = '</br><u>Important notice!</u> When you click on the 
-"Submit" button above you are verifying that you have read, understand, and agree to our 
-PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+// Instructions Text
+$string['applicant_instructions'] = 
+'Welcome to the UKfilmNet Signup process.</br>
+</br>
+Before providing the information requested below, please take time to <strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">read the UKfilmNet PRIVACY NOTICE</a></strong>. Then input your current educational role, school email address, first name, and family name.';
+$string['applicant_agreement'] = 
+'</br>
+<u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
 $string['applicant_current_role'] = 'Current role';
 $string['applicant_email'] = 'School email';
 $string['applicant_firstname'] = 'First name';
@@ -58,29 +62,43 @@ $string['applicant_familyname'] = 'Family name';
 $string['applicant_username'] = 'Username';
 $string['applicant_password'] = 'Password';
 
+$string['emailverify_instructions'] = 
+'Thank you for submitting your basic UKfilmNet account creation information.</br>
+</br>
+Before we continue the Signup process, we need to verify that the email address you provided is valid. To that end, we have sent an email to you at the email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.</br>
+</br>
+In that email we have provided you with:
+<ul>
+<li>your UKfilmNet username</li>
+<li>your UKfilmNet password</li>
+<li>a 6 digit Verification code</li>
+</ul>
+Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verification code below and click on the "Submit" button to log in, verify your email address, and continue the signup process.</br>
+</br>';
 
-
-$string['emailverify_instructions'] = 'Thank you for submitting your basic UKfilmNet account 
-creation information.</br></br>Before we continue the Signup process, we need to verify 
-that the email address you provided is valid. To that end, we have sent an email to you at the 
-email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.
-</br></br>In that email we have provided you with:<ul><li>your UKfilmNet username</li>
-<li>your UKfilmNet password</li> <li>a 6 digit Verification code</li></ul>
-Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verification code below and click on the "Submit" 
-button to log in, verify your email address, and continue the signup process.</br></br>';
-
-$string['school_instructions'] = 'In keeping with governmental requirements for student safeguarding, please provide the 
-information requested below. You must also authorize UKfilmNet to contact your employing school directly to confirm the 
-information you are providing.</br></br>';
+$string['school_instructions'] = 
+'In keeping with governmental requirements for student safeguarding, please provide the information requested below. You must also authorize UKfilmNet to contact your employing school directly to confirm the information you are providing.</br>
+</br>';
 $string['contact_info_label'] = '<h5 class="ukfn-contact-info">School Safeguarding Officer Information</h5>';
 $string['contact_email'] = 'School email';
 $string['contact_firstname'] = 'First name';
 $string['contact_familyname'] = 'Family name';
 $string['contact_phone'] = 'Phone number';
-$string['consent_to_contact'] = '<div class="ukfn-consent-checkbox-label">I understand that by checking this box and 
-clicking on "Submit" below <strong>I authorize UKfilmNet to contact my employer</strong> to verify the information I am 
-submitting</div>';
+$string['consent_to_contact'] = '<div class="ukfn-consent-checkbox-label">I understand that by checking this box and clicking on "Submit" below <strong>I authorize UKfilmNet to contact my employer</strong> to verify the information I am submitting</div>';
 
+$string['safeguarding_instructions'] = 
+'Congratualtions on your UKfilmnet Signup progress!</br>
+</br>
+An email has been sent to the Safeguarding Officer at your school with a request that the officer verify your employment and the status of your QTS and DBS qualifications. You may wish to confirm with your Safeguarding Officer that they have received our email, and that they are in the process of providing UKfilmNet with the Assurance/Reference information we need to approve your application.</br>
+</br>
+When we have received and reviewed the Assurance/Reference infomation we requested from your Safeguarding Officer, we will email you to let you know if your application has been approved.';
+
+$string['assurance_instructions'] = 
+'Thank you for responding to our email requesting that you provde safeguarding assurances with reference to your employee.</br>
+</br>
+<!--As you know, in order to grant your employee access to UKfilmNet learning environment courses for the purpose of interacting with under age 18/vulnerable adult students at your school we are required to take reasonable steps to confirm that your employee is who they say they are, that they are employed by you, and that you are satisifed that they are QTS qualified and Enanced DBS certified to work with children or vulnerable adults.</br>
+</br>-->
+To that end, below please enter the School Email Address of your employee and Assurance Verification Code we provide you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role...';
@@ -171,11 +189,25 @@ For reasons of safeguarding, your employee will not have access to students othe
 </br>
 <strong>Safeguarding Request</strong></br>
 </br>
-In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname} we are required to take reasonable steps to confirm that the individual is who they say they are, and that they are employed by you. Please could either yourself or your designated Safeguarding lead complete, sign and upload the attached <strong>Reference request for {$a->applicant_firstname} {$a->applicant_familyname}</strong> in order that we can consider the application for access to the resource and other professional colleagues in developing their CPD, skills and knowledge.</br>
+In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname} we are required to take reasonable steps to confirm that the individual is who they say they are, and that they are employed by you. Please could either yourself or your designated Safeguarding lead complete the following process:
+<ul>
+<li>Download the attached Assurance/Reference Form</li>
+<li>Print the Assurance/Reference Form on your Organisational Letterhead</li>
+<li>Complete the Assurance/Reference Form in black or blue ink</li>
+<li>Scan the completed Assurance/Reference Form and save it in .pdf format</li>
+<li>Browse to <a href="ukfilmnet.org/learning/enrol/ukfilmnet/assurance.php"</a> and:</li>
+<ul>
+<li>Enter the Email Address of your employee - {$a->applicant_email}</li>
+<li>Enter the following Assurance Verification Code - {$a->assurance_code}</li>
+<li>Upload the completed Assurance/Reference Form</li>
+<li>Click the "Submit" button to complete the Safeguarding Office Assurance process</li>
+</ul>
+</ul>
+Once you have completed these steps we can consider the application your employee has made for access to the resource and other professional colleagues in developing their CPD, skills and knowledge.</br>
 </br>
 Please note that as part of the process you may receive a reminder of this request, but please note that after 4 weeks, the application from <strong>{$a->applicant_firstname} {$a->applicant_familyname}</strong> will automatically be deleted if the reference has not been received. <strong>As part of the requirements for access to the resource, your employee’s account details will be shared by email with the organisational head or designated Safeguarding lead, to ensure additional supervision and transparency of online activity conducted by the employee and his/her students.</strong></br>
 </br>
-If you have any queries, please email safeguarding@ukfilmnet.org where we hope to address any further questions.</br>
+If you have any queries, please email <a href="safeguarding@ukfilmnet.org"</a> where we hope to address any further questions.</br>
 </br>
 Yours Sincerely,</br>
 </br>

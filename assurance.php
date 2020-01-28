@@ -23,26 +23,25 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-require_login();
-global $USER;
+global $SESSION;
 
+$SESSION->assurance_info_complete = false;
 $PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
+$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));
 $PAGE->set_context(context_system::instance());
-$PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
-//$PAGE->set_heading("Some Heading");
+$PAGE->set_title(get_string('assurance_title', 'enrol_ukfilmnet'));
 
-//$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
-$PAGE->navbar->add('School info');
+$PAGE->navbar->add('Assurance');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();
 
-$schoolpage = new \enrol_ukfilmnet\output\schoolpage(null);
-echo $output->render_schoolpage($schoolpage);
+$assurancepage = new \enrol_ukfilmnet\output\assurancepage();
+echo $output->render_assurancepage($assurancepage);
 
 echo $output->footer();
-if($USER->profile_field_applicationprogress === 4){
-    echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
-}
+if($SESSION->assurance_info_complete === true){
+    $SESSION->assurance_info_complete === false;
+    echo "<script>location.href='index.php'</script>";
+}  

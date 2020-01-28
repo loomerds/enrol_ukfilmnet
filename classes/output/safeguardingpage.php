@@ -30,12 +30,12 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-require_once('schoolform.php');
-require_once('signuplib.php');
-require_once($CFG->libdir.'/datalib.php');
+//require_once('schoolform.php');
+//require_once('signuplib.php');
+//require_once($CFG->libdir.'/datalib.php');
 
 // This is a Template Class it collects/creates the data for a template
-class schoolpage implements \renderable, \templatable {
+class safeguardingpage implements \renderable, \templatable {
     var $sometext = null;
 
     public function __construct($sometext = null) {
@@ -44,20 +44,20 @@ class schoolpage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
-        $data->schoolinput = $this->get_school_content();
+        //$data->schoolinput = $this->get_safeguarding_content();
         return $data;
     }
 
-    public function get_school_content() {
+    public function get_safeguarding_content() {
 
-        global $CFG, $USER;
+        /*global $CFG, $USER;
         
         $schoolinput = '';
         $mform = new school_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect('https://ukfilmnet.org/learning');
+            redirect('https://ukfilmnet.org');
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
@@ -110,6 +110,7 @@ class schoolpage implements \renderable, \templatable {
             $schoolinput = $mform->render();
         }
         return $schoolinput;
+        */
     }
 
 }
