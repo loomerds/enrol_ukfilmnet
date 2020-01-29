@@ -53,32 +53,33 @@ class assurancepage implements \renderable, \templatable {
         $assuranceinput = '';
         $mform = new assurance_form();
 
-        /*//Form processing and displaying is done here
+        //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             redirect('https://ukfilmnet.org');
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
+            var_dump($form_data);
             
             // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
-            $verified_user = applicant_login($form_data->username, $form_data->password);
+            /*$verified_user = applicant_login($form_data->username, $form_data->password);
             if($verified_user !== null) {
                 profile_load_data($verified_user);
                 $verified_user->profile_field_emailverified = true;
                 $verified_user->profile_field_applicationprogress = 3;
                 profile_save_data($verified_user);
             }
-            $SESSION->email_info_complete = true;
+            $SESSION->email_info_complete = true;*/
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.
             $toform = $mform->get_data();
-            $SESSION->email_info_complete = false;
+            //$SESSION->email_info_complete = false;
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
-            $emailverifyinput = $mform->render();
-        }*/
+            $assuranceinput = $mform->render();
+        }
         return $assuranceinput;
         
     }

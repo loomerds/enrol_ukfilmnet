@@ -39,18 +39,26 @@ class assurance_form extends \moodleform {
     public function definition() {
         global $CFG;
 
+        $maxbytes = 185760;
         $mform = $this->_form; 
-        /*$mform->addElement('text', 'username', get_string('applicant_username', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('username', PARAM_NOTAGS);
-        $mform->addRule('username', get_string('error_missing_username', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $mform->addElement('password', 'password', get_string('applicant_password', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('password', PARAM_NOTAGS);
-        $mform->addRule('password', get_string('error_missing_password', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $mform->addElement('text', 'code', get_string('verification_code', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('code', PARAM_NOTAGS);
-        $mform->addRule('code', get_string('error_missing_code', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
+        $mform->addElement('text', 'email', get_string('employee_work_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
+        $mform->setType('email', PARAM_NOTAGS);
+        $mform->addRule('email', get_string('error_missing_employee_work_email', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('text', 'assurance_code', get_string('assurance_code', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
+        $mform->setType('assurance_code', PARAM_NOTAGS);
+        $mform->addRule('assurance_code', get_string('error_missing_assurance_code', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('text', 'qtsnumber', get_string('qtsnumber', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
+        $mform->setType('qtsnumber', PARAM_NOTAGS);
+        $mform->addRule('qtsnumber', get_string('error_missing_qtsnumber', 'enrol_ukfilmnet'), 'required', null, 'server');
+        /*$mform->addElement('filemanager', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'), null,
+                            array('subdirs'=>1, 'maxbytes'=>$maxbytes, 'areamaxbytes'=>$maxbytes, 'maxfiles'=>1,
+                            'accepted_types'=>array('pdf'), 'return_types'=>FILE_INTERNAL | FILE_EXTERNAL));
         */
+        $mform->addElement('file', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'));
+        $mform->setType('MAX_FILE_SIZE', PARAM_INT);
+        $mform->addRule('assurance_form', get_string('error_missing_assurance_form', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
+      
     }
     //Custom validation should be added here
     function validation($data, $files) {
@@ -58,6 +66,9 @@ class assurance_form extends \moodleform {
         require_once($CFG->dirroot.'/user/profile/lib.php');
 
         $errors = parent::validation($data, $files);
+        $username = $data['email'];
+        $user = $DB->get_record('user', array('username' => $username, 'auth' => 'manual'));
+        
         /*$username = $data['username'];
         $user = $DB->get_record('user', array('username' => $username, 'auth' => 'manual'));
         
@@ -71,13 +82,14 @@ class assurance_form extends \moodleform {
         if(!validate_internal_user_password($user, $password)) {
             $errors['password'] = get_string('error_password_mismatch', 'enrol_ukfilmnet');
         }
-
+*/
         profile_load_data($user);
-
-        if($data['code'] !== $user->profile_field_verificationcode) {
-            $errors['code'] = get_string('error_code_mismatch', 'enrol_ukfilmnet');
+        
+        var_dump($user->profile_field_assurancecode);
+        if($data['assurance_code'] !== $user->profile_field_assurancecode) {
+            $errors['assurance_code'] = get_string('error_assurance_code_mismatch', 'enrol_ukfilmnet');
         }
-        */
+        
         return $errors;
     }
 }

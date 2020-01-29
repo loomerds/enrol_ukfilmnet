@@ -47,20 +47,30 @@ $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 
-// Instructions Text
-$string['applicant_instructions'] = 
-'Welcome to the UKfilmNet Signup process.</br>
-</br>
-Before providing the information requested below, please take time to <strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">read the UKfilmNet PRIVACY NOTICE</a></strong>. Then input your current educational role, school email address, first name, and family name.';
-$string['applicant_agreement'] = 
-'</br>
-<u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+// Input Labels
 $string['applicant_current_role'] = 'Current role';
 $string['applicant_email'] = 'School email';
 $string['applicant_firstname'] = 'First name';
 $string['applicant_familyname'] = 'Family name';
 $string['applicant_username'] = 'Username';
 $string['applicant_password'] = 'Password';
+$string['verification_code'] = 'Verification code';
+$string['assurance_code'] ='Verification code';
+$string['employee_work_email'] = 'Employee school email';
+$string['qtsnumber'] = 'Employee QTS number';
+$string['assurance_form'] = 'Upload Assurance Form';
+
+
+// Instructions Text
+$string['applicant_instructions'] = 
+'Welcome to the UKfilmNet Signup process.</br>
+</br>
+Before providing the information requested below, please take time to <strong><a href="https://www.ukfilmnet.org//UKfilmNet_gdpr.html" target="_blank">read the UKfilmNet PRIVACY NOTICE</a></strong>. Then input your current educational role, school email address, first name, and family name.';
+
+$string['applicant_agreement'] = 
+'</br>
+<u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+
 
 $string['emailverify_instructions'] = 
 'Thank you for submitting your basic UKfilmNet account creation information.</br>
@@ -98,7 +108,8 @@ $string['assurance_instructions'] =
 </br>
 <!--As you know, in order to grant your employee access to UKfilmNet learning environment courses for the purpose of interacting with under age 18/vulnerable adult students at your school we are required to take reasonable steps to confirm that your employee is who they say they are, that they are employed by you, and that you are satisifed that they are QTS qualified and Enanced DBS certified to work with children or vulnerable adults.</br>
 </br>-->
-To that end, below please enter the School Email Address of your employee and Assurance Verification Code we provide you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.';
+To that end, below please enter the School Email Address of your employee and Assurance Verification Code we provide you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.</br>
+</br>';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role...';
@@ -149,12 +160,15 @@ $string['error_missing_contact_familyname'] = 'Missing family name of contact';
 $string['error_missing_school_name'] = 'Missing school name';
 $string['error_missing_contact_phone'] = 'Missing phone number';
 $string['error_missing_school_consent_to_contact'] = 'You must authorize UKfilmNet to contact your school employer to verifiy the information you are submitting';
+$string['error_missing_assurance_code'] = 'Missing Assurance Verification code';
+$string['error_assurance_code_mismatch'] = 'The Assurance Verification code you entered is invalid';
+$string['error_missing_employee_work_email'] = 'Missing employee school email';
+$string['error_missing_qtsnumber'] = 'Missing QTS number';
+$string['error_missing_assurance_form'] = 'Missing Assurance form';
+$string['error_assurance_code_mismatch'] = 'You must upload the Assurance/Reference Form';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
-
-
-$string['verification_code'] = 'Verification code';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
