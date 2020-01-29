@@ -70,7 +70,7 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_safeguarding_contact_familyname = $form_data->contact_familyname;
             $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
-            $USER->profile_field_assurance_code = generate_random_verification_code();
+            $USER->profile_field_assurancecode = generate_random_verification_code();
             $USER->profile_field_applicationprogress = 4;
 
             profile_save_data($USER);
@@ -84,7 +84,7 @@ class schoolpage implements \renderable, \templatable {
             $applicant_firstname = $USER->firstname;
             $applicant_familyname = $USER->lastname;
             $applicant_email = $USER->email;
-            $assurance_code = $USER->profile_field_assurance_code;
+            $assurance_code = $USER->profile_field_assurancecode;
             $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
             $contact_user = create_applicant_user($newuser, 'make_random_password');
 

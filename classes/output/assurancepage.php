@@ -48,7 +48,7 @@ class assurancepage implements \renderable, \templatable {
 
     public function get_assurance_content() {
 
-        global $CFG, $SESSION;
+        global $CFG, $DB;
 
         $assuranceinput = '';
         $mform = new assurance_form();
@@ -59,17 +59,16 @@ class assurancepage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            var_dump($form_data);
-            
-            // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
-            /*$verified_user = applicant_login($form_data->username, $form_data->password);
-            if($verified_user !== null) {
-                profile_load_data($verified_user);
-                $verified_user->profile_field_emailverified = true;
-                $verified_user->profile_field_applicationprogress = 3;
-                profile_save_data($verified_user);
+            //$mform->save_file('assurance_form', '../../assurancefiles/special.pdf');
+
+            $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
+            if($applicant_user !== null) {
+                profile_load_data($applicant_user);
+                $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
+                $applicant_user->profile_field_assurancesubmitted = 1;
+                $applicant_user->profile_field_assurancesubmissiondate = time();
+                profile_save_data($applicant_user);
             }
-            $SESSION->email_info_complete = true;*/
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.

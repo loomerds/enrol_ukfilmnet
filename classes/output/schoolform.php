@@ -87,9 +87,9 @@ class school_form extends \moodleform {
         if($data['school_name'] === '0') {
             $errors['school_name'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
         }
-        if($data['school_country'] === '0') {
+        /*if($data['school_country'] === '0') {
             $errors['school_country'] = get_string('error_missing_country', 'enrol_ukfilmnet');
-        }
+        }*/
         if($data['contact_email'] && strpos( $data['contact_email'], '@') === false) {
             $errors['contact_email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }

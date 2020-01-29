@@ -38,6 +38,7 @@ class assurance_form extends \moodleform {
     //Add elements to form
     public function definition() {
         global $CFG;
+        require_once($CFG->dirroot.'/lib/formslib.php');
 
         $maxbytes = 185760;
         $mform = $this->_form; 
@@ -54,9 +55,13 @@ class assurance_form extends \moodleform {
                             array('subdirs'=>1, 'maxbytes'=>$maxbytes, 'areamaxbytes'=>$maxbytes, 'maxfiles'=>1,
                             'accepted_types'=>array('pdf'), 'return_types'=>FILE_INTERNAL | FILE_EXTERNAL));
         */
+        //var_dump($context);
+        //$filemanageropts = array('subdirs'=>0, 'maxbytes'=>0, 'maxfiles'=>50);
+        //$mform->addElement('filemanager', 'assurance_form', get_string('assurance_form', 'enrol_ukfimnet'), null, $filemanageropts);
         $mform->addElement('file', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'));
         $mform->setType('MAX_FILE_SIZE', PARAM_INT);
         $mform->addRule('assurance_form', get_string('error_missing_assurance_form', 'enrol_ukfilmnet'), 'required', null, 'server');
+        save_file('assurance_form', './newfile.php');
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
       
     }
@@ -66,29 +71,34 @@ class assurance_form extends \moodleform {
         require_once($CFG->dirroot.'/user/profile/lib.php');
 
         $errors = parent::validation($data, $files);
-        $username = $data['email'];
-        $user = $DB->get_record('user', array('username' => $username, 'auth' => 'manual'));
+        $email = $data['email'];
         
-        /*$username = $data['username'];
-        $user = $DB->get_record('user', array('username' => $username, 'auth' => 'manual'));
-        
-        if($user === false) {
-            $errors['username'] = get_string('error_username_mismatch', 'enrol_ukfilmnet');
-            return $errors;
+        if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
+            $user = $DB->get_record('user', array('username' => $email, 'auth' => 'manual'));
+            profile_load_data($user);
+            
+            if($user->profile_field_assurancesubmitted == 1) {
+                $errors['email'] = get_string('error_assurance_already_submitted', 'enrol_ukfilmnet');
+                return $errors;
+            }
+            if($data['assurance_code'] !== $user->profile_field_assurancecode && strlen($data['assurance_code']) > 0) {
+                $errors['assurance_code'] = get_string('error_assurance_code_mismatch', 'enrol_ukfilmnet');
+                $errors['email'] = get_string('error_employee_email_assurance_code_mismatch', 'enrol_ukfilmnet');
+            }
+        } else {
+            if(strlen($email) < 1) {
+                $errors['email'] = get_string('error_missing_employee_work_email', 'enrol_ukfilmnet');
+            } else {
+                $errors['email'] = get_string('error_employee_work_email_mismatch', 'enrol_ukfilmnet');
+            //return $errors;
+            }
+            
         }
+        if(strlen($data['assurance_code']) < 1) {
+            $errors['assurance_code'] = get_string('error_missing_assurance_code','enrol_ukfilmnet');
+        } 
+
         
-        $password = $data['password'];
-        
-        if(!validate_internal_user_password($user, $password)) {
-            $errors['password'] = get_string('error_password_mismatch', 'enrol_ukfilmnet');
-        }
-*/
-        profile_load_data($user);
-        
-        var_dump($user->profile_field_assurancecode);
-        if($data['assurance_code'] !== $user->profile_field_assurancecode) {
-            $errors['assurance_code'] = get_string('error_assurance_code_mismatch', 'enrol_ukfilmnet');
-        }
         
         return $errors;
     }

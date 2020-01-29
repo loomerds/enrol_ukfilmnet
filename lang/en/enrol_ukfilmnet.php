@@ -55,7 +55,7 @@ $string['applicant_familyname'] = 'Family name';
 $string['applicant_username'] = 'Username';
 $string['applicant_password'] = 'Password';
 $string['verification_code'] = 'Verification code';
-$string['assurance_code'] ='Verification code';
+$string['assurance_code'] ='Assurance code';
 $string['employee_work_email'] = 'Employee school email';
 $string['qtsnumber'] = 'Employee QTS number';
 $string['assurance_form'] = 'Upload Assurance Form';
@@ -108,7 +108,7 @@ $string['assurance_instructions'] =
 </br>
 <!--As you know, in order to grant your employee access to UKfilmNet learning environment courses for the purpose of interacting with under age 18/vulnerable adult students at your school we are required to take reasonable steps to confirm that your employee is who they say they are, that they are employed by you, and that you are satisifed that they are QTS qualified and Enanced DBS certified to work with children or vulnerable adults.</br>
 </br>-->
-To that end, below please enter the School Email Address of your employee and Assurance Verification Code we provide you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.</br>
+To that end, below please enter the School Email Address of your employee and Assurance Code we provided you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.</br>
 </br>';
 
 // Current Role Descriptors
@@ -160,12 +160,14 @@ $string['error_missing_contact_familyname'] = 'Missing family name of contact';
 $string['error_missing_school_name'] = 'Missing school name';
 $string['error_missing_contact_phone'] = 'Missing phone number';
 $string['error_missing_school_consent_to_contact'] = 'You must authorize UKfilmNet to contact your school employer to verifiy the information you are submitting';
-$string['error_missing_assurance_code'] = 'Missing Assurance Verification code';
-$string['error_assurance_code_mismatch'] = 'The Assurance Verification code you entered is invalid';
+$string['error_missing_assurance_code'] = 'Missing Assurance code';
+$string['error_assurance_code_mismatch'] = 'The Assurance code isn\'t for this Employee email';
 $string['error_missing_employee_work_email'] = 'Missing employee school email';
+$string['error_employee_work_email_mismatch'] = 'The Employee school email you entered is invalid';
 $string['error_missing_qtsnumber'] = 'Missing QTS number';
-$string['error_missing_assurance_form'] = 'Missing Assurance form';
-$string['error_assurance_code_mismatch'] = 'You must upload the Assurance/Reference Form';
+$string['error_missing_assurance_form'] = 'You must upload the Assurance/Reference Form';
+$string['error_employee_email_assurance_code_mismatch'] = 'The Employee email isn\'t for this Assurance code';
+$string['error_assurance_already_submitted'] = 'An Assurance Form was previously submitted</br> for this employee';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
@@ -209,10 +211,10 @@ In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname}
 <li>Print the Assurance/Reference Form on your Organisational Letterhead</li>
 <li>Complete the Assurance/Reference Form in black or blue ink</li>
 <li>Scan the completed Assurance/Reference Form and save it in .pdf format</li>
-<li>Browse to <a href="ukfilmnet.org/learning/enrol/ukfilmnet/assurance.php"</a> and:</li>
+<li>Browse to <a href="ukfilmnet.org/learning/enrol/ukfilmnet/assurance.php">UKfilmNet Safeguarding Assurance</a> and:</li>
 <ul>
 <li>Enter the Email Address of your employee - {$a->applicant_email}</li>
-<li>Enter the following Assurance Verification Code - {$a->assurance_code}</li>
+<li>Enter the following Assurance Code - {$a->assurance_code}</li>
 <li>Upload the completed Assurance/Reference Form</li>
 <li>Click the "Submit" button to complete the Safeguarding Office Assurance process</li>
 </ul>
