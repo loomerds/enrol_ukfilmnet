@@ -68,6 +68,13 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     $newuser->profile_field_currentrole = $applicantinfo->currentrole;
     $newuser->profile_field_verificationcode = $applicantinfo->verificationcode;
     $newuser->profile_field_applicationprogress = $applicantinfo->applicationprogress;
+
+    // Make sure these aren't null
+    /*$newuser->lastnamephonetic = '';
+    $newuser->firstnamephonetic = '';
+    $newuser->middlename = '';
+    $newuser->alternatename = '';*/
+    //$newuser->imagealt = '';
     
     if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
         $newuser->lang = $CFG->lang;

@@ -62,6 +62,7 @@ class emailverifypage implements \renderable, \templatable {
             
             // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
             $verified_user = applicant_login($form_data->username, $form_data->password);
+    
             if($verified_user !== null) {
                 profile_load_data($verified_user);
                 $verified_user->profile_field_emailverified = true;

@@ -48,8 +48,8 @@ class assurancepage implements \renderable, \templatable {
 
     public function get_assurance_content() {
 
-        global $CFG, $DB;
-
+        global $CFG, $DB, $USER;
+        
         $assuranceinput = '';
         $mform = new assurance_form();
 
@@ -59,7 +59,18 @@ class assurancepage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            //$mform->save_file('assurance_form', '../../assurancefiles/special.pdf');
+            
+            //$roleassignments = $DB->get_records('role_assignments', ['userid' => $USER->id]);
+
+            //$content = $mform->get_file_content('assurance_form');
+            //$fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
+            $fullpath = $CFG->dirroot;
+            //var_dump($fullpath);
+            $override = true;
+            $name = $mform->get_new_filename('assurance_form');
+            //$storedfile = $mform->save_stored_file('assurance_form', context_system::instance(), 'enrol_ukfilmnet', 'assurancefiles');
+            $success = $mform->save_file('assurance_form', $fullpath.'/'.$name, $override);
+            var_dump($success);
 
             $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
             if($applicant_user !== null) {
@@ -69,6 +80,11 @@ class assurancepage implements \renderable, \templatable {
                 $applicant_user->profile_field_assurancesubmissiondate = time();
                 profile_save_data($applicant_user);
             }
+
+            
+
+              
+            //$verified_user = applicant_login($applicant_user->username, $applicant_user->password);
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.

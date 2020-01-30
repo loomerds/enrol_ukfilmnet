@@ -23,8 +23,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-global $SESSION;
-
+require_once('./signuplib.php');
+global $SESSION, $USER;
+//var_dump($USER);
+if($USER->id < 1) {
+    $username = make_random_password();
+    $password = make_random_password();
+    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
+                            'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
+    $user = create_applicant_user($newuser, $password);
+    //var_dump($user);
+    applicant_login($username, $password);
+}
+//var_dump($verified_user);
+//var_dump($SESSION->has_timed_out);
+/**/
 $SESSION->assurance_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));

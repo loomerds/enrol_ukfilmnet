@@ -37,12 +37,13 @@ require_once("$CFG->libdir/formslib.php");
 class assurance_form extends \moodleform {
     //Add elements to form
     public function definition() {
-        global $CFG;
+        global $CFG,  $USER, $SESSION;
         require_once($CFG->dirroot.'/lib/formslib.php');
-
+        
         $maxbytes = 185760;
         $mform = $this->_form; 
         $mform->addElement('text', 'email', get_string('employee_work_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
+        $email = "fred@school.edu";
         $mform->setType('email', PARAM_NOTAGS);
         $mform->addRule('email', get_string('error_missing_employee_work_email', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('text', 'assurance_code', get_string('assurance_code', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
@@ -58,12 +59,18 @@ class assurance_form extends \moodleform {
         //var_dump($context);
         //$filemanageropts = array('subdirs'=>0, 'maxbytes'=>0, 'maxfiles'=>50);
         //$mform->addElement('filemanager', 'assurance_form', get_string('assurance_form', 'enrol_ukfimnet'), null, $filemanageropts);
-        $mform->addElement('file', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'));
+        /*$mform->addElement('file', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'));
         $mform->setType('MAX_FILE_SIZE', PARAM_INT);
         $mform->addRule('assurance_form', get_string('error_missing_assurance_form', 'enrol_ukfilmnet'), 'required', null, 'server');
-        save_file('assurance_form', './newfile.php');
+        $mform->save_file('assurance_form', './newfile.php');*/
+        /**/
+        $mform->addElement('filepicker', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'), null, array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
+        $mform->setType('MAX_FILE_SIZE', PARAM_INT);
+        $mform->addRule('assurance_form', get_string('error_missing_assurance_form', 'enrol_ukfilmnet'), 'required', null, 'server');
+           
+        //var_dump($SESSION->has_timed_out);
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
-      
+        //var_dump($SESSION);
     }
     //Custom validation should be added here
     function validation($data, $files) {
@@ -71,9 +78,9 @@ class assurance_form extends \moodleform {
         require_once($CFG->dirroot.'/user/profile/lib.php');
 
         $errors = parent::validation($data, $files);
-        $email = $data['email'];
+        //$email = $data['email'];
         
-        if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
+        /*if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
             $user = $DB->get_record('user', array('username' => $email, 'auth' => 'manual'));
             profile_load_data($user);
             
@@ -96,7 +103,7 @@ class assurance_form extends \moodleform {
         }
         if(strlen($data['assurance_code']) < 1) {
             $errors['assurance_code'] = get_string('error_missing_assurance_code','enrol_ukfilmnet');
-        } 
+        } */
 
         
         

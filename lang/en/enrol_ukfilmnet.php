@@ -58,7 +58,7 @@ $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code';
 $string['employee_work_email'] = 'Employee school email';
 $string['qtsnumber'] = 'Employee QTS number';
-$string['assurance_form'] = 'Upload Assurance Form';
+$string['assurance_form'] = 'Assurance Form upload';
 
 
 // Instructions Text
