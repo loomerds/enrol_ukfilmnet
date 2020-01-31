@@ -1,101 +1,116 @@
-.ukfn-enrol-page-title {
+.ukfn_enrol_page_title {
     margin-left: 30px;
     margin-top: -30px;
 }
 
-.ukfn-enrol-main {
+.ukfn_enrol_main {
     width: 100%;
 }
 
-.ukfn-progress-list-area {
+.ukfn_progress_list_area {
     width:30%; 
     position:relative; 
     float:left; 
     text-align:center;
 }
 
-.ukfn-progress-titlebox {
+.ukfn_progress_titlebox {
     display:inline-block; 
     width: 100%;
     margin-top: 30px;
 }
 
-.ukfn-progress-title, .ukfn-progress-items {
+.ukfn_progress_title, .ukfn_progress_items {
     border-width: 1px; 
     border-style: solid;
     width: 180px; 
     display:inline-block;    
 }
-.ukfn-progress-title {
+.ukfn_progress_title {
     border-bottom: 0px; 
     margin-bottom: 0px;
     padding: 10px 10px;
 }
 
-.ukfn-progress-items p {
+.ukfn_progress_items p {
     padding-left: 0px;
     padding-right: 0px;
     margin-bottom: 0px;
     line-height: 2.5em;
 }
 
-.ukfn-progress-items p.item-complete {
+.ukfn_progress_items p.item_complete {
     background-color: #060; 
     color: white;
 }
 
-.ukfn-progress-items p.item-current {
+.ukfn_progress_items p.item_current {
     background-color: #b22222; 
     color: #ffffff;
 }
 
-.ukfn-applicantinfo-section, .ukfn-emailverify-section, .ukfn-schoolinfo-section {
+.ukfn_applicantinfo_section, .ukfn_emailverify_section, .ukfn_schoolinfo_section {
     width:70%; 
     position: relative; 
     float:right;
 }
 
-.ukfn-applicant-subheading {
+.ukfn_safeguarding_section {
+    width: 80%;
+    margin-left: auto;
+    padding-left: 50px;
+    margin-right: auto;
+    
+}
+
+.ukfn_applicant_subheading {
     color: #b22222;
     text-align:center;
 }
 
-.ukfn-applicant-content {
+.ukfn_applicant_content {
     margin-top: 20px;
 }
 
-.ukfn-applicant-email, .ukfn-applicant-firstname, .ukfn-applicant-familyname, 
-.ukfn-applicant-current-roles, .ukfn-applicant-subheading {
+.ukfn_applicant_email, .ukfn_applicant_firstname, .ukfn_applicant_familyname, 
+.ukfn_applicant_current_roles, .ukfn_applicant_subheading {
     width: 600px;
 }
 
-.ukfn-last-input{
+.ukfn_assurance_subheading {
+    width: 600px;
+    margin-left: auto;
+    padding-left: 10%;
+    margin-right: auto;
+}
+
+.ukfn_last_input{
     margin-bottom: 30px;
 }
 
-.ukfn-verification-content {
+.ukfn_verification_content {
     width: 700px;
 }
 
-.ukfn-applicant-current-roles, .ukfn-verification-content {
+.ukfn_applicant_current_roles, .ukfn_verification_content {
     margin-top: 20px;
 }
 
-.ukfn-contact-info {
+.ukfn_contact_info {
     width: 400px;
 }
 
-.ukfn-indent-20 {
+.ukfn_indent_20 {
     position: relative;
     margin-left: 60px !important;
 }
 
-.ukfn-consent-checkbox-label {
+.ukfn_consent_checkbox_label {
     position: relative;
     margin-left: 20px;
 }
 
-.ukfn-consent-checkbox {
+.ukfn_consent_checkbox {
     position: relative;
     margin-left: -300px;
 }
@@ -104,3 +119,6 @@
     width: 80%;
 }
 
+#ukfn_progress {
+    display: none;
+}
