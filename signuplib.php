@@ -122,6 +122,10 @@ function make_random_password() {
     return 'ukfilm'.rand(1000, 9999);
 }
 
+function make_random_numstring() {
+    return rand(1, 1000);
+}
+
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {
     global $CFG;
 

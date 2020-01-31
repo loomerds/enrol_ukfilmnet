@@ -60,17 +60,21 @@ class assurancepage implements \renderable, \templatable {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
             
-            //$roleassignments = $DB->get_records('role_assignments', ['userid' => $USER->id]);
-
-            //$content = $mform->get_file_content('assurance_form');
             //$fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
-            $fullpath = $CFG->dirroot;
-            //var_dump($fullpath);
-            $override = true;
-            $name = $mform->get_new_filename('assurance_form');
-            //$storedfile = $mform->save_stored_file('assurance_form', context_system::instance(), 'enrol_ukfilmnet', 'assurancefiles');
-            $success = $mform->save_file('assurance_form', $fullpath.'/'.$name, $override);
-            var_dump($success);
+            $fullpath = $CFG->dataroot.'/assurancefiles';
+            $override = false;
+            $filename = $mform->get_new_filename('assurance_form');
+            $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
+            $count = 0;
+            while($success === false && $count < 10) {
+                //$remove[] = "'";
+                //$filename = trim(make_random_numstring().$filename, "'");
+                //$filename = str_replace($remove, "", make_random_numstring().$filename);
+                //rename($fullpath.'/'.$filename, $fullpath.'/'.((make_random_numstring().$filename)));
+                $filename = make_random_numstring().$filename;
+                $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
+                $count = $count+1;
+            }
 
             $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
             if($applicant_user !== null) {
@@ -78,6 +82,7 @@ class assurancepage implements \renderable, \templatable {
                 $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
                 $applicant_user->profile_field_assurancesubmitted = 1;
                 $applicant_user->profile_field_assurancesubmissiondate = time();
+                $applicant_user->profile_field_assurancedoc = $filename;
                 profile_save_data($applicant_user);
             }
 
