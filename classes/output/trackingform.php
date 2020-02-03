@@ -35,7 +35,7 @@ require_once("$CFG->libdir/formslib.php");
 
 //use core_string_manager_standard;
 
-class school_form extends \moodleform {
+class tracking_form extends \moodleform {
     //Add elements to form
     public function definition() {
         global $CFG;
@@ -48,7 +48,7 @@ class school_form extends \moodleform {
         //$school_country = $countries->get_list_of_countries();
         //var_dump($countries);
 
-        $school_name = ['0'=>get_string('school_name_instruction', 'enrol_ukfilmnet'),
+        /*$school_name = ['0'=>get_string('school_name_instruction', 'enrol_ukfilmnet'),
                         '01'=>get_string('school1', 'enrol_ukfilmnet'),
                         '02'=>get_string('school2', 'enrol_ukfilmnet')];
         $mform->addElement('select', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_name, ['class'=>'ukfn-school-name']);
@@ -77,26 +77,26 @@ class school_form extends \moodleform {
         $mform->addRule('contact_phone', get_string('error_missing_contact_phone', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('hidden', 'role', null);
         $mform->setType('role', PARAM_ACTION);
-        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
+       */ $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here
     function validation($data, $files) {
         //var_dump($stdClass);
         $errors = parent::validation($data, $files);
         
-        if($data['school_name'] === '0') {
+        /*if($data['school_name'] === '0') {
             $errors['school_name'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
         }
-        /*if($data['school_country'] === '0') {
+        if($data['school_country'] === '0') {
             $errors['school_country'] = get_string('error_missing_country', 'enrol_ukfilmnet');
-        }*/
+        }
         if($data['contact_email'] && strpos( $data['contact_email'], '@') === false) {
             $errors['contact_email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }
         if(!array_key_exists('school_consent_to_contact', $data)) {
             $errors['school_consent_to_contact'] = get_string('error_missing_school_consent_to_contact', 'enrol_ukfilmnet');
         }
-        
+        */
         return $errors;
     }
 }

@@ -1,0 +1,80 @@
+{{!
+    This file is part of Moodle _ http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    @template enrol_ukfilmnet/schoolpage
+
+    Template which defines a school information page.
+
+    Classes required for JS:
+    * none
+
+    Data attributes required for JS:
+    * none
+
+    Context variables required for this template:
+    * 
+
+    Example content (json):
+
+}}
+
+<h3 class='ukfn_enrol_page_title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}</h3>
+<div class='ukfn_enrol_main'>
+    <div id='ukfn_progress' class='ukfn_progress_list_area'>
+        <div class='ukfn_progress_titlebox'>
+            <h5 class='ukfn_progress_title'>{{#str}}assurance_title, enrol_ukfilmnet{{/str}}</h5>
+        </div>
+        <div class='ukfn_progress_items'>
+            <p class='item_complete'>{{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class='item_current'>{{#str}}emailverification_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class=''>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class=''>{{#str}}safeguardingreview_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
+        </div>
+    </div>
+    <div class='ukfn_safeguarding_section'>
+        <h4 class='ukfn_applicant_subheading'>{{#str}}tracking_subheading, enrol_ukfilmnet{{/str}}</h4>
+        <div class='ukfn_applicant_content'>
+            <p>{{#str}}tracking_instructions, enrol_ukfilmnet{{/str}}</p>
+            <!--{{{trackinginput}}}-->
+            {{testName}}
+            <table class="generaltable">
+                <thead>
+                    <tr>
+                {{#headings}}
+                    <th class="header" style="text-align:left;" scope="col">{{title1}}</th>
+                    <th class="header" style="text-align:left;" scope="col">{{title2}}</th>
+                    <th class="header" style="text-align:center;" scope="col">{{title3}}</th>
+                    <th class="header" style="text-align:left;" scope="col">{{title4}}</th>
+                {{/headings}}                
+                    </tr>
+                </thead>
+                <tbody>
+                {{#rows}}
+                    <tr>
+                    <td class="cell" style="text-align:left;" scope="col">{{familyname}}</td>
+                    <td class="cell" style="text-align:left;" scope="col">{{{firstname}}}</td>
+                    <td class="cell" style="text-align:center;" scope="col">{{email}}</td>
+                    <td class="cell" style="text-align:left;" scope="col">{{schoolname}}</td>
+                    </tr>
+                {{/rows}}
+                </tbody>
+                </table>
+            <p></p>
+        </div>
+    </div>
+</div>

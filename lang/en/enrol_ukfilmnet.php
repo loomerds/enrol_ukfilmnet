@@ -35,6 +35,7 @@ $string['quals_title'] = 'Quals Info';
 $string['students_title'] = 'Enrol Students';
 $string['verifyemail_title'] = 'Verify Email';
 $string['assurance_title'] = 'Assurance';
+$string['tracking_title'] = 'Tracking';
 
 // Subtitles/Progress Items List Descriptors
 $string['progressbox_title'] = ' Signup Progress';
@@ -46,6 +47,7 @@ $string['safeguardingreview_subheading'] = 'Safguarding Review';
 $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
+$string['tracking_subheading'] = 'Track Applicant Progress';
 
 // Input Labels
 $string['applicant_current_role'] = 'Current role';
@@ -58,7 +60,7 @@ $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code';
 $string['employee_work_email'] = 'Employee school email';
 $string['qtsnumber'] = 'Employee QTS number';
-$string['assurance_form'] = 'Assurance Form upload';
+$string['assurance_form'] = 'Assurance form';
 
 
 // Instructions Text
@@ -89,12 +91,12 @@ Please enter your UKfilmNet username, UKfilmNet password, and 6 digit Verificati
 $string['school_instructions'] = 
 'In keeping with governmental requirements for student safeguarding, please provide the information requested below. You must also authorize UKfilmNet to contact your employing school directly to confirm the information you are providing.</br>
 </br>';
-$string['contact_info_label'] = '<h5 class="ukfn-contact-info">School Safeguarding Officer Information</h5>';
+$string['contact_info_label'] = '<h5 class="ukfn_contact_info_label">School Safeguarding Officer Information</h5>';
 $string['contact_email'] = 'School email';
 $string['contact_firstname'] = 'First name';
 $string['contact_familyname'] = 'Family name';
 $string['contact_phone'] = 'Phone number';
-$string['consent_to_contact'] = '<div class="ukfn-consent-checkbox-label">I understand that by checking this box and clicking on "Submit" below <strong>I authorize UKfilmNet to contact my employer</strong> to verify the information I am submitting</div>';
+$string['consent_to_contact'] = '<div class="ukfn_consent_checkbox_label">I understand that by checking this box and clicking on "Submit" below <strong>I authorize UKfilmNet to contact my employer</strong> to verify the information I am submitting</div>';
 
 $string['safeguarding_instructions'] = 
 'Congratualtions on your UKfilmnet Signup progress!</br>
@@ -110,6 +112,8 @@ $string['assurance_instructions'] =
 </br>-->
 To that end, below please enter the School Email Address of your employee and Assurance Code we provided you, as well as the QTS number of your employee. Then upload/attach the Assurance/Reference Form you completed in .pdf format, and click the "Submit" button.</br>
 </br>';
+
+$string['tracking_instructions'] = 'Some tracking instructions may go here.';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role...';

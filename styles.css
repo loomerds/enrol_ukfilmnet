@@ -96,7 +96,7 @@
     margin-top: 20px;
 }
 
-.ukfn_contact_info {
+.ukfn_contact_info_label {
     width: 400px;
 }
 
@@ -121,4 +121,29 @@
 
 #ukfn_progress {
     display: none;
+}
+
+#page-enrol-ukfilmnet-applicant .d-inline-block, 
+#page-enrol-ukfilmnet-assurance .d-inline-block,
+#page-enrol-ukfilmnet-emailverify .d-inline-block,
+#page-enrol-ukfilmnet-safeguarding .d-inline-block,
+#page-enrol-ukfilmnet-school .d-inline-block,
+#page-enrol-ukfilmnet-applicant #nav-drawer,
+#page-enrol-ukfilmnet-assurance #nav-drawer,
+#page-enrol-ukfilmnet-emailverify #nav-drawer,
+#page-enrol-ukfilmnet-safeguarding #nav-drawer,
+#page-enrol-ukfilmnet-school #nav-drawer,
+#page-enrol-ukfilmnet-applicant .nav,
+#page-enrol-ukfilmnet-emailverify .nav,
+#page-enrol-ukfilmnet-safeguarding .nav {
+    display:none !important;
+    
+}
+
+#page-enrol-ukfilmnet-applicant.drawer-open-left,
+#page-enrol-ukfilmnet-assurance.drawer-open-left,
+#page-enrol-ukfilmnet-emailverify.drawer-open-left,
+#page-enrol-ukfilmnet-safeguarding.drawer-open-left,
+#page-enrol-ukfilmnet-school.drawer-open-left {
+    margin-left: 0px;
 }

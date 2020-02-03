@@ -81,4 +81,13 @@ class renderer extends \plugin_renderer_base {
       return $this->render_from_template('enrol_ukfilmnet/assurancepage', $data);
    }
 
+   public function render_trackingpage(\templatable $trackingpage) {
+
+      // Calls export_for_template function of applicantpage class in file
+      // /enrol/ukfilmnet/classes/output/applicatpage.php
+      $data = $trackingpage->export_for_template($this);
+      // Calls render_from_template function of 
+      return $this->render_from_template('enrol_ukfilmnet/trackingpage', $data);
+   }
+
 }

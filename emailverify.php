@@ -30,10 +30,6 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
-//$PAGE->set_heading("Some Heading");
-
-//$PAGE->navbar->add(get_string('enrolmentoptions','enrol'));
-//$PAGE->navbar->add('Applicant info');
 $PAGE->navbar->add('Verify email');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');

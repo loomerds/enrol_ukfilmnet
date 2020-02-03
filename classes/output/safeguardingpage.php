@@ -43,6 +43,10 @@ class safeguardingpage implements \renderable, \templatable {
     }
 
     public function export_for_template(\renderer_base $output) {
+        global $USER;
+        //profile_load_data($USER);
+        //var_dump($USER);
+
         $data = new stdClass();
         //$data->schoolinput = $this->get_safeguarding_content();
         return $data;

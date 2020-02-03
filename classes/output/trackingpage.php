@@ -35,7 +35,7 @@ require_once('signuplib.php');
 require_once($CFG->libdir.'/datalib.php');
 
 // This is a Template Class it collects/creates the data for a template
-class schoolpage implements \renderable, \templatable {
+class trackingpage implements \renderable, \templatable {
     var $sometext = null;
 
     public function __construct($sometext = null) {
@@ -44,24 +44,51 @@ class schoolpage implements \renderable, \templatable {
 
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
-        $data->schoolinput = $this->get_school_content();
+        $data = $this->get_tracking_content();
+        //$data->headings->title1 = $content['headings']['title1'];
+        //$data->headings = $content['headings'];
+        //$data = $content;
+        //var_dump($data->title1);
         return $data;
     }
 
-    public function get_school_content() {
+    public function get_tracking_content() {
 
-        global $CFG, $USER;
+        global $CFG, $USER, $DB;
         
-        $schoolinput = '';
-        $mform = new school_form();
+        $headings = array('title1'=>'Family Name', 'title2'=>'First Name', 'title3'=>'Email', 'title4'=>'School Name');
+        $rows = [];
+        $applicants = $DB->get_records('user', array('deleted'=>0)); 
+        
+        foreach($applicants as $applicant) {
+            profile_load_data($applicant);
+            if($applicant->profile_field_applicationprogress > 1) {
+                $rows[] = ['userid'=>$applicant->id, 'firstname'=>$applicant->firstname,
+                           'familyname'=>$applicant->lastname, 'email'=>$applicant->email, 
+                           'currentrole'=>$applicant->profile_field_currentrole, 
+                           'applicationprogress'=>$applicant->profile_field_applicationprogress, 
+                           'schoolname'=>$applicant->profile_field_schoolname, 
+                           'schoolcountry'=>$applicant->profile_field_schoolcountry, 
+                           'contact_firstname'=>$applicant->profile_field_safeguarding_contact_firstname,
+                           'contact_familyname'=>$applicant->profile_field_safeguarding_contact_familyname, 
+                           'contact_email'=>$applicant->profile_field_safeguarding_contact_email,
+                           'contact_phone'=>$applicant->profile_field_safeguarding_contact_phone, 
+                           'qtsnumber'=>$applicant->profile_field_qtsnumber, 
+                           'assurancesubmissiondate'=>$applicant->profile_field_assurancesubmissiondate, 
+                           'assurancedoc'=>$applicant->profile_field_assurancedoc];
+            }
+        }
+        $trackingdata = ['headings'=>$headings, 'rows'=>$rows];
+        /*$mform = new tracking_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             redirect('https://ukfilmnet.org/learning');
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
+                        
             $form_data = $mform->get_data();
-            //var_dump($form_data);
+            
             profile_load_data($USER);
             $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
             $USER->profile_field_schoolname = $form_data->school_name;
@@ -72,14 +99,14 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
             $USER->profile_field_assurancecode = generate_random_verification_code();
             $USER->profile_field_applicationprogress = 4;
+
             profile_save_data($USER);
-            //var_dump($USER->profile_field_safeguarding_contact_email);
+
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
             $schoolname = $form_data->school_name;
             $schoolcountry = $form_data->school_country;
             $contact_firstname = $form_data->contact_firstname;
             $contact_familyname = $form_data->contact_familyname;
-            //var_dump($USER);
             $applicant_firstname = $USER->firstname;
             $applicant_familyname = $USER->lastname;
             $applicant_email = $USER->email;
@@ -97,6 +124,7 @@ class schoolpage implements \renderable, \templatable {
                                              'assurance_code'=>$assurance_code);
             
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
+            
             //var_dump(mail($form_data->contact_email, get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables)));
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
@@ -106,9 +134,10 @@ class schoolpage implements \renderable, \templatable {
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
-            $schoolinput = $mform->render();
-        }
-        return $schoolinput;
+            $trackinginput = $mform->render();
+        }*/
+
+        return $trackingdata;
     }
 
 }
