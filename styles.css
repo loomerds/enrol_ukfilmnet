@@ -56,9 +56,8 @@
 }
 
 .ukfn_safeguarding_section {
-    width: 80%;
+    width: 90%;
     margin-left: auto;
-    padding-left: 50px;
     margin-right: auto;
     
 }
@@ -75,13 +74,6 @@
 .ukfn_applicant_email, .ukfn_applicant_firstname, .ukfn_applicant_familyname, 
 .ukfn_applicant_current_roles, .ukfn_applicant_subheading {
     width: 600px;
-}
-
-.ukfn_assurance_subheading {
-    width: 600px;
-    margin-left: auto;
-    padding-left: 10%;
-    margin-right: auto;
 }
 
 .ukfn_last_input{
@@ -146,4 +138,18 @@
 #page-enrol-ukfilmnet-safeguarding.drawer-open-left,
 #page-enrol-ukfilmnet-school.drawer-open-left {
     margin-left: 0px;
+}
+
+.generaltable {
+    font-size: .8rem;
+}
+
+.one_panel {
+    width: 100%;
+}
+
+.ukfn_tracking_section {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 }

@@ -126,6 +126,19 @@ function make_random_numstring() {
     return rand(1, 1000);
 }
 
+function assurancefile_get_contents($file) 
+{
+    if (function_exists('file_get_contents')) return file_get_contents($file);
+     
+    $f = fopen($file,'r');
+    if (!$f) return '';
+    $t = '';
+    
+    while ($s = fread($f,100000)) $t .= $s;
+    fclose($f);
+    return $t;
+}
+
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {
     global $CFG;
 

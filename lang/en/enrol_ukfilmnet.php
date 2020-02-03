@@ -47,7 +47,7 @@ $string['safeguardingreview_subheading'] = 'Safguarding Review';
 $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
-$string['tracking_subheading'] = 'Track Applicant Progress';
+$string['tracking_subheading'] = 'Track Application Progress';
 
 // Input Labels
 $string['applicant_current_role'] = 'Current role';

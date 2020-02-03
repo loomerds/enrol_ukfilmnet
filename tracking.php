@@ -23,12 +23,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
+require_once('../locallib.php');
 global $DB, $SESSION;
 
 //$SESSION->applicant_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
 $PAGE->set_context(context_system::instance());
+$context = $PAGE->context;
+require_login();
+try {
+    require_capability('moodle/site:config', $context);
+} catch (Exception $e) {
+    echo "<script>location.href='/index.php'</script>";
+}
 $PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
 $PAGE->navbar->add('Tracking');
 $output = $PAGE->get_renderer('enrol_ukfilmnet');

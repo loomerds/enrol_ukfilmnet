@@ -53,10 +53,11 @@ class trackingpage implements \renderable, \templatable {
     }
 
     public function get_tracking_content() {
-
         global $CFG, $USER, $DB;
         
-        $headings = array('title1'=>'Family Name', 'title2'=>'First Name', 'title3'=>'Email', 'title4'=>'School Name');
+        $headings = array('title1'=>'Progress', 'title2'=>'Role', 'title3'=>'Name', 'title4'=>'Email',
+                          'title5'=>'Country', 'title6'=>'School', 'title7'=>'SG Name', 'title8'=>'SG Phone', 
+                          'title9'=>'SG Email', 'title10'=>'SG Form', 'title11'=>'Form Date');
         $rows = [];
         $applicants = $DB->get_records('user', array('deleted'=>0)); 
         
@@ -74,8 +75,8 @@ class trackingpage implements \renderable, \templatable {
                            'contact_email'=>$applicant->profile_field_safeguarding_contact_email,
                            'contact_phone'=>$applicant->profile_field_safeguarding_contact_phone, 
                            'qtsnumber'=>$applicant->profile_field_qtsnumber, 
-                           'assurancesubmissiondate'=>$applicant->profile_field_assurancesubmissiondate, 
-                           'assurancedoc'=>$applicant->profile_field_assurancedoc];
+                           'assurancesubmissiondate'=>$this->check_date_exists($applicant->profile_field_assurancesubmissiondate), 
+                           'assurancedoc'=>$this->check_download_exists($applicant->profile_field_assurancedoc)];
             }
         }
         $trackingdata = ['headings'=>$headings, 'rows'=>$rows];
@@ -138,6 +139,20 @@ class trackingpage implements \renderable, \templatable {
         }*/
 
         return $trackingdata;
+    }
+
+    private function check_date_exists($date) {
+        if($date > 0) {
+            return gmdate("Y-m-d", (int)$date);
+        }
+        return null;
+    }
+
+    private function check_download_exists($file) {
+        if(strlen($file) > 0) {
+            return '<a href=./assurancefiles'.'/'.$file.'>Download</a>';
+        }
+        return null;
     }
 
 }

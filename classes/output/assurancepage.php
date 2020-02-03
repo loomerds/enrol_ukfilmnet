@@ -61,7 +61,22 @@ class assurancepage implements \renderable, \templatable {
             $form_data = $mform->get_data();
             
             //$fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
-            $fullpath = $CFG->dataroot.'/assurancefiles';
+            /*$fullpath = $CFG->dataroot.'/assurancefiles';
+            $override = false;
+            $filename = $mform->get_new_filename('assurance_form');
+            $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
+            $count = 0;
+            while($success === false && $count < 10) {
+                //$remove[] = "'";
+                //$filename = trim(make_random_numstring().$filename, "'");
+                //$filename = str_replace($remove, "", make_random_numstring().$filename);
+                //rename($fullpath.'/'.$filename, $fullpath.'/'.((make_random_numstring().$filename)));
+                $filename = make_random_numstring().$filename;
+                $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
+                $count = $count+1;*/
+
+            $fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
+            //$fullpath = $CFG->dataroot.'/assurancefiles';
             $override = false;
             $filename = $mform->get_new_filename('assurance_form');
             $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
