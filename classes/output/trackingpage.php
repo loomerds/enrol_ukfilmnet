@@ -30,9 +30,9 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-require_once('schoolform.php');
-require_once('signuplib.php');
-require_once($CFG->libdir.'/datalib.php');
+//require_once('schoolform.php');
+//require_once('signuplib.php');
+//require_once($CFG->libdir.'/datalib.php');
 
 // This is a Template Class it collects/creates the data for a template
 class trackingpage implements \renderable, \templatable {
@@ -45,19 +45,15 @@ class trackingpage implements \renderable, \templatable {
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
         $data = $this->get_tracking_content();
-        //$data->headings->title1 = $content['headings']['title1'];
-        //$data->headings = $content['headings'];
-        //$data = $content;
-        //var_dump($data->title1);
         return $data;
     }
 
     public function get_tracking_content() {
         global $CFG, $USER, $DB;
         
-        $headings = array('title1'=>'Progress', 'title2'=>'Role', 'title3'=>'Name', 'title4'=>'Email',
+        $headings = array('title0'=>'Approved', 'title1'=>'Progress', 'title2'=>'Role', 'title3'=>'Name', 'title4'=>'Email',
                           'title5'=>'Country', 'title6'=>'School', 'title7'=>'SG Name', 'title8'=>'SG Phone', 
-                          'title9'=>'SG Email', 'title10'=>'SG Form', 'title11'=>'Form Date');
+                          'title9'=>'SG Email', 'title10'=>'SG Form', 'title11'=>'Form Date', 'title12'=>'Denied');
         $rows = [];
         $applicants = $DB->get_records('user', array('deleted'=>0)); 
         
@@ -76,10 +72,13 @@ class trackingpage implements \renderable, \templatable {
                            'contact_phone'=>$applicant->profile_field_safeguarding_contact_phone, 
                            'qtsnumber'=>$applicant->profile_field_qtsnumber, 
                            'assurancesubmissiondate'=>$this->check_date_exists($applicant->profile_field_assurancesubmissiondate), 
-                           'assurancedoc'=>$this->check_download_exists($applicant->profile_field_assurancedoc)];
+                           'assurancedoc'=>$this->check_download_exists($applicant->profile_field_assurancedoc),
+                           'applicationapproved'=>$this->application_approved($applicant->profile_field_applicationapproved, $applicant->id),
+                           'applicationdenied'=>$this->application_denied($applicant->profile_field_applicationdenied, $applicant->id)];
             }
         }
         $trackingdata = ['headings'=>$headings, 'rows'=>$rows];
+        //var_dump($trackingdata);
         /*$mform = new tracking_form();
 
         //Form processing and displaying is done here
@@ -150,9 +149,25 @@ class trackingpage implements \renderable, \templatable {
 
     private function check_download_exists($file) {
         if(strlen($file) > 0) {
-            return '<a href=./assurancefiles'.'/'.$file.'>Download</a>';
+            return '<a href=./assurancefiles'.'/'.$file.'>View</a>';
         }
         return null;
+    }
+
+    private function application_approved($approval_status, $id) {
+        //var_dump($approval_status);
+        if($approval_status == 1) {
+            return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
+        }
+        return '<input type="checkbox" name="approved[]" value="'.$id.'">';
+    }
+
+    private function application_denied($denial_status, $id) {
+        //var_dump($approval_status);
+        if($denial_status == 1) {
+            return '<input type="checkbox" name="denied[]" value="'.$id.'" checked="checked">';
+        }
+        return '<input type="checkbox" name="denied[]" value="'.$id.'">';
     }
 
 }

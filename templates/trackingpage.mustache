@@ -31,7 +31,7 @@
     Example content (json):
 
 }}
-
+<form action="../ukfilmnet/tracking.php" method="post">
 <h3 class='ukfn_enrol_page_title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}</h3>
 <div class='ukfn_enrol_main'>
     <div id='ukfn_progress' class='ukfn_progress_list_area'>
@@ -56,39 +56,79 @@
                 <thead>
                     <tr>
                 {{#headings}}
-                    <th class="header" style="text-align:center;" scope="col">{{title1}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title2}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title3}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title4}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title5}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title6}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title7}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title8}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title9}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title10}}</th>
-                    <th class="header" style="text-align:center;" scope="col">{{title11}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title0}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title12}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title1}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title2}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title3}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title4}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title5}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title6}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title7}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title8}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title9}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title10}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title11}}</th>
                 {{/headings}}                
                     </tr>
                 </thead>
                 <tbody>
                 {{#rows}}
                     <tr>
-                    <td class="cell" style="text-align:center;" scope="col">{{applicationprogress}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{currentrole}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{familyname}}, {{firstname}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{email}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{schoolcountry}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{schoolname}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{contact_firstname}} {{contact_familyname}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{contact_phone}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{contact_email}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{{assurancedoc}}}</td>
-                    <td class="cell" style="text-align:center;" scope="col">{{assurancesubmissiondate}}</td>
+                        <td class="cell ukfn_text_center" scope="col">
+                            {{{applicationapproved}}}
+                        </td>
+                        <td class="cell ukfn_text_center" scope="col">
+                            {{{applicationdenied}}}
+                        </td>
+                        <td class="cell ukfn_text_center" scope="col">{{applicationprogress}}
+                        <div class="help-tip">
+                            <p class="tracking_progress_tip"><span class='tip_header'>
+                            {{#str}}signup_progress_1, enrol_ukfilmnet{{/str}}<br>
+                            {{#str}}signup_progress_2, enrol_ukfilmnet{{/str}}<br>
+                            {{#str}}signup_progress_3, enrol_ukfilmnet{{/str}}<br>
+                            {{#str}}signup_progress_4, enrol_ukfilmnet{{/str}}<br>
+                            {{#str}}signup_progress_5, enrol_ukfilmnet{{/str}}<br>
+                            {{#str}}signup_progress_6, enrol_ukfilmnet{{/str}}<br>
+                        </div>    
+                        </td>
+                    
+                    <td class="cell ukfn_text_center" scope="col">{{currentrole}}
+                        <div class="help-tip">
+                            <p class="tracking_role_tip"><span class='tip_header'>
+                            <strong>Current Roles</strong></span><br>
+                                {{#str}}applicant_role_ukteacher, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_teacherbsa, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_uksupplyteacher, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_instructor18plus, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_instructor17minus, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_student17minus, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_student18plus, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_industryprofessional, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_educationconsultant, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}applicant_role_parentguardian, enrol_ukfilmnet{{/str}}<br>
+                            </p>
+                          
+                        </div>
+                    </td>
+                    <td class="cell ukfn_text_center" scope="col">{{familyname}}, {{firstname}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{email}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{schoolcountry}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{schoolname}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{contact_firstname}} {{contact_familyname}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{contact_phone}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{contact_email}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{{assurancedoc}}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{assurancesubmissiondate}}</td>
                     </tr>
                 {{/rows}}
                 </tbody>
                 </table>
+                <div class="ukfn_max_width">
+                    <input class="btn btn-primary ukfn_block_center" type="submit" value="Submit">
+                </div>
             <p></p>
         </div>
     </div>
+    
 </div>

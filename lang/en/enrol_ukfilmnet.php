@@ -43,7 +43,7 @@ $string['applicant_subheading'] = 'Applicant Information';
 $string['emailverify_subheading'] = 'Applicant Email Verification';
 $string['emailverification_subheading'] = 'Email Verification';
 $string['institution_subheading'] = 'School Information';
-$string['safeguardingreview_subheading'] = 'Safguarding Review';
+$string['safeguardingreview_subheading'] = 'Safeguarding Review';
 $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
@@ -128,6 +128,14 @@ $string['applicant_role_industryprofessional'] = '8. Industry professional';
 $string['applicant_role_educationconsultant'] = '9. Education Consultant';
 $string['applicant_role_parentguardian'] = '10. Parent/Guardian';
 
+// Application Progress Descriptors
+$string['signup_progress_1'] = '1-Nothing submitted';
+$string['signup_progress_2'] = '2-Application page submitted';
+$string['signup_progress_3'] = '3-Verification page submitted';
+$string['signup_progress_4'] = '4-School page submitted';
+$string['signup_progress_5'] = '5-Waiting for determination';
+$string['signup_progress_6'] = '6-Students enrolled';
+
 // Country Discriptors
 $string['school_country_instruction'] = 'Choose a country...';
 $string['school_country_label'] = 'Country of school';
@@ -175,6 +183,8 @@ $string['error_assurance_already_submitted'] = 'An Assurance Form was previously
 
 // String variables
 $string['roleallowed_range_max'] = '03';
+$string['template_course'] = 'ukfnClassroomTemplate';
+$string['course_category'] = 'Miscellaneous';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
@@ -211,11 +221,11 @@ For reasons of safeguarding, your employee will not have access to students othe
 </br>
 In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname} we are required to take reasonable steps to confirm that the individual is who they say they are, and that they are employed by you. Please could either yourself or your designated Safeguarding lead complete the following process:
 <ul>
-<li>Download the attached Assurance/Reference Form</li>
+<li>Download this <a href="../../enrol/ukfilmnet/assets/AssuranceForm.pdf">Assurance/Reference Form</a></li>
 <li>Print the Assurance/Reference Form on your Organisational Letterhead</li>
 <li>Complete the Assurance/Reference Form in black or blue ink</li>
 <li>Scan the completed Assurance/Reference Form and save it in .pdf format</li>
-<li>Browse to <a href="ukfilmnet.org/learning/enrol/ukfilmnet/assurance.php">UKfilmNet Safeguarding Assurance</a> and:</li>
+<li>Browse to <a href="localhost:8000/enrol/ukfilmnet/assurance.php">UKfilmNet Safeguarding Assurance</a> and:</li>
 <ul>
 <li>Enter the Email Address of your employee - {$a->applicant_email}</li>
 <li>Enter the following Assurance Code - {$a->assurance_code}</li>
@@ -227,9 +237,30 @@ Once you have completed these steps we can consider the application your employe
 </br>
 Please note that as part of the process you may receive a reminder of this request, but please note that after 4 weeks, the application from <strong>{$a->applicant_firstname} {$a->applicant_familyname}</strong> will automatically be deleted if the reference has not been received. <strong>As part of the requirements for access to the resource, your employee’s account details will be shared by email with the organisational head or designated Safeguarding lead, to ensure additional supervision and transparency of online activity conducted by the employee and his/her students.</strong></br>
 </br>
-If you have any queries, please email <a href="safeguarding@ukfilmnet.org"</a> where we hope to address any further questions.</br>
+If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.</br>
 </br>
 Yours Sincerely,</br>
 </br>
 Dom Foulsham</br>
 Director of Curriculum | UKfilmNet.org';
+$string['determination_subject'] = 'UKfilmNet Account Request Determination';
+$string['determination_text_approved'] = '
+Dear {$a->firstname},</br>
+</br>
+We are happy to inform you that your request for a UKfilmNet account has been review and granted!<br>
+</br>
+When you log in to UKfilmNet you should find that you are able to access the UKfilmNet resource classes as well as the support and educator forum classes. Feel free to browse them.</br>
+</br>
+To set up your personal teaching classes and enrol your students, please return to the <a href="ukfilmnet.org/learning/enrol/ukfilmnet/enrolment.php">UKfilmNet Student Enrolment</a> signup page.</br>
+</br>
+Enjoy!</br>
+</br>
+Your Friends at UKfilmNet';
+$string['determination_text_denied'] = '
+Dear {$a->firstname},</br>
+</br>
+After review of the information provided by your school Safeguarding Officer, we regret to inform you that we are unable to grant your request for a UKfilmNet account.</br>
+</br>
+Other stuff to be determined.</br>
+</br>
+Your Friends at UKfilmNet';

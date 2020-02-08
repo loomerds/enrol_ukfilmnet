@@ -29,6 +29,8 @@ defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
 use moodle_url;
+use context_system;
+
 
 require_once('applicantform.php');
 require_once('signuplib.php');
@@ -53,6 +55,7 @@ class applicantpage implements \renderable, \templatable {
     public function get_applicant_content() {
 
         global $CFG, $SESSION;
+        require_once($CFG->dirroot.'/enrol/locallib.php');
         
         $applicantinput = '';
         $mform = new applicant_form();
@@ -73,7 +76,8 @@ class applicantpage implements \renderable, \templatable {
 
             $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
             $user = create_applicant_user($newuser, $password);
-            
+//var_dump(get_user_roles(context_system::instance()));
+
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
             $SESSION->applicant_info_complete = true;
             
@@ -86,6 +90,7 @@ class applicantpage implements \renderable, \templatable {
             $mform->set_data($toform);
             //displays the form
             $applicantinput = $mform->render();
+            //var_dump($applicantinput);
         }
         return $applicantinput;
     }

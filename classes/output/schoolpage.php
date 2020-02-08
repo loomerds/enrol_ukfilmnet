@@ -61,7 +61,7 @@ class schoolpage implements \renderable, \templatable {
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            //var_dump($form_data);
+            
             profile_load_data($USER);
             $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
             $USER->profile_field_schoolname = $form_data->school_name;
@@ -73,20 +73,18 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_assurancecode = generate_random_verification_code();
             $USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
-            //var_dump($USER->profile_field_safeguarding_contact_email);
+
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
             $schoolname = $form_data->school_name;
             $schoolcountry = $form_data->school_country;
             $contact_firstname = $form_data->contact_firstname;
             $contact_familyname = $form_data->contact_familyname;
-            //var_dump($USER);
             $applicant_firstname = $USER->firstname;
             $applicant_familyname = $USER->lastname;
             $applicant_email = $USER->email;
             $assurance_code = $USER->profile_field_assurancecode;
             $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
             $contact_user = create_applicant_user($newuser, 'make_random_password');
-
             $emailvariables = (object) array('schoolname'=>$schoolname, 
                                              'schoolcountry'=>$schoolcountry, 
                                              'contact_firstname'=>$contact_firstname,
@@ -97,7 +95,6 @@ class schoolpage implements \renderable, \templatable {
                                              'assurance_code'=>$assurance_code);
             
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
-            //var_dump(mail($form_data->contact_email, get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables)));
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.

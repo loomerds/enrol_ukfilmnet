@@ -153,3 +153,115 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+/* help tips begin*/
+.help-tip{
+    position: absolute;
+    display: inline-block;
+    margin-left: 6px;
+    text-align: center;
+    background-color: #000000;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 13px;
+    cursor: default;
+}
+
+.help-tip:before{
+    content:'?';
+    font-weight: bold;
+    color:#fff;
+}
+
+.help-tip:hover p{
+    display:block;
+    transform-origin: 100% 0%;
+
+    -webkit-animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease-in-out;
+
+}
+
+.help-tip p{    /* The tooltip */
+    display: none;
+    margin-left: 20px;
+    text-align: left;
+    background-color: #1E2021;
+    padding: 10px;
+    /*width: auto;*/
+    box-sizing: border-box;
+    position: relative;
+    border-radius: 3px;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    left: -4px;
+    color: #FFF;
+    font-size: 13px;
+    line-height: 1.4;
+    z-index: 2;
+}
+
+.help-tip p:before{ /* The pointer of the tooltip */
+    position: absolute;
+    content: '';
+    width:0;
+    height: 0;
+    border:6px solid transparent;
+    border-bottom-color:#1E2021;
+    left:10px;
+    top:-12px;
+}
+
+.help-tip p:after{ /* Prevents the tooltip from being hidden */
+    width:100%;
+    height:40px;
+    content:'';
+    position: absolute;
+    top:-40px;
+    left:0;
+}
+
+.ukfn_text_center {
+    text-align: center;
+}
+
+.help-tip .tracking_progress_tip {
+    width: 220px;
+}
+
+.ukfn_max_width {
+    width: 100%;
+}
+
+.ukfn_block_center {
+    display: block !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.help-tip .tracking_role_tip {
+    width: 480px;
+}
+
+/* CSS animation */
+
+@-webkit-keyframes fadeIn {
+    0% { 
+        opacity:0; 
+        transform: scale(0.6);
+    }
+
+    100% {
+        opacity:100%;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+/*help tips end*/
