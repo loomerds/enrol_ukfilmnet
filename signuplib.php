@@ -182,6 +182,7 @@ function application_approved($approved) {
                 role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
                 
                 enrol_user_this($newcourse, $applicant_user, '3');
+                //create_ukfn_cohort()
             }
         }
     }
@@ -261,6 +262,7 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
                                            $newcourse['fullname'], 
                                            $newcourse['shortname'], 
                                            true);
+    create_ukfn_cohort($newcourse['shortname']);
     return $courseinfo;
 }
 
@@ -293,6 +295,19 @@ function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
 
         $enrol->enrol_user($instance, $user->id, $roleid);
     }
+}
+
+function create_ukfn_cohort($name) {
+    global $CFG;
+    require_once($CFG->dirroot.'/cohort/lib.php');
+
+    $cohort = new stdClass();
+    $cohort->contextid = context_system::instance()->id;
+    $cohort->name = $name;
+    $cohort->idnumber = $name;
+    $cohort->description = 'This cohort is for the UKfilmnet classroom course with a shortname of '.$name;
+    $cohort->descriptionformat = FORMAT_HTML;
+    $id = cohort_add_cohort($cohort);
 }
 
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {
