@@ -182,7 +182,6 @@ function application_approved($approved) {
                 role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
                 
                 enrol_user_this($newcourse, $applicant_user, '3');
-                //create_ukfn_cohort()
             }
         }
     }
@@ -208,6 +207,7 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     require_once($CFG->libdir.'/datalib.php');
     require_once($CFG->dirroot.'/course/externallib.php');
     require_once($CFG->dirroot.'/user/profile/lib.php');
+    require_once($CFG->dirroot.'/enrol/cohort/lib.php');
     
     $teacher = $DB->get_record('user', array('id' => $teacherid, 'auth' => 'manual'));
     profile_load_data($teacher);
@@ -262,11 +262,22 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
                                            $newcourse['fullname'], 
                                            $newcourse['shortname'], 
                                            true);
-    create_ukfn_cohort($newcourse['shortname']);
+    
+    $cohortid = create_ukfn_cohort($newcourse['shortname'], $courseinfo['id']);
+    $course_created = $DB->get_record('course', array('shortname'=>$courseinfo['shortname']));
+    // get the cohort id to pass to create_cohortsync_data
+    $data = create_cohortsync_data($courseinfo['shortname'], $cohortid);
+    //$cohort_plugin = new enrol_ukfilmnet_plugin();
+    $cohort_plugin = new enrolukfn_cohort_plugin();
+
+
+    $cohort_plugin->add_instance($course_created, $data);
+//var_dump($cohort_plugin);
+
     return $courseinfo;
 }
 
-function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
+function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'cohort') {
     global $DB;
 
     $course = $DB->get_record('course', array('shortname' => $courseinfo['shortname']), '*', MUST_EXIST);
@@ -292,12 +303,12 @@ function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
             }
             $instance = $DB->get_record('enrol', array('id' => $instanceid));
         }
-
+//var_dump($instance->enrol);
         $enrol->enrol_user($instance, $user->id, $roleid);
     }
 }
 
-function create_ukfn_cohort($name) {
+function create_ukfn_cohort($name, $courseid) {
     global $CFG;
     require_once($CFG->dirroot.'/cohort/lib.php');
 
@@ -308,6 +319,37 @@ function create_ukfn_cohort($name) {
     $cohort->description = 'This cohort is for the UKfilmnet classroom course with a shortname of '.$name;
     $cohort->descriptionformat = FORMAT_HTML;
     $id = cohort_add_cohort($cohort);
+    
+    return $id;
+}
+
+function create_cohortsync_data($name, $cohortid) {
+    $data = array('name'=>$name, 'customint1'=>$cohortid,
+                  'roleid'=>5, 'customint2'=>0);
+    return $data;
+}
+
+class enrolukfn_cohort_plugin extends enrol_plugin {
+
+    function add_instance($course, array $fields = null) {
+        global $CFG, $DB;
+
+        if (!empty($fields['customint2']) && $fields['customint2'] == COHORT_CREATE_GROUP) {
+            // Create a new group for the cohort if requested.
+            $context = context_course::instance($course->id);
+            require_capability('moodle/course:managegroups', $context);
+            $groupid = enrol_cohort_create_new_group($course->id, $fields['customint1']);
+            $fields['customint2'] = $groupid;
+        }
+
+        $result = parent::add_instance($course, $fields);
+
+        require_once("$CFG->dirroot/enrol/cohort/locallib.php");
+        $trace = new null_progress_trace();
+        enrol_cohort_sync($trace, $course->id);
+        $trace->finished();
+        return $result;
+    }
 }
 
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {

@@ -36,6 +36,7 @@ $string['students_title'] = 'Enrol Students';
 $string['verifyemail_title'] = 'Verify Email';
 $string['assurance_title'] = 'Assurance';
 $string['tracking_title'] = 'Tracking';
+$string['students_title'] = 'Students';
 
 // Subtitles/Progress Items List Descriptors
 $string['progressbox_title'] = ' Signup Progress';
@@ -185,6 +186,7 @@ $string['error_assurance_already_submitted'] = 'An Assurance Form was previously
 $string['roleallowed_range_max'] = '03';
 $string['template_course'] = 'ukfnClassroomTemplate';
 $string['course_category'] = 'Miscellaneous';
+$string['student_role_id'] = '5';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';

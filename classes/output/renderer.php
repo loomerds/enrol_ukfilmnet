@@ -90,4 +90,12 @@ class renderer extends \plugin_renderer_base {
       return $this->render_from_template('enrol_ukfilmnet/trackingpage', $data);
    }
 
+   public function render_studentspage(\templatable $studentspage) {
+
+      // Calls export_for_template function of applicantpage class in file
+      // /enrol/ukfilmnet/classes/output/applicatpage.php
+      $data = $studentspage->export_for_template($this);
+      // Calls render_from_template function of 
+      return $this->render_from_template('enrol_ukfilmnet/studentspage', $data);
+   }
 }
