@@ -155,7 +155,6 @@ class trackingpage implements \renderable, \templatable {
     }
 
     private function application_approved($approval_status, $id) {
-        //var_dump($approval_status);
         if($approval_status == 1) {
             return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
         }
@@ -163,7 +162,6 @@ class trackingpage implements \renderable, \templatable {
     }
 
     private function application_denied($denial_status, $id) {
-        //var_dump($approval_status);
         if($denial_status == 1) {
             return '<input type="checkbox" name="denied[]" value="'.$id.'" checked="checked">';
         }

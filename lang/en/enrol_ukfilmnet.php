@@ -49,6 +49,7 @@ $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 $string['tracking_subheading'] = 'Track Application Progress';
+$string['students_subheading'] = 'Enrol Students';
 
 // Input Labels
 $string['applicant_current_role'] = 'Current role';
@@ -115,6 +116,7 @@ To that end, below please enter the School Email Address of your employee and As
 </br>';
 
 $string['tracking_instructions'] = 'Some tracking instructions may go here.';
+$string['students_instructions'] = 'Some enrolment instructions may go here';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role...';
@@ -149,6 +151,11 @@ $string['school_name_instruction'] = 'Choose a school...';
 $string['school1'] = 'Bob White Academy';
 $string['school2'] = 'Den of Thieves College Prep School';
 
+// Student Discriptors
+$string['student_email'] = 'Student email';
+$string['student_firstname'] = 'Student first name';
+$string['student_familyname'] = 'Student family name';
+
 // Button Labels
 $string['button_next'] = 'Next';
 $string['button_submit'] = 'Submit';
@@ -181,6 +188,9 @@ $string['error_missing_qtsnumber'] = 'Missing QTS number';
 $string['error_missing_assurance_form'] = 'You must upload the Assurance/Reference Form';
 $string['error_employee_email_assurance_code_mismatch'] = 'The Employee email isn\'t for this Assurance code';
 $string['error_assurance_already_submitted'] = 'An Assurance Form was previously submitted</br> for this employee';
+$string['error_missing_student_email'] = 'Missing student email address';
+$string['error_missing_student_firstname'] ='Missing student first name';
+$string['error_missing_student_familyname'] = 'Missing student family name';
 
 // String variables
 $string['roleallowed_range_max'] = '03';

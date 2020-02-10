@@ -154,6 +154,47 @@
     margin-right: auto;
 }
 
+/*.row .ukfn_enrol_col {
+    width: 30%;
+    display: inline-block;
+}
+
+#id_student_email,
+#id_student_firstname,
+#id_student_familyname {
+    width: 30%;
+}*/
+/*div#fitem_id_student_email.form-group.row.fitem.femptylabel.ukfn_student_email.ukfn_enrol_col,
+div#fitem_id_student_email.form-group.row.fitem.femptylabel.ukfn_student_firstname.ukfn_enrol_col,
+div#fitem_id_student_email.form-group.row.fitem.femptylabel.ukfn_student_familyname.ukfn_enrol_col
+
+#fitem_id_student_email.ukfn_enrol_col, 
+#fitem_id_student_firstname.ukfn_enrol_col, 
+#fitem_id_student_familyname.ukfn_enrol_col {
+    width: 30%;
+    display: inline-block;
+   
+}
+
+.ukfn_enrol_col {
+    width: 30% !important;
+    display: inline-block;
+}
+
+.ukfn_enrol_col .col-md-3 {
+    display: none;
+}
+
+.ukfn_enrol_col .col-md-9 {
+    padding: 0px;
+}
+
+#ukfn_student_enrol_form {
+    width: 100%;
+}
+*/
+
+
 /* help tips begin*/
 .help-tip{
     position: absolute;

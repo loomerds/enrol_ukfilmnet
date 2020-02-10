@@ -45,7 +45,7 @@ $studentspage = new \enrol_ukfilmnet\output\studentspage();
 echo $output->render_studentspage($studentspage);
 
 echo $output->footer();
-if($SESSION->assurance_info_complete === true){
+/*if($SESSION->assurance_info_complete === true){
     $SESSION->assurance_info_complete === false;
     echo "<script>location.href='index.php'</script>";
-}  
+} */ 
