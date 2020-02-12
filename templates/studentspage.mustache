@@ -31,7 +31,7 @@
     Example content (json):
 
 }}
-
+<form action="../ukfilmnet/students.php" method="post">
 <h3 class='ukfn_enrol_page_title'>{{#str}}plugin_heading, enrol_ukfilmnet{{/str}}</h3>
 <div class='ukfn_enrol_main'>
     <div id='' class='ukfn_progress_list_area'>
@@ -46,7 +46,7 @@
             <p class='item_current'>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
         </div>
     </div>
-    <div class='ukfn_safeguarding_section'>
+    <div class='ukfn_applicantinfo_section'>
         <h4 class='ukfn_applicant_subheading one_panel'>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</h4>
         <div class='ukfn_applicant_content'>
             <p>{{#str}}students_instructions, enrol_ukfilmnet{{/str}}</p>
@@ -58,60 +58,24 @@
                             <th class="header ukfn_text_center" scope="col">{{title0}}</th>
                             <th class="header ukfn_text_center" scope="col">{{title1}}</th>
                             <th class="header ukfn_text_center" scope="col">{{title2}}</th>
-                            <th class="header ukfn_text_center" scope="col">{{title3}}</th>
-                            <th class="header ukfn_text_center" scope="col">{{title4}}</th>
+                            {{{extra_header_cols}}}
                         {{/headings}}                
                     </tr>
                 </thead>
                 <tbody>
                     {{#rows}}
-                        <!--<tr>
-                            <td class="cell ukfn_text_center" scope="col">
-                                {{{applicationapproved}}}
+                        <tr>
+                            <td class="cell ukfn_text_center ukfn_enrol_col" scope="col">
+                                {{{student_email}}}
                             </td>
-                            <td class="cell ukfn_text_center" scope="col">
-                                {{{applicationdenied}}}
+                            <td class="cell ukfn_text_center ukfn_enrol_col" scope="col">
+                                {{{student_firstname}}}
                             </td>
-                            <td class="cell ukfn_text_center" scope="col">{{applicationprogress}}
-                            <div class="help-tip">
-                                <p class="tracking_progress_tip"><span class='tip_header'>
-                                {{#str}}signup_progress_1, enrol_ukfilmnet{{/str}}<br>
-                                {{#str}}signup_progress_2, enrol_ukfilmnet{{/str}}<br>
-                                {{#str}}signup_progress_3, enrol_ukfilmnet{{/str}}<br>
-                                {{#str}}signup_progress_4, enrol_ukfilmnet{{/str}}<br>
-                                {{#str}}signup_progress_5, enrol_ukfilmnet{{/str}}<br>
-                                {{#str}}signup_progress_6, enrol_ukfilmnet{{/str}}<br>
-                            </div>    
+                            <td class="cell ukfn_text_center ukfn_enrol_col" scope="col">
+                                {{{student_familyname}}}
                             </td>
-                        
-                        <td class="cell ukfn_text_center" scope="col">{{currentrole}}
-                            <div class="help-tip">
-                                <p class="tracking_role_tip"><span class='tip_header'>
-                                <strong>Current Roles</strong></span><br>
-                                    {{#str}}applicant_role_ukteacher, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_teacherbsa, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_uksupplyteacher, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_instructor18plus, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_instructor17minus, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_student17minus, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_student18plus, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_industryprofessional, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_educationconsultant, enrol_ukfilmnet{{/str}}<br>
-                                    {{#str}}applicant_role_parentguardian, enrol_ukfilmnet{{/str}}<br>
-                                </p>
-                            
-                            </div>
-                        </td>
-                        <td class="cell ukfn_text_center" scope="col">{{familyname}}, {{firstname}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{email}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{schoolcountry}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{schoolname}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{contact_firstname}} {{contact_familyname}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{contact_phone}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{contact_email}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{{assurancedoc}}}</td>
-                        <td class="cell ukfn_text_center" scope="col">{{assurancesubmissiondate}}</td>
-                        </tr>-->
+                            {{{extra_row_cols}}}
+                    </tr>
                     {{/rows}}
                 </tbody>
                 </table>
@@ -122,3 +86,4 @@
         </div>
     </div>
 </div>
+</form>

@@ -76,7 +76,6 @@ class applicantpage implements \renderable, \templatable {
 
             $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
             $user = create_applicant_user($newuser, $password);
-//var_dump(get_user_roles(context_system::instance()));
 
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
             $SESSION->applicant_info_complete = true;

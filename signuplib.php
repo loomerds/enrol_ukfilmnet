@@ -99,6 +99,67 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     return $user;
 }
 
+function create_student_user($studenttinfo, $password, $auth = 'manual') {
+    global $CFG, $DB;
+    require_once($CFG->dirroot.'/user/profile/lib.php');
+    require_once($CFG->dirroot.'/user/lib.php');
+    require_once($CFG->dirroot.'/lib/accesslib.php');
+    require_once($CFG->dirroot.'/lib/moodlelib.php');
+    
+
+    $username = trim(core_text::strtolower($studentinfo->username));
+    $authplugin = get_auth_plugin($auth);
+    //$customfields = $authplugin->get_custom_user_profile_fields();
+    $newuser = new stdClass();
+    
+    if (!empty($newuser->email)) {
+        if (email_is_not_allowed($newuser->email)) {
+            unset($newuser->email);
+        }
+    }
+    if (!isset($newuser->city)) {
+        $newuser->city = '';
+    }
+    
+    $newuser->auth = $auth;
+    $newuser->username = $username;
+    $newuser->email = $studentinfo->email;
+    $newuser->firstname = $studentinfo->firstname;
+    $newuser->lastname = $studentinfo->lastname;
+
+    if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
+        $newuser->lang = $CFG->lang;
+    }
+    $newuser->confirmed = 1;
+    $newuser->lastip = getremoteaddr();
+    $newuser->timecreated = time();
+    $newuser->timemodified = $newuser->timecreated;
+    $newuser->mnethostid = $CFG->mnet_localhost_id;
+     
+    $newuser->id = user_create_user($newuser, false);
+    // Save user profile data.
+    //profile_save_data($newuser);
+
+    //$applicantrole = $DB->get_record('role', array('shortname'=>'applicant'));
+    //$systemcontext = context_system::instance();
+    //$usercontext = context_user::instance($newuser->id);
+  
+    //role_assign($applicantrole->id, $newuser->id, $systemcontext->id);
+    //role_assign($applicantrole->id, $newuser->id, $usercontext->id);
+
+    $user = get_complete_user_data('id', $newuser->id);
+    set_user_preference('auth_forcepasswordchange', 0, $user);
+
+    // Set the password.
+    update_internal_user_password($user, $password);
+
+    return $user;
+}
+
+function process_students($students) {
+    var_dump($students);
+}
+
 function make_username($email) {
     return substr($email,0,stripos($email,'@',0));
 }

@@ -28,15 +28,18 @@ global $SESSION, $USER;
 
 //$SESSION->assurance_info_complete = false;
 
-require_login();
+
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
+require_login();
+if(!empty($_POST['student_email'])) {
+    process_students($_POST);
+}
+
 $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
-
 $PAGE->navbar->add('Enrol students');
-
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();

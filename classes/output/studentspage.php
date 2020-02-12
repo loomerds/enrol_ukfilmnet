@@ -28,6 +28,9 @@ namespace enrol_ukfilmnet\output;
 defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
+use context_class;
+//use core_cohort_external;
+
 require_once('studentsform.php');
 require_once('signuplib.php');
 
@@ -49,22 +52,110 @@ class studentspage implements \renderable, \templatable {
     public function get_students_content() {
 
         global $CFG, $DB, $USER;
+        require_once($CFG->dirroot.'/lib/accesslib.php');
+        require_once($CFG->dirroot.'/cohort/externallib.php');
         
-        $cohort = ['Loom-0', 'Loom-1'];
-        $courses = $DB->get_records('user_enrolments', array('userid'=>$USER->id));
-var_dump($courses);
-var_dump($courses[''])
+        $cohort_names = $this->get_teacher_cohort_names();
+        //$cohort_length = count($cohort);
         $studentsdata = [];
-        $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name', 'title3'=>$cohort[0], 'title4'=>$cohort[1]);
-        //$headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
+        //$headings = create_enrol_students_table_header_array($cohort);
+
+        $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
+        
+        //$cohort_members = \core_corhort_external::get_cohort_members($cohort);
+        $cohorts = $DB->get_records('cohort');
+        $teacher_cohorts = [];
+        foreach($cohorts as $cohort){
+            if(in_array($cohort->idnumber, $cohort_names)) {
+                $teacher_cohorts[] = $cohort;
+            }
+        }
+var_dump($teacher_cohorts);
+        $all_cohorts = $DB->get_records('cohort', array('idnumber'=>$cohort_names[0]));
 
         $rows = [];
+        $students = $DB->get_records('user', array('deleted'=>0)); 
+        
+        foreach($students as $student) {
+            //profile_load_data($student);
+            // check to see if there are any users teacher's courses yet
+            //$DB->get_records('cohort_members')
+            if(true) {
+                $rows[] = ['userid'=>'',
+                           'student_email'=>$this->create_student_email_input('fred2@someschool.edu'),
+                           'student_firstname'=>$this->create_student_firstname_input('Fred'),
+                           'student_familyname'=>$this->create_student_familyname_input('Ferd')];
+            }
+        }
 
+        $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
+                         'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
+                         'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
+        
+        
+        return $studentsdata;
+        
+    }
 
-        $studentsdata = ['headings'=>$headings, 'rows'=>$rows];
-        //$studentsdata = ['headings'=>$headings];
+    function get_teacher_cohort_names() {
+        global $CFG, $DB, $USER;
+        require_once($CFG->dirroot.'/lib/accesslib.php');
 
-        /*$studentsinput = '';
+        $courses = get_courses();
+        $cohort_names = [];
+        //$context = context_system::instance();
+        $capacity = 'enrol/manual:manage';
+        foreach($courses as $course) {
+            $context = \context_course::instance($course->id);
+            if(is_enrolled($context, $USER, $capacity)) {
+                $cohort_names[] = $course->shortname;
+            }
+        }
+        return $cohort_names;
+    }
+
+    function make_extra_header_cols($cohort_names) {
+        $extra_header_cols = '';
+        $cohort_length = count($cohort_names);
+        $count = 0;
+        while($count < $cohort_length) {
+            $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th>';
+            $count++;
+        }
+        return $extra_header_cols;
+    }
+
+    function make_extra_row_cols($cohort_names) {
+        $extra_row_cols = '';
+        $cohort_length = count($cohort_names);
+        $count = 0;
+        while($count < $cohort_length) {
+            $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$count].'[]" value="'.'"></td>';
+            $count++;
+        }
+        return $extra_row_cols;
+    }
+
+    function create_student_email_input($student_email) {
+        
+        return '<input type="text" name="student_email[]" value="'.$student_email.'">';
+    
+    }
+
+    function create_student_firstname_input($student_firstname) {
+        return '<input type="text" name="student_firstname[]" value="'.$student_firstname.'">';
+
+    }
+
+    function create_student_familyname_input($student_familyname) {
+        return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
+
+    }
+    
+    /*
+    //$studentsdata = ['headings'=>$headings];
+
+        $studentsinput = '';
         $mform = new students_form();
 
         //Form processing and displaying is done here
@@ -114,9 +205,6 @@ var_dump($courses[''])
                 $applicant_user->profile_field_assurancedoc = $filename;
                 profile_save_data($applicant_user);
             }
-
-            
-
               
             //$verified_user = applicant_login($applicant_user->username, $applicant_user->password);
         } else {
@@ -128,9 +216,6 @@ var_dump($courses[''])
             $mform->set_data($toform);
             //displays the form
             $studentsinput = $mform->render();
-        }*//**/
-        return $studentsdata;
-        
-    }
+        }*/
 
 }
