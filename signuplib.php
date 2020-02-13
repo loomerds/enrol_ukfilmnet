@@ -156,8 +156,48 @@ function create_student_user($studenttinfo, $password, $auth = 'manual') {
     return $user;
 }
 
-function process_students($students) {
-    var_dump($students);
+function print_r2($val){
+    
+    echo '<pre>';
+    print_r($val);
+    echo  '</pre>';
+}
+
+function process_students($datum) {
+    // traverse $students and in any array index that is not student_email, student_firstname, or student_familyname
+    // if a value in the nested array at that index is not '0' we need to remove the next key/value pair
+    $count = 0;
+    
+    foreach($datum as &$data) {
+        
+        $r=0;
+        if($count>2) {
+            while($r<count($data)) {
+                if(strlen($data[$r]) > 2) {
+                    unset($data[$r+1]);
+                    $data = array_values($data);
+                    $r++;
+                } else {
+                    $r++;
+                }   
+            }
+            
+        }
+        
+        $count++;
+    }
+    print_r2($datum);   
+    
+    $students = [];
+
+    $count = 0;
+
+    foreach($datum as $data) {
+
+        while($count<count($data)) {
+            //for($)
+        }
+    }
 }
 
 function make_username($email) {
@@ -228,8 +268,8 @@ function application_approved($approved) {
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
             if($applicant_user->profile_field_applicationprogress == '4') {
-                $applicant_user->profile_field_applicationapproved = '1';
-                $applicant_user->profile_field_applicationprogress = '5';
+                //$applicant_user->profile_field_applicationapproved = '1';
+                //$applicant_user->profile_field_applicationprogress = '5';
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
                 $newcourse = create_classroom_course_from_teacherid($userid, 

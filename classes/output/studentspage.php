@@ -34,6 +34,7 @@ use context_class;
 require_once('studentsform.php');
 require_once('signuplib.php');
 
+
 // This is a Template Class it collects/creates the data for a template
 class studentspage implements \renderable, \templatable {
 
@@ -53,9 +54,9 @@ class studentspage implements \renderable, \templatable {
 
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot.'/lib/accesslib.php');
-        require_once($CFG->dirroot.'/cohort/externallib.php');
+        require_once($CFG->dirroot.'/cohort/lib.php');
         
-        $cohort_names = $this->get_teacher_cohort_names();
+        $cohort_names = $this->get_teacher_cohort_names(); //this actually gets course shortnames, same strings
         //$cohort_length = count($cohort);
         $studentsdata = [];
         //$headings = create_enrol_students_table_header_array($cohort);
@@ -64,28 +65,33 @@ class studentspage implements \renderable, \templatable {
         
         //$cohort_members = \core_corhort_external::get_cohort_members($cohort);
         $cohorts = $DB->get_records('cohort');
-        $teacher_cohorts = [];
+        $teacher_cohorts = []; // this will hold an array of cohort objects for this teacher's courses
         foreach($cohorts as $cohort){
             if(in_array($cohort->idnumber, $cohort_names)) {
-                $teacher_cohorts[] = $cohort;
+                $teacher_cohorts[] = $cohort; 
             }
         }
-var_dump($teacher_cohorts);
-        $all_cohorts = $DB->get_records('cohort', array('idnumber'=>$cohort_names[0]));
+
+//var_dump($teacher_cohorts);
+        //$all_cohorts = $DB->get_records('cohort', array('idnumber'=>$cohort_names[0]));
 
         $rows = [];
         $students = $DB->get_records('user', array('deleted'=>0)); 
         
-        foreach($students as $student) {
+        //foreach($students as $student) {
+        $rowsnum = 5;
+        $count = 0;
+        while($rowsnum > $count) {
             //profile_load_data($student);
             // check to see if there are any users teacher's courses yet
             //$DB->get_records('cohort_members')
             if(true) {
                 $rows[] = ['userid'=>'',
-                           'student_email'=>$this->create_student_email_input('fred2@someschool.edu'),
-                           'student_firstname'=>$this->create_student_firstname_input('Fred'),
-                           'student_familyname'=>$this->create_student_familyname_input('Ferd')];
+                           'student_email'=>$this->create_student_email_input(null),
+                           'student_firstname'=>$this->create_student_firstname_input(null),
+                           'student_familyname'=>$this->create_student_familyname_input(null)];
             }
+            $count++;
         }
 
         $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
@@ -129,8 +135,9 @@ var_dump($teacher_cohorts);
         $extra_row_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
+        //$unique_value = 'zagnuthost';
         while($count < $cohort_length) {
-            $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$count].'[]" value="'.'"></td>';
+            $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$count].'[]" value="'.$cohort_names[$count].'"><input type="hidden" name="'.$cohort_names[$count].'[]" value="0"></td>';
             $count++;
         }
         return $extra_row_cols;

@@ -22,9 +22,11 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+global $SESSION, $USER, $DB;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
-global $SESSION, $USER;
+require_once($CFG->dirroot.'/cohort/lib.php');
+
 
 //$SESSION->assurance_info_complete = false;
 
@@ -34,10 +36,12 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
 require_login();
-if(!empty($_POST['student_email'])) {
+if(!empty($_POST)) {
+//var_dump('arrived here');
     process_students($_POST);
 }
-
+//$variable = cohort_get_cohorts(context_system::instance());
+//var_dump($variable);
 $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
 $PAGE->navbar->add('Enrol students');
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
