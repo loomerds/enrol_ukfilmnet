@@ -36,10 +36,13 @@ require_once("$CFG->libdir/formslib.php");
 //use core_string_manager_standard;
 
 class school_form extends \moodleform {
+    
+    
     //Add elements to form
     public function definition() {
         global $CFG;
         //require_once('../../lib/classes/string_manager.php');
+print_r2($this->create_school_name_select_list());
 
         $mform = $this->_form; 
         //$school_country = ['0'=>get_string('country_instruction', 'enrol_ukfilmnet')]
@@ -98,5 +101,12 @@ class school_form extends \moodleform {
         }
         
         return $errors;
+    }
+
+    function create_school_name_select_list() {
+        $schools_list = get_array_from_json_file('schools_selector_list_array.txt');
+        
+
+        print_r2($schools_list);
     }
 }

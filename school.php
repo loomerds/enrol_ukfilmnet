@@ -22,9 +22,14 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(__DIR__ . '/../../config.php');
-require_login();
 global $USER;
+require(__DIR__ . '/../../config.php');
+require_once('./signuplib.php');
+//require_once('./classes/output/schoolform.php');
+//$schoolform = new school_form();
+
+require_login();
+
 
 profile_load_data($USER);
 
@@ -35,6 +40,7 @@ $PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
 $PAGE->navbar->add('School info');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
+//print_r2($schoolform.create_school_name_select_list());
 echo $output->header();
 
 $schoolpage = new \enrol_ukfilmnet\output\schoolpage(null);

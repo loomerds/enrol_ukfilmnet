@@ -46,7 +46,6 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
     
-
     $username = trim(core_text::strtolower($applicantinfo->username));
     $authplugin = get_auth_plugin($auth);
     $customfields = $authplugin->get_custom_user_profile_fields();
@@ -99,22 +98,21 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     return $user;
 }
 
-function create_student_user($studenttinfo, $password, $auth = 'manual') {
+function create_student_user($studentinfo, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/user/lib.php');
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
-    
-
-    $username = trim(core_text::strtolower($studentinfo->username));
+//print_r2($studentinfo);
+    $password = make_random_password();
+    $username = trim(core_text::strtolower(make_username($studentinfo->student_email)));
     $authplugin = get_auth_plugin($auth);
-    //$customfields = $authplugin->get_custom_user_profile_fields();
     $newuser = new stdClass();
     
-    if (!empty($newuser->email)) {
-        if (email_is_not_allowed($newuser->email)) {
-            unset($newuser->email);
+    if (!empty($newuser->student_email)) {
+        if (email_is_not_allowed($newuser->student_email)) {
+            unset($newuser->student_email);
         }
     }
     if (!isset($newuser->city)) {
@@ -123,9 +121,9 @@ function create_student_user($studenttinfo, $password, $auth = 'manual') {
     
     $newuser->auth = $auth;
     $newuser->username = $username;
-    $newuser->email = $studentinfo->email;
-    $newuser->firstname = $studentinfo->firstname;
-    $newuser->lastname = $studentinfo->lastname;
+    $newuser->email = $studentinfo->student_email;
+    $newuser->firstname = $studentinfo->student_firstname;
+    $newuser->lastname = $studentinfo->student_familyname;
 
     if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
         $newuser->lang = $CFG->lang;
@@ -135,18 +133,7 @@ function create_student_user($studenttinfo, $password, $auth = 'manual') {
     $newuser->timecreated = time();
     $newuser->timemodified = $newuser->timecreated;
     $newuser->mnethostid = $CFG->mnet_localhost_id;
-     
     $newuser->id = user_create_user($newuser, false);
-    // Save user profile data.
-    //profile_save_data($newuser);
-
-    //$applicantrole = $DB->get_record('role', array('shortname'=>'applicant'));
-    //$systemcontext = context_system::instance();
-    //$usercontext = context_user::instance($newuser->id);
-  
-    //role_assign($applicantrole->id, $newuser->id, $systemcontext->id);
-    //role_assign($applicantrole->id, $newuser->id, $usercontext->id);
-
     $user = get_complete_user_data('id', $newuser->id);
     set_user_preference('auth_forcepasswordchange', 0, $user);
 
@@ -157,19 +144,15 @@ function create_student_user($studenttinfo, $password, $auth = 'manual') {
 }
 
 function print_r2($val){
-    
     echo '<pre>';
     print_r($val);
     echo  '</pre>';
 }
 
 function process_students($datum) {
-    // traverse $students and in any array index that is not student_email, student_firstname, or student_familyname
-    // if a value in the nested array at that index is not '0' we need to remove the next key/value pair
     $count = 0;
     
     foreach($datum as &$data) {
-        
         $r=0;
         if($count>2) {
             while($r<count($data)) {
@@ -181,21 +164,65 @@ function process_students($datum) {
                     $r++;
                 }   
             }
-            
         }
-        
         $count++;
     }
-    print_r2($datum);   
+    unset($data);
     
-    $students = [];
+    $students = array();
+    foreach($datum as $key => $data) {
+        foreach($data as $s_key => $s_data) {
+            $students[$s_key][$key] = $s_data;
+        }
+    }
+    unset($data);
+    unset($s_data);
 
-    $count = 0;
+    foreach($students as $key => $student) {
+        if(strlen($student['student_email']) < 2 or $student['student_email'] === null) {
+            unset($students[$key]);
+                    } 
+    } 
+    $students = array_values($students);
+//print_r2($students);
 
-    foreach($datum as $data) {
+    foreach($students as $student) {
+        create_student_user((object)$student);
+    }
 
-        while($count<count($data)) {
-            //for($)
+    add_to_cohort($students);
+}
+
+function add_to_cohort($studentinputs) {
+    global $CFG, $DB;
+    require_once($CFG->dirroot.'/cohort/lib.php');    
+    
+    foreach ($studentinputs as $input) {
+        $cohort_idnumbers = [];
+        
+        $user;
+        $count = 0;
+        
+        foreach($input as $item) {
+            
+            if($count == 0) {
+                $user = $DB->get_record('user', array('email'=>$item));
+                $count++;
+            }elseif($count < 3) {
+                $count++;
+            }else{
+                if(strlen($item) > 1) {
+                    $cohort_idnumbers[] = $item;
+                }
+            }
+        }
+
+        foreach($cohort_idnumbers as $idnumber) {
+            $target_cohort = $DB->get_record('cohort', array('idnumber'=>$idnumber));    
+
+            if(isset($target_cohort)) {
+                cohort_add_member($target_cohort->id, $user->id);
+            }
         }
     }
 }
@@ -268,8 +295,8 @@ function application_approved($approved) {
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
             if($applicant_user->profile_field_applicationprogress == '4') {
-                //$applicant_user->profile_field_applicationapproved = '1';
-                //$applicant_user->profile_field_applicationprogress = '5';
+                $applicant_user->profile_field_applicationapproved = '1';
+                $applicant_user->profile_field_applicationprogress = '5';
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
                 $newcourse = create_classroom_course_from_teacherid($userid, 
@@ -451,6 +478,40 @@ class enrolukfn_cohort_plugin extends enrol_plugin {
         $trace->finished();
         return $result;
     }
+}
+
+function create_array_from_csv($csvfile, $save_filename) {
+    global $CFG;
+
+    $csvfile = file($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$csvfile);
+    $data = [];
+    foreach($csvfile as $line) {
+        $data[] = str_getcsv($line);
+    } 
+    $target = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename, 'w');
+    if($target) {
+        fputs($target, json_encode($data));
+    }  
+    fclose($target);
+    
+    // For testing only
+    $target_array = [];
+    $target_string = file_get_contents($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename);
+    if($target_string) {
+        $target_array[] = json_decode($target_string, true);
+    }
+    //print_r2($target_array);
+}
+
+function get_array_from_json_file($save_filename) {
+    global $CFG;
+
+    $target_array = [];
+    $target_string = file_get_contents($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename);
+    if($target_string) {
+        $target_array[] = json_decode($target_string, true);
+    }
+    return $target_array;
 }
 
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {
