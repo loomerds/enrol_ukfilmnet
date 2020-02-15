@@ -41,31 +41,28 @@ class school_form extends \moodleform {
     //Add elements to form
     public function definition() {
         global $CFG;
-        //require_once('../../lib/classes/string_manager.php');
-print_r2($this->create_school_name_select_list());
-
+       
         $mform = $this->_form; 
-        //$school_country = ['0'=>get_string('country_instruction', 'enrol_ukfilmnet')]
-        //$countries = core_string_manager::get_list_of_countries();
-        //$countries = new core_string_manager();
-        //$school_country = $countries->get_list_of_countries();
-        //var_dump($countries);
-
-        $school_name = ['0'=>get_string('school_name_instruction', 'enrol_ukfilmnet'),
-                        '01'=>get_string('school1', 'enrol_ukfilmnet'),
-                        '02'=>get_string('school2', 'enrol_ukfilmnet')];
-        $mform->addElement('select', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_name, ['class'=>'ukfn-school-name']);
-        $mform->addRule('school_name', null, 'required', null, 'server');
-
         $school_country = get_string_manager()->get_list_of_countries();
         $selectcountry = $mform->addElement('select', 'school_country', get_string('school_country_label', 'enrol_ukfilmnet'), $school_country, ['class'=>'ukfn-school-country']);
         $selectcountry->setSelected('GB');
         $mform->addRule('school_country', null, 'required', null, 'server');
-        $mform->addElement('checkbox', 'school_consent_to_contact', get_string('consent_to_contact', 'enrol_ukfilmnet'));
-        $mform->setDefault('school_consent_to_contact', 0);
-        $mform->addRule('school_consent_to_contact', null, 'required', null, 'server');
-        
-        $mform->addElement('static', 'contact_info_label', get_string('contact_info_label', 'enrol_ukfilmnet'), get_string('contact_info_label', 'enrol_ukfilmnet', null));
+
+        /*$school_names = ['0'=>get_string('school_name_instruction', 'enrol_ukfilmnet'),
+                        '01'=>get_string('school1', 'enrol_ukfilmnet'),
+                        '02'=>get_string('school2', 'enrol_ukfilmnet')];*/
+       //$searchareas = \core_search\manager::get_search_areas_list(true);
+    $school_names = $this->create_school_name_select_list();
+
+
+//print_r2($school_names);
+        $options = [
+            'multiple' => false, 
+            'showsuggestions' => true,
+            'tags' => false,
+            'ajax' => '']; 
+        $mform->addElement('autocomplete', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, $options); 
+        $mform->addElement('static', '', get_string('contact_info_label', 'enrol_ukfilmnet', null));
         $mform->addElement('text', 'contact_firstname', get_string('contact_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20']);
         $mform->setType('contact_firstname', PARAM_TEXT);
         $mform->addRule('contact_firstname', get_string('error_missing_contact_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
@@ -80,6 +77,9 @@ print_r2($this->create_school_name_select_list());
         $mform->addRule('contact_phone', get_string('error_missing_contact_phone', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('hidden', 'role', null);
         $mform->setType('role', PARAM_ACTION);
+        $mform->addElement('checkbox', 'school_consent_to_contact', get_string('consent_to_contact', 'enrol_ukfilmnet'));
+        $mform->setDefault('school_consent_to_contact', 0);
+        $mform->addRule('school_consent_to_contact', null, 'required', null, 'server');
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here
@@ -104,9 +104,28 @@ print_r2($this->create_school_name_select_list());
     }
 
     function create_school_name_select_list() {
-        $schools_list = get_array_from_json_file('schools_selector_list_array.txt');
-        
+        $schools_list_raw = get_array_from_json_file('schools_selector_list_array.txt');
+        //print_r2($schools_list_raw);
+        $schools_list = [];
+        $count = 0;
+        foreach($schools_list_raw as $raw) {
+//print_r2($schools_list_raw);
+            foreach($raw as $ra) {
 
-        print_r2($schools_list);
+                if($count > 1 and strlen($ra[0]) > 7) {
+                    $key = $ra[0];
+                    //settype($key, "string");
+                    $val = $ra[1];
+                    //settype($val, "string");
+                    $schools_list += [$val=>$val];
+                }
+//print_r2($val);                
+                $count++;
+            }
+                
+        }
+//print_r2($schools_list);
+        return $schools_list;
+        //print_r2($schools_list);
     }
 }
