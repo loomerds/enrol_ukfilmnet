@@ -64,18 +64,23 @@ class schoolpage implements \renderable, \templatable {
             
             profile_load_data($USER);
             $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
-            $USER->profile_field_schoolname = $form_data->school_name;
+            $USER->profile_field_ukprn = $form_data->ukprn[0];
+
+            $USER->profile_field_schoolname = get_schoolname($form_data->ukprn);
+//print_r2(get_schoolname($form_data->ukprn));
             $USER->profile_field_schoolcountry = $form_data->school_country;
             $USER->profile_field_safeguarding_contact_firstname = $form_data->contact_firstname;
             $USER->profile_field_safeguarding_contact_familyname = $form_data->contact_familyname;
             $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
             $USER->profile_field_assurancecode = generate_random_verification_code();
-            $USER->profile_field_applicationprogress = 4;
+        //$USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
 
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
-            $schoolname = $form_data->school_name;
+            $ukprn = $form_data->ukprn;
+            $schoolname = $USER->profile_field_ukprn;
+//print_r2($schoolname);
             $schoolcountry = $form_data->school_country;
             $contact_firstname = $form_data->contact_firstname;
             $contact_familyname = $form_data->contact_familyname;
@@ -85,7 +90,8 @@ class schoolpage implements \renderable, \templatable {
             $assurance_code = $USER->profile_field_assurancecode;
             $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
             $contact_user = create_applicant_user($newuser, 'make_random_password');
-            $emailvariables = (object) array('schoolname'=>$schoolname, 
+            $emailvariables = (object) array('schoolname_ukprn'=>$ukprn, 
+                                             'schoolname'=>$schoolname,
                                              'schoolcountry'=>$schoolcountry, 
                                              'contact_firstname'=>$contact_firstname,
                                              'contact_familyname'=>$contact_familyname,

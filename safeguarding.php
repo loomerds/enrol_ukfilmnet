@@ -22,17 +22,22 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(__DIR__ . '/../../config.php');
-require_login();
 global $USER;
-profile_save_data($USER);
+require(__DIR__ . '/../../config.php');
+require_once('./signuplib.php');
+
+require_login();
+//profile_save_data($USER);
+profile_load_data($USER);
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '4');
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/safeguarding.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('safeguarding_title', 'enrol_ukfilmnet'));
 
-$PAGE->navbar->add('Safeguarding');
+//$PAGE->navbar->add('Safeguarding');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 

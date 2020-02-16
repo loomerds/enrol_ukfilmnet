@@ -81,8 +81,7 @@ class applicantpage implements \renderable, \templatable {
             $SESSION->applicant_info_complete = true;
             
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
             $SESSION->applicant_info_complete = false;
             //Set default data (if any)

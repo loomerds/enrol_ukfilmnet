@@ -23,14 +23,23 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-global $SESSION;
+global $SESSION, $USER;
+require_once('./signuplib.php');
+
+require_login();
+
+
+profile_load_data($USER);
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '2');
+
 
 $SESSION->email_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
-$PAGE->navbar->add('Verify email');
+//$PAGE->navbar->add('Verify email');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 

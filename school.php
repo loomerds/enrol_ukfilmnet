@@ -29,15 +29,15 @@ require_once('./signuplib.php');
 //$schoolform = new school_form();
 
 require_login();
-
-
 profile_load_data($USER);
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '3');
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
-$PAGE->navbar->add('School info');
+//$PAGE->navbar->add('School info');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 //print_r2($schoolform.create_school_name_select_list());

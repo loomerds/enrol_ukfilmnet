@@ -57,11 +57,15 @@ class school_form extends \moodleform {
 
 //print_r2($school_names);
         $options = [
-            'multiple' => false, 
+            'multiple' => true, 
+            'placeholder' => 'Click the arrow for a list',
             'showsuggestions' => true,
             'tags' => false,
             'ajax' => '']; 
-        $mform->addElement('autocomplete', 'school_name', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, $options); 
+        $mform->addElement('autocomplete', 'ukprn', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, $options); 
+        /*$mform->addElement('select', 'ukprn', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, ['class'=>'ukfn_school_name']);*/
+        $mform->setType('ukprn', PARAM_TEXT);
+        $mform->addRule('ukprn', get_string('error_missing_schoolname', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('static', '', get_string('contact_info_label', 'enrol_ukfilmnet', null));
         $mform->addElement('text', 'contact_firstname', get_string('contact_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20']);
         $mform->setType('contact_firstname', PARAM_TEXT);
@@ -87,8 +91,8 @@ class school_form extends \moodleform {
         //var_dump($stdClass);
         $errors = parent::validation($data, $files);
         
-        if($data['school_name'] === '0') {
-            $errors['school_name'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
+        if($data['ukprn'] === '0') {
+            $errors['ukprn'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
         }
         /*if($data['school_country'] === '0') {
             $errors['school_country'] = get_string('error_missing_country', 'enrol_ukfilmnet');
@@ -110,6 +114,7 @@ class school_form extends \moodleform {
         $count = 0;
         foreach($schools_list_raw as $raw) {
 //print_r2($schools_list_raw);
+            //$key = 0;
             foreach($raw as $ra) {
 
                 if($count > 1 and strlen($ra[0]) > 7) {
@@ -117,7 +122,8 @@ class school_form extends \moodleform {
                     //settype($key, "string");
                     $val = $ra[1];
                     //settype($val, "string");
-                    $schools_list += [$val=>$val];
+                    $schools_list += [$key=>$val];
+                    //$key++;
                 }
 //print_r2($val);                
                 $count++;
@@ -126,6 +132,5 @@ class school_form extends \moodleform {
         }
 //print_r2($schools_list);
         return $schools_list;
-        //print_r2($schools_list);
     }
 }

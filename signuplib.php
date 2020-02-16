@@ -514,6 +514,48 @@ function get_array_from_json_file($save_filename) {
     return $target_array;
 }
 
+function force_progress($application_progress, $current_page) {
+    switch($application_progress) {
+        case '2':
+            if($current_page != '2') {    
+                echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
+            }
+            break;
+        case '3':
+            if($current_page != '3') {  
+                echo "<script>location.href='/enrol/ukfilmnet/school.php'</script>";
+            }
+            break;
+        case '4':
+            if($current_page != '4') {  
+                echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
+            }
+            break;
+        case '5':
+            if($current_page != '5') {  
+                echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
+            }
+            break;
+        default:
+            echo "<script>location.href='/enrol/ukfilmnet/applicant.php'</script>";
+    }
+}
+
+function get_schoolname($target_ukprn) {
+
+    $target = $target_ukprn[0];
+    $ukprns = get_array_from_json_file('schools_selector_list_array.txt');
+
+    $schoolname = '';
+    foreach($ukprns as $ukprn) {
+        foreach($ukprn as $num) {
+            if($num[0] == $target) {
+                return $num[1];
+            }
+        }
+    }
+}
+
 /*public function get_list_of_uk_schools($returnall = false, $lang = null) {
     global $CFG;
 

@@ -30,7 +30,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('applicant_title', 'enrol_ukfilmnet'));
-$PAGE->navbar->add('Applicant info');
+//$PAGE->navbar->add('Applicant info');
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 echo $output->header();
 $applicantpage = new \enrol_ukfilmnet\output\applicantpage();
@@ -39,4 +39,4 @@ echo $output->footer();
 if($SESSION->applicant_info_complete === true){
     $SESSION->applicant_info_complete === false;
     echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
-}    
+}

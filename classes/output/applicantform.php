@@ -61,6 +61,7 @@ class applicant_form extends \moodleform {
         $mform->addElement('text', 'familyname', get_string('applicant_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-familyname']);
         $mform->setType('familyname', PARAM_TEXT);
         $mform->addRule('familyname', get_string('error_missing_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addElement('static', '', '', get_string('applicant_agreement', 'enrol_ukfilmnet', null));
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
     }
     //Custom validation should be added here

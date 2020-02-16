@@ -44,7 +44,7 @@ $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('assurance_title', 'enrol_ukfilmnet'));
 
-$PAGE->navbar->add('Assurance');
+//$PAGE->navbar->add('Assurance');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 

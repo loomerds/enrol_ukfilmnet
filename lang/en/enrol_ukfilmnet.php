@@ -73,7 +73,7 @@ Before providing the information requested below, please take time to <strong><a
 
 $string['applicant_agreement'] = 
 '</br>
-<u>Important notice!</u> When you click on the "Submit" button above you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+<u>Important notice!</u> When you click on the "Submit" button below you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
 
 
 $string['emailverify_instructions'] = 
@@ -191,6 +191,7 @@ $string['error_assurance_already_submitted'] = 'An Assurance Form was previously
 $string['error_missing_student_email'] = 'Missing student email address';
 $string['error_missing_student_firstname'] ='Missing student first name';
 $string['error_missing_student_familyname'] = 'Missing student family name';
+$string['error_missing_schoolname'] = 'Missing school name';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
