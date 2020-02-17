@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/schoolpage
+    @template enrol_ukfilmnet/emailverifypage
 
-    Template which defines a school information page.
+    Template which defines a email verification page.
 
     Classes required for JS:
     * none
@@ -41,17 +41,17 @@
         <div class='ukfn_progress_items'>
             <p class='item_complete'>{{#str}}applicant_subheading, enrol_ukfilmnet{{/str}}</p>
             <p class='item_complete'>{{#str}}emailverification_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class='item_current'>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class=''>{{#str}}safeguardingreview_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class=''>{{#str}}courses_subheading, enrol_ukfilmnet{{/str}}</p>
-            <p class=''>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class='item_complete'>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class='item_complete'>{{#str}}safeguardingreview_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p class='item_current'>{{#str}}courses_subheading, enrol_ukfilmnet{{/str}}</p>
+            <p>{{#str}}students_subheading, enrol_ukfilmnet{{/str}}</p>
         </div>
     </div>
     <div class='ukfn_applicantinfo_section'>
-        <h4 class='ukfn_applicant_subheading'>{{#str}}institution_subheading, enrol_ukfilmnet{{/str}}</h4>
+        <h4 class='ukfn_applicant_subheading'>{{#str}}courses_subheading, enrol_ukfilmnet{{/str}}</h4>
         <div class='ukfn_applicant_content'>
-            <p>{{#str}}school_instructions, enrol_ukfilmnet{{/str}}</p>
-            {{{schoolinput}}}
+            <p>{{#str}}courses_instructions, enrol_ukfilmnet{{/str}}</p>
+            {{{coursesinput}}}
             <p></p>
             <br/>
         </div>

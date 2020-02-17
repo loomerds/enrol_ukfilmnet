@@ -530,7 +530,12 @@ function force_progress($application_progress, $current_page) {
                 echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
             }
             break;
-        case '5':
+            case '5':
+                if($current_page != '4') {  
+                    echo "<script>location.href='/enrol/ukfilmnet/courses.php'</script>";
+                }
+                break;
+        case '6':
             if($current_page != '5') {  
                 echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
             }

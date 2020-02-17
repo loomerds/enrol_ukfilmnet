@@ -36,6 +36,7 @@ $string['students_title'] = 'Enrol Students';
 $string['verifyemail_title'] = 'Verify Email';
 $string['assurance_title'] = 'Assurance';
 $string['tracking_title'] = 'Tracking';
+$string['courses_title'] = 'Courses';
 $string['students_title'] = 'Students';
 
 // Subtitles/Progress Items List Descriptors
@@ -49,6 +50,7 @@ $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 $string['tracking_subheading'] = 'Track Application Progress';
+$string['courses_subheading'] = 'Create Courses';
 $string['students_subheading'] = 'Enrol Students';
 
 // Input Labels
@@ -119,6 +121,7 @@ To that end, below please enter the School Email Address of your employee and As
 </br>';
 
 $string['tracking_instructions'] = 'Some tracking instructions may go here.';
+$string['courses_instructions'] = 'Some course instructions may go here';
 $string['students_instructions'] = 'Some enrolment instructions may go here';
 
 // Current Role Descriptors
