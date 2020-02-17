@@ -41,21 +41,14 @@ class school_form extends \moodleform {
     //Add elements to form
     public function definition() {
         global $CFG;
-       
+        include_once($CFG->dirroot.'/enrol/ukfilmnet/signuplib.php');
+        
         $mform = $this->_form; 
         $school_country = get_string_manager()->get_list_of_countries();
         $selectcountry = $mform->addElement('select', 'school_country', get_string('school_country_label', 'enrol_ukfilmnet'), $school_country, ['class'=>'ukfn-school-country']);
         $selectcountry->setSelected('GB');
         $mform->addRule('school_country', null, 'required', null, 'server');
-
-        /*$school_names = ['0'=>get_string('school_name_instruction', 'enrol_ukfilmnet'),
-                        '01'=>get_string('school1', 'enrol_ukfilmnet'),
-                        '02'=>get_string('school2', 'enrol_ukfilmnet')];*/
-       //$searchareas = \core_search\manager::get_search_areas_list(true);
-    $school_names = $this->create_school_name_select_list();
-
-
-//print_r2($school_names);
+        $school_names = create_school_name_select_list();
         $options = [
             'multiple' => true, 
             'placeholder' => 'Click the arrow for a list',
@@ -63,7 +56,6 @@ class school_form extends \moodleform {
             'tags' => false,
             'ajax' => '']; 
         $mform->addElement('autocomplete', 'ukprn', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, $options); 
-        /*$mform->addElement('select', 'ukprn', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, ['class'=>'ukfn_school_name']);*/
         $mform->setType('ukprn', PARAM_TEXT);
         $mform->addRule('ukprn', get_string('error_missing_schoolname', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('static', '', get_string('contact_info_label', 'enrol_ukfilmnet', null));
@@ -88,15 +80,11 @@ class school_form extends \moodleform {
     }
     //Custom validation should be added here
     function validation($data, $files) {
-        //var_dump($stdClass);
         $errors = parent::validation($data, $files);
         
-        if($data['ukprn'] === '0') {
+        if($data['ukprn'] == '') {
             $errors['ukprn'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
         }
-        /*if($data['school_country'] === '0') {
-            $errors['school_country'] = get_string('error_missing_country', 'enrol_ukfilmnet');
-        }*/
         if($data['contact_email'] && strpos( $data['contact_email'], '@') === false) {
             $errors['contact_email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }
@@ -105,32 +93,5 @@ class school_form extends \moodleform {
         }
         
         return $errors;
-    }
-
-    function create_school_name_select_list() {
-        $schools_list_raw = get_array_from_json_file('schools_selector_list_array.txt');
-        //print_r2($schools_list_raw);
-        $schools_list = [];
-        $count = 0;
-        foreach($schools_list_raw as $raw) {
-//print_r2($schools_list_raw);
-            //$key = 0;
-            foreach($raw as $ra) {
-
-                if($count > 1 and strlen($ra[0]) > 7) {
-                    $key = $ra[0];
-                    //settype($key, "string");
-                    $val = $ra[1];
-                    //settype($val, "string");
-                    $schools_list += [$key=>$val];
-                    //$key++;
-                }
-//print_r2($val);                
-                $count++;
-            }
-                
-        }
-//print_r2($schools_list);
-        return $schools_list;
     }
 }

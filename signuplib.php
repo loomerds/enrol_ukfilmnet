@@ -104,7 +104,7 @@ function create_student_user($studentinfo, $auth = 'manual') {
     require_once($CFG->dirroot.'/user/lib.php');
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
-//print_r2($studentinfo);
+
     $password = make_random_password();
     $username = trim(core_text::strtolower(make_username($studentinfo->student_email)));
     $authplugin = get_auth_plugin($auth);
@@ -184,7 +184,6 @@ function process_students($datum) {
                     } 
     } 
     $students = array_values($students);
-//print_r2($students);
 
     foreach($students as $student) {
         create_student_user((object)$student);
@@ -544,7 +543,7 @@ function force_progress($application_progress, $current_page) {
 function get_schoolname($target_ukprn) {
 
     $target = $target_ukprn[0];
-    $ukprns = get_array_from_json_file('schools_selector_list_array.txt');
+    $ukprns = get_array_from_json_file('uk_schools_selector_list_array.txt');
 
     $schoolname = '';
     foreach($ukprns as $ukprn) {
@@ -556,25 +555,52 @@ function get_schoolname($target_ukprn) {
     }
 }
 
-/*public function get_list_of_uk_schools($returnall = false, $lang = null) {
-    global $CFG;
+function create_school_name_select_list() {
+    $schools_list_raw = get_array_from_json_file('uk_schools_selector_list_array.txt');
+    $schools_list = [];
+    $count = 0;
+    foreach($schools_list_raw as $raw) {
+        foreach($raw as $ra) {
 
-    if ($lang === null) {
-        $lang = current_language();
-    }
-
-    $uk_schools = $this->load_component_strings('core_countries', $lang);
-    core_collator::asort($uk_schools);
-    if (!$returnall and !empty($CFG->allcountrycodes)) {
-        $enabled = explode(',', $CFG->allcountrycodes);
-        $return = array();
-        foreach ($enabled as $c) {
-            if (isset($countries[$c])) {
-                $return[$c] = $countries[$c];
+            if($count > 1 and strlen($ra[0]) > 7) {
+                $key = $ra[1];
+                $val = $ra[0];
+                $schools_list += [$key=>$val];
             }
-        }
-        return $return;
+            $count++;
+        }           
     }
+    return $schools_list;
 
-    return $countries;
-}*/
+    // Presumes there is a file in the assets folder named _uk_schools_short.txt which has an array with subarrays each containing Establishmnet names, ukprn, and street fields - which file can be created by calling the create_array_from_csv($csvfile, $save_filename) function on a .csv file containing these three fields as columns
+    // This function takes that file and concatenates the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv() function to create the txt file uk_schools_selector_list_array.txt which is used by schoolform.php to provide an array to the Name of school input element
+    // Consider adding this to a Moodle site admin feature that be used to update the Name of school data programatically
+
+    function update_list(){
+        $schoolinfos = get_array_from_json_file('uk_schools_short.txt');
+            $schoolslist = [];
+            foreach($schoolinfos as $infos) {
+                $count = 0;
+                foreach($infos as $info) {
+                    //if($infos[$count]>10) {
+                    $schoolinfos[0][$count][0] = $info[0].', '.$info[2];
+                    array_pop($schoolinfos[0][$count]);
+                    
+                    //}
+                $count++;
+                }
+                
+            }
+            foreach($schoolinfos as $info) {
+                $schoollist = $info;
+            }
+            
+            $fp = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/uk_schools_selector_list_array.csv', 'w');
+            foreach($schoollist as $list) {
+                fputcsv($fp, $list);
+            }
+            fclose($fp);
+
+            create_array_from_csv('uk_schools_selector_list_array.csv', 'uk_schools_selector_list_array.txt');            
+    }
+}

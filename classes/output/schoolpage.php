@@ -67,20 +67,18 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_ukprn = $form_data->ukprn[0];
 
             $USER->profile_field_schoolname = get_schoolname($form_data->ukprn);
-//print_r2(get_schoolname($form_data->ukprn));
             $USER->profile_field_schoolcountry = $form_data->school_country;
             $USER->profile_field_safeguarding_contact_firstname = $form_data->contact_firstname;
             $USER->profile_field_safeguarding_contact_familyname = $form_data->contact_familyname;
             $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
             $USER->profile_field_assurancecode = generate_random_verification_code();
-        //$USER->profile_field_applicationprogress = 4;
+            $USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
 
             //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
             $ukprn = $form_data->ukprn;
             $schoolname = $USER->profile_field_ukprn;
-//print_r2($schoolname);
             $schoolcountry = $form_data->school_country;
             $contact_firstname = $form_data->contact_firstname;
             $contact_familyname = $form_data->contact_familyname;
@@ -102,10 +100,8 @@ class schoolpage implements \renderable, \templatable {
             
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
-            
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form

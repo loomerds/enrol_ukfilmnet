@@ -73,13 +73,16 @@ Before providing the information requested below, please take time to <strong><a
 
 $string['applicant_agreement'] = 
 '</br>
-<u>Important notice!</u> When you click on the "Submit" button below you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.';
+<u>Important notice!</u> When you click on the "Submit" button below you are verifying that you have read, understand, and agree to our PRIVACY NOTICE, and that the information you are providing is correct to the best of your knowledge.<br/>
+<br/>
+After you click "Submit" we will email login and email verification information to the email address you have entered above. It is very important that it is your school email. If you do not see the email we sent, please make sure to check your "spam" email folder.<br>
+<br>';
 
 
 $string['emailverify_instructions'] = 
 'Thank you for submitting your basic UKfilmNet account creation information.</br>
 </br>
-Before we continue the Signup process, we need to verify that the email address you provided is valid. To that end, we have sent an email to you at the email address you provided. If you do not see the email we sent, please make sure to check your "spam" email folder.</br>
+Before we continue the Signup process, we need to verify that the email address you provided is valid. To that end, we have sent an email to you at the email address you provided.</br>
 </br>
 In that email we have provided you with:
 <ul>
