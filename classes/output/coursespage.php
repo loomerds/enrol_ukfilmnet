@@ -56,7 +56,7 @@ class coursespage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect('https://ukfilmnet.org');
+            redirect($CFG->wwwroot);
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();

@@ -30,10 +30,6 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-//require_once('schoolform.php');
-//require_once('signuplib.php');
-//require_once($CFG->libdir.'/datalib.php');
-
 // This is a Template Class it collects/creates the data for a template
 class trackingpage implements \renderable, \templatable {
     var $sometext = null;
@@ -52,7 +48,7 @@ class trackingpage implements \renderable, \templatable {
         global $CFG, $USER, $DB;
         
         $headings = array('title0'=>'Approved', 'title1'=>'Progress', 'title2'=>'Role', 'title3'=>'Name', 'title4'=>'Email',
-                          'title5'=>'Country', 'title6'=>'School', 'title7'=>'SG Name', 'title8'=>'SG Phone', 
+                          'title5'=>'Country', 'title6'=>'School', 'title13'=>'UKPRN', 'title7'=>'SG Name', 'title8'=>'SG Phone', 
                           'title9'=>'SG Email', 'title10'=>'SG Form', 'title11'=>'Form Date', 'title12'=>'Denied');
         $rows = [];
         $applicants = $DB->get_records('user', array('deleted'=>0)); 
@@ -65,6 +61,7 @@ class trackingpage implements \renderable, \templatable {
                            'currentrole'=>$applicant->profile_field_currentrole, 
                            'applicationprogress'=>$applicant->profile_field_applicationprogress, 
                            'schoolname'=>$applicant->profile_field_schoolname, 
+                           'ukprn'=>$applicant->profile_field_ukprn,
                            'schoolcountry'=>$applicant->profile_field_schoolcountry, 
                            'contact_firstname'=>$applicant->profile_field_safeguarding_contact_firstname,
                            'contact_familyname'=>$applicant->profile_field_safeguarding_contact_familyname, 

@@ -48,73 +48,35 @@ class safeguardingpage implements \renderable, \templatable {
         //var_dump($USER);
 
         $data = new stdClass();
-        //$data->schoolinput = $this->get_safeguarding_content();
+        $data->safeguardinginput = $this->get_safeguarding_content();
         return $data;
     }
 
     public function get_safeguarding_content() {
 
-        /*global $CFG, $USER;
+        global $CFG;
+        require_once($CFG->dirroot.'/enrol/ukfilmnet/classes/output/safeguardingform.php');
         
-        $schoolinput = '';
-        $mform = new school_form();
+        $safeguardinginput = '';
+        $mform = new safeguarding_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect('https://ukfilmnet.org');
+            redirect($CFG->wwwroot);
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
-            //var_dump($form_data);
-            profile_load_data($USER);
-            $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
-            $USER->profile_field_schoolname = $form_data->school_name;
-            $USER->profile_field_schoolcountry = $form_data->school_country;
-            $USER->profile_field_safeguarding_contact_firstname = $form_data->contact_firstname;
-            $USER->profile_field_safeguarding_contact_familyname = $form_data->contact_familyname;
-            $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
-            $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
-            $USER->profile_field_assurance_code = generate_random_verification_code();
-            $USER->profile_field_applicationprogress = 4;
-
-            profile_save_data($USER);
-            //var_dump($USER->profile_field_safeguarding_contact_email);
-            //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
-            $schoolname = $form_data->school_name;
-            $schoolcountry = $form_data->school_country;
-            $contact_firstname = $form_data->contact_firstname;
-            $contact_familyname = $form_data->contact_familyname;
-            //var_dump($USER);
-            $applicant_firstname = $USER->firstname;
-            $applicant_familyname = $USER->lastname;
-            $applicant_email = $USER->email;
-            $assurance_code = $USER->profile_field_assurance_code;
-            $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
-            $contact_user = create_applicant_user($newuser, 'make_random_password');
-
-            $emailvariables = (object) array('schoolname'=>$schoolname, 
-                                             'schoolcountry'=>$schoolcountry, 
-                                             'contact_firstname'=>$contact_firstname,
-                                             'contact_familyname'=>$contact_familyname,
-                                             'applicant_firstname'=>$applicant_firstname,
-                                             'applicant_familyname'=>$applicant_familyname,
-                                             'applicant_email'=>$applicant_email,
-                                             'assurance_code'=>$assurance_code);
-            
-            email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
-            //var_dump(mail($form_data->contact_email, get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables)));
+            $safeguardinginput = $form_data;
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
             
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
-            $schoolinput = $mform->render();
+            $safeguardinginput = $mform->render();
         }
-        return $schoolinput;
-        */
+        return $safeguardinginput;
     }
 
 }

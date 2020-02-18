@@ -149,19 +149,31 @@ function print_r2($val){
     echo  '</pre>';
 }
 
+function handle_enrol_students_post($datum) {
+    global $CFG;
+
+    if($datum['submit_type'] == 'Exit') {
+        redirect($CFG->wwwroot);
+    } else {
+        process_students($datum);
+    }
+}
+
+
 function process_students($datum) {
     $count = 0;
     
+    // Remove unwanted indexes from our datum subarrays - selected checkboxes created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything 
     foreach($datum as &$data) {
-        $r=0;
+        $col=0;
         if($count>2) {
-            while($r<count($data)) {
-                if(strlen($data[$r]) > 2) {
-                    unset($data[$r+1]);
+            while(is_array($data) and $col<count($data)) {
+                if(strlen($data[$col]) > 2) {
+                    unset($data[$col+1]);
                     $data = array_values($data);
-                    $r++;
+                    $col++;
                 } else {
-                    $r++;
+                    $col++;
                 }   
             }
         }
@@ -169,15 +181,19 @@ function process_students($datum) {
     }
     unset($data);
     
+    // The datum holds table column values in parallel subarrays - this makes a new array holding the table values as rows
     $students = array();
     foreach($datum as $key => $data) {
-        foreach($data as $s_key => $s_data) {
-            $students[$s_key][$key] = $s_data;
+        if(is_array($data)) {
+            foreach($data as $s_key => $s_data) {
+                $students[$s_key][$key] = $s_data;
+            }
         }
     }
     unset($data);
     unset($s_data);
 
+    // Remove rows of data if they don't contain an email address
     foreach($students as $key => $student) {
         if(strlen($student['student_email']) < 2 or $student['student_email'] === null) {
             unset($students[$key]);
@@ -185,10 +201,12 @@ function process_students($datum) {
     } 
     $students = array_values($students);
 
+    // Turn each row of student data into an object and give them Moodle accounts
     foreach($students as $student) {
         create_student_user((object)$student);
     }
 
+    // Add students to appropriate cohorts
     add_to_cohort($students);
 }
 
@@ -560,26 +578,19 @@ function force_progress($application_progress, $current_page) {
                 echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
             }
             break;
-        /*case '6':
-            if($current_page != '6') {  
-                echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
-            }
-            break;*/
         default:
             echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
     }
 }
 
 function get_schoolname($target_ukprn) {
-
     $target = $target_ukprn[0];
     $ukprns = get_array_from_json_file('uk_schools_selector_list_array.txt');
-
     $schoolname = '';
     foreach($ukprns as $ukprn) {
         foreach($ukprn as $num) {
-            if($num[0] == $target) {
-                return $num[1];
+            if($num[1] == $target) {
+                return $num[0];
             }
         }
     }

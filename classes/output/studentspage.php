@@ -56,35 +56,29 @@ class studentspage implements \renderable, \templatable {
         require_once($CFG->dirroot.'/lib/accesslib.php');
         require_once($CFG->dirroot.'/cohort/lib.php');
         
-        $cohort_names = $this->get_teacher_cohort_names(); //this actually gets course shortnames, same strings
-        //$cohort_length = count($cohort);
+        // $studentsdata will be used to return data and structure for our enrol table
         $studentsdata = [];
-        //$headings = create_enrol_students_table_header_array($cohort);
 
+        // Create the table headings row data
         $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
         
-        //$cohort_members = \core_corhort_external::get_cohort_members($cohort);
+        // Create an array of this teacher's cohorts
+        $teacher_cohorts = [];
+        $cohort_names = $this->get_teacher_cohort_names(); 
         $cohorts = $DB->get_records('cohort');
-        $teacher_cohorts = []; // this will hold an array of cohort objects for this teacher's courses
         foreach($cohorts as $cohort){
             if(in_array($cohort->idnumber, $cohort_names)) {
                 $teacher_cohorts[] = $cohort; 
             }
         }
 
-//var_dump($teacher_cohorts);
-        //$all_cohorts = $DB->get_records('cohort', array('idnumber'=>$cohort_names[0]));
-
+        // Create an array of table rows data
         $rows = [];
-        $students = $DB->get_records('user', array('deleted'=>0)); 
-        
-        //foreach($students as $student) {
-        $rowsnum = 5;
+        $students = $DB->get_records('user', array('deleted'=>0));
+        // This conrtols how many rows our in our enrol table - add JS to make this better
+        $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
         $count = 0;
         while($rowsnum > $count) {
-            //profile_load_data($student);
-            // check to see if there are any users teacher's courses yet
-            //$DB->get_records('cohort_members')
             if(true) {
                 $rows[] = ['userid'=>'',
                            'student_email'=>$this->create_student_email_input(null),
@@ -94,13 +88,11 @@ class studentspage implements \renderable, \templatable {
             $count++;
         }
 
+        // Dynamically add cols data for each of this teacher's cohorts
         $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
                          'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
                          'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
-        
-        
         return $studentsdata;
-        
     }
 
     function get_teacher_cohort_names() {
@@ -135,7 +127,6 @@ class studentspage implements \renderable, \templatable {
         $extra_row_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
-        //$unique_value = 'zagnuthost';
         while($count < $cohort_length) {
             $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$count].'[]" value="'.$cohort_names[$count].'"><input type="hidden" name="'.$cohort_names[$count].'[]" value="0"></td>';
             $count++;
@@ -144,19 +135,15 @@ class studentspage implements \renderable, \templatable {
     }
 
     function create_student_email_input($student_email) {
-        
         return '<input type="text" name="student_email[]" value="'.$student_email.'">';
-    
     }
 
     function create_student_firstname_input($student_firstname) {
         return '<input type="text" name="student_firstname[]" value="'.$student_firstname.'">';
-
     }
 
     function create_student_familyname_input($student_familyname) {
         return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
-
     }
     
     /*

@@ -51,13 +51,14 @@ class schoolpage implements \renderable, \templatable {
     public function get_school_content() {
 
         global $CFG, $USER;
+        require_once($CFG->dirroot.'/enrol/ukfilmnet/signuplib.php');
         
         $schoolinput = '';
         $mform = new school_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect('https://ukfilmnet.org/learning');
+            redirect($CFG->wwwroot);
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();

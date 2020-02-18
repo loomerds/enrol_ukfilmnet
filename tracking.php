@@ -29,7 +29,6 @@ require_once('./signuplib.php');
 require_once($CFG->dirroot.'/lib/dml/moodle_database.php');
 require_once($CFG->dirroot.'/course/externallib.php');
 require_once($CFG->dirroot.'/user/externallib.php');
-//$SESSION->applicant_info_complete = false;
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
@@ -54,16 +53,7 @@ $PAGE->navbar->add('Tracking');
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 echo $output->header();
 
-
-
-
 $trackingpage = new \enrol_ukfilmnet\output\trackingpage();
-
-
 
 echo $output->render_trackingpage($trackingpage);
 echo $output->footer();
-/*if($SESSION->applicant_info_complete === true){
-    $SESSION->applicant_info_complete === false;
-    echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
-}*/    

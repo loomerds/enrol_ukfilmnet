@@ -197,6 +197,7 @@ $string['student_familyname'] = 'Student family name';
 // Button Labels
 $string['button_next'] = 'Next';
 $string['button_submit'] = 'Submit';
+$string['button_exit'] = 'Exit Signup';
 
 // Error Messages
 $string['error_missing_role'] = 'Missing current role';
@@ -239,6 +240,7 @@ $string['template_course'] = 'ukfnClassroomTemplate';
 $string['course_category'] = 'Miscellaneous';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
+$string['number_of_enrol_table_rows'] = '15';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';

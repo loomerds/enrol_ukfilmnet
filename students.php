@@ -27,26 +27,18 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once($CFG->dirroot.'/cohort/lib.php');
 
-
-//$SESSION->assurance_info_complete = false;
 require_login();
-profile_load_data($USER);
-//$application_progress = $USER->profile_field_applicationprogress;
-//force_progress($application_progress, '6');
-
+//profile_load_data($USER);
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
 
 if(!empty($_POST)) {
-//var_dump('arrived here');
-    process_students($_POST);
+    handle_enrol_students_post($_POST);
 }
-//$variable = cohort_get_cohorts(context_system::instance());
-//var_dump($variable);
+
 $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
-//$PAGE->navbar->add('Enrol students');
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();
@@ -55,7 +47,3 @@ $studentspage = new \enrol_ukfilmnet\output\studentspage();
 echo $output->render_studentspage($studentspage);
 
 echo $output->footer();
-/*if($SESSION->assurance_info_complete === true){
-    $SESSION->assurance_info_complete === false;
-    echo "<script>location.href='index.php'</script>";
-} */ 
