@@ -31,10 +31,9 @@ require_login();
 
 profile_load_data($USER);
 $application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '5');
+force_progress($application_progress, '4');
 
-
-$SESSION->email_info_complete = false;
+//$SESSION->email_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/courses.php'));
 $PAGE->set_context(context_system::instance());
@@ -48,7 +47,12 @@ $coursespage = new \enrol_ukfilmnet\output\coursespage();
 echo $output->render_coursespage($coursespage);
 
 echo $output->footer();
+/*if($USER->profile_field_applicationprogress > 4){
+    echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
+}
 if($SESSION->email_info_complete === true){
     $SESSION->email_info_complete === false;
     echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
-}  
+}*/
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '4');

@@ -24,7 +24,9 @@
  */
 require(__DIR__ . '/../../config.php');
 global $DB, $SESSION;
-
+if($SESSION->applicant_info_complete === true){
+    echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
+}
 $SESSION->applicant_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
@@ -36,7 +38,10 @@ echo $output->header();
 $applicantpage = new \enrol_ukfilmnet\output\applicantpage();
 echo $output->render_applicantpage($applicantpage);
 echo $output->footer();
+
+/*if($USER->profile_field_applicationprogress > 1){
+    echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
+}*/
 if($SESSION->applicant_info_complete === true){
-    $SESSION->applicant_info_complete === false;
     echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
 }

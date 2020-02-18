@@ -30,7 +30,7 @@ require_login();
 //profile_save_data($USER);
 profile_load_data($USER);
 $application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '4');
+force_progress($application_progress, '5');
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/safeguarding.php'));
@@ -47,6 +47,8 @@ $safeguardingpage = new \enrol_ukfilmnet\output\safeguardingpage(null);
 echo $output->render_safeguardingpage($safeguardingpage);
 
 echo $output->footer();
-if($USER->profile_field_applicationprogress === 5){
-    echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
-}
+/*if($USER->profile_field_applicationprogress > 5){
+    echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
+}*/
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '5');

@@ -53,6 +53,7 @@
     width:70%; 
     position: relative; 
     float:right;
+    padding-right: 30px;
 }
 
 .ukfn_safeguarding_section {
@@ -123,9 +124,12 @@
 #page-enrol-ukfilmnet-assurance #nav-drawer,
 #page-enrol-ukfilmnet-emailverify #nav-drawer,
 #page-enrol-ukfilmnet-safeguarding #nav-drawer,
+#page-enrol-ukfilmnet-courses #nav-drawer,
 #page-enrol-ukfilmnet-school #nav-drawer,
+#page-enrol-ukfilmnet-students #nav-drawer,
 #page-enrol-ukfilmnet-applicant .nav,
 #page-enrol-ukfilmnet-emailverify .nav,
+#page-enrol-ukfilmnet-school .nav,
 #page-enrol-ukfilmnet-safeguarding .nav {
     display:none !important;
 }
@@ -134,6 +138,8 @@
 #page-enrol-ukfilmnet-assurance.drawer-open-left,
 #page-enrol-ukfilmnet-emailverify.drawer-open-left,
 #page-enrol-ukfilmnet-safeguarding.drawer-open-left,
+#page-enrol-ukfilmnet-courses.drawer-open-left,
+#page-enrol-ukfilmnet-students.drawer-open-left,
 #page-enrol-ukfilmnet-school.drawer-open-left {
     margin-left: 0px;
 }
@@ -142,10 +148,26 @@
 #page-enrol-ukfilmnet-assurance .card,
 #page-enrol-ukfilmnet-emailverify .card,
 #page-enrol-ukfilmnet-safeguarding .card,
+#page-enrol-ukfilmnet-courses .card,
 #page-enrol-ukfilmnet-school .card {
     height: 20px;
 }
 
+.ukfn_courses_questions .col-md-3 {
+    max-width: 70%;
+    flex: 0 0 70%;
+}
+
+.ukfn_courses_question_bullet {
+    padding-right: 4rem;
+}
+
+.ukfn_courses_questions .col-md-9 {
+    display: inline;
+    max-width: 20%;
+    flex: 0 0 20%;
+    vertical-align: top;
+}
 
 .generaltable {
     font-size: .8rem;

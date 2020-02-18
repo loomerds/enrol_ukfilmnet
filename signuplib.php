@@ -276,7 +276,7 @@ function application_denied($denied) {
             profile_load_data($applicant_user);
             if($applicant_user->profile_field_applicationprogress == '4') {
                 $applicant_user->profile_field_applicationdenied = '1';
-                $applicant_user->profile_field_applicationprogress = '5';
+                $applicant_user->profile_field_applicationprogress = '1';
                 profile_save_data($applicant_user);
                 email_user_accept_reject($applicant_user, "denied");
             }
@@ -293,26 +293,49 @@ function application_approved($approved) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '4') {
+            if($applicant_user->profile_field_applicationprogress == '5') {
                 $applicant_user->profile_field_applicationapproved = '1';
-                $applicant_user->profile_field_applicationprogress = '5';
+                $applicant_user->profile_field_applicationprogress = '6';
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
-                $newcourse = create_classroom_course_from_teacherid($userid, 
-                        get_string('template_course', 'enrol_ukfilmnet'), 
-                        get_string('course_category', 'enrol_ukfilmnet'));
-
-                $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
-                $systemcontext = context_system::instance();
-                $usercontext = context_user::instance($applicant_user->id);
-                role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
-                role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
                 
-                enrol_user_this($newcourse, $applicant_user, '3');
+                for($count = 0; $count<$applicant_user->profile_field_courses_requested; $count++) {
+                    $newcourse = create_classroom_course_from_teacherid($userid, 
+                            get_string('template_course', 'enrol_ukfilmnet'), 
+                            get_string('course_category', 'enrol_ukfilmnet'));
+
+                    $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
+                    $systemcontext = context_system::instance();
+                    $usercontext = context_user::instance($applicant_user->id);
+                    role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
+                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
+                    
+                    enrol_user_this($newcourse, $applicant_user, '3');
+                }
             }
         }
     }
 }
+
+/*function create_classroom_course_and_add_teacher($user) {
+    global $DB, $CFG;
+    include_once($CFG->dirroot.'/course/externallib.php');
+    include_once($CFG->dirroot.'/lib/enrollib.php');
+    
+    if($user !== null) {
+        $newcourse = create_classroom_course_from_teacherid($user->id, 
+                get_string('template_course', 'enrol_ukfilmnet'), 
+                get_string('course_category', 'enrol_ukfilmnet'));
+//print_r2($newcourse);
+        *//*$approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
+        $systemcontext = context_system::instance();
+        $usercontext = context_user::instance($applicant_user->id);
+        role_assign($approvedteacher_role->id, $user->id, $systemcontext->id);
+        role_assign($approvedteacher_role->id, $user->id, $usercontext->id);
+        
+        enrol_user_this($newcourse, $user, '3');
+    }
+}*/
 
 function email_user_accept_reject($applicant, $status){
     
@@ -330,21 +353,23 @@ function email_user_accept_reject($applicant, $status){
 
 function create_classroom_course_from_teacherid ($teacherid, $template, $category_name) {
     global $DB, $CFG;
-
     require_once($CFG->libdir.'/datalib.php');
     require_once($CFG->dirroot.'/course/externallib.php');
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/enrol/cohort/lib.php');
     
+    // Get a teacher
     $teacher = $DB->get_record('user', array('id' => $teacherid, 'auth' => 'manual'));
     profile_load_data($teacher);
-    
     $target_courseid;
+
+    // Build a shortcourse/cohort name
     $lastname = $teacher->lastname;
     $lastname_length = strlen($lastname);
     $unique_shortname = $lastname.'-0';
     $highest_end = 0;
     
+    // See if the shortcourse/cohort name is already taken and keep modifying and trying until it isn't
     $courses = get_courses();
     foreach($courses as $course) {
         $shortname = $course->shortname;
@@ -363,8 +388,8 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
         }
     }
 
+    // Get a category id for the new course
     $categories = core_course_category::get_all();
-
     $target_categoryid = '';
     $miscellaneous_categoryid = '';
 
@@ -376,31 +401,32 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
             $miscellaneous_categoryid = $category->id;
         }
     }
-
     if($target_categoryid == '') {
         $target_categoryid = $miscellaneous_categoryid;
     }
 
+    // Build a new course object
     $newcourse['courseid'] = $target_courseid;
     $newcourse['fullname'] = $unique_shortname;
     $newcourse['shortname'] = $unique_shortname;
     $newcourse['categoryid'] = $target_categoryid;
+
+    // Copy our template course into our new course
     $courseinfo = core_course_external::duplicate_course($newcourse['courseid'], 
                                            $newcourse['fullname'], 
                                            $newcourse['shortname'], 
                                            true);
-    
+
+    // Create a new cohort with the same name as our course shortname and get its id
     $cohortid = create_ukfn_cohort($newcourse['shortname'], $courseinfo['id']);
     $course_created = $DB->get_record('course', array('shortname'=>$courseinfo['shortname']));
-    // get the cohort id to pass to create_cohortsync_data
     $data = create_cohortsync_data($courseinfo['shortname'], $cohortid);
-    //$cohort_plugin = new enrol_ukfilmnet_plugin();
+    
+    // Add the new cohort to the new cours's corhort sync
     $cohort_plugin = new enrolukfn_cohort_plugin();
-
-
     $cohort_plugin->add_instance($course_created, $data);
-//var_dump($cohort_plugin);
 
+    // Return a reference to the new course
     return $courseinfo;
 }
 
@@ -430,7 +456,6 @@ function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'cohort') {
             }
             $instance = $DB->get_record('enrol', array('id' => $instanceid));
         }
-//var_dump($instance->enrol);
         $enrol->enrol_user($instance, $user->id, $roleid);
     }
 }
@@ -527,21 +552,21 @@ function force_progress($application_progress, $current_page) {
             break;
         case '4':
             if($current_page != '4') {  
+                echo "<script>location.href='/enrol/ukfilmnet/courses.php'</script>";
+            }
+            break;
+        case '5':
+            if($current_page != '5') {  
                 echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
             }
             break;
-            case '5':
-                if($current_page != '4') {  
-                    echo "<script>location.href='/enrol/ukfilmnet/courses.php'</script>";
-                }
-                break;
-        case '6':
-            if($current_page != '5') {  
+        /*case '6':
+            if($current_page != '6') {  
                 echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
             }
-            break;
+            break;*/
         default:
-            echo "<script>location.href='/enrol/ukfilmnet/applicant.php'</script>";
+            echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
     }
 }
 

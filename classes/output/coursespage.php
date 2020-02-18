@@ -28,7 +28,7 @@ namespace enrol_ukfilmnet\output;
 defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
-require_once('emailverifyform.php');
+require_once('coursesform.php');
 require_once('signuplib.php');
 
 // This is a Template Class it collects/creates the data for a template
@@ -48,38 +48,34 @@ class coursespage implements \renderable, \templatable {
 
     public function get_courses_content() {
 
-        global $CFG, $SESSION;
+        global $CFG, $SESSION, $USER;
+        require_once($CFG->dirroot.'/enrol/ukfilmnet/signuplib.php');
 
         $coursesinput = '';
-        //$mform = new courses_form();
-/*
+        $mform = new courses_form();
+
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             redirect('https://ukfilmnet.org');
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
+            // Start count at 1 because one course was created already when teacher was approved
             
-            // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
-            $verified_user = applicant_login($form_data->username, $form_data->password);
-    
-            if($verified_user !== null) {
-                profile_load_data($verified_user);
-                $verified_user->profile_field_emailverified = true;
-                $verified_user->profile_field_applicationprogress = 3;
-                profile_save_data($verified_user);
-            }
-            $SESSION->courses_info_complete = true;
+
+            profile_load_data($USER);
+            $USER->profile_field_courses_requested = $form_data->total_courses;
+            $USER->profile_field_applicationprogress = 5;
+            profile_save_data($USER);
+            
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
-            //$SESSION->email_info_complete = false;
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
             $coursesinput = $mform->render();
-        }*/
+        }
         return $coursesinput;
     }
 

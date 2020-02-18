@@ -47,6 +47,8 @@ $schoolpage = new \enrol_ukfilmnet\output\schoolpage(null);
 echo $output->render_schoolpage($schoolpage);
 
 echo $output->footer();
-if($USER->profile_field_applicationprogress == 4){
-    echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
-}
+/*if($USER->profile_field_applicationprogress > 3){
+    echo "<script>location.href='/enrol/ukfilmnet/courses.php'</script>";
+}*/
+$application_progress = $USER->profile_field_applicationprogress;
+force_progress($application_progress, '3');

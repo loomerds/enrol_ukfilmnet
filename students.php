@@ -31,8 +31,8 @@ require_once($CFG->dirroot.'/cohort/lib.php');
 //$SESSION->assurance_info_complete = false;
 require_login();
 profile_load_data($USER);
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '5');
+//$application_progress = $USER->profile_field_applicationprogress;
+//force_progress($application_progress, '6');
 
 
 $PAGE->set_pagelayout('standard');

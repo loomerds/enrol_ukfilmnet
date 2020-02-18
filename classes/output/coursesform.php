@@ -40,16 +40,10 @@ class courses_form extends \moodleform {
         global $CFG;
 
         $mform = $this->_form; 
-       $mform->addElement('text', 'username', get_string('applicant_username', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('username', PARAM_NOTAGS);
-       /*  $mform->addRule('username', get_string('error_missing_username', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $mform->addElement('password', 'password', get_string('applicant_password', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('password', PARAM_NOTAGS);
-        $mform->addRule('password', get_string('error_missing_password', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $mform->addElement('text', 'code', get_string('verification_code', 'enrol_ukfilmnet'), ['class'=>'ukfn-verification-content']);
-        $mform->setType('code', PARAM_NOTAGS);
-        $mform->addRule('code', get_string('error_missing_code', 'enrol_ukfilmnet'), 'required', null, 'server'); 
-        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);  */         
+        $mform->addElement('text', 'total_courses', get_string('total_courses_question', 'enrol_ukfilmnet'), ['class'=>'ukfn_courses_questions']);
+        $mform->setType('total_courses', PARAM_NOTAGS);
+        $mform->addRule('total_courses', get_string('error_missing_total_courses_questions', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);           
     }
     //Custom validation should be added here
     function validation($data, $files) {
@@ -57,25 +51,11 @@ class courses_form extends \moodleform {
         require_once($CFG->dirroot.'/user/profile/lib.php');
 
         $errors = parent::validation($data, $files);
-        /*$username = $data['username'];
-        $user = $DB->get_record('user', array('username' => $username, 'auth' => 'manual'));
         
-        if($user === false) {
-            $errors['username'] = get_string('error_username_mismatch', 'enrol_ukfilmnet');
+        if($data['total_courses'] > get_string('max_courses_allowed', 'enrol_ukfilmnet')) {
+            $errors['total_courses'] = get_string('error_total_courses_excessive', 'enrol_ukfilmnet');
             return $errors;
         }
-        
-        $password = $data['password'];
-        
-        if(!validate_internal_user_password($user, $password)) {
-            $errors['password'] = get_string('error_password_mismatch', 'enrol_ukfilmnet');
-        }
-
-        profile_load_data($user);
-
-        if($data['code'] !== $user->profile_field_verificationcode) {
-            $errors['code'] = get_string('error_code_mismatch', 'enrol_ukfilmnet');
-        }*/
         
         return $errors;
     }

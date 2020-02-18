@@ -50,7 +50,7 @@ $string['assurance_subheading'] = 'Safeguarding Assurance';
 $string['quals_subheading'] = 'Quals Information';
 $string['students_subheading'] = 'Enrol Students';
 $string['tracking_subheading'] = 'Track Application Progress';
-$string['courses_subheading'] = 'Create Courses';
+$string['courses_subheading'] = 'Request Courses';
 $string['students_subheading'] = 'Enrol Students';
 
 // Input Labels
@@ -66,6 +66,31 @@ $string['employee_work_email'] = 'Employee school email';
 $string['qtsnumber'] = 'Employee QTS number';
 $string['assurance_form'] = 'Assurance form';
 
+// Request Courses Questions
+$string['total_courses_question'] = 
+'For how many distinct media/film related courses are you doing "prep work"?<br>
+<br>
+<strong>Important things to understand!</strong><br>
+<br>
+<ul>
+<li class="ukfn_courses_question_bullet">
+If you are teaching Year 1 and Year 2 students of a course (e.g. Media Y1 and Media Y2) concurrently, consider these to be two separate courses.
+</li><br>
+<li class="ukfn_courses_question_bullet">
+If you are teaching a course to more than one group of students (e.g. Film Y1 taught to three distinct groups of students in different periods/blocks), consider these to be a single course.
+</li>
+</ul>
+<br>
+<strong>Examples:</strong><br>
+<br>
+<ul>
+<li class="ukfn_courses_question_bullet">
+Emily is doing "prep work" for Media Y1, Media Y2, and Film Y1. Emily teaches the Film Y1 course to 4 distinct groups of students in different periods/blocks. For UKfilmnet purposes, Emily is doing "prep work" for 3 courses.
+</li><br>
+<li class="ukfn_courses_question_bullet">
+Oliver is doing "prep work" for Media Y1, and Film Y2. Oliver teaches the Media Y1 course to 3 distinct groups of students in different periods/blocks and the Film Y2 course to 3 distinct groups of students in different periods/blocks. For UKfilmnet purposes, Emily is doing "prep work" for 2 courses.
+</li>
+</ul>';
 
 // Instructions Text
 $string['applicant_instructions'] = 
@@ -121,7 +146,13 @@ To that end, below please enter the School Email Address of your employee and As
 </br>';
 
 $string['tracking_instructions'] = 'Some tracking instructions may go here.';
-$string['courses_instructions'] = 'Some course instructions may go here';
+$string['courses_instructions'] = 
+'Welcome to the UKfilmNet learning community!<br>
+<br>
+You now have access to all of our digital text books (e.g. Cinematography, Camera Concepts, Location Sound), our Video User Guide, our Teachers & Trainers Chat, and your very own Private Teaching Space where you can create materials, hold discussions and forums with your students, set and collect  student tasks, and paste links to topics from our digital text books to support student learning.<br>
+<br>
+Before you enrol you students, however, we must determine whether you need more than one Private Teaching Space. Please help us by answering the following questions. When you have finished, click the "Submit" button below.<br>
+<br>';
 $string['students_instructions'] = 'Some enrolment instructions may go here';
 
 // Current Role Descriptors
@@ -143,7 +174,8 @@ $string['signup_progress_2'] = '2-Application page submitted';
 $string['signup_progress_3'] = '3-Verification page submitted';
 $string['signup_progress_4'] = '4-School page submitted';
 $string['signup_progress_5'] = '5-Waiting for determination';
-$string['signup_progress_6'] = '6-Students enrolled';
+$string['signup_progress_5'] = '6-Courses created';
+$string['signup_progress_6'] = '7-Students enrolled';
 
 // Country Discriptors
 $string['school_country_instruction'] = 'Choose a country...';
@@ -198,12 +230,15 @@ $string['error_missing_student_email'] = 'Missing student email address';
 $string['error_missing_student_firstname'] ='Missing student first name';
 $string['error_missing_student_familyname'] = 'Missing student family name';
 $string['error_missing_schoolname'] = 'Missing school name';
+$string['error_missing_total_courses_questions'] = 'Please answer this question';
+$string['error_total_courses_excessive'] = 'The maximum number allowed here is 5';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
 $string['template_course'] = 'ukfnClassroomTemplate';
 $string['course_category'] = 'Miscellaneous';
 $string['student_role_id'] = '5';
+$string['max_courses_allowed'] = '5';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';

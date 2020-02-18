@@ -77,7 +77,7 @@ class tracking_form extends \moodleform {
         $mform->addRule('contact_phone', get_string('error_missing_contact_phone', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('hidden', 'role', null);
         $mform->setType('role', PARAM_ACTION);
-       */ $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);            
+       $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);   */          
     }
     //Custom validation should be added here
     function validation($data, $files) {
