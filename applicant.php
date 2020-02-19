@@ -24,7 +24,7 @@
  */
 require(__DIR__ . '/../../config.php');
 global $DB, $SESSION;
-if($SESSION->applicant_info_complete === true){
+if(isset($SESSION->applicant_info_complete) and $SESSION->applicant_info_complete === true){
     echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
 }
 $SESSION->applicant_info_complete = false;
