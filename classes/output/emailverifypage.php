@@ -70,6 +70,8 @@ class emailverifypage implements \renderable, \templatable {
                 profile_save_data($verified_user);
             }
             $SESSION->email_info_complete = true;
+            $application_progress = $USER->profile_field_applicationprogress;
+            force_progress($application_progress, '2');
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
             // or on the first display of the form.

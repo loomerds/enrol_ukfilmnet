@@ -79,6 +79,7 @@ class applicantpage implements \renderable, \templatable {
 
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
             $SESSION->applicant_info_complete = true;
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
             
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.

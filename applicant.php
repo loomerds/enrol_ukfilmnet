@@ -23,10 +23,21 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 require(__DIR__ . '/../../config.php');
-global $DB, $SESSION;
-if(isset($SESSION->applicant_info_complete) and $SESSION->applicant_info_complete === true){
+global $DB, $SESSION, $CFG;
+require_once('./signuplib.php');
+
+//if($SESSION->applicant_info_complete === true){
+    //echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
+    //
+//print_r2($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+    //echo '<script location.href="'.$CFG->dirroot.'/enrol/ukfilmnet/emailverify.php"></script>';
+//print_r2($CFG->dirroot.'/../../emailverify.php');
+    //redirect($CFG->dirroot.'/../../emailverify.php');
+//print_r2("<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>");
+//}
+/*if($SESSION->applicant_info_complete === true){
     echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
-}
+}*/
 $SESSION->applicant_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
@@ -42,6 +53,3 @@ echo $output->footer();
 /*if($USER->profile_field_applicationprogress > 1){
     echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
 }*/
-if($SESSION->applicant_info_complete === true){
-    echo "<script>location.href='/enrol/ukfilmnet/emailverify.php'</script>";
-}

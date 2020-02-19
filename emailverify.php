@@ -53,5 +53,5 @@ if($SESSION->email_info_complete === true){
     $SESSION->email_info_complete === false;
     echo "<script>location.href='/enrol/ukfilmnet/school.php'</script>";
 } */ 
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '2');
+//$application_progress = $USER->profile_field_applicationprogress;
+//force_progress($application_progress, '2');
