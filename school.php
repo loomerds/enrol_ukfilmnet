@@ -25,30 +25,21 @@
 global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
-//require_once('./classes/output/schoolform.php');
-//$schoolform = new school_form();
 
 require_login();
+
 profile_load_data($USER);
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '3');
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
-//$PAGE->navbar->add('School info');
+$page_number = 3;
+$progress = $page_number;
+
+$schoolpage = new \enrol_ukfilmnet\output\schoolpage($page_number, $progress);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
-//print_r2($schoolform.create_school_name_select_list());
 echo $output->header();
-
-$schoolpage = new \enrol_ukfilmnet\output\schoolpage(null);
 echo $output->render_schoolpage($schoolpage);
-
 echo $output->footer();
-/*if($USER->profile_field_applicationprogress > 3){
-    echo "<script>location.href='/enrol/ukfilmnet/courses.php'</script>";
-}*/
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '3');

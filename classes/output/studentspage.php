@@ -29,7 +29,6 @@ defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
 use context_class;
-//use core_cohort_external;
 
 require_once('studentsform.php');
 require_once('signuplib.php');
@@ -38,10 +37,12 @@ require_once('signuplib.php');
 // This is a Template Class it collects/creates the data for a template
 class studentspage implements \renderable, \templatable {
 
-    var $sometext = null;
+    private $page_number;
+    private $applicantprogress;
 
-    public function __construct($sometext = null) {
-        $this->sometext = $sometext;
+    public function __construct($page_number, $applicantprogress) {
+        $this->page_number = $page_number;
+        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -92,6 +93,8 @@ class studentspage implements \renderable, \templatable {
         $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
                          'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
                          'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
+        $this->applicantprogress = 6;
+        $this->handle_redirects();
         return $studentsdata;
     }
 
@@ -146,6 +149,18 @@ class studentspage implements \renderable, \templatable {
         return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
     }
     
+    public function handle_redirects() {
+        global $CFG, $SESSION;
+        require_once(__DIR__.'/../../signuplib.php');
+
+        if($SESSION->cancel == 1) {
+            $SESSION->cancel = 0;
+            redirect($CFG->wwwroot);
+        } elseif($this->page_number != $this->applicantprogress) {
+            force_signup_flow($this->applicantprogress);
+        }
+        return true;
+    }
     /*
     //$studentsdata = ['headings'=>$headings];
 

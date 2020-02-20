@@ -29,15 +29,17 @@ defined('MOODLE_INTERNAL' || die());
 
 use stdClass;
 require_once('emailverifyform.php');
-require_once('signuplib.php');
+require_once(__DIR__.'/../../signuplib.php');
 
 // This is a Template Class it collects/creates the data for a template
 class emailverifypage implements \renderable, \templatable {
 
-    var $sometext = null;
-
-    public function __construct($sometext = null) {
-        $this->sometext = $sometext;
+    private $page_number;
+    private $applicantprogress;
+    
+    public function __construct($page_number, $applicantprogress) {
+        $this->page_number = $page_number;
+        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -55,12 +57,12 @@ class emailverifypage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect($CFG->wwwroot);
+            $SESSION->cancel = 1;
+            $this->handle_redirects();
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
             
-            // NOTE...this call is causing a "Cannot regenerate session id - headers already sent" warning and needs to be fixed
             $verified_user = applicant_login($form_data->username, $form_data->password);
     
             if($verified_user !== null) {
@@ -69,14 +71,11 @@ class emailverifypage implements \renderable, \templatable {
                 $verified_user->profile_field_applicationprogress = 3;
                 profile_save_data($verified_user);
             }
-            $SESSION->email_info_complete = true;
-            $application_progress = $USER->profile_field_applicationprogress;
-            force_progress($application_progress, '2');
+            $this->applicantprogress = 3;
+            $this->handle_redirects();
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
-            $SESSION->email_info_complete = false;
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
@@ -85,4 +84,16 @@ class emailverifypage implements \renderable, \templatable {
         return $emailverifyinput;
     }
 
+    public function handle_redirects() {
+        global $CFG, $SESSION;
+        require_once(__DIR__.'/../../signuplib.php');
+
+        if($SESSION->cancel == 1) {
+            $SESSION->cancel = 0;
+            redirect($CFG->wwwroot);
+        } elseif($this->page_number != $this->applicantprogress) {
+            force_signup_flow($this->applicantprogress);
+        }
+        return true;
+    }
 }

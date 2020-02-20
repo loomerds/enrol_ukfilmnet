@@ -22,37 +22,23 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-require(__DIR__ . '/../../config.php');
+
 global $SESSION, $USER;
+require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
 require_login();
 
-
-profile_load_data($USER);
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '4');
-
-//$SESSION->email_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/courses.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('courses_title', 'enrol_ukfilmnet'));
+$page_number = 4;
+$progress = $page_number;
+
+$coursespage = new \enrol_ukfilmnet\output\coursespage($page_number, $progress);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
-
 echo $output->header();
-
-$coursespage = new \enrol_ukfilmnet\output\coursespage();
 echo $output->render_coursespage($coursespage);
-
 echo $output->footer();
-/*if($USER->profile_field_applicationprogress > 4){
-    echo "<script>location.href='/enrol/ukfilmnet/safeguarding.php'</script>";
-}
-if($SESSION->email_info_complete === true){
-    $SESSION->email_info_complete === false;
-    echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
-}*/
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '4');

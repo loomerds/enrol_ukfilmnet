@@ -249,7 +249,6 @@ function make_username($email) {
 }
 
 function applicant_login($username, $password) {
-    
     $user = authenticate_user_login($username, $password);
     return complete_user_login($user);
 }
@@ -556,49 +555,102 @@ function get_array_from_json_file($save_filename) {
     return $target_array;
 }
 
-function force_progress($application_progress, $current_page) {
+/*function force_progress($application_progress, $current_page) {
     global $CFG;
 
     switch($application_progress) {
         case '2':
             if($current_page != '2') {    
-                //echo "<script>location.href='./emailverify.php'</script>";
+                echo "<script>location.href='./emailverify.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-                redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
             }
             break;
         case '3':
             if($current_page != '3') {  
-                //echo "<script>location.href='./school.php'</script>";
+                echo "<script>location.href='./school.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/school.php'</script>";
-                redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
+                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
             }
             break;
         case '4':
             if($current_page != '4') {  
-               // echo "<script>location.href='./courses.php'</script>";
+               echo "<script>location.href='./courses.php'</script>";
                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/courses.php'</script>";
-               redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
+               //redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
             }
             break;
         case '5':
             if($current_page != '5') {  
-                //echo "<script>location.href='./safeguarding.php'</script>";
+                echo "<script>location.href='./safeguarding.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/safeguarding.php'</script>";
-                redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
+                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
             }
             break;
         case '6':
             if($current_page != '6') {  
-                //echo "<script>location.href='./students.php'</script>";
+                echo "<script>location.href='./students.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/students.php'</script>";
-                redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
+                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
             }
             break;
         default:
+        break;
             //echo "<script>location.href='./emailverify.php'</script>";
             //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
+            //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+    }
+}*/
+
+function force_signup_flow($target_page) {
+    switch($target_page) {
+        case '1':
+            //if($current_page != '2') {    
+               //echo "<script>location.href='./emailverify.php'</script>";
+                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
+            //}
+            break;
+        case '2':
+            //if($current_page != '2') {    
+                //echo "<script>location.href='./emailverify.php'</script>";
+                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+            //}
+            break;
+        case '3':
+            //if($current_page != '3') {  
+                //echo "<script>location.href='./school.php'</script>";
+                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/school.php'</script>";
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
+            //}
+            break;
+        case '4':
+            //if($current_page != '4') {  
+               //echo "<script>location.href='./courses.php'</script>";
+               //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/courses.php'</script>";
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
+            //}
+            break;
+        case '5':
+            //if($current_page != '5') {  
+                //echo "<script>location.href='./safeguarding.php'</script>";
+                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/safeguarding.php'</script>";
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
+            //}
+            break;
+        case '6':
+            //if($current_page != '6') {  
+                //echo "<script>location.href='./students.php'</script>";
+                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/students.php'</script>";
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
+            //}
+            break;
+        default:
+        //break;
+            //echo "<script>location.href='./emailverify.php'</script>";
+            //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
+            redirect($CFG->wwwroot);
     }
 }
 

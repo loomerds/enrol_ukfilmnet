@@ -66,7 +66,6 @@ class assurance_form extends \moodleform {
 
         $errors = parent::validation($data, $files);
         $email = $data['email'];
-        
         if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
             $user = $DB->get_record('user', array('username' => $email, 'auth' => 'manual'));
             profile_load_data($user);

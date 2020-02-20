@@ -30,23 +30,20 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-//require_once('schoolform.php');
-//require_once('signuplib.php');
-//require_once($CFG->libdir.'/datalib.php');
+require_once('safeguardingform.php');
 
 // This is a Template Class it collects/creates the data for a template
 class safeguardingpage implements \renderable, \templatable {
-    var $sometext = null;
+    
+    private $page_number;
+    private $applicantprogress;
 
-    public function __construct($sometext = null) {
-        $this->sometext = $sometext;
+    public function __construct($page_number, $applicantprogress) {
+        $this->page_number = $page_number;
+        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
-        global $USER;
-        //profile_load_data($USER);
-        //var_dump($USER);
-
         $data = new stdClass();
         $data->safeguardinginput = $this->get_safeguarding_content();
         return $data;
@@ -55,7 +52,6 @@ class safeguardingpage implements \renderable, \templatable {
     public function get_safeguarding_content() {
 
         global $CFG;
-        require_once($CFG->dirroot.'/enrol/ukfilmnet/classes/output/safeguardingform.php');
         
         $safeguardinginput = '';
         $mform = new safeguarding_form();
@@ -63,6 +59,8 @@ class safeguardingpage implements \renderable, \templatable {
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             redirect($CFG->wwwroot);
+            //$SESSION->cancel = 1;
+            //$this->handle_redirects();
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
@@ -70,7 +68,6 @@ class safeguardingpage implements \renderable, \templatable {
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
-            
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
@@ -79,4 +76,16 @@ class safeguardingpage implements \renderable, \templatable {
         return $safeguardinginput;
     }
 
+    public function handle_redirects() {
+        global $CFG, $SESSION;
+        require_once(__DIR__.'/../../signuplib.php');
+
+        if($SESSION->cancel == 1) {
+            $SESSION->cancel = 0;
+            redirect($CFG->wwwroot);
+        } elseif($this->page_number != $this->applicantprogress) {
+            force_signup_flow($this->applicantprogress);
+        }
+        return true;
+    }
 }

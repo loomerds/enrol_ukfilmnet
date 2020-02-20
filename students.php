@@ -25,25 +25,23 @@
 global $SESSION, $USER, $DB;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
-require_once($CFG->dirroot.'/cohort/lib.php');
+require_once(__DIR__ .'/../../cohort/lib.php');
 
 require_login();
-//profile_load_data($USER);
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
-
 if(!empty($_POST)) {
     handle_enrol_students_post($_POST);
 }
-
 $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
+$page_number = 6;
+$progress = $page_number;
+
+$studentspage = new \enrol_ukfilmnet\output\studentspage($page_number, $progress);
+
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
-
 echo $output->header();
-
-$studentspage = new \enrol_ukfilmnet\output\studentspage();
 echo $output->render_studentspage($studentspage);
-
 echo $output->footer();

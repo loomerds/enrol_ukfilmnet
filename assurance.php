@@ -22,29 +22,26 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+use \core\session\manager;
+
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 global $SESSION, $USER;
-//var_dump($USER);
-if($USER->id < 1) {
-    $username = make_random_password();
-    $password = make_random_password();
-    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
-                            'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
-    $user = create_applicant_user($newuser, $password);
-    //var_dump($user);
-    applicant_login($username, $password);
-}
-//var_dump($verified_user);
-//var_dump($SESSION->has_timed_out);
-/**/
+
+$username = make_random_password();
+$password = make_random_password();
+$newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
+                        'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
+$user = create_applicant_user($newuser, $password);
+    
+manager::set_user($user);
+
 $SESSION->assurance_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('assurance_title', 'enrol_ukfilmnet'));
-
-//$PAGE->navbar->add('Assurance');
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 

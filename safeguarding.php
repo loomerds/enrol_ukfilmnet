@@ -27,28 +27,19 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
 require_login();
-//profile_save_data($USER);
-profile_load_data($USER);
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '5');
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/safeguarding.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('safeguarding_title', 'enrol_ukfilmnet'));
 
-//$PAGE->navbar->add('Safeguarding');
+$page_number = 5;
+$progress = $page_number;
+
+$safeguardingpage = new \enrol_ukfilmnet\output\safeguardingpage($page_number, $progress);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 
 echo $output->header();
-
-$safeguardingpage = new \enrol_ukfilmnet\output\safeguardingpage(null);
 echo $output->render_safeguardingpage($safeguardingpage);
-
 echo $output->footer();
-/*if($USER->profile_field_applicationprogress > 5){
-    echo "<script>location.href='/enrol/ukfilmnet/students.php'</script>";
-}*/
-$application_progress = $USER->profile_field_applicationprogress;
-force_progress($application_progress, '5');
