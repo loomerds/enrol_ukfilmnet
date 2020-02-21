@@ -374,7 +374,6 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     require_once($CFG->dirroot.'/course/externallib.php');
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/enrol/cohort/lib.php');
-    
     // Get a teacher
     $teacher = $DB->get_record('user', array('id' => $teacherid, 'auth' => 'manual'));
     profile_load_data($teacher);
@@ -413,13 +412,15 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     foreach($categories as $category) {
         if($category->name == $category_name) {
             $target_categoryid = $category->id;
+            print_r2($target_categoryid);
         }
-        if($category->name == 'Miscellaneous') {
+        if($category->name == get_string('misc_course_category', 'enrol_ukfilmnet')) {
             $miscellaneous_categoryid = $category->id;
         }
     }
     if($target_categoryid == '') {
         $target_categoryid = $miscellaneous_categoryid;
+        
     }
 
     // Build a new course object
@@ -432,6 +433,7 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     $courseinfo = core_course_external::duplicate_course($newcourse['courseid'], 
                                            $newcourse['fullname'], 
                                            $newcourse['shortname'], 
+                                           $newcourse['categoryid'],
                                            true);
 
     // Create a new cohort with the same name as our course shortname and get its id
@@ -603,40 +605,41 @@ function get_array_from_json_file($save_filename) {
 }*/
 
 function force_signup_flow($target_page) {
+    global $CFG;
     switch($target_page) {
         case '1':
             //if($current_page != '2') {    
                //echo "<script>location.href='./emailverify.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
             //}
             break;
         case '2':
             //if($current_page != '2') {    
                 //echo "<script>location.href='./emailverify.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
             //}
             break;
         case '3':
             //if($current_page != '3') {  
                 //echo "<script>location.href='./school.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/school.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
             //}
             break;
         case '4':
             //if($current_page != '4') {  
                //echo "<script>location.href='./courses.php'</script>";
                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/courses.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
             //}
             break;
         case '5':
             //if($current_page != '5') {  
                 //echo "<script>location.href='./safeguarding.php'</script>";
                 //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/safeguarding.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
             //}
             break;
         case '6':

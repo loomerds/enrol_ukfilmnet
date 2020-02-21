@@ -29,14 +29,15 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 global $SESSION, $USER;
 
-$username = make_random_password();
-$password = make_random_password();
-$newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
-                        'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
-$user = create_applicant_user($newuser, $password);
-    
-manager::set_user($user);
-
+if($USER->id < 1) {
+    $username = make_random_password();
+    $password = make_random_password();
+    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
+                            'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
+    $user = create_applicant_user($newuser, $password);
+        
+    manager::set_user($user);
+}
 $SESSION->assurance_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));

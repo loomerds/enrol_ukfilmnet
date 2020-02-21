@@ -83,7 +83,7 @@ class coursespage implements \renderable, \templatable {
     public function handle_redirects() {
         global $CFG, $SESSION;
 
-        if($SESSION->cancel == 1) {
+        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
             $SESSION->cancel = 0;
             redirect($CFG->wwwroot);
         } elseif($this->page_number != $this->applicantprogress) {

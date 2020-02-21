@@ -28,6 +28,12 @@ require_once('./signuplib.php');
 
 require_login();
 
+$current_page_num = '5';
+profile_load_data($USER);
+/*if($USER->profile_field_applicationprogress != $current_page_num) {
+    force_signup_flow($current_page_num);
+}*/
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/safeguarding.php'));
 $PAGE->set_context(context_system::instance());

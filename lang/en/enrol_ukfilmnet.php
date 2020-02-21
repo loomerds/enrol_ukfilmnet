@@ -238,6 +238,7 @@ $string['error_total_courses_excessive'] = 'The maximum number allowed here is 5
 $string['roleallowed_range_max'] = '03';
 $string['template_course'] = 'your-class';
 $string['course_category'] = 'CLASSROOMS';
+$string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '15';

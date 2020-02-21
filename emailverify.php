@@ -29,6 +29,13 @@ require_once('./signuplib.php');
 
 require_login();
 
+$current_page_num = '2';
+profile_load_data($USER);
+print_r2($USER->profile_field_applicationprogress);
+/*if($USER->profile_field_applicationprogress != $current_page_num) {
+    force_signup_flow($current_page_num);
+}*/
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
@@ -37,7 +44,7 @@ $page_number = 2;
 $progress = $page_number;
 
 $emailverifypage = new \enrol_ukfilmnet\output\emailverifypage($page_number, $progress);
-
+$emailverifypage->handle_redirects();
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 echo $output->header();
 echo $output->render_emailverifypage($emailverifypage);

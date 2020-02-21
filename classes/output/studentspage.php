@@ -94,7 +94,7 @@ class studentspage implements \renderable, \templatable {
                          'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
                          'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
         $this->applicantprogress = 6;
-        $this->handle_redirects();
+        //$this->handle_redirects();
         return $studentsdata;
     }
 
@@ -153,7 +153,7 @@ class studentspage implements \renderable, \templatable {
         global $CFG, $SESSION;
         require_once(__DIR__.'/../../signuplib.php');
 
-        if($SESSION->cancel == 1) {
+        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
             $SESSION->cancel = 0;
             redirect($CFG->wwwroot);
         } elseif($this->page_number != $this->applicantprogress) {

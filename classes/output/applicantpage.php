@@ -50,8 +50,8 @@ class applicantpage implements \renderable, \templatable {
         //$this->cancel = $SESSION->cancel;
         //$this->handle_redirects();
         
-        // If the $USER->profile_file_applicant  variable isset and
-        // Load the profile_file_applicantprogress variable
+        // If the $USER->profile_field_applicant  variable isset and
+        // Load the profile_field_applicantprogress variable
         // If the page_number != to applicantprogress
         // Then redirect to the page that is the same as the applicantprogress value
     }
@@ -75,7 +75,7 @@ class applicantpage implements \renderable, \templatable {
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             $SESSION->cancel = 1;
-            $this->handle_redirects();
+            //$this->handle_redirects();
         } else if ($fromform = $mform->get_data()) {
             //In this case you process validated data. $mform->get_data() returns data posted in form.
             $form_data = $mform->get_data();
@@ -92,7 +92,7 @@ class applicantpage implements \renderable, \templatable {
             
 // Need to log the user out here to force a relogin?
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
-            $this->handle_redirects();
+            //$this->handle_redirects();
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
@@ -108,11 +108,11 @@ class applicantpage implements \renderable, \templatable {
         global $CFG, $SESSION;
         require_once(__DIR__.'/../../signuplib.php');
 
-        if($SESSION->cancel == 1) {
+        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
             $SESSION->cancel = 0;
             redirect($CFG->wwwroot);
         } elseif($this->page_number != $this->applicantprogress) {
-            force_signup_flow($this->applicantprogress);
+            force_signup_flow($this->page_number);
         }
         return true;
     }

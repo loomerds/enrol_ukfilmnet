@@ -88,7 +88,7 @@ class emailverifypage implements \renderable, \templatable {
         global $CFG, $SESSION;
         require_once(__DIR__.'/../../signuplib.php');
 
-        if($SESSION->cancel == 1) {
+        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
             $SESSION->cancel = 0;
             redirect($CFG->wwwroot);
         } elseif($this->page_number != $this->applicantprogress) {
