@@ -197,7 +197,9 @@ $string['student_familyname'] = 'Student family name';
 // Button Labels
 $string['button_next'] = 'Next';
 $string['button_submit'] = 'Submit';
-$string['button_exit'] = 'Exit Signup';
+$string['button_exitsignup'] = 'Exit Signup';
+$string['button_cancel'] = 'Cancel';
+$string['button_exit'] = 'Exit';
 
 // Error Messages
 $string['error_missing_role'] = 'Missing current role';

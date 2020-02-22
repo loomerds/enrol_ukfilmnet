@@ -35,11 +35,9 @@ require_once(__DIR__.'/../../signuplib.php');
 class emailverifypage implements \renderable, \templatable {
 
     private $page_number;
-    private $applicantprogress;
     
-    public function __construct($page_number, $applicantprogress) {
+    public function __construct($page_number) {
         $this->page_number = $page_number;
-        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -50,19 +48,17 @@ class emailverifypage implements \renderable, \templatable {
 
     public function get_emailverify_content() {
 
-        global $CFG, $SESSION;
+        global $CFG;
 
         $emailverifyinput = '';
         $mform = new emailverify_form();
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            $SESSION->cancel = 1;
-            $this->handle_redirects();
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
-            $form_data = $mform->get_data();
+            // retain this for possible future use
+        } else if ($form_data = $mform->get_data()) {
             
+            // Make sure we have the right user
             $verified_user = applicant_login($form_data->username, $form_data->password);
     
             if($verified_user !== null) {
@@ -71,8 +67,6 @@ class emailverifypage implements \renderable, \templatable {
                 $verified_user->profile_field_applicationprogress = 3;
                 profile_save_data($verified_user);
             }
-            $this->applicantprogress = 3;
-            $this->handle_redirects();
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
@@ -82,18 +76,5 @@ class emailverifypage implements \renderable, \templatable {
             $emailverifyinput = $mform->render();
         }
         return $emailverifyinput;
-    }
-
-    public function handle_redirects() {
-        global $CFG, $SESSION;
-        require_once(__DIR__.'/../../signuplib.php');
-
-        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
-            $SESSION->cancel = 0;
-            redirect($CFG->wwwroot);
-        } elseif($this->page_number != $this->applicantprogress) {
-            force_signup_flow($this->applicantprogress);
-        }
-        return true;
     }
 }

@@ -26,7 +26,19 @@
 /** The user is put onto a waiting list and therefore the enrolment not active 
  * (used in user_enrolments->status) 
  */
+
+global $CFG;
+
 defined('MOODLE_INTERNAL') || die();
+define('PAGE_WWWROOT', $CFG->wwwroot);
+define('PAGE_APPLICANT', $CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
+define('PAGE_EMAILVERIFY', $CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
+define('PAGE_SCHOOL', $CFG->wwwroot.'/enrol/ukfilmnet/school.php');
+define('PAGE_COURSES', $CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
+define('PAGE_SAFEGUARDING', $CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
+define('PAGE_STUDENTS', $CFG->wwwroot.'/enrol/ukfilmnet/students.php');
+define('PAGE_ASSURANCE', $CFG->wwwroot.'/enrol/ukfilmnet/assurance.php');
+define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
 
 /**
  * Creates a bare-bones user record
@@ -557,7 +569,7 @@ function get_array_from_json_file($save_filename) {
     return $target_array;
 }
 
-/*function force_progress($application_progress, $current_page) {
+function force_progress($application_progress, $current_page) {
     global $CFG;
 
     switch($application_progress) {
@@ -602,7 +614,42 @@ function get_array_from_json_file($save_filename) {
             //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
             //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
     }
-}*/
+}
+
+function go_to_page($target_page) {
+    global $CFG;
+    switch($target_page) {
+        case '0':
+            redirect(PAGE_WWWROOT);
+            break;
+        case '1':
+            redirect(PAGE_APPLICANT);
+            break;
+        case '2':
+            redirect(PAGE_EMAILVERIFY);
+            break;
+        case '3':
+            redirect(PAGE_SCHOOL);
+            break;
+        case '4':
+            redirect(PAGE_COURSES);
+            break;
+        case '5':
+            redirect(PAGE_SAFEGUARDING);
+            break;
+        case '6':
+            redirect(PAGE_STUDENTS);
+            break;
+        case '7':
+            redirect(PAGE_STUDENTS);
+            break;
+        case '8':
+            redirect(PAGE_STUDENTS);
+            break;
+        default:
+            break;
+    }
+}
 
 function force_signup_flow($target_page) {
     global $CFG;

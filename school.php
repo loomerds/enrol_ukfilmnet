@@ -28,24 +28,53 @@ require_once('./signuplib.php');
 
 require_login();
 
-profile_load_data($USER);
 
-$current_page_num = '3';
-profile_load_data($USER);
-/*if($USER->profile_field_applicationprogress != $current_page_num) {
-    force_signup_flow($current_page_num);
-}*/
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
 $page_number = 3;
-$progress = $page_number;
-
-$schoolpage = new \enrol_ukfilmnet\output\schoolpage($page_number, $progress);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
+$schoolpage = new \enrol_ukfilmnet\output\schoolpage($page_number);
+$page_content = $output->render_schoolpage($schoolpage);
+
+// This should probably be factored out
+// Handle cancels
+if(isset($_POST['cancel'])) {
+    go_to_page(strval(0));
+}
+// Handle submits 
+elseif(isset($_POST['submitbutton'])) {
+    // If all required inputs were received progress to next signup page
+    $form_items = $_POST;
+print_r2($form_items);
+    $all_items_submitted = true;
+    foreach($form_items as $key=>$value) {
+        //if(strlen($value) < 1) {
+        if(isset($key) === false) {
+            $all_items_submitted = false;
+        }
+    }
+    if($all_items_submitted == true) {
+        go_to_page(strval(1+$page_number)); //what about final page?
+    }
+}
+// Force non-submit based arrivals on the page to correct applicantprogress page
+else {
+    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+        profile_load_data($USER);
+        if(isset($USER->profile_field_applicationprogress)) {
+            $progress = $USER->profile_field_applicationprogress;
+            if($progress != $page_number) {
+                go_to_page(strval($progress));
+            }
+        }
+    }
+                
+}
+
 echo $output->header();
-echo $output->render_schoolpage($schoolpage);
+echo $page_content;
 echo $output->footer();

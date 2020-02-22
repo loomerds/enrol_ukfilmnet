@@ -39,21 +39,9 @@ require_once($CFG->libdir.'/datalib.php');
 class applicantpage implements \renderable, \templatable {
 
     public $page_number;
-    public $applicantprogress;
-    //public $cancel;
-    //var $cancel = false;
 
-    public function __construct($page_number, $applicantprogress) {
-        //global $SESSION;
+    public function __construct($page_number) {
         $this->page_number = $page_number;
-        $this->applicantprogress = $applicantprogress;
-        //$this->cancel = $SESSION->cancel;
-        //$this->handle_redirects();
-        
-        // If the $USER->profile_field_applicant  variable isset and
-        // Load the profile_field_applicantprogress variable
-        // If the page_number != to applicantprogress
-        // Then redirect to the page that is the same as the applicantprogress value
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -74,25 +62,30 @@ class applicantpage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            $SESSION->cancel = 1;
-            //$this->handle_redirects();
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
-            $form_data = $mform->get_data();
+            // retain this for possible future use
+        } else if ($form_data = $mform->get_data()) {
+
             //Build a object we can use to pass variables to the email we will send to applicant
             $username = $form_data->email;
             $password = make_random_password();
             $code = generate_random_verification_code();
             $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
-
+            // Create a new user
             $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
             $user = create_applicant_user($newuser, $password);
-            $this->applicantprogress = 2;
+            
+            // Set the new user's applicantprogress variable
+            profile_load_data($user);
+            $user->profile_field_applicantprogress = 2;
+
+            // Make the new user the currently logged in user
             \core\session\manager::set_user($user);
             
-// Need to log the user out here to force a relogin?
+            // Need to log the user out here to force a relogin?
+
+            // Email the applicant user
             email_to_user($user, get_admin(), get_string('verification_subject', 'enrol_ukfilmnet'), get_string('verification_text', 'enrol_ukfilmnet', $emailvariables));
-            //$this->handle_redirects();
+            
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();

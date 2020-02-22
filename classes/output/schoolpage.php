@@ -37,11 +37,9 @@ require_once($CFG->libdir.'/datalib.php');
 class schoolpage implements \renderable, \templatable {
     
     private $page_number;
-    private $applicantprogress;
-
-    public function __construct($page_number, $applicantprogress) {
+   
+    public function __construct($page_number) {
         $this->page_number = $page_number;
-        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -60,12 +58,10 @@ class schoolpage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            $SESSION->cancel = 1;
-            $this->handle_redirects();
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
-            $form_data = $mform->get_data();
-            
+            // retain this for possible future use
+        } else if ($form_data = $mform->get_data()) {
+
+            // Get form data and add to the user's profile_fields
             profile_load_data($USER);
             $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
             $USER->profile_field_ukprn = $form_data->ukprn[0];
@@ -80,7 +76,7 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
 
-            //Build a object we can use to pass username, password, and code variables to the email we will send to applicant
+            //Build a object for the email we will send to safeguarding officer
             $ukprn = $form_data->ukprn;
             $schoolname = $USER->profile_field_ukprn;
             $schoolcountry = $form_data->school_country;
@@ -90,8 +86,12 @@ class schoolpage implements \renderable, \templatable {
             $applicant_familyname = $USER->lastname;
             $applicant_email = $USER->email;
             $assurance_code = $USER->profile_field_assurancecode;
-            $newuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
-            $contact_user = create_applicant_user($newuser, 'make_random_password');
+
+            // Create a temporary safeguarding officer user
+            $tempuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
+            $contact_user = create_applicant_user($tempuser, 'make_random_password');
+
+            // Create array of variables for email to safeguarding officer
             $emailvariables = (object) array('schoolname_ukprn'=>$ukprn, 
                                              'schoolname'=>$schoolname,
                                              'schoolcountry'=>$schoolcountry, 
@@ -102,10 +102,11 @@ class schoolpage implements \renderable, \templatable {
                                              'applicant_email'=>$applicant_email,
                                              'assurance_code'=>$assurance_code);
             
+            // Send email to safeguarding officer
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
+
+            // Delete temporary safeguarding officer user
             delete_user($contact_user);
-            $this->applicantprogress = 4;
-            $this->handle_redirects();
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();
@@ -115,18 +116,5 @@ class schoolpage implements \renderable, \templatable {
             $schoolinput = $mform->render();
         }
         return $schoolinput;
-    }
-    
-    public function handle_redirects() {
-        global $CFG, $SESSION;
-        require_once(__DIR__.'/../../signuplib.php');
-
-        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
-            $SESSION->cancel = 0;
-            redirect($CFG->wwwroot);
-        } elseif($this->page_number != $this->applicantprogress) {
-            force_signup_flow($this->applicantprogress);
-        }
-        return true;
     }
 }

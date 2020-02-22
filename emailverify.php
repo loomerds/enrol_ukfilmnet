@@ -23,29 +23,56 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $SESSION, $USER;
+global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
 require_login();
-
-$current_page_num = '2';
-profile_load_data($USER);
-print_r2($USER->profile_field_applicationprogress);
-/*if($USER->profile_field_applicationprogress != $current_page_num) {
-    force_signup_flow($current_page_num);
-}*/
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
 $page_number = 2;
-$progress = $page_number;
 
-$emailverifypage = new \enrol_ukfilmnet\output\emailverifypage($page_number, $progress);
-$emailverifypage->handle_redirects();
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
+$emailverifypage = new \enrol_ukfilmnet\output\emailverifypage($page_number);
+$page_content = $output->render_emailverifypage($emailverifypage);
+
+
+// This should probably be factored out
+// Handle cancels
+if(isset($_POST['cancel'])) {
+    go_to_page(strval(0));
+}
+// Handle submits 
+elseif(isset($_POST['submitbutton'])) {
+    // If all required inputs were received progress to next signup page
+    $form_items = $_POST;
+    $all_items_submitted = true;
+    foreach($form_items as $key=>$value) {
+        if(strlen($value) < 1) {
+            $all_items_submitted = false;
+        }
+    }
+    if($all_items_submitted == true) {
+        go_to_page(strval(1+$page_number)); //what about final page?
+    }
+}
+// Force non-submit based arrivals on the page to correct applicantprogress page
+else {
+    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+        profile_load_data($USER);
+        if(isset($USER->profile_field_applicationprogress)) {
+            $progress = $USER->profile_field_applicationprogress;
+            if($progress != $page_number) {
+                go_to_page(strval($progress));
+            }
+        }
+    }
+                
+}
+
 echo $output->header();
-echo $output->render_emailverifypage($emailverifypage);
+echo $page_content;
 echo $output->footer();
