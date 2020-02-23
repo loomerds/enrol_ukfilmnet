@@ -80,7 +80,7 @@ elseif(isset($_POST['submitbutton'])) {
 }
 // Force non-submit based arrivals on the page to correct applicantprogress page
 else {
-    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+    /*if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
         profile_load_data($USER);
         if(isset($USER->profile_field_applicationprogress)) {
             $progress = $USER->profile_field_applicationprogress;
@@ -88,7 +88,7 @@ else {
                 go_to_page(strval($progress));
             }
         }
-    }
+    }*/
                 
 }
 

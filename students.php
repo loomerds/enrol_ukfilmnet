@@ -39,6 +39,8 @@ if($USER->username == 'guest') {
     redirect(PAGE_WWWROOT.'/login/index.php');
 }
 
+//print_r2($DB->get_records('role'));
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
