@@ -42,8 +42,7 @@ class safeguarding_form extends \moodleform {
         $mform = $this->_form; 
         
         $buttonarray[] = $mform->createElement('cancel', 'cancelbutton', get_string('button_exit', 'enrol_ukfilmnet'));
-        $mform->addGroup($buttonarray, 'cancelbutton', '', '',  false);
-        //$this->add_action_buttons($cancel=false, $submitlabel=get_string('button_exit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);         
+        $mform->addGroup($buttonarray, 'cancelbutton', '', '',  false);       
     }
     //Custom validation should be added here
     function validation($data, $files) {

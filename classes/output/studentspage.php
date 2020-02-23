@@ -38,11 +38,9 @@ require_once('signuplib.php');
 class studentspage implements \renderable, \templatable {
 
     private $page_number;
-    private $applicantprogress;
 
-    public function __construct($page_number, $applicantprogress) {
+    public function __construct($page_number) {
         $this->page_number = $page_number;
-        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -51,6 +49,7 @@ class studentspage implements \renderable, \templatable {
         return $data;
     }
 
+    // Consider rewriting this function to use an mform approach
     public function get_students_content() {
 
         global $CFG, $DB, $USER;
@@ -76,7 +75,7 @@ class studentspage implements \renderable, \templatable {
         // Create an array of table rows data
         $rows = [];
         $students = $DB->get_records('user', array('deleted'=>0));
-        // This conrtols how many rows our in our enrol table - add JS to make this better
+        // This controls how many rows our in our enrol table - add JS to make this better
         $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
         $count = 0;
         while($rowsnum > $count) {
@@ -93,8 +92,6 @@ class studentspage implements \renderable, \templatable {
         $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
                          'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
                          'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
-        $this->applicantprogress = 6;
-        //$this->handle_redirects();
         return $studentsdata;
     }
 
@@ -148,83 +145,4 @@ class studentspage implements \renderable, \templatable {
     function create_student_familyname_input($student_familyname) {
         return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
     }
-    
-    public function handle_redirects() {
-        global $CFG, $SESSION;
-        require_once(__DIR__.'/../../signuplib.php');
-
-        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
-            $SESSION->cancel = 0;
-            redirect($CFG->wwwroot);
-        } elseif($this->page_number != $this->applicantprogress) {
-            force_signup_flow($this->applicantprogress);
-        }
-        return true;
-    }
-    /*
-    //$studentsdata = ['headings'=>$headings];
-
-        $studentsinput = '';
-        $mform = new students_form();
-
-        //Form processing and displaying is done here
-        if ($mform->is_cancelled()) {
-            redirect('https://ukfilmnet.org');
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
-            $form_data = $mform->get_data();
-            
-            //$fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';*/
-            /*$fullpath = $CFG->dataroot.'/assurancefiles';
-            $override = false;
-            $filename = $mform->get_new_filename('assurance_form');
-            $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
-            $count = 0;
-            while($success === false && $count < 10) {
-                //$remove[] = "'";
-                //$filename = trim(make_random_numstring().$filename, "'");
-                //$filename = str_replace($remove, "", make_random_numstring().$filename);
-                //rename($fullpath.'/'.$filename, $fullpath.'/'.((make_random_numstring().$filename)));
-                $filename = make_random_numstring().$filename;
-                $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
-                $count = $count+1;
-
-            $fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
-            //$fullpath = $CFG->dataroot.'/assurancefiles';
-            $override = false;
-            $filename = $mform->get_new_filename('assurance_form');
-            $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
-            $count = 0;
-            while($success === false && $count < 10) {
-                //$remove[] = "'";
-                //$filename = trim(make_random_numstring().$filename, "'");
-                //$filename = str_replace($remove, "", make_random_numstring().$filename);
-                //rename($fullpath.'/'.$filename, $fullpath.'/'.((make_random_numstring().$filename)));
-                $filename = make_random_numstring().$filename;
-                $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
-                $count = $count+1;
-            }
-
-            $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
-            if($applicant_user !== null) {
-                profile_load_data($applicant_user);
-                $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
-                $applicant_user->profile_field_assurancesubmitted = 1;
-                $applicant_user->profile_field_assurancesubmissiondate = time();
-                $applicant_user->profile_field_assurancedoc = $filename;
-                profile_save_data($applicant_user);
-            }
-              
-            //$verified_user = applicant_login($applicant_user->username, $applicant_user->password);
-        } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
-            // or on the first display of the form.
-            $toform = $mform->get_data();
-            //$SESSION->email_info_complete = false;
-            //Set default data (if any)
-            $mform->set_data($toform);
-            //displays the form
-            $studentsinput = $mform->render();
-        }*/
-
 }

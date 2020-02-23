@@ -23,28 +23,58 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $SESSION, $USER;
+global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
 require_login();
-
-$current_page_num = '4';
-profile_load_data($USER);
-/*if($USER->profile_field_applicationprogress != $current_page_num) {
-    force_signup_flow($current_page_num);
-}*/
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/courses.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('courses_title', 'enrol_ukfilmnet'));
 $page_number = 4;
-$progress = $page_number;
-
-$coursespage = new \enrol_ukfilmnet\output\coursespage($page_number, $progress);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
+$coursespage = new \enrol_ukfilmnet\output\coursespage($page_number);
+$page_content = $output->render_coursespage($coursespage);
+
+// This should probably be factored out
+// Handle cancels
+if(isset($_POST['cancel'])) {
+    go_to_page(strval(0));
+}
+// Handle submits 
+elseif(isset($_POST['submitbutton'])) {
+    // If all required inputs were received progress to next signup page
+    $form_items = $_POST;
+    $all_items_submitted = true;
+    foreach($form_items as $key=>$value) {
+        if($value == null or ($key == 'ukprn' and !is_array($value))) {
+            $all_items_submitted = false;
+        }
+        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
+            $all_items_submitted = false;
+        }
+    }
+    if($all_items_submitted == true) {
+        go_to_page(strval(1+$page_number)); //what about final page?
+    }
+}
+// Force non-submit based arrivals on the page to correct applicantprogress page
+else {
+    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+        profile_load_data($USER);
+        if(isset($USER->profile_field_applicationprogress)) {
+            $progress = $USER->profile_field_applicationprogress;
+            if($progress != $page_number) {
+                go_to_page(strval($progress));
+            }
+        }
+    }
+                
+}
+
 echo $output->header();
-echo $output->render_coursespage($coursespage);
+echo $page_content;
 echo $output->footer();

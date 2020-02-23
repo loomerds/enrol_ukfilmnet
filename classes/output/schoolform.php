@@ -58,6 +58,7 @@ class school_form extends \moodleform {
         $mform->addElement('autocomplete', 'ukprn', get_string('school_name_label', 'enrol_ukfilmnet'), $school_names, $options); 
         $mform->setType('ukprn', PARAM_TEXT);
         $mform->addRule('ukprn', get_string('error_missing_schoolname', 'enrol_ukfilmnet'), 'required', null, 'server');
+        //$mform->applyFilter('ukprn', 'trim');
         $mform->addElement('static', '', get_string('contact_info_label', 'enrol_ukfilmnet', null));
         $mform->addElement('text', 'contact_firstname', get_string('contact_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20']);
         $mform->setType('contact_firstname', PARAM_TEXT);
@@ -71,7 +72,7 @@ class school_form extends \moodleform {
         $mform->addElement('text', 'contact_phone', get_string('contact_phone', 'enrol_ukfilmnet'), ['class'=>'ukfn-indent-20 ukfn-last-input']);
         $mform->setType('contact_phone', PARAM_NOTAGS);
         $mform->addRule('contact_phone', get_string('error_missing_contact_phone', 'enrol_ukfilmnet'), 'required', null, 'server');
-        $mform->addElement('hidden', 'role', null);
+        $mform->addElement('hidden', 'role', '08');
         $mform->setType('role', PARAM_ACTION);
         $mform->addElement('checkbox', 'school_consent_to_contact', get_string('consent_to_contact', 'enrol_ukfilmnet'));
         $mform->setDefault('school_consent_to_contact', 0);
@@ -82,7 +83,7 @@ class school_form extends \moodleform {
     function validation($data, $files) {
         $errors = parent::validation($data, $files);
         
-        if($data['ukprn'] == '') {
+        if(!isset($data['ukprn'])) {
             $errors['ukprn'] = get_string('error_missing_school_name', 'enrol_ukfilmnet');
         }
         if($data['contact_email'] && strpos( $data['contact_email'], '@') === false) {

@@ -31,6 +31,7 @@ use stdClass;
 use moodle_url;
 
 require_once('schoolform.php');
+require_once('signuplib.php');
 require_once($CFG->libdir.'/datalib.php');
 
 // This is a Template Class it collects/creates the data for a template
@@ -60,7 +61,8 @@ class schoolpage implements \renderable, \templatable {
         if ($mform->is_cancelled()) {
             // retain this for possible future use
         } else if ($form_data = $mform->get_data()) {
-
+            // Process validated data here.
+            
             // Get form data and add to the user's profile_fields
             profile_load_data($USER);
             $USER->profile_field_applicant_consent_to_check = $form_data->school_consent_to_contact;
@@ -88,7 +90,14 @@ class schoolpage implements \renderable, \templatable {
             $assurance_code = $USER->profile_field_assurancecode;
 
             // Create a temporary safeguarding officer user
-            $tempuser = (object) array('email'=>$form_data->contact_email,'username'=>$form_data->contact_email,'firstname'=>$form_data->contact_firstname,'lastname'=>$form_data->contact_familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>0, 'verificationcode'=>'000000');
+            $tempuser = (object) array(
+                'email'=>$form_data->contact_email,
+                'username'=>$form_data->contact_email,
+                'firstname'=>$form_data->contact_firstname,
+                'lastname'=>$form_data->contact_familyname, 
+                'currentrole'=>$form_data->role, 
+                'applicationprogress'=>0, 
+                'verificationcode'=>'000000');
             $contact_user = create_applicant_user($tempuser, 'make_random_password');
 
             // Create array of variables for email to safeguarding officer

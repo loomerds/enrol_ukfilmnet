@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $DB, $SESSION, $CFG;
+global $DB, $CFG;
 require(__DIR__ . '/../../config.php');
 require_once('../locallib.php');
 require_once('./signuplib.php');
@@ -31,30 +31,70 @@ require_once($CFG->dirroot.'/lib/dml/moodle_database.php');
 require_once($CFG->dirroot.'/course/externallib.php');
 require_once($CFG->dirroot.'/user/externallib.php');
 
+require_login();
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
 $PAGE->set_context(context_system::instance());
+$PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
+$PAGE->navbar->add('Tracking');
+$page_number = 8;
+
+$output = $PAGE->get_renderer('enrol_ukfilmnet');
+$trackingpage = new \enrol_ukfilmnet\output\trackingpage();
+$page_content = $output->render_trackingpage($trackingpage);
+
 $context = $PAGE->context;
-require_login();
 try {
     require_capability('moodle/site:config', $context);
 } catch (Exception $e) {
-    echo "<script>location.href='/index.php'</script>";
+    //echo "<script>location.href='/index.php'</script>";
+    redirect(PAGE_WWWROOT);
 }
 if(!empty($_POST['approved'])) {
     application_approved($_POST['approved']);
 }
-
 if(!empty($_POST['denied'])) {
     application_denied($_POST['denied']);
 }
 
-$PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
-$PAGE->navbar->add('Tracking');
-$output = $PAGE->get_renderer('enrol_ukfilmnet');
+// This should probably be factored out
+// Handle cancels
+if(isset($_POST['cancel'])) {
+    go_to_page(strval(0));
+}
+// Handle submits 
+elseif(isset($_POST['submitbutton'])) {
+    // If all required inputs were received progress to next signup page
+    $form_items = $_POST;
+    $all_items_submitted = true;
+    foreach($form_items as $key=>$value) {
+        if($value == null or ($key == 'ukprn' and !is_array($value))) {
+            $all_items_submitted = false;
+        }
+        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
+            $all_items_submitted = false;
+        }
+    }
+    if($all_items_submitted == true) {
+        //go_to_page(strval(1+$page_number)); //what about final page?
+        redirect(PAGE_WWWROOT);
+    }
+}
+// Force non-submit based arrivals on the page to correct applicantprogress page
+else {
+    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+        profile_load_data($USER);
+        if(isset($USER->profile_field_applicationprogress)) {
+            $progress = $USER->profile_field_applicationprogress;
+            if($progress != $page_number) {
+                go_to_page(strval($progress));
+            }
+        }
+    }
+                
+}
+
 echo $output->header();
-
-$trackingpage = new \enrol_ukfilmnet\output\trackingpage();
-
-echo $output->render_trackingpage($trackingpage);
+echo $page_content;
 echo $output->footer();

@@ -36,11 +36,9 @@ require_once('safeguardingform.php');
 class safeguardingpage implements \renderable, \templatable {
     
     private $page_number;
-    private $applicantprogress;
 
-    public function __construct($page_number, $applicantprogress) {
+    public function __construct($page_number) {
         $this->page_number = $page_number;
-        $this->applicantprogress = $applicantprogress;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -58,11 +56,11 @@ class safeguardingpage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect($CFG->wwwroot);
-            //$SESSION->cancel = 1;
-            //$this->handle_redirects();
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
+            // retain this for possible future use
+        } else if ($form_data = $mform->get_data()) {
+            // Process validated data here.
+
+            // Currently no form input for this page.
             $form_data = $mform->get_data();
             $safeguardinginput = $form_data;
         } else {
@@ -74,18 +72,5 @@ class safeguardingpage implements \renderable, \templatable {
             $safeguardinginput = $mform->render();
         }
         return $safeguardinginput;
-    }
-
-    public function handle_redirects() {
-        global $CFG, $SESSION;
-        require_once(__DIR__.'/../../signuplib.php');
-
-        if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
-            $SESSION->cancel = 0;
-            redirect($CFG->wwwroot);
-        } elseif($this->page_number != $this->applicantprogress) {
-            force_signup_flow($this->applicantprogress);
-        }
-        return true;
     }
 }

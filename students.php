@@ -22,32 +22,47 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $SESSION, $USER, $DB;
+
+use \core\session\manager;
+
+global $USER, $DB;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once(__DIR__ .'/../../cohort/lib.php');
 
 require_login();
 
-/*$current_page_num = '6';
-profile_load_data($USER);
-if($USER->profile_field_applicationprogress != $current_page_num) {
-    force_signup_flow($current_page_num);
-}*/
+if($USER->username == 'guest') {
+    
+   // manager::set_user($user);
+
+    redirect(PAGE_WWWROOT.'/login/index.php');
+}
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
+$PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
+$page_number = 6;
+
+$output = $PAGE->get_renderer('enrol_ukfilmnet');
+$studentspage = new \enrol_ukfilmnet\output\studentspage($page_number);
+$page_content = $output->render_studentspage($studentspage);
+
 if(!empty($_POST)) {
     handle_enrol_students_post($_POST);
 }
-$PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
-$page_number = 6;
-$progress = $page_number;
 
-$studentspage = new \enrol_ukfilmnet\output\studentspage($page_number, $progress);
-
-$output = $PAGE->get_renderer('enrol_ukfilmnet');
+if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+    profile_load_data($USER);
+    if(isset($USER->profile_field_applicationprogress)) {
+        $progress = $USER->profile_field_applicationprogress;
+        if($progress != $page_number) {
+            go_to_page(strval($progress));
+        }
+    }
+}
+                
 echo $output->header();
-echo $output->render_studentspage($studentspage);
+echo $page_content;
 echo $output->footer();

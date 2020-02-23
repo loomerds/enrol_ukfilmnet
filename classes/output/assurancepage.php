@@ -34,10 +34,7 @@ require_once('signuplib.php');
 // This is a Template Class it collects/creates the data for a template
 class assurancepage implements \renderable, \templatable {
 
-    var $sometext = null;
-
     public function __construct($sometext = null) {
-        $this->sometext = $sometext;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -56,10 +53,10 @@ class assurancepage implements \renderable, \templatable {
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
             redirect($CFG->wwwroot);
-        } else if ($fromform = $mform->get_data()) {
-            //In this case you process validated data. $mform->get_data() returns data posted in form.
-            $form_data = $mform->get_data();
+        } else if ($form_data = $mform->get_data()) {
+            // Process validated data here.
 
+            // Save the Assurance Form file uploaded by the Officer
             $fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
             $override = false;
             $filename = $mform->get_new_filename('assurance_form');
@@ -71,8 +68,12 @@ class assurancepage implements \renderable, \templatable {
                 $count = $count+1;
             }
 
+            // Get the relevant applicant's user object
             $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
-            $safeguarding_contact_email = "";
+            
+            //$safeguarding_contact_email = "";
+            
+            // Update the relevant applicant's user profile
             if($applicant_user !== null) {
                 profile_load_data($applicant_user);
                 $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
@@ -82,9 +83,10 @@ class assurancepage implements \renderable, \templatable {
                 profile_save_data($applicant_user);
             }
             
-            if($USER->firstname === 'Safeguarding') {
+            // Delete the safeguarding officer's user account
+            /*if($USER->firstname === 'Safeguarding') {
                 delete_user($USER);
-            }
+            }*/
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();

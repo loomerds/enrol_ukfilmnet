@@ -28,8 +28,6 @@ require_once('./signuplib.php');
 
 require_login();
 
-
-
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
 $PAGE->set_context(context_system::instance());
@@ -49,11 +47,12 @@ if(isset($_POST['cancel'])) {
 elseif(isset($_POST['submitbutton'])) {
     // If all required inputs were received progress to next signup page
     $form_items = $_POST;
-print_r2($form_items);
     $all_items_submitted = true;
     foreach($form_items as $key=>$value) {
-        //if(strlen($value) < 1) {
-        if(isset($key) === false) {
+        if($value == null or ($key == 'ukprn' and !is_array($value))) {
+            $all_items_submitted = false;
+        }
+        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
             $all_items_submitted = false;
         }
     }
