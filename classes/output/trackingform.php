@@ -31,7 +31,7 @@ namespace enrol_ukfilmnet\output;
 
 defined('MOODLE_INTERNAL' || die());
 
-require_once("$CFG->libdir/formslib.php");
+require_once($CFG->libdir.'/formslib.php');
 
 //use core_string_manager_standard;
 

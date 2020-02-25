@@ -69,8 +69,7 @@ else {
                 go_to_page(strval($progress));
             }
         }
-    }
-                
+    }           
 }
 
 echo $output->header();

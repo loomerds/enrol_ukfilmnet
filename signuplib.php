@@ -339,32 +339,12 @@ function application_approved($approved) {
                     role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
                     role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
                     
-                    enrol_user_this($newcourse, $applicant_user, '3');
+                    enrol_user_this($newcourse, $applicant_user, '3', 'manual');
                 }
             }
         }
     }
 }
-
-/*function create_classroom_course_and_add_teacher($user) {
-    global $DB, $CFG;
-    include_once($CFG->dirroot.'/course/externallib.php');
-    include_once($CFG->dirroot.'/lib/enrollib.php');
-    
-    if($user !== null) {
-        $newcourse = create_classroom_course_from_teacherid($user->id, 
-                get_string('template_course', 'enrol_ukfilmnet'), 
-                get_string('course_category', 'enrol_ukfilmnet'));
-//print_r2($newcourse);
-        *//*$approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
-        $systemcontext = context_system::instance();
-        $usercontext = context_user::instance($applicant_user->id);
-        role_assign($approvedteacher_role->id, $user->id, $systemcontext->id);
-        role_assign($approvedteacher_role->id, $user->id, $usercontext->id);
-        
-        enrol_user_this($newcourse, $user, '3');
-    }
-}*/
 
 function email_user_accept_reject($applicant, $status){
     
@@ -461,7 +441,7 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     return $courseinfo;
 }
 
-function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'cohort') {
+function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
     global $DB;
 
     $course = $DB->get_record('course', array('shortname' => $courseinfo['shortname']), '*', MUST_EXIST);
@@ -475,19 +455,19 @@ function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'cohort') {
         $instances = enrol_get_instances($course->id, true);
         $manualinstance = null;
         foreach ($instances as $instance) {
-            if ($instance->name == $enrolmethod) {
+            if ($instance->enrol == $enrolmethod) {
                 $manualinstance = $instance;
                 break;
             }
         }
-        if ($manualinstance !== null) {
+        /*if ($manualinstance == null) {
             $instanceid = $enrol->add_default_instance($course);
             if ($instanceid === null) {
                 $instanceid = $enrol->add_instance($course);
             }
             $instance = $DB->get_record('enrol', array('id' => $instanceid));
-        }
-        $enrol->enrol_user($instance, $user->id, $roleid);
+        }*/
+        $enrol->enrol_user($manualinstance, $user->id, $roleid, time(), 0);
     }
 }
 
