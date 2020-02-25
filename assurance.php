@@ -32,6 +32,7 @@ require_once('./signuplib.php');
 // Create a temporary user account for the Safeguarding Officer
 // Do it only once.
 if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
+
     $username = make_random_password();
     $password = make_random_password();
     $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
@@ -41,7 +42,6 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
     manager::set_user($user);
 }
 
-//$SESSION->assurance_info_complete = false;
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));
 $PAGE->set_context(context_system::instance());
@@ -55,7 +55,10 @@ $page_content = $output->render_assurancepage($assurancepage);
 // This should probably be factored out
 // Handle cancels
 if(isset($_POST['cancel'])) {
-    go_to_page(strval(0));
+    if($USER->firstname === 'Safeguarding') {
+        delete_user($USER);
+    }
+    redirect(PAGE_WWWROOT);
 }
 // Handle submits 
 elseif(isset($_POST['submitbutton'])) {

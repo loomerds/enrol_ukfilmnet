@@ -404,7 +404,6 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     foreach($categories as $category) {
         if($category->name == $category_name) {
             $target_categoryid = $category->id;
-            print_r2($target_categoryid);
         }
         if($category->name == get_string('misc_course_category', 'enrol_ukfilmnet')) {
             $miscellaneous_categoryid = $category->id;
@@ -535,7 +534,6 @@ function create_array_from_csv($csvfile, $save_filename) {
     if($target_string) {
         $target_array[] = json_decode($target_string, true);
     }
-    //print_r2($target_array);
 }
 
 function get_array_from_json_file($save_filename) {

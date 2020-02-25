@@ -48,7 +48,6 @@ $context = $PAGE->context;
 try {
     require_capability('moodle/site:config', $context);
 } catch (Exception $e) {
-    //echo "<script>location.href='/index.php'</script>";
     redirect(PAGE_WWWROOT);
 }
 if(!empty($_POST['approved'])) {
@@ -91,8 +90,7 @@ else {
                 go_to_page(strval($progress));
             }
         }
-    }
-                
+    }               
 }
 
 echo $output->header();

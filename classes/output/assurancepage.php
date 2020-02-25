@@ -52,7 +52,7 @@ class assurancepage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            redirect($CFG->wwwroot);
+            // Retain this for possible future implementation
         } else if ($form_data = $mform->get_data()) {
             // Process validated data here.
 
