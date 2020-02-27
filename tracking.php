@@ -44,17 +44,15 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $trackingpage = new \enrol_ukfilmnet\output\trackingpage();
 $page_content = $output->render_trackingpage($trackingpage);
 
+if(!empty($_POST)) {
+    handle_tracking_post();
+}
+
 $context = $PAGE->context;
 try {
     require_capability('moodle/site:config', $context);
 } catch (Exception $e) {
     redirect(PAGE_WWWROOT);
-}
-if(!empty($_POST['approved'])) {
-    application_approved($_POST['approved']);
-}
-if(!empty($_POST['denied'])) {
-    application_denied($_POST['denied']);
 }
 
 // This should probably be factored out

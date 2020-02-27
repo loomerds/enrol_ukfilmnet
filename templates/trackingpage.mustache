@@ -63,6 +63,7 @@
                     <th class="header ukfn_text_center" scope="col">{{title3}}</th>
                     <th class="header ukfn_text_center" scope="col">{{title4}}</th>
                     <th class="header ukfn_text_center" scope="col">{{title5}}</th>
+                    <th class="header ukfn_text_center" scope="col">{{title14}}</th>
                     <th class="header ukfn_text_center" scope="col">{{title6}}</th>
                     <th class="header ukfn_text_center" scope="col">{{title13}}</th>
                     <th class="header ukfn_text_center" scope="col">{{title7}}</th>
@@ -115,6 +116,7 @@
                     <td class="cell ukfn_text_center" scope="col">{{familyname}}, {{firstname}}</td>
                     <td class="cell ukfn_text_center" scope="col">{{email}}</td>
                     <td class="cell ukfn_text_center" scope="col">{{schoolcountry}}</td>
+                    <td class="cell ukfn_text_center" scope="col">{{courses}}</td>
                     <td class="cell ukfn_text_center" scope="col">{{schoolname}}</td>
                     <td class="cell ukfn_text_center" scope="col">{{ukprn}}</td>
                     <td class="cell ukfn_text_center" scope="col">{{contact_firstname}} {{contact_familyname}}</td>
@@ -126,8 +128,18 @@
                 {{/rows}}
                 </tbody>
                 </table>
-                <div class="ukfn_max_width">
+                <!--<div class="ukfn_max_width">
                     <input class="btn btn-primary ukfn_block_center" type="submit" value="Submit">
+                </div>-->
+                <div class="ukfn_max_width">
+                    <div class="ukfn_applicant_subheading one_panel">
+                        <span>
+                            <input class="btn btn-primary" type="submit" name="submit_type" value="Submit">
+                        </span>
+                        <span>
+                            <input class="btn btn-primary" type="submit" name="submit_type" value="Exit">
+                        </span>
+                    </div>
                 </div>
             <p></p>
             <br/>

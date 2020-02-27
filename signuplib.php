@@ -31,6 +31,7 @@ global $CFG;
 
 defined('MOODLE_INTERNAL') || die();
 define('PAGE_WWWROOT', $CFG->wwwroot);
+define('PAGE_SITEADMIN', $CFG->wwwroot.'/admin/search.php');
 define('PAGE_APPLICANT', $CFG->wwwroot.'/enrol/ukfilmnet/applicant.php');
 define('PAGE_EMAILVERIFY', $CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
 define('PAGE_SCHOOL', $CFG->wwwroot.'/enrol/ukfilmnet/school.php');
@@ -171,6 +172,21 @@ function handle_enrol_students_post($datum) {
     }
 }
 
+function handle_tracking_post() {
+    global $CFG;
+
+    if($_POST['submit_type'] == 'Exit') {
+        redirect(PAGE_SITEADMIN);
+    } else if($_POST['submit_type'] == 'Submit') {
+        if(!empty($_POST['denied'])) {
+            application_denied($_POST['denied']);
+        } if(!empty($_POST['approved'])) {
+            application_approved($_POST['approved']);
+        }
+        //redirect(PAGE_TRACKING);
+    }
+}
+
 
 function process_students($datum) {
     $count = 0;
@@ -298,12 +314,11 @@ function convert_clean_string_assoc_array ($dirty_array) {
 
 function application_denied($denied) {
     global $DB;
-
     foreach($denied as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '4') {
+            if($applicant_user->profile_field_applicationprogress == '5') {
                 $applicant_user->profile_field_applicationdenied = '1';
                 $applicant_user->profile_field_applicationprogress = '1';
                 profile_save_data($applicant_user);

@@ -53,6 +53,7 @@ class trackingpage implements \renderable, \templatable {
                           'title3'=>'Name', 
                           'title4'=>'Email',
                           'title5'=>'Country', 
+                          'title14'=>'Courses',
                           'title6'=>'School', 
                           'title13'=>'UKPRN', 
                           'title7'=>'SG Name', 
@@ -71,12 +72,13 @@ class trackingpage implements \renderable, \templatable {
         // Fill row fields with relevant applicant information
         foreach($applicants as $applicant) {
             profile_load_data($applicant);
-            if($applicant->profile_field_applicationprogress > 1) {
+            if($applicant->profile_field_applicationprogress > 0) {
                 $rows[] = [
                     'userid'=>$applicant->id,
                     'firstname'=>$applicant->firstname,
                     'familyname'=>$applicant->lastname,
                     'email'=>$applicant->email, 
+                    'courses'=>$applicant->profile_field_courses_requested,
                     'currentrole'=>$applicant->profile_field_currentrole,    
                     'applicationprogress'=>$applicant->profile_field_applicationprogress, 
                     'schoolname'=>$applicant->profile_field_schoolname, 
