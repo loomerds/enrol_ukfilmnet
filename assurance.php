@@ -38,7 +38,7 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
     $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
                             'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
     $user = create_applicant_user($newuser, $password);
-        
+    $user->policyagreed = 1;
     manager::set_user($user);
 }
 
@@ -74,7 +74,6 @@ elseif(isset($_POST['submitbutton'])) {
         }
     }
     if($all_items_submitted == true) {
-        //go_to_page(strval(1+$page_number)); //what about final page?
         if($USER->firstname === 'Safeguarding') {
             delete_user($USER);
         }
@@ -98,8 +97,3 @@ else {
 echo $output->header();
 echo $page_content; 
 echo $output->footer();
-
-/*if($SESSION->assurance_info_complete === true){
-    $SESSION->assurance_info_complete === false;
-    echo "<script>location.href='index.php'</script>";
-}*/
