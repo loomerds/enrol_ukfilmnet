@@ -27,6 +27,7 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
 require_login();
+is_applicant_user($USER);
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));

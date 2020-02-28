@@ -52,6 +52,15 @@ define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
  * @return stdClass A complete user object
  */
 
+function is_applicant_user($user) {
+    profile_load_data($user);
+    $is_applicant = strlen($user->profile_field_applicationprogress) >0;
+    if (isguestuser() or !$is_applicant) {
+        redirect(PAGE_WWWROOT);
+    }
+
+} 
+
 function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');

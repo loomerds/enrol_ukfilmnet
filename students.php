@@ -31,6 +31,7 @@ require_once('./signuplib.php');
 require_once(__DIR__ .'/../../cohort/lib.php');
 
 require_login();
+is_applicant_user($USER);
 
 if($USER->username == 'guest') {
     

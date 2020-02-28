@@ -27,13 +27,17 @@ global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
-require_login();
+
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/emailverify.php'));
+
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('verifyemail_title', 'enrol_ukfilmnet'));
 $page_number = 2;
+
+require_login();
+is_applicant_user($USER);
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $emailverifypage = new \enrol_ukfilmnet\output\emailverifypage($page_number);
