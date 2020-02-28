@@ -77,7 +77,25 @@ class applicant_form extends \moodleform {
         if(strpos($data['email'], '@') === false) {
             $errors['email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
         }
+        if($this->check_for_email_conflict($data['email']) == false) {
+            $errors['email'] = get_string('error_existing_email', 'enrol_ukfilmnet');
+        }
         
         return $errors;
+    }
+
+    function check_for_email_conflict($email) {
+        global $DB;
+
+        $users = $DB->get_records('user');
+        $email_taken = true;
+        foreach($users as $user) {
+            if($email == $user->email) {
+                $email_taken = false;
+                break;
+            }
+        }
+
+        return $email_taken;
     }
 }
