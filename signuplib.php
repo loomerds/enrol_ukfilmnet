@@ -128,7 +128,7 @@ function create_student_user($studentinfo, $auth = 'manual') {
     require_once($CFG->dirroot.'/lib/moodlelib.php');
 
     $password = make_random_password();
-    $username = trim(core_text::strtolower(make_username($studentinfo->student_email)));
+    $username = trim(core_text::strtolower($studentinfo->student_email));
     $authplugin = get_auth_plugin($auth);
     $newuser = new stdClass();
     
@@ -198,6 +198,7 @@ function handle_tracking_post() {
 
 
 function process_students($datum) {
+    global $DB;
     $count = 0;
     
     // Remove unwanted indexes from our datum subarrays - selected checkboxes created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything 
@@ -239,8 +240,19 @@ function process_students($datum) {
     $students = array_values($students);
 
     // Turn each row of student data into an object and give them Moodle accounts
+    
     foreach($students as $student) {
-        create_student_user((object)$student);
+        $users = $DB->get_records('user');
+        $email_taken = false;
+        foreach($users as $user) {
+            if($student['student_email'] == $user->email) {
+                $email_taken = true;
+                break;
+            }
+        }
+        if($email_taken == false) {
+            create_student_user((object)$student);
+        }
     }
 
     // Add students to appropriate cohorts

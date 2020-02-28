@@ -33,12 +33,12 @@ require_once(__DIR__ .'/../../cohort/lib.php');
 require_login();
 is_applicant_user($USER);
 
-if($USER->username == 'guest') {
+/*if($USER->username == 'guest') {
     
    // manager::set_user($user);
 
     redirect(PAGE_WWWROOT.'/login/index.php');
-}
+}*/
 
 /*$teach_enrol = $DB->get_record('user_enrolments', array('userid' => $USER->id));
 foreach($teach_enrol as $enrolment) {
