@@ -80,7 +80,9 @@ class schoolpage implements \renderable, \templatable {
 
             //Build a object for the email we will send to safeguarding officer
             $ukprn = $form_data->ukprn;
-            $schoolname = $USER->profile_field_ukprn;
+            $schoolname_and_street = explode(',', $USER->profile_field_schoolname);
+            $schoolname = $schoolname_and_street[0];
+            $schoolstreet = $schoolname_and_street[1];
             $schoolcountry = $form_data->school_country;
             $contact_firstname = $form_data->contact_firstname;
             $contact_familyname = $form_data->contact_familyname;
@@ -88,6 +90,8 @@ class schoolpage implements \renderable, \templatable {
             $applicant_familyname = $USER->lastname;
             $applicant_email = $USER->email;
             $assurance_code = $USER->profile_field_assurancecode;
+            $form_url = $CFG->wwwroot.'/enrol/ukfilmnet/assets/AssuranceForm.pdf';
+            $assurance_url = $CFG->wwwroot.'/enrol/ukfilmnet/assurance.php'; 
 
             // Create a temporary safeguarding officer user
             $tempuser = (object) array(
@@ -109,8 +113,9 @@ class schoolpage implements \renderable, \templatable {
                                              'applicant_firstname'=>$applicant_firstname,
                                              'applicant_familyname'=>$applicant_familyname,
                                              'applicant_email'=>$applicant_email,
-                                             'assurance_code'=>$assurance_code);
-            
+                                             'assurance_code'=>$assurance_code,
+                                             'form_url'=>$form_url,
+                                             'assurance_url'=>$assurance_url);
             // Send email to safeguarding officer
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
 

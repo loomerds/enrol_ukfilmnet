@@ -714,6 +714,7 @@ function get_schoolname($target_ukprn) {
         foreach($ukprn as $num) {
             if($num[1] == $target) {
                 return $num[0];
+                //return $num[1];
             }
         }
     }
