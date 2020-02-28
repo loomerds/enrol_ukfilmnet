@@ -52,48 +52,6 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $assurancepage = new \enrol_ukfilmnet\output\assurancepage();
 $page_content = $output->render_assurancepage($assurancepage);
 
-// This should probably be factored out
-// Handle cancels
-if(isset($_POST['cancel'])) {
-    if($USER->firstname === 'Safeguarding') {
-        delete_user($USER);
-    }
-    redirect(PAGE_WWWROOT);
-}
-// Handle submits 
-elseif(isset($_POST['submitbutton'])) {
-    // If all required inputs were received progress to next signup page
-    $form_items = $_POST;
-    $all_items_submitted = true;
-    foreach($form_items as $key=>$value) {
-        if($value == null or ($key == 'ukprn' and !is_array($value))) {
-            $all_items_submitted = false;
-        }
-        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
-            $all_items_submitted = false;
-        }
-    }
-    if($all_items_submitted == true) {
-        if($USER->firstname === 'Safeguarding') {
-            delete_user($USER);
-        }
-        redirect(PAGE_WWWROOT);
-    }
-}
-// Force non-submit based arrivals on the page to correct applicantprogress page
-else {
-    /*if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
-        profile_load_data($USER);
-        if(isset($USER->profile_field_applicationprogress)) {
-            $progress = $USER->profile_field_applicationprogress;
-            if($progress != $page_number) {
-                go_to_page(strval($progress));
-            }
-        }
-    }*/
-                
-}
-
 echo $output->header();
 echo $page_content; 
 echo $output->footer();

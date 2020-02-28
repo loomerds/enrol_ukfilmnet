@@ -40,7 +40,7 @@ class assurance_form extends \moodleform {
         global $CFG,  $USER, $SESSION;
         require_once($CFG->dirroot.'/lib/formslib.php');
         
-        $maxbytes = 185760;
+        $maxbytes = 9185760;
         $mform = $this->_form; 
         $mform->addElement('text', 'email', get_string('employee_work_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
         //$email = "fred@school.edu";

@@ -52,9 +52,15 @@ class assurancepage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            // Retain this for possible future implementation
+            
+            // Delete temporary Safguarding user
+            if($USER->firstname === 'Safeguarding') {
+                delete_user($USER);
+            }
+            
+            redirect(PAGE_WWWROOT);
         } else if ($form_data = $mform->get_data()) {
-            // Process validated data here.
+            // Process validated data her
 
             // Save the Assurance Form file uploaded by the Officer
             $fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
@@ -63,15 +69,13 @@ class assurancepage implements \renderable, \templatable {
             $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
             $count = 0;
             while($success === false && $count < 10) {
-                $filename = make_random_numstring().$filename;
+                $filename = str_replace(' ', '_', make_random_numstring().$filename);
                 $success = $mform->save_file('assurance_form', $fullpath.'/'.$filename, $override);
                 $count = $count+1;
             }
 
             // Get the relevant applicant's user object
             $applicant_user = $DB->get_record('user', array('username' => $form_data->email, 'auth' => 'manual'));
-            
-            //$safeguarding_contact_email = "";
             
             // Update the relevant applicant's user profile
             if($applicant_user !== null) {
@@ -82,21 +86,21 @@ class assurancepage implements \renderable, \templatable {
                 $applicant_user->profile_field_assurancedoc = $filename;
                 profile_save_data($applicant_user);
             }
-            
-            // Delete the safeguarding officer's user account
-            /*if($USER->firstname === 'Safeguarding') {
+            // Delete temporary Safguarding user
+            if($USER->firstname === 'Safeguarding') {
                 delete_user($USER);
-            }*/
+            }
+            
+            redirect(PAGE_WWWROOT);
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
             $toform = $mform->get_data();
             //Set default data (if any)
             $mform->set_data($toform);
             //displays the form
             $assuranceinput = $mform->render();
         }
-        return $assuranceinput;
-        
-    }
 
+        return $assuranceinput;
+    }
 }
