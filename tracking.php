@@ -44,51 +44,16 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $trackingpage = new \enrol_ukfilmnet\output\trackingpage();
 $page_content = $output->render_trackingpage($trackingpage);
 
-if(!empty($_POST)) {
-    handle_tracking_post();
-}
-
 $context = $PAGE->context;
+
 try {
     require_capability('moodle/site:config', $context);
 } catch (Exception $e) {
     redirect(PAGE_WWWROOT);
 }
 
-// This should probably be factored out
-// Handle cancels
-if(isset($_POST['cancel'])) {
-    go_to_page(strval(0));
-}
-// Handle submits 
-elseif(isset($_POST['submitbutton'])) {
-    // If all required inputs were received progress to next signup page
-    $form_items = $_POST;
-    $all_items_submitted = true;
-    foreach($form_items as $key=>$value) {
-        if($value == null or ($key == 'ukprn' and !is_array($value))) {
-            $all_items_submitted = false;
-        }
-        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
-            $all_items_submitted = false;
-        }
-    }
-    if($all_items_submitted == true) {
-        //go_to_page(strval(1+$page_number)); //what about final page?
-        redirect(PAGE_WWWROOT);
-    }
-}
-// Force non-submit based arrivals on the page to correct applicantprogress page
-else {
-    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
-        profile_load_data($USER);
-        if(isset($USER->profile_field_applicationprogress)) {
-            $progress = $USER->profile_field_applicationprogress;
-            if($progress != $page_number) {
-                go_to_page(strval($progress));
-            }
-        }
-    }               
+if(!empty($_POST)) {
+    handle_tracking_post();
 }
 
 echo $output->header();

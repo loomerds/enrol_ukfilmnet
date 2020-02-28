@@ -183,7 +183,7 @@ function handle_tracking_post() {
         } if(!empty($_POST['approved'])) {
             application_approved($_POST['approved']);
         }
-        //redirect(PAGE_TRACKING);
+        redirect(PAGE_TRACKING);
     }
 }
 
