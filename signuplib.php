@@ -167,6 +167,10 @@ function create_student_user($studentinfo, $auth = 'manual') {
 
 function print_r2($val){
     echo '<pre>';
+    echo '<br>';
+    echo '<br>';
+    echo '<br>';
+    echo '<br>';
     print_r($val);
     echo  '</pre>';
 }
@@ -196,12 +200,13 @@ function handle_tracking_post() {
     }
 }
 
-
+// Takes data returned from the form and uses it to create student user accounts and place students into cohorts
 function process_students($datum) {
     global $DB;
-    $count = 0;
+
     
-    // Remove unwanted indexes from our datum subarrays - selected checkboxes created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything 
+    // Remove unwanted indexes from our datum subarrays (selected checkboxes have created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything) 
+    $count = 0;
     foreach($datum as &$data) {
         $col=0;
         if($count>2) {
@@ -219,7 +224,7 @@ function process_students($datum) {
     }
     unset($data);
     
-    // The datum holds table column values in parallel subarrays - this makes a new array holding the table values as rows
+    // The datum holds table column values in parallel subarrays - this foreach loop makes a new array holding the table values as rows
     $students = array();
     foreach($datum as $key => $data) {
         if(is_array($data)) {
@@ -237,10 +242,10 @@ function process_students($datum) {
             unset($students[$key]);
                     } 
     } 
+
+    // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $students = array_values($students);
 
-    // Turn each row of student data into an object and give them Moodle accounts
-    
     foreach($students as $student) {
         $users = $DB->get_records('user');
         $email_taken = false;
