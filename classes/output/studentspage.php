@@ -80,7 +80,7 @@ class studentspage implements \renderable, \templatable {
         $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
         $count = 0;
         while($rowsnum + count($students) > $count) {
-            if(count($students) > $count) {
+            if($count < count($students)) {
                 foreach($students as $student) {
                     $rows[] = ['userid'=>'',
                             'student_email'=>$this->create_student_email_input($student['email']),
@@ -97,12 +97,11 @@ class studentspage implements \renderable, \templatable {
                            'extra_row_cols'=>$this->make_extra_row_cols($cohort_names, null)];
                 $count++;
             }
-            
         }
 
         // Dynamically add cols data for each of this teacher's cohorts
         $studentsdata = ['headings'=>$headings, 'rows'=>$rows]; 
-        
+
         return $studentsdata;
     }
 
@@ -120,6 +119,9 @@ class studentspage implements \renderable, \templatable {
                 $cohort_names[] = $course->shortname;
             }
         }
+        asort($cohort_names);
+        $cohort_names = array_values($cohort_names);
+
         return $cohort_names;
     }
 
@@ -131,18 +133,34 @@ class studentspage implements \renderable, \templatable {
             $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th>';
             $count++;
         }
+
         return $extra_header_cols;
     }
 
     function make_extra_row_cols($cohort_names, $student) {
-print_r2($student);
         $extra_row_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
-        while($count < $cohort_length) {
-            $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$count].'[]" value="'.$cohort_names[$count].'"><input type="hidden" name="'.$cohort_names[$count].'[]" value="0"></td>';
-            $count++;
+        $cohort_names_count = 0;
+        if (is_array($student) || is_object($student)) {
+            foreach($student as $key=>$value){
+                if($count > 3) {
+                    if($value === 1){
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count++;
+                    } else {
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count;
+                    }
+                }
+                $count++;
+            }
+        } elseif($student === null) {
+            foreach($cohort_names as $name) {
+                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
+            }
         }
+
         return $extra_row_cols;
     }
 
@@ -169,37 +187,36 @@ print_r2($student);
 
     private function build_table() {
         global $DB;
-         // Create the table headings row data
-         $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
+        
+        // Create the table headings row data
+        $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
             
-         // Create an array of this teacher's cohorts
-         $teacher_cohorts = [];
-         $cohort_names = $this->get_teacher_cohort_names(); 
-         $cohorts = $DB->get_records('cohort');
-         foreach($cohorts as $cohort){
-             if(in_array($cohort->idnumber, $cohort_names)) {
+        // Create an array of this teacher's cohorts
+        $teacher_cohorts = [];
+        $cohort_names = $this->get_teacher_cohort_names(); 
+        $cohorts = $DB->get_records('cohort');
+        foreach($cohorts as $cohort){
+            if(in_array($cohort->idnumber, $cohort_names)) {
                  $teacher_cohorts[] = $cohort; 
-             }
-         }
+            }
+        }
 
-         // Create an array of table rows data
-         $rows = [];
-         //$students = $DB->get_records('user', array('deleted'=>0));
-         // This controls how many rows our in our enrol table - add JS to make this better
-         $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
-         $count = 0;
-         while($rowsnum > $count) {
-             //if(true) {
-                 $rows[] = ['userid'=>'',
-                         'student_email'=>$this->create_student_email_input(null),
-                         'student_firstname'=>$this->create_student_firstname_input(null),
-                         'student_familyname'=>$this->create_student_familyname_input(null)];
-            // }
-             $count++;
-         }
+        // Create an array of table rows data
+        $rows = [];
+        //$students = $DB->get_records('user', array('deleted'=>0));
+        // This controls how many rows our in our enrol table - add JS to make this better
+        $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
+        $count = 0;
+        while($rowsnum > $count) {
+            $rows[] = ['userid'=>'',
+                    'student_email'=>$this->create_student_email_input(null),
+                    'student_firstname'=>$this->create_student_firstname_input(null),
+                    'student_familyname'=>$this->create_student_familyname_input(null)];
+            $count++;
+        }
 
-         // Dynamically add cols data for each of this teacher's cohorts
-         $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
+        // Dynamically add cols data for each of this teacher's cohorts
+        $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
                          'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
                          'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
         

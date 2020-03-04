@@ -244,7 +244,7 @@ $string['course_category'] = 'CLASSROOMS';
 $string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
-$string['number_of_enrol_table_rows'] = '15';
+$string['number_of_enrol_table_rows'] = '5';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';

@@ -238,7 +238,7 @@ function process_students($datum) {
 
     // Remove rows of data if they don't contain an email address
     foreach($students as $key => $student) {
-        if(strlen($student['student_email']) < 2 or $student['student_email'] === null) {
+        if(!isset($student['student_email']) or strlen($student['student_email']) < 2 or $student['student_email'] === null) {
             unset($students[$key]);
                     } 
     } 
