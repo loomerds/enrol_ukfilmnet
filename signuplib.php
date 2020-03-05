@@ -290,7 +290,7 @@ function add_to_cohort($studentinputs) {
 
         foreach($cohort_idnumbers as $idnumber) {
             $target_cohort = $DB->get_record('cohort', array('idnumber'=>$idnumber));    
-print_r2($target_cohort);
+//print_r2($target_cohort);
             if(isset($target_cohort)) {
                 cohort_add_member($target_cohort->id, $user->id);
             }
