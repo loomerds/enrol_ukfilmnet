@@ -51,8 +51,8 @@ class studentspage implements \renderable, \templatable {
 
     // Consider rewriting this function to use an mform approach
     public function get_students_content() {
-
         global $CFG, $DB, $USER;
+
         require_once($CFG->dirroot.'/lib/accesslib.php');
         require_once($CFG->dirroot.'/cohort/lib.php');
         
@@ -69,6 +69,116 @@ class studentspage implements \renderable, \templatable {
             }
         }
 
+        $form_data = $this->build_table($cohort_names);
+//print_r2($form_data);
+        return $form_data;
+    }
+
+    private function get_teacher_cohort_names() {
+        global $CFG, $DB, $USER;
+        require_once($CFG->dirroot.'/lib/accesslib.php');
+
+        $courses = get_courses();
+        $cohort_names = [];
+        //$context = context_system::instance();
+        $capacity = 'enrol/manual:manage';
+        foreach($courses as $course) {
+            $context = \context_course::instance($course->id);
+            if(is_enrolled($context, $USER, $capacity)) {
+                $cohort_names[] = $course->shortname;
+            }
+        }
+        asort($cohort_names);
+        $cohort_names = array_values($cohort_names);
+
+        return $cohort_names;
+    }
+
+    private function make_extra_header_cols($cohort_names) {
+        $extra_header_cols = '';
+        $cohort_length = count($cohort_names);
+        $count = 0;
+        while($count < $cohort_length) {
+            $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th>';
+            $count++;
+        }
+
+        return $extra_header_cols;
+    }
+
+    private function make_extra_row_cols($cohort_names, $student) {
+        $extra_row_cols = '';
+        $cohort_length = count($cohort_names);
+        $count = 0;
+        $cohort_names_count = 0;
+        
+        if (is_array($student) || is_object($student)) {
+            foreach($student as $key=>$value){
+                if($count > 3) {
+                    if($value === 1){
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count++;
+                    } else {
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count++;
+                    }
+                }
+                $count++;
+            }
+        } elseif($student === null) {
+            foreach($cohort_names as $name) {
+                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
+            }
+        }
+        
+        
+        /*if (is_array($student) || is_object($student)) {
+            foreach($student as $key=>$value){
+                if($count > 3) {
+                    if($value === 1){
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count++;
+                    } else {
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $cohort_names_count;
+                    }
+                }
+                $count++;
+            }
+        } elseif($student === null) {
+            foreach($cohort_names as $name) {
+                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
+            }
+        }*/
+
+        return $extra_row_cols;
+    }
+
+    private function set_checkbox($cohort_name, $student) {
+        if($approval_status == 1) {
+            return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
+        }
+        return '<input type="checkbox" name="approved[]" value="'.$id.'">';
+    }
+
+    private function create_student_email_input($student_email) {
+        return '<input type="text" name="student_email[]" value="'.$student_email.'">';
+    }
+
+    private function create_student_firstname_input($student_firstname) {
+        return '<input type="text" name="student_firstname[]" value="'.$student_firstname.'">';
+    }
+
+    private function create_student_familyname_input($student_familyname) {
+        return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
+    }
+
+    // Create the table that will be used on the page and prepopuate it with any existing student data
+    private function build_table($cohort_names) {
+        global $CFG, $DB, $USER;
+        require_once($CFG->dirroot.'/lib/accesslib.php');
+        require_once($CFG->dirroot.'/cohort/lib.php');
+        
         // Create the table headings row data
         $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name', 'extra_header_cols'=>$this->make_extra_header_cols($cohort_names) );
 
@@ -105,106 +215,9 @@ class studentspage implements \renderable, \templatable {
         return $studentsdata;
     }
 
-    function get_teacher_cohort_names() {
-        global $CFG, $DB, $USER;
-        require_once($CFG->dirroot.'/lib/accesslib.php');
+    public function make_empty_table_rows() {
 
-        $courses = get_courses();
-        $cohort_names = [];
-        //$context = context_system::instance();
-        $capacity = 'enrol/manual:manage';
-        foreach($courses as $course) {
-            $context = \context_course::instance($course->id);
-            if(is_enrolled($context, $USER, $capacity)) {
-                $cohort_names[] = $course->shortname;
-            }
-        }
-        asort($cohort_names);
-        $cohort_names = array_values($cohort_names);
-
-        return $cohort_names;
-    }
-
-    function make_extra_header_cols($cohort_names) {
-        $extra_header_cols = '';
-        $cohort_length = count($cohort_names);
-        $count = 0;
-        while($count < $cohort_length) {
-            $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th>';
-            $count++;
-        }
-
-        return $extra_header_cols;
-    }
-
-    function make_extra_row_cols($cohort_names, $student) {
-        $extra_row_cols = '';
-        $cohort_length = count($cohort_names);
-        $count = 0;
-        $cohort_names_count = 0;
-        if (is_array($student) || is_object($student)) {
-            foreach($student as $key=>$value){
-                if($count > 3) {
-                    if($value === 1){
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
-                        $cohort_names_count++;
-                    } else {
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
-                        $cohort_names_count;
-                    }
-                }
-                $count++;
-            }
-        } elseif($student === null) {
-            foreach($cohort_names as $name) {
-                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
-            }
-        }
-
-        return $extra_row_cols;
-    }
-
-    private function set_checkbox($cohort_name, $student) {
-        if($approval_status == 1) {
-            return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
-        }
-        return '<input type="checkbox" name="approved[]" value="'.$id.'">';
-    }
-
-    function create_student_email_input($student_email) {
-        return '<input type="text" name="student_email[]" value="'.$student_email.'">';
-    }
-
-    function create_student_firstname_input($student_firstname) {
-        return '<input type="text" name="student_firstname[]" value="'.$student_firstname.'">';
-    }
-
-    function create_student_familyname_input($student_familyname) {
-        return '<input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
-    }
-
-    // Function to 
-
-    private function build_table() {
-        global $DB;
-        
-        // Create the table headings row data
-        $headings = array('title0'=>'Email', 'title1'=>'First Name', 'title2'=>'Family Name');
-            
-        // Create an array of this teacher's cohorts
-        $teacher_cohorts = [];
-        $cohort_names = $this->get_teacher_cohort_names(); 
-        $cohorts = $DB->get_records('cohort');
-        foreach($cohorts as $cohort){
-            if(in_array($cohort->idnumber, $cohort_names)) {
-                 $teacher_cohorts[] = $cohort; 
-            }
-        }
-
-        // Create an array of table rows data
-        $rows = [];
-        //$students = $DB->get_records('user', array('deleted'=>0));
-        // This controls how many rows our in our enrol table - add JS to make this better
+        // This controls how many empty rows are added to our enrol table
         $rowsnum = intval(get_string('number_of_enrol_table_rows', 'enrol_ukfilmnet'));
         $count = 0;
         while($rowsnum > $count) {
@@ -214,13 +227,6 @@ class studentspage implements \renderable, \templatable {
                     'student_familyname'=>$this->create_student_familyname_input(null)];
             $count++;
         }
-
-        // Dynamically add cols data for each of this teacher's cohorts
-        $studentsdata = ['headings'=>$headings, 'rows'=>$rows, 
-                         'extra_header_cols'=>$this->make_extra_header_cols($cohort_names),
-                         'extra_row_cols'=>$this->make_extra_row_cols($cohort_names)];
-        
-        return $studentsdata;
     }
 
     // Functions to make initial page content from teacher's persisted course/cohort/student data

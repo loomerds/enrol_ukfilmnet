@@ -203,7 +203,7 @@ function handle_tracking_post() {
 // Takes data returned from the form and uses it to create student user accounts and place students into cohorts
 function process_students($datum) {
     global $DB;
-
+//print_r2($datum);
     
     // Remove unwanted indexes from our datum subarrays (selected checkboxes have created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything) 
     $count = 0;
@@ -235,14 +235,14 @@ function process_students($datum) {
     }
     unset($data);
     unset($s_data);
-
+//print_r2($students);
     // Remove rows of data if they don't contain an email address
     foreach($students as $key => $student) {
-        if(!isset($student['student_email']) or strlen($student['student_email']) < 2 or $student['student_email'] === null) {
+        if((strlen($student['student_email']) < 2) or ($student['student_email'] === null)) {
             unset($students[$key]);
-                    } 
+        } 
     } 
-
+//print_r2($students);
     // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $students = array_values($students);
 
@@ -290,12 +290,13 @@ function add_to_cohort($studentinputs) {
 
         foreach($cohort_idnumbers as $idnumber) {
             $target_cohort = $DB->get_record('cohort', array('idnumber'=>$idnumber));    
-
+print_r2($target_cohort);
             if(isset($target_cohort)) {
                 cohort_add_member($target_cohort->id, $user->id);
             }
         }
     }
+    redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
 }
 
 function make_username($email) {
