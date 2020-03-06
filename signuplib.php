@@ -203,13 +203,12 @@ function handle_tracking_post() {
 // Takes data returned from the form and uses it to create student user accounts and place students into cohorts
 function process_students($datum) {
     global $DB;
-//print_r2($datum);
     
     // Remove unwanted indexes from our datum subarrays (selected checkboxes have created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything) 
     $count = 0;
     foreach($datum as &$data) {
         $col=0;
-        if($count>2) {
+        if($count>2) { //changed from 2 to 3
             while(is_array($data) and $col<count($data)) {
                 if(strlen($data[$col]) > 2) {
                     unset($data[$col+1]);
@@ -226,23 +225,27 @@ function process_students($datum) {
     
     // The datum holds table column values in parallel subarrays - this foreach loop makes a new array holding the table values as rows
     $students = array();
+    $count_key = 0;
     foreach($datum as $key => $data) {
-        if(is_array($data)) {
-            foreach($data as $s_key => $s_data) {
-                $students[$s_key][$key] = $s_data;
+        if($count_key > 0) {
+            if(is_array($data)) {
+                foreach($data as $s_key => $s_data) {
+                    $students[$s_key][$key] = $s_data;
+                }
             }
         }
+        $count_key++;
     }
     unset($data);
     unset($s_data);
-//print_r2($students);
+
     // Remove rows of data if they don't contain an email address
     foreach($students as $key => $student) {
         if((strlen($student['student_email']) < 2) or ($student['student_email'] === null)) {
             unset($students[$key]);
         } 
     } 
-//print_r2($students);
+
     // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $students = array_values($students);
 
@@ -261,39 +264,60 @@ function process_students($datum) {
     }
 
     // Add students to appropriate cohorts
-    add_to_cohort($students);
+    add_to_cohort($students, $datum['cohort_names']);
 }
 
-function add_to_cohort($studentinputs) {
+function is_already_in_cohort($user, $cohortid, $target_cohort) {
+    global $DB;
+
+    $user_cohorts = $DB->get_records('cohort_members', array('userid'=>$user->id));
+
+    foreach($user_cohorts as $user_cohort) {
+            if($user_cohort->cohortid === $target_cohort) {
+                return 1;
+            }
+    }
+
+    return 0;
+} 
+
+function add_to_cohort($studentinputs, $cohort_names) {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/cohort/lib.php');    
-    
+
     foreach ($studentinputs as $input) {
         $cohort_idnumbers = [];
-        
         $user;
         $count = 0;
         
+        // From the DB, get an array of the idnumbers of the cohorts this student is in relative to this teacher
         foreach($input as $item) {
-            
             if($count == 0) {
                 $user = $DB->get_record('user', array('email'=>$item));
                 $count++;
             }elseif($count < 3) {
                 $count++;
             }else{
-                if(strlen($item) > 1) {
-                    $cohort_idnumbers[] = $item;
-                }
+                $cohort_idnumbers[] = $item;
             }
         }
 
-        foreach($cohort_idnumbers as $idnumber) {
-            $target_cohort = $DB->get_record('cohort', array('idnumber'=>$idnumber));    
-//print_r2($target_cohort);
-            if(isset($target_cohort)) {
-                cohort_add_member($target_cohort->id, $user->id);
+        // Add and remove students from cohorts on basis of checkbox input changes
+        $count = 0;
+        foreach($cohort_names as $cohort_name) {
+            $target_cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_name));
+            if(strlen($cohort_idnumbers[$count]) > 2) { // if the input is checked
+                if(is_already_in_cohort($user, $cohort_name, $target_cohort->id) == false) {
+                    // add them to $cohort_name
+                    cohort_add_member($target_cohort->id, $user->id);
+                } 
+            } else {  // if the input is NOT checked
+                if(is_already_in_cohort($user, $cohort_name, $target_cohort->id) == true) {
+                    // remove them from $cohort_name
+                    cohort_remove_member($target_cohort->id, $user->id);
+                } 
             }
+            $count++;
         }
     }
     redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');

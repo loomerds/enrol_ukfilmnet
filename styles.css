@@ -190,9 +190,17 @@ td.ukfn_enrol_col input {
     width: 100%;
 }
 
-.ukfn_checkbox_cell {
+.ukfn_checkbox_cell_checked {
     
     background-color: #b22222;
+    vertical-align: middle !important;
+    
+    
+}
+
+.ukfn_checkbox_cell_unchecked {
+    
+    background-color: #060;
     vertical-align: middle !important;
     
     

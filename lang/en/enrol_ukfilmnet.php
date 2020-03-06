@@ -153,7 +153,15 @@ You now have access to all of our digital text books (e.g. Cinematography, Camer
 <br>
 Before you enrol you students, however, we must determine whether you need more than one Private Teaching Space. Please help us by answering the following question. When you have finished, click the "Submit" button below.<br>
 <br>';
-$string['students_instructions'] = 'Some enrolment instructions may go here';
+$string['students_instructions'] = 
+'Use this page to enrol and unenrol your student to and from your UKfilmNet hosted digital classrooms. You may return to this page to adjust your student enrolments at any time.<br>
+<br>
+<strong>To enrol a student</strong> - enter their school email address, first name, family name, and click the checkbox(es) for the courses in which that student should be enroled. When you click the "Submit" button all the student enrolment information you have entered will be saved, and you will be shown an updated list of all your enroled students and five fresh lines of input boxes for enroling more students. Remember, you may ONLY ENROL YOUR OWN STUDENTS. <br>
+<br>
+<strong>To unenrol a student</strong> - uncheck the course checkbox of that student for that course and click the "Submit" button. If all course checkboxes of a student are unchecked, that student will no longer appear in your enrolments list after you click "Submit."<br>
+<br>
+Your school Safeguarding Officer is able to view your UKfilmNet Enrol Students page at all times.<br>
+<br>';
 
 // Current Role Descriptors
 $string['applicant_role_instruction'] = 'Choose a role...';
@@ -172,9 +180,9 @@ $string['applicant_role_parentguardian'] = '10. Parent/Guardian';
 $string['signup_progress_1'] = '1-Application denied';
 $string['signup_progress_2'] = '2-Application page submitted';
 $string['signup_progress_3'] = '3-Verification page submitted';
-$string['signup_progress_4'] = '4-School page submitted';
-$string['signup_progress_5'] = '5-Waiting for determination';
-$string['signup_progress_5'] = '6-Courses created';
+$string['signup_progress_4'] = '4-Courses requested';
+$string['signup_progress_5'] = '5-School information submitted';
+$string['signup_progress_5'] = '6-Waiting for determination';
 $string['signup_progress_6'] = '7-Students enrolled';
 
 // Country Discriptors

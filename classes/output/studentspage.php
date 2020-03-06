@@ -70,7 +70,7 @@ class studentspage implements \renderable, \templatable {
         }
 
         $form_data = $this->build_table($cohort_names);
-//print_r2($form_data);
+
         return $form_data;
     }
 
@@ -99,7 +99,7 @@ class studentspage implements \renderable, \templatable {
         $cohort_length = count($cohort_names);
         $count = 0;
         while($count < $cohort_length) {
-            $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th>';
+            $extra_header_cols = $extra_header_cols.'<th class="header ukfn_text_center" scope="col">'.$cohort_names[$count].'</th><input type="hidden" name="cohort_names[]" value="'.$cohort_names[$count].'">';
             $count++;
         }
 
@@ -116,10 +116,10 @@ class studentspage implements \renderable, \templatable {
             foreach($student as $key=>$value){
                 if($count > 3) {
                     if($value === 1){
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell_checked" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
                         $cohort_names_count++;
                     } else {
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
+                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell_unchecked" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
                         $cohort_names_count++;
                     }
                 }
@@ -127,29 +127,9 @@ class studentspage implements \renderable, \templatable {
             }
         } elseif($student === null) {
             foreach($cohort_names as $name) {
-                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
+                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell_unchecked" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
             }
         }
-        
-        
-        /*if (is_array($student) || is_object($student)) {
-            foreach($student as $key=>$value){
-                if($count > 3) {
-                    if($value === 1){
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'" checked="checked"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
-                        $cohort_names_count++;
-                    } else {
-                        $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$cohort_names[$cohort_names_count].'[]" value="'.$cohort_names[$cohort_names_count].'"><input type="hidden" name="'.$cohort_names[$cohort_names_count].'[]" value="0"></td>';
-                        $cohort_names_count;
-                    }
-                }
-                $count++;
-            }
-        } elseif($student === null) {
-            foreach($cohort_names as $name) {
-                $extra_row_cols = $extra_row_cols.'<td class="cell ukfn_text_center ukfn_enrol_col ukfn_checkbox_cell" scope="col"><input class="ukfn_checkbox" type="checkbox" name="'.$name.'[]" value="'.$name.'"><input type="hidden" name="'.$name.'[]" value="0"></td>';
-            }
-        }*/
 
         return $extra_row_cols;
     }
