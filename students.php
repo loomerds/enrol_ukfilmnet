@@ -91,7 +91,7 @@ if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
     if(isset($USER->profile_field_applicationprogress)) {
         $progress = $USER->profile_field_applicationprogress;
         if($progress != $page_number) {
-            go_to_page(strval($progress));
+            //go_to_page(strval($progress));
         }
     }
 }

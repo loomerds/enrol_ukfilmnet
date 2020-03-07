@@ -672,7 +672,7 @@ function go_to_page($target_page) {
             redirect(PAGE_STUDENTS);
             break;
         case '7':
-            //redirect(PAGE_STUDENTS);
+            redirect(PAGE_STUDENTS);
             break;
         case '8':
             redirect(PAGE_STUDENTS);

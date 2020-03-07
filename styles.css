@@ -41,6 +41,19 @@ h3.ukfn_enrol_page_title {
     padding-top: 0px;
 }
 
+#page-enrol-ukfilmnet-tracking thead tr, #page-enrol-ukfilmnet-students thead tr {
+    /*background-color: #f8f9fa;*/
+    background-color: #000;
+    color: #FFF;
+    border-top-color: #000;
+}
+
+#page-enrol-ukfilmnet-tracking thead tr th, #page-enrol-ukfilmnet-students thead tr th {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+}
+
 .ukfn_background_color {
     background-color: rgba(248,249,250,.7) !important;
 }
@@ -239,7 +252,7 @@ td.ukfn_enrol_col input {
 
 .ukfn_checkbox_cell_checked {
     
-    background-color: #b22222;
+    background-color: #060;
     vertical-align: middle !important;
     
     
@@ -247,7 +260,7 @@ td.ukfn_enrol_col input {
 
 .ukfn_checkbox_cell_unchecked {
     
-    background-color: #060;
+    background-color: #b22222;
     vertical-align: middle !important;
     
     
