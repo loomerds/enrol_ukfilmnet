@@ -33,7 +33,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/school.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('institution_title', 'enrol_ukfilmnet'));
-$page_number = 3;
+$page_number = 4;
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $schoolpage = new \enrol_ukfilmnet\output\schoolpage($page_number);
@@ -53,7 +53,7 @@ elseif(isset($_POST['submitbutton'])) {
         if($value == null or ($key == 'ukprn' and !is_array($value))) {
             $all_items_submitted = false;
         }
-        if($page_number == 3 and !array_key_exists('school_consent_to_contact', $form_items)) {
+        if($page_number == 4 and !array_key_exists('school_consent_to_contact', $form_items)) {
             $all_items_submitted = false;
         }
     }

@@ -62,7 +62,7 @@ class coursespage implements \renderable, \templatable {
             // Add/adjust field values in the user's profile.
             profile_load_data($USER);
             $USER->profile_field_courses_requested = $form_data->total_courses;
-            $USER->profile_field_applicationprogress = 5;
+            $USER->profile_field_applicationprogress = 4;
             profile_save_data($USER);
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.

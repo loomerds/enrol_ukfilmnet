@@ -37,7 +37,6 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
-$PAGE->navbar->add('Tracking');
 $page_number = 8;
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');

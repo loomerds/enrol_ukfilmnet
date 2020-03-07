@@ -1,30 +1,83 @@
-.ukfn_enrol_page_title {
-    margin-left: 30px;
-    margin-top: -30px;
+body#page-enrol-ukfilmnet-applicant, body#page-enrol-ukfilmnet-emailverify,
+body#page-enrol-ukfilmnet-courses, body#page-enrol-ukfilmnet-school, body#page-enrol-ukfilmnet-safeguarding, body#page-enrol-ukfilmnet-students,
+body#page-enrol-ukfilmnet-assurance, body#page-enrol-ukfilmnet-tracking {
+    background-image: url('/enrol/ukfilmnet/assets/login-image.jpg');
+    background-size: cover;
+}
+
+#page {
+    margin-top: 0px !important;
+}
+
+#region-main {
+    padding: 0px !important;
+    background-color: unset !important;
+}
+
+#page-enrol-ukfilmnet-applicant #page-footer, #page-enrol-ukfilmnet-emailverify #page-footer,#page-enrol-ukfilmnet-courses #page-footer, #page-enrol-ukfilmnet-school #page-footer, #page-enrol-ukfilmnet-students #page-footer, #page-enrol-ukfilmnet-tracking #page-footer, #page-enrol-ukfilmnet-assurance #page-footer {
+    padding-top: 20px;
+}
+
+#page-enrol-ukfilmnet-tracking header .card, #page-enrol-ukfilmnet-assurance header .card, #page-enrol-ukfilmnet-students header .card {
+    height: 20px;
+}
+
+h3.ukfn_enrol_page_title {
+    font-size: 1.8rem;
+    font-weight: 200;
+    padding-top: 20px;
+}
+
+.ukfn_content_area h3.ukfn_enrol_page_title {
+    font-size: 2.5rem;
+    font-weight: 200;
+    padding-top: 20px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+}
+
+#page-enrol-ukfilmnet-tracking h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-assurance h4.ukfn_applicant_subheading {
+    margin-top: 0px;
+    padding-top: 0px;
+}
+
+.ukfn_background_color {
+    background-color: rgba(248,249,250,.7) !important;
 }
 
 .ukfn_enrol_main {
-    width: 100%;
+    display: flex;
+
 }
 
 .ukfn_progress_list_area {
-    width:30%; 
-    position:relative; 
-    float:left; 
+    width:260px; 
     text-align:center;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.ukfn_content_area {
+    flex: 1;
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    padding-right: 10px;
 }
 
 .ukfn_progress_titlebox {
     display:inline-block; 
     width: 100%;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
 .ukfn_progress_title, .ukfn_progress_items {
+    text-align: center;
     border-width: 1px; 
     border-style: solid;
-    width: 180px; 
-    display:inline-block;    
+    width: 200px; 
+    display:inline-block; 
+
 }
 .ukfn_progress_title {
     border-bottom: 0px; 
@@ -49,13 +102,6 @@
     color: #ffffff;
 }
 
-.ukfn_applicantinfo_section, .ukfn_emailverify_section, .ukfn_schoolinfo_section {
-    width:70%; 
-    position: relative; 
-    float:right;
-    padding-right: 30px;
-}
-
 .ukfn_safeguarding_section {
     width: 90%;
     margin-left: auto;
@@ -65,11 +111,12 @@
 
 .ukfn_applicant_subheading {
     color: #b22222;
-    text-align:center;
+    text-align:left;
+    padding: 20px;
 }
 
 .ukfn_applicant_content {
-    margin-top: 20px;
+    margin-left: 30px;
 }
 
 .ukfn_applicant_email, .ukfn_applicant_firstname, .ukfn_applicant_familyname, 

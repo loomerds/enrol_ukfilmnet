@@ -84,6 +84,7 @@ class assurancepage implements \renderable, \templatable {
                 $applicant_user->profile_field_assurancesubmitted = 1;
                 $applicant_user->profile_field_assurancesubmissiondate = time();
                 $applicant_user->profile_field_assurancedoc = $filename;
+                $applicant_user->profile_field_applicationprogress = 6;
                 profile_save_data($applicant_user);
             }
             // Delete temporary Safguarding user

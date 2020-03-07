@@ -369,7 +369,7 @@ function application_denied($denied) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '5') {
+            if($applicant_user->profile_field_applicationprogress == '6') {
                 $applicant_user->profile_field_applicationdenied = '1';
                 $applicant_user->profile_field_applicationprogress = '1';
                 profile_save_data($applicant_user);
@@ -390,7 +390,7 @@ function application_approved($approved) {
             profile_load_data($applicant_user);
             if($applicant_user->profile_field_applicationprogress == '5') {
                 $applicant_user->profile_field_applicationapproved = '1';
-                $applicant_user->profile_field_applicationprogress = '6';
+                $applicant_user->profile_field_applicationprogress = '7';
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
                 
@@ -620,43 +620,30 @@ function force_progress($application_progress, $current_page) {
         case '2':
             if($current_page != '2') {    
                 echo "<script>location.href='./emailverify.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
             }
             break;
         case '3':
             if($current_page != '3') {  
-                echo "<script>location.href='./school.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/school.php'</script>";
-                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
+                echo "<script>location.href='./courses.php'</script>";
             }
             break;
         case '4':
             if($current_page != '4') {  
-               echo "<script>location.href='./courses.php'</script>";
-               //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/courses.php'</script>";
-               //redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
+               echo "<script>location.href='./school.php'</script>";
             }
             break;
         case '5':
             if($current_page != '5') {  
                 echo "<script>location.href='./safeguarding.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/safeguarding.php'</script>";
-                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
             }
             break;
         case '6':
             if($current_page != '6') {  
                 echo "<script>location.href='./students.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/students.php'</script>";
-                //redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
             }
             break;
         default:
         break;
-            //echo "<script>location.href='./emailverify.php'</script>";
-            //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-            //redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
     }
 }
 
@@ -673,10 +660,10 @@ function go_to_page($target_page) {
             redirect(PAGE_EMAILVERIFY);
             break;
         case '3':
-            redirect(PAGE_SCHOOL);
+            redirect(PAGE_COURSES);
             break;
         case '4':
-            redirect(PAGE_COURSES);
+            redirect(PAGE_SCHOOL);
             break;
         case '5':
             redirect(PAGE_SAFEGUARDING);
@@ -699,51 +686,24 @@ function force_signup_flow($target_page) {
     global $CFG;
     switch($target_page) {
         case '1':
-            //if($current_page != '2') {    
-               //echo "<script>location.href='./emailverify.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/emailverify.php');
-            //}
             break;
         case '2':
-            //if($current_page != '2') {    
-                //echo "<script>location.href='./emailverify.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
-            //}
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
             break;
         case '3':
-            //if($current_page != '3') {  
-                //echo "<script>location.href='./school.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/school.php'</script>";
-            redirect($CFG->wwwroot.'/enrol/ukfilmnet/courses.php');
-            //}
+            redirect($CFG->wwwroot.'/enrol/ukfilmnet/school.php');
             break;
         case '4':
-            //if($current_page != '4') {  
-               //echo "<script>location.href='./courses.php'</script>";
-               //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/courses.php'</script>";
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
-            //}
             break;
         case '5':
-            //if($current_page != '5') {  
-                //echo "<script>location.href='./safeguarding.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/safeguarding.php'</script>";
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
-            //}
             break;
         case '6':
-            //if($current_page != '6') {  
-                //echo "<script>location.href='./students.php'</script>";
-                //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/students.php'</script>";
             redirect($CFG->wwwroot.'/enrol/ukfilmnet/students.php');
-            //}
             break;
         default:
-        //break;
-            //echo "<script>location.href='./emailverify.php'</script>";
-            //echo "'<script>'.$CFG->dirroot.'./enrol/ukfilmnet/emailverify.php'</script>";
             redirect($CFG->wwwroot);
     }
 }
@@ -756,7 +716,6 @@ function get_schoolname($target_ukprn) {
         foreach($ukprn as $num) {
             if($num[1] == $target) {
                 return $num[0];
-                //return $num[1];
             }
         }
     }
