@@ -388,7 +388,7 @@ function application_approved($approved) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '5') {
+            if($applicant_user->profile_field_applicationprogress == '6') {
                 $applicant_user->profile_field_applicationapproved = '1';
                 $applicant_user->profile_field_applicationprogress = '7';
                 profile_save_data($applicant_user);        
@@ -672,7 +672,7 @@ function go_to_page($target_page) {
             redirect(PAGE_STUDENTS);
             break;
         case '7':
-            redirect(PAGE_STUDENTS);
+            //redirect(PAGE_STUDENTS);
             break;
         case '8':
             redirect(PAGE_STUDENTS);

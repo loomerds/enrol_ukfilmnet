@@ -118,7 +118,7 @@ class trackingpage implements \renderable, \templatable {
 
     private function application_approved($approval_status, $id) {
         if($approval_status == 1) {
-            return '<input type="checkbox" name="approved[]" value="'.$id.'" c>';
+            return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
         }
         return '<input type="checkbox" name="approved[]" value="'.$id.'">';
     }
