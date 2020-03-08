@@ -208,7 +208,7 @@ function process_students($datum) {
     $count = 0;
     foreach($datum as &$data) {
         $col=0;
-        if($count>2) { //changed from 2 to 3
+        if($count>3) { //changed from 2 to 3
             while(is_array($data) and $col<count($data)) {
                 if(strlen($data[$col]) > 2) {
                     unset($data[$col+1]);
@@ -222,7 +222,7 @@ function process_students($datum) {
         $count++;
     }
     unset($data);
-    
+
     // The datum holds table column values in parallel subarrays - this foreach loop makes a new array holding the table values as rows
     $students = array();
     $count_key = 0;

@@ -1,7 +1,7 @@
 body#page-enrol-ukfilmnet-applicant, body#page-enrol-ukfilmnet-emailverify,
 body#page-enrol-ukfilmnet-courses, body#page-enrol-ukfilmnet-school, body#page-enrol-ukfilmnet-safeguarding, body#page-enrol-ukfilmnet-students,
 body#page-enrol-ukfilmnet-assurance, body#page-enrol-ukfilmnet-tracking {
-    background-image: url('/enrol/ukfilmnet/assets/login-image.jpg');
+    background-image: url('../../../../enrol/ukfilmnet/assets/login-image.jpg');
     background-size: cover;
 }
 
@@ -41,16 +41,19 @@ h3.ukfn_enrol_page_title {
     padding-top: 0px;
 }
 
-#page-enrol-ukfilmnet-tracking thead tr, #page-enrol-ukfilmnet-students thead tr {
-    /*background-color: #f8f9fa;*/
-    background-color: #000;
-    color: #FFF;
-    border-top-color: #000;
-}
-
 #page-enrol-ukfilmnet-tracking thead tr th, #page-enrol-ukfilmnet-students thead tr th {
+    /*background-color: #f8f9fa;*/
+    background-color: #000 !important;
+    color: #FFF;
+    border-top-color: #000 !important;
     padding-top: 5px;
     padding-bottom: 5px;
+    vertical-align: middle;
+}
+
+#page-enrol-ukfilmnet-tracking tbody tr input, #page-enrol-ukfilmnet-students tbody tr input {
+    /*background-color: #f8f9fa;*/
+    padding: 10px !important;
     vertical-align: middle;
 }
 

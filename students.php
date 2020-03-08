@@ -82,6 +82,7 @@ $page_number = 6;
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $studentspage = new \enrol_ukfilmnet\output\studentspage($page_number);
 $page_content = $output->render_studentspage($studentspage);
+
 if(!empty($_POST)) {
     handle_enrol_students_post($_POST);
 }
