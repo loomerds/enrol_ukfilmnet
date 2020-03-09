@@ -156,7 +156,7 @@ Before you enrol you students, however, we must determine whether you need more 
 $string['students_instructions'] = 
 'Use this page to enrol and unenrol your student to and from your UKfilmNet hosted digital classrooms. You may return to this page to adjust your student enrolments at any time.<br>
 <br>
-<strong>To enrol a student</strong> - enter their school email address, first name, family name, and click the checkbox(es) for the courses in which that student should be enroled. When you click the "Submit" button all the student enrolment information you have entered will be saved, and you will be shown an updated list of all your enroled students and five fresh lines of input boxes for enroling more students. Remember, you may ONLY ENROL YOUR OWN STUDENTS. <br>
+<strong>To enrol a student</strong> - enter their school email address, first name, family name (all three are required), and click the checkbox(es) for the courses in which that student should be enroled. When you click the "Submit" button all the student enrolment information you have entered will be saved, and you will be shown an updated list of all your enroled students and five fresh lines of input boxes for enroling more students. Remember, you may ONLY ENROL YOUR OWN STUDENTS. <br>
 <br>
 <strong>To unenrol a student</strong> - uncheck the course checkbox of that student for that course and click the "Submit" button. If all course checkboxes of a student are unchecked, that student will no longer appear in your enrolments list after you click "Submit."<br>
 <br>

@@ -80,7 +80,6 @@ class studentspage implements \renderable, \templatable {
 
         $courses = get_courses();
         $cohort_names = [];
-        //$context = context_system::instance();
         $capacity = 'enrol/manual:manage';
         foreach($courses as $course) {
             $context = \context_course::instance($course->id);
@@ -189,8 +188,13 @@ class studentspage implements \renderable, \templatable {
             }
         }
 
-        // Dynamically add cols data for each of this teacher's cohorts
-        $studentsdata = ['headings'=>$headings, 'rows'=>$rows]; 
+        // Collect form data into an array
+        if(isset($_SESSION['removed_message'])) {
+            $studentsdata = ['message'=>$_SESSION['removed_message'],'headings'=>$headings, 'rows'=>$rows];
+            unset($_SESSION['removed_message']);
+        } else {
+            $studentsdata = ['headings'=>$headings, 'rows'=>$rows];
+        }
 
         return $studentsdata;
     }

@@ -51,6 +51,13 @@ h3.ukfn_enrol_page_title {
     vertical-align: middle;
 }
 
+.ukfn_error_feedback {
+    font-size: 80%;
+    color: #d9534f;
+    font-weight: 400;
+    text-align: left;
+}
+
 #page-enrol-ukfilmnet-tracking tbody tr input, #page-enrol-ukfilmnet-students tbody tr input {
     /*background-color: #f8f9fa;*/
     padding: 10px !important;

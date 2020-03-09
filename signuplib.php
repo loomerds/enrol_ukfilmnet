@@ -182,6 +182,7 @@ function handle_enrol_students_post($datum) {
         redirect($CFG->wwwroot);
     } else {
         process_students($datum);
+        
     }
 }
 
@@ -203,7 +204,7 @@ function handle_tracking_post() {
 // Takes data returned from the form and uses it to create student user accounts and place students into cohorts
 function process_students($datum) {
     global $DB;
-    
+
     // Remove unwanted indexes from our datum subarrays (selected checkboxes have created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything) 
     $count = 0;
     foreach($datum as &$data) {
@@ -239,14 +240,33 @@ function process_students($datum) {
     unset($data);
     unset($s_data);
 
-    // Remove rows of data if they don't contain an email address
+    // Remove rows of data if they don't contain an email address, firstname, or family name
+    // Create an array of email addresses of students whose row was removed
+    $removed = '';
     foreach($students as $key => $student) {
-        if((strlen($student['student_email']) < 2) or ($student['student_email'] === null)) {
+        if (((strlen($student['student_email']) < 2) or ($student['student_email'] === null)) 
+            and ((strlen($student['student_firstname']) < 2) or ($student['student_firstname'] === null))
+            and ((strlen($student['student_familyname']) < 2) or ($student['student_familyname'] === null))) {
             unset($students[$key]);
-        } 
-    } 
+            continue;
+        } elseif((strlen($student['student_email']) < 2) or ($student['student_email'] === null)) {
+            $removed = $removed.', '.$student['student_email'];
+            unset($students[$key]);
+            continue;
+        } elseif ((strlen($student['student_firstname']) < 1) or ($student['student_firstname'] === null)) {
+            $removed = $removed. ', '.$student['student_email'];
+            unset($students[$key]);
+            continue;
+        } elseif ((strlen($student['student_familyname']) < 1) or ($student['student_familyname'] === null)) {
+            $removed = $removed.', '.$student['student_email'];
+            unset($students[$key]);
+            continue;
+        }
 
-    // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
+    } 
+    $removed = rtrim($removed, ",");
+
+// Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $students = array_values($students);
 
     foreach($students as $student) {
@@ -265,6 +285,14 @@ function process_students($datum) {
 
     // Add students to appropriate cohorts
     add_to_cohort($students, $datum['cohort_names']);
+
+    if($removed === '' or $removed === null) {
+        redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
+    } else {
+        $removed = '<p class="ukfn_error_feedback">The student(s) having the following email addresses'.$removed.' were not added because you did not include one or more of the required fields - Email, First Name, or Family Name.</p>';
+        $_SESSION['removed_message'] = $removed;
+        redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
+    }
 }
 
 function is_already_in_cohort($user, $cohortid, $target_cohort) {
@@ -320,7 +348,6 @@ function add_to_cohort($studentinputs, $cohort_names) {
             $count++;
         }
     }
-    redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
 }
 
 function make_username($email) {
