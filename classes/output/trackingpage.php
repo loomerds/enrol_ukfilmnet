@@ -77,7 +77,8 @@ class trackingpage implements \renderable, \templatable {
                     'userid'=>$applicant->id,
                     'firstname'=>$applicant->firstname,
                     'familyname'=>$applicant->lastname,
-                    'email'=>$applicant->email, 
+                    'fullname'=>$this->make_applicant_fullname_link($applicant->lastname, $applicant->firstname, $applicant->id),
+                    'email'=>$this->make_applicant_email_link($applicant->email), 
                     'courses'=>$applicant->profile_field_courses_requested,
                     'currentrole'=>$applicant->profile_field_currentrole,    
                     'applicationprogress'=>$applicant->profile_field_applicationprogress, 
@@ -86,7 +87,7 @@ class trackingpage implements \renderable, \templatable {
                     'schoolcountry'=>$applicant->profile_field_schoolcountry, 
                     'contact_firstname'=>$applicant->profile_field_safeguarding_contact_firstname,
                     'contact_familyname'=>$applicant->profile_field_safeguarding_contact_familyname, 
-                    'contact_email'=>$applicant->profile_field_safeguarding_contact_email,
+                    'contact_email'=>$this->make_safeguarding_email_link($applicant->profile_field_safeguarding_contact_email),
                     'contact_phone'=>$applicant->profile_field_safeguarding_contact_phone, 
                     'qtsnumber'=>$applicant->profile_field_qtsnumber, 
                     'assurancesubmissiondate'=>$this->check_date_exists($applicant->profile_field_assurancesubmissiondate), 
@@ -128,6 +129,21 @@ class trackingpage implements \renderable, \templatable {
             return '<input type="checkbox" name="denied[]" value="'.$id.'" checked="checked">';
         }
         return '<input type="checkbox" name="denied[]" value="'.$id.'">';
+    }
+
+    private function make_applicant_fullname_link($lastname, $firstname, $userid) {
+        $fullname = '<a href="'.PAGE_WWWROOT.'/user/editadvanced.php?id='.$userid.'">'.$lastname.', '.$firstname.'</a>';
+        return $fullname;
+    }
+
+    private function make_applicant_email_link($email) {
+        $email = '<a href="mailto:'.$email.'">'.$email.'</a>';
+        return $email;
+    }
+
+    private function make_safeguarding_email_link($email) {
+        $email = '<a href="mailto:'.$email.'">'.$email.'</a>';
+        return $email;
     }
 
 }
