@@ -79,6 +79,8 @@ $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
 $page_number = 6;
 
+$PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-tables.js'));
+//$PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-table.css'));
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $studentspage = new \enrol_ukfilmnet\output\studentspage($page_number);
 $page_content = $output->render_studentspage($studentspage);

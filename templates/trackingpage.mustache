@@ -55,7 +55,7 @@
             <p>{{#str}}tracking_instructions, enrol_ukfilmnet{{/str}}</p>
             <!--{{{trackinginput}}}-->
             {{testName}}
-            <table class="generaltable">
+            <table class="generaltable sortable-table">
                 <thead>
                     <tr>
                 {{#headings}}
@@ -86,16 +86,16 @@
                         <td class="cell ukfn_text_center" scope="col">
                             {{{applicationdenied}}}
                         </td>
-                        <td class="cell ukfn_text_center" scope="col">{{applicationprogress}}
-                        <div class="help-tip">
-                            <p class="tracking_progress_tip"><span class='tip_header'>
-                            {{#str}}signup_progress_1, enrol_ukfilmnet{{/str}}<br>
-                            {{#str}}signup_progress_2, enrol_ukfilmnet{{/str}}<br>
-                            {{#str}}signup_progress_3, enrol_ukfilmnet{{/str}}<br>
-                            {{#str}}signup_progress_4, enrol_ukfilmnet{{/str}}<br>
-                            {{#str}}signup_progress_5, enrol_ukfilmnet{{/str}}<br>
-                            {{#str}}signup_progress_6, enrol_ukfilmnet{{/str}}<br>
-                        </div>    
+                        {{{applicationprogress}}}
+                            <div class="help-tip">
+                                <p class="tracking_progress_tip"><span class='tip_header'>
+                                {{#str}}signup_progress_1, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}signup_progress_2, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}signup_progress_3, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}signup_progress_4, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}signup_progress_5, enrol_ukfilmnet{{/str}}<br>
+                                {{#str}}signup_progress_6, enrol_ukfilmnet{{/str}}<br>
+                            </div>    
                         </td>
                     
                     <td class="cell ukfn_text_center" scope="col">{{currentrole}}

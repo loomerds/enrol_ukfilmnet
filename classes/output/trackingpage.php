@@ -47,8 +47,8 @@ class trackingpage implements \renderable, \templatable {
         global $CFG, $USER, $DB;
         
         // Array to provide table column headings
-        $headings = array('title0'=>'Approved', 
-                          'title1'=>'Progress', 
+        $headings = array('title0'=>'App', 
+                          'title1'=>'Prog', 
                           'title2'=>'Role', 
                           'title3'=>'Name', 
                           'title4'=>'Email',
@@ -61,7 +61,7 @@ class trackingpage implements \renderable, \templatable {
                           'title9'=>'SG Email', 
                           'title10'=>'SG Form', 
                           'title11'=>'Form Date', 
-                          'title12'=>'Denied');
+                          'title12'=>'Den');
         
         // Array to provide table row fields
         $rows = [];
@@ -81,7 +81,7 @@ class trackingpage implements \renderable, \templatable {
                     'email'=>$this->make_applicant_email_link($applicant->email), 
                     'courses'=>$applicant->profile_field_courses_requested,
                     'currentrole'=>$applicant->profile_field_currentrole,    
-                    'applicationprogress'=>$applicant->profile_field_applicationprogress, 
+                    'applicationprogress'=>$this->make_progress_cell($applicant->profile_field_applicationprogress), 
                     'schoolname'=>$applicant->profile_field_schoolname, 
                     'ukprn'=>$applicant->profile_field_ukprn,
                     'schoolcountry'=>$applicant->profile_field_schoolcountry, 
@@ -119,16 +119,16 @@ class trackingpage implements \renderable, \templatable {
 
     private function application_approved($approval_status, $id) {
         if($approval_status == 1) {
-            return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
+            return '<span class="ukfn_0em_text">1<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked"></span>';
         }
-        return '<input type="checkbox" name="approved[]" value="'.$id.'">';
+        return '<span class="ukfn_0em_text">0<input type="checkbox" name="approved[]" value="'.$id.'"></span>';
     }
 
     private function application_denied($denial_status, $id) {
         if($denial_status == 1) {
-            return '<input type="checkbox" name="denied[]" value="'.$id.'" checked="checked">';
+            return '<span class="ukfn_0em_text">1<input type="checkbox" name="denied[]" value="'.$id.'" checked="checked"></span>';
         }
-        return '<input type="checkbox" name="denied[]" value="'.$id.'">';
+        return '<span class="ukfn_0em_text">0<input type="checkbox" name="denied[]" value="'.$id.'"></span>';
     }
 
     private function make_applicant_fullname_link($lastname, $firstname, $userid) {
@@ -144,6 +144,18 @@ class trackingpage implements \renderable, \templatable {
     private function make_safeguarding_email_link($email) {
         $email = '<a href="mailto:'.$email.'">'.$email.'</a>';
         return $email;
+    }
+
+    private function make_progress_cell($progress) {
+        if($progress == 1) {
+            return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress_1">'.$progress.'</span>';
+        } elseif($progress == 6) {
+            return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress_6">'.$progress.'</span>';
+        } elseif($progress == 7) {
+            return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress_7">'.$progress.'</span>';
+        } else {
+            return '<td class="cell ukfn_text_center" scope="col"><span class="">'.$progress.'</span>';
+        }
     }
 
 }

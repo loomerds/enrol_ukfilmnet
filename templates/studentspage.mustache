@@ -55,7 +55,7 @@
             <p>{{#str}}students_instructions, enrol_ukfilmnet{{/str}}</p>
             <!--<div id='ukfn_student_enrol_form'>{{{studentsinput}}}</div>-->
             {{{message}}}
-            <table class="generaltable">
+            <table class="generaltable sortable-table">
                 <thead>
                     <tr>
                         {{#headings}}
@@ -82,18 +82,18 @@
                     </tr>
                     {{/rows}}
                 </tbody>
-                </table>
-                {{{message}}}
-                <div class="ukfn_max_width">
-                    <div class="ukfn_applicant_subheading one_panel">
-                        <span>
-                            <input class="btn btn-primary" type="submit" name="submit_type" value="Submit">
-                        </span>
-                        <span>
-                            <input class="btn btn-primary" type="submit" name="submit_type" value="Exit">
-                        </span>
-                    </div>
+            </table>
+            {{{message}}}
+            <div class="ukfn_max_width">
+                <div class="ukfn_applicant_subheading one_panel">
+                    <span>
+                        <input class="btn btn-primary" type="submit" name="submit_type" value="Submit">
+                    </span>
+                    <span>
+                        <input class="btn btn-primary" type="submit" name="submit_type" value="Exit">
+                    </span>
                 </div>
+            </div>
             <p></p>
             <br/>
         </div>

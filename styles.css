@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 body#page-enrol-ukfilmnet-applicant, body#page-enrol-ukfilmnet-emailverify,
 body#page-enrol-ukfilmnet-courses, body#page-enrol-ukfilmnet-school, body#page-enrol-ukfilmnet-safeguarding, body#page-enrol-ukfilmnet-students,
 body#page-enrol-ukfilmnet-assurance, body#page-enrol-ukfilmnet-tracking {
@@ -222,9 +224,17 @@ h3.ukfn_enrol_page_title {
     height: 20px;
 }
 
+#page-enrol-ukfilmnet-tracking tbody td span {
+    padding: 5px;
+}
+
 .ukfn_courses_questions .col-md-3 {
     max-width: 70%;
     flex: 0 0 70%;
+}
+
+.ukfn_0em_text {
+    font-size: 0em;
 }
 
 .ukfn_courses_question_bullet {
@@ -357,6 +367,18 @@ td.ukfn_enrol_col input {
     width: 220px;
 }
 
+.ukfn_progress_1 {
+    background-color: #bb2222;
+}
+
+.ukfn_progress_6 {
+    background-color: yellow;
+}
+
+.ukfn_progress_7 {
+    background-color: green;
+}
+
 .ukfn_max_width {
     width: 100%;
 }
@@ -391,3 +413,27 @@ td.ukfn_enrol_col input {
 }
 
 /*help tips end*/
+
+/*Sortable Tables CSS - @charset "UTF-8";*/
+
+.sortable-table thead th {
+  cursor: pointer; }
+  .sortable-table thead th:after {
+    padding-left: 7px; }
+  .sortable-table thead th[data-sort-direction="0"]:after {
+    content: "⇕"; }
+  .sortable-table thead th[data-sort-direction="1"]:after {
+    content: "▴"; }
+  .sortable-table thead th[data-sort-direction="-1"]:after {
+    content: "▾"; }
+
+.sortable-table.sortable-fa-icons thead th:after {
+  font-family: FontAwesome; }
+.sortable-table.sortable-fa-icons thead th[data-sort-direction="0"]:after {
+  content: ""; }
+.sortable-table.sortable-fa-icons thead th[data-sort-direction="1"]:after {
+  content: ""; }
+.sortable-table.sortable-fa-icons thead th[data-sort-direction="-1"]:after {
+  content: ""; }
+
+/*sortable-tables css ends*/

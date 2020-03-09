@@ -183,7 +183,7 @@ $string['signup_progress_3'] = '3-Verification page submitted';
 $string['signup_progress_4'] = '4-Courses requested';
 $string['signup_progress_5'] = '5-School information submitted';
 $string['signup_progress_5'] = '6-Waiting for determination';
-$string['signup_progress_6'] = '7-Students enrolled';
+$string['signup_progress_6'] = '7-Application approved';
 
 // Country Discriptors
 $string['school_country_instruction'] = 'Choose a country...';
