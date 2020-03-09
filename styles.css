@@ -290,6 +290,19 @@ td.ukfn_enrol_col input {
     width: 100px;
 }
 
+.generaltable th {
+    padding-left: .3rem !important;
+    padding-right: .3rem !important;
+}
+
+.sortable-table thead th[data-sort-direction="0"]:after {
+    display: none;
+}
+
+.ukfn_school_col {
+    width: 200px;
+}
+
 /* help tips begin*/
 .help-tip{
     position: absolute;
@@ -369,18 +382,29 @@ td.ukfn_enrol_col input {
 
 .ukfn_progress_1 {
     background-color: #bb2222;
+    color: #fff;
 }
 
 .ukfn_progress_6 {
     background-color: yellow;
+    color: #fff;
 }
 
 .ukfn_progress_7 {
     background-color: green;
+    color: #fff;
+}
+
+.ukfn_progress {
+    background-color: #fff;
 }
 
 .ukfn_max_width {
     width: 100%;
+}
+
+.generaltable td {
+    vertical-align: middle !important;
 }
 
 .ukfn_block_center {

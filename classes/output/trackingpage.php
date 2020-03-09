@@ -48,7 +48,7 @@ class trackingpage implements \renderable, \templatable {
         
         // Array to provide table column headings
         $headings = array('title0'=>'App', 
-                          'title1'=>'Prog', 
+                          'title1'=>'Progress', 
                           'title2'=>'Role', 
                           'title3'=>'Name', 
                           'title4'=>'Email',
@@ -60,7 +60,7 @@ class trackingpage implements \renderable, \templatable {
                           'title8'=>'SG Phone', 
                           'title9'=>'SG Email', 
                           'title10'=>'SG Form', 
-                          'title11'=>'Form Date', 
+                          'title11'=>'Assurance Uploaded', 
                           'title12'=>'Den');
         
         // Array to provide table row fields
@@ -154,7 +154,7 @@ class trackingpage implements \renderable, \templatable {
         } elseif($progress == 7) {
             return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress_7">'.$progress.'</span>';
         } else {
-            return '<td class="cell ukfn_text_center" scope="col"><span class="">'.$progress.'</span>';
+            return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress">'.$progress.'</span>';
         }
     }
 
