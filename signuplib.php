@@ -198,7 +198,7 @@ function handle_tracking_post() {
         if(!empty($_POST['approved'])) {
             application_approved($_POST['approved']);
         }
-        //redirect(PAGE_TRACKING);
+        redirect(PAGE_TRACKING);
     }
 }
 
@@ -401,10 +401,10 @@ function application_denied($denied) {
                 $applicant_user->profile_field_applicationdenied = '1';
                 $applicant_user->profile_field_applicationprogress = convert_progressnum_to_progressstring('1');
                 profile_save_data($applicant_user);
-                $applicant_user->suspended = 1;
-                $DB->update_record('user', $applicant_user);
 
                 email_user_accept_reject($applicant_user, "denied");
+                $applicant_user->suspended = 1;
+                $DB->update_record('user', $applicant_user);
             }
         }
     }
@@ -452,7 +452,6 @@ function email_user_accept_reject($applicant, $status){
                                      'familyname'=>$applicant->lastname, 
                                      'email'=>$applicant->email);
     if($status === "denied") {
-//print_r2("got here");
         email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_denied', 'enrol_ukfilmnet', $emailvariables));
     } elseif($status === "approved") {
         email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_approved', 'enrol_ukfilmnet', $emailvariables));

@@ -334,3 +334,4 @@ After review of the information provided by your school Safeguarding Officer, we
 Other stuff to be determined.<br>
 <br>
 Your Friends at UKfilmNet';
+$string['determination_text_tester'] = 'This is an email test - hope you got it!';
