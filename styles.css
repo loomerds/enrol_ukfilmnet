@@ -7,9 +7,14 @@ body#page-enrol-ukfilmnet-assurance, body#page-enrol-ukfilmnet-tracking {
     background-size: cover;
 }
 
-#page {
+body#page-enrol-ukfilmnet-applicant #page, body#page-enrol-ukfilmnet-emailverify #page,
+body#page-enrol-ukfilmnet-courses #page, body#page-enrol-ukfilmnet-school #page, body#page-enrol-ukfilmnet-safeguarding #page, body#page-enrol-ukfilmnet-students #page,
+body#page-enrol-ukfilmnet-assurance #page, body#page-enrol-ukfilmnet-tracking #page {
     margin-top: 0px !important;
 }
+/*#page {
+    margin-top: 0px !important;
+}*/
 
 #region-main {
     padding: 0px !important;
