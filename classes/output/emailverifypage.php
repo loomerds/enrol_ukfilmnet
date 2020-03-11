@@ -64,7 +64,7 @@ class emailverifypage implements \renderable, \templatable {
             if($verified_user !== null) {
                 profile_load_data($verified_user);
                 $verified_user->profile_field_emailverified = true;
-                $verified_user->profile_field_applicationprogress = 3;
+                $verified_user->profile_field_applicationprogress = convert_progressnum_to_progressstring(3);
                 profile_save_data($verified_user);
             }
         } else {

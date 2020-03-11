@@ -178,12 +178,12 @@ $string['applicant_role_parentguardian'] = '10. Parent/Guardian';
 
 // Application Progress Descriptors
 $string['signup_progress_1'] = '1-Application denied';
-$string['signup_progress_2'] = '2-Application page submitted';
-$string['signup_progress_3'] = '3-Verification page submitted';
+$string['signup_progress_2'] = '2-Application submitted';
+$string['signup_progress_3'] = '3-Email verification submitted';
 $string['signup_progress_4'] = '4-Courses requested';
 $string['signup_progress_5'] = '5-School information submitted';
-$string['signup_progress_5'] = '6-Waiting for determination';
-$string['signup_progress_6'] = '7-Application approved';
+$string['signup_progress_6'] = '6-Waiting for determination';
+$string['signup_progress_7'] = '7-Application approved';
 
 // Country Discriptors
 $string['school_country_instruction'] = 'Choose a country...';
@@ -321,7 +321,7 @@ We are happy to inform you that your request for a UKfilmNet account has been re
 <br>
 When you log in to UKfilmNet you should find that you are able to access the UKfilmNet resource classes as well as the support and educator forum classes. Feel free to browse them.<br>
 <br>
-To set up your personal teaching classes and enrol your students, please return to the <a href="ukfilmnet.org/learning/enrol/ukfilmnet/enrolment.php">UKfilmNet Student Enrolment</a> signup page.<br>
+To set up your personal teaching classes and enrol your students, please return to the <a href="{$a->students_url}">UKfilmNet Student Enrolment</a> signup page.<br>
 <br>
 Enjoy!<br>
 <br>

@@ -35,8 +35,11 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
 
     $username = make_random_password();
     $password = make_random_password();
-    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding','lastname'=>'Officer', 
-                            'currentrole'=>'', 'applicationprogress'=>'', 'verificationcode'=>$username);
+    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding',
+                              'lastname'=>'Officer',
+                              'currentrole'=>'',
+                              'applicationprogress'=>'',
+                              'verificationcode'=>$username);
     $user = create_applicant_user($newuser, $password);
     $user->policyagreed = 1;
     manager::set_user($user);

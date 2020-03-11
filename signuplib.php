@@ -87,7 +87,7 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     $newuser->email = $applicantinfo->email;
     $newuser->firstname = $applicantinfo->firstname;
     $newuser->lastname = $applicantinfo->lastname;
-    $newuser->profile_field_currentrole = $applicantinfo->currentrole;
+    $newuser->profile_field_currentrole = convert_rolenum_to_rolestring($applicantinfo->currentrole);
     $newuser->profile_field_verificationcode = $applicantinfo->verificationcode;
     $newuser->profile_field_applicationprogress = $applicantinfo->applicationprogress;
 
@@ -194,10 +194,11 @@ function handle_tracking_post() {
     } else if($_POST['submit_type'] == 'Submit') {
         if(!empty($_POST['denied'])) {
             application_denied($_POST['denied']);
-        } if(!empty($_POST['approved'])) {
+        } 
+        if(!empty($_POST['approved'])) {
             application_approved($_POST['approved']);
         }
-        redirect(PAGE_TRACKING);
+        //redirect(PAGE_TRACKING);
     }
 }
 
@@ -396,10 +397,13 @@ function application_denied($denied) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '6') {
+            if(convert_progressstring_to_progressnum($applicant_user->profile_field_applicationprogress) > '1') {
                 $applicant_user->profile_field_applicationdenied = '1';
-                $applicant_user->profile_field_applicationprogress = '1';
+                $applicant_user->profile_field_applicationprogress = convert_progressnum_to_progressstring('1');
                 profile_save_data($applicant_user);
+                $applicant_user->suspended = 1;
+                $DB->update_record('user', $applicant_user);
+
                 email_user_accept_reject($applicant_user, "denied");
             }
         }
@@ -415,9 +419,9 @@ function application_approved($approved) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
-            if($applicant_user->profile_field_applicationprogress == '6') {
+            if(convert_progressstring_to_progressnum($applicant_user->profile_field_applicationprogress) == '6') {
                 $applicant_user->profile_field_applicationapproved = '1';
-                $applicant_user->profile_field_applicationprogress = '7';
+                $applicant_user->profile_field_applicationprogress = convert_progressnum_to_progressstring('7');
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
                 
@@ -440,25 +444,29 @@ function application_approved($approved) {
 }
 
 function email_user_accept_reject($applicant, $status){
+    global $CFG;
     
     profile_load_data($applicant);
 
     $emailvariables = (object) array('firstname'=>$applicant->firstname, 
                                      'familyname'=>$applicant->lastname, 
                                      'email'=>$applicant->email);
-    if($status === "approved") {
-        email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_approved', 'enrol_ukfilmnet', $emailvariables));
-    }elseif($status === "denied") {
+    if($status === "denied") {
+//print_r2("got here");
         email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_denied', 'enrol_ukfilmnet', $emailvariables));
+    } elseif($status === "approved") {
+        email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_approved', 'enrol_ukfilmnet', $emailvariables));
     }
 }
 
 function create_classroom_course_from_teacherid ($teacherid, $template, $category_name) {
     global $DB, $CFG;
+
     require_once($CFG->libdir.'/datalib.php');
     require_once($CFG->dirroot.'/course/externallib.php');
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/enrol/cohort/lib.php');
+
     // Get a teacher
     $teacher = $DB->get_record('user', array('id' => $teacherid, 'auth' => 'manual'));
     profile_load_data($teacher);
@@ -476,8 +484,9 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
         $shortname = $course->shortname;
         if(substr($shortname, 0, $lastname_length) == $lastname) {
             $end_num = (int)substr($shortname, $lastname_length+1);
+
             if($end_num > $highest_end) {
-                $highest_end = $end_num;
+                $highest_end = $end_num +1; // added +1
                 $unique_shortname = $lastname.'-'.$highest_end;
             } elseif($end_num == $highest_end) {
                 $highest_end = $highest_end + 1;
@@ -640,7 +649,7 @@ function get_array_from_json_file($save_filename) {
     return $target_array;
 }
 
-function force_progress($application_progress, $current_page) {
+/*function force_progress($application_progress, $current_page) {
     global $CFG;
 
     switch($application_progress) {
@@ -672,7 +681,7 @@ function force_progress($application_progress, $current_page) {
         default:
         break;
     }
-}
+}*/
 
 function go_to_page($target_page) {
     global $CFG;
@@ -764,36 +773,153 @@ function create_school_name_select_list() {
         }           
     }
     return $schools_list;
+}
 
-    // Presumes there is a file in the assets folder named _uk_schools_short.txt which has an array with subarrays each containing Establishmnet names, ukprn, and street fields - which file can be created by calling the create_array_from_csv($csvfile, $save_filename) function on a .csv file containing these three fields as columns
-    // This function takes that file and concatenates the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv() function to create the txt file uk_schools_selector_list_array.txt which is used by schoolform.php to provide an array to the Name of school input element
-    // Consider adding this to a Moodle site admin feature that be used to update the Name of school data programatically
 
-    function update_list(){
-        $schoolinfos = get_array_from_json_file('uk_schools_short.txt');
-            $schoolslist = [];
-            foreach($schoolinfos as $infos) {
-                $count = 0;
-                foreach($infos as $info) {
-                    //if($infos[$count]>10) {
-                    $schoolinfos[0][$count][0] = $info[0].', '.$info[2];
-                    array_pop($schoolinfos[0][$count]);
-                    
-                    //}
-                $count++;
-                }
+// Presumes there is a file in the assets folder named _uk_schools_short.txt which has an array with subarrays each containing Establishmnet names, ukprn, and street fields - which file can be created by calling the create_array_from_csv($csvfile, $save_filename) function on a .csv file containing these three fields as columns
+// This function takes that file and concatenates the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv() function to create the txt file uk_schools_selector_list_array.txt which is used by schoolform.php to provide an array to the Name of school input element
+// Consider adding this to a Moodle site admin feature that be used to update the Name of school data programatically
+
+function update_list(){
+    $schoolinfos = get_array_from_json_file('uk_schools_short.txt');
+        $schoolslist = [];
+        foreach($schoolinfos as $infos) {
+            $count = 0;
+            foreach($infos as $info) {
+                //if($infos[$count]>10) {
+                $schoolinfos[0][$count][0] = $info[0].', '.$info[2];
+                array_pop($schoolinfos[0][$count]);
                 
-            }
-            foreach($schoolinfos as $info) {
-                $schoollist = $info;
+                //}
+            $count++;
             }
             
-            $fp = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/uk_schools_selector_list_array.csv', 'w');
-            foreach($schoollist as $list) {
-                fputcsv($fp, $list);
-            }
-            fclose($fp);
+        }
+        foreach($schoolinfos as $info) {
+            $schoollist = $info;
+        }
+        
+        $fp = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/uk_schools_selector_list_array.csv', 'w');
+        foreach($schoollist as $list) {
+            fputcsv($fp, $list);
+        }
+        fclose($fp);
 
-            create_array_from_csv('uk_schools_selector_list_array.csv', 'uk_schools_selector_list_array.txt');            
+        create_array_from_csv('uk_schools_selector_list_array.csv', 'uk_schools_selector_list_array.txt');            
+}
+
+function convert_rolenum_to_rolestring($current_role) {
+    switch($current_role) {
+        case '01':
+            return get_string('applicant_role_ukteacher', 'enrol_ukfilmnet');
+        case '02':
+            return get_string('applicant_role_teacherbsa', 'enrol_ukfilmnet');
+        case '03':
+            return get_string('applicant_role_uksupplyteacher', 'enrol_ukfilmnet');
+        case '04':
+            return get_string('applicant_role_instructor18plus', 'enrol_ukfilmnet');
+        case '05':
+            return get_string('applicant_role_instructor17minus', 'enrol_ukfilmnet');
+        case '06':
+            return get_string('applicant_role_student17minus', 'enrol_ukfilmnet');
+        case '07':
+            return get_string('applicant_role_student18plus', 'enrol_ukfilmnet');
+        case '08':
+            return get_string('applicant_role_industryprofessional', 'enrol_ukfilmnet');
+        case '09':
+            return get_string('applicant_role_educationconsultant', 'enrol_ukfilmnet');
+        case '10':
+            return get_string('applicant_role_parentguardian', 'enrol_ukfilmnet');
+        default:
+            return $current_role;
+        break;
+        
     }
 }
+
+function convert_rolestring_to_rolenum($current_role) {
+    switch($current_role) {
+        case get_string('applicant_role_ukteacher', 'enrol_ukfilmnet'):
+            return '01';
+        case get_string('applicant_role_teacherbsa', 'enrol_ukfilmnet'):
+            return '02';
+        case get_string('applicant_role_uksupplyteacher', 'enrol_ukfilmnet'):
+            return '03';
+        case get_string('applicant_role_instructor18plus', 'enrol_ukfilmnet'):
+            return '04';    
+        case get_string('applicant_role_instructor17minus', 'enrol_ukfilmnet'):
+            return '05'; 
+        case get_string('applicant_role_student17minus', 'enrol_ukfilmnet'):
+            return '06';
+        case get_string('applicant_role_student18plus', 'enrol_ukfilmnet'):
+            return '07';
+        case get_string('applicant_role_industryprofessional', 'enrol_ukfilmnet'):
+            return '08';
+        case get_string('applicant_role_educationconsultant', 'enrol_ukfilmnet');
+            return '09';
+        case get_string('applicant_role_parentguardian', 'enrol_ukfilmnet'):
+            return '10';
+        default:
+            return $current_role;
+        break;
+        
+    }
+}
+
+function convert_progressnum_to_progressstring($signup_progress) {
+    switch($signup_progress) {
+        case '1':
+            return get_string('signup_progress_1', 'enrol_ukfilmnet');
+        case '2':
+            return get_string('signup_progress_2', 'enrol_ukfilmnet');
+        case '3':
+            return get_string('signup_progress_3', 'enrol_ukfilmnet');
+        case '4':
+            return get_string('signup_progress_4', 'enrol_ukfilmnet');
+        case '5':
+            return get_string('signup_progress_5', 'enrol_ukfilmnet');
+        case '6':
+            return get_string('signup_progress_6', 'enrol_ukfilmnet');
+        case '7':
+            return get_string('signup_progress_7', 'enrol_ukfilmnet');
+        default:
+            return $signup_progress;
+        break;
+        
+    }
+}
+
+function convert_progressstring_to_progressnum($signup_progress) {
+    switch($signup_progress) {
+        case get_string('signup_progress_1', 'enrol_ukfilmnet'):
+            return '1';
+        case get_string('signup_progress_2', 'enrol_ukfilmnet'):
+            return '2';
+        case get_string('signup_progress_3', 'enrol_ukfilmnet'):
+            return '3';
+        case get_string('signup_progress_4', 'enrol_ukfilmnet'):
+            return '4';    
+        case get_string('signup_progress_5', 'enrol_ukfilmnet'):
+            return '5'; 
+        case get_string('signup_progress_6', 'enrol_ukfilmnet'):
+            return '6';
+        case get_string('signup_progress_7', 'enrol_ukfilmnet'):
+            return '7';
+        default:
+            return $signup_progress;
+        break;
+        
+    }
+}
+
+function convert_unixtime_to_gmdate($date) {
+    $gmdate = gmdate("Y-m-d G:i:s", (int)$date);
+    return $gmdate;
+}
+
+function convert_gmdate_to_unixtime($date) {
+    $date_array = preg_split( "/(-|:| )/", $date);
+    $unixtime = gmmktime($date_array[3],$date_array[4],$date_array[5],$date_array[1],$date_array[2],$date_array[0]);
+    return $unixtime;
+}
+

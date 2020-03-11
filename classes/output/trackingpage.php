@@ -45,6 +45,8 @@ class trackingpage implements \renderable, \templatable {
     // Consider rewriting this function to use an mform approach
     public function get_tracking_content() {
         global $CFG, $USER, $DB;
+
+        require_once('./signuplib.php');
         
         // Array to provide table column headings
         $headings = array('title0'=>'App', 
@@ -72,7 +74,8 @@ class trackingpage implements \renderable, \templatable {
         // Fill row fields with relevant applicant information
         foreach($applicants as $applicant) {
             profile_load_data($applicant);
-            if($applicant->profile_field_applicationprogress > 0) {
+
+            if(convert_progressstring_to_progressnum($applicant->profile_field_applicationprogress) > 0) {
                 $rows[] = [
                     'userid'=>$applicant->id,
                     'firstname'=>$applicant->firstname,
@@ -80,8 +83,8 @@ class trackingpage implements \renderable, \templatable {
                     'fullname'=>$this->make_applicant_fullname_link($applicant->lastname, $applicant->firstname, $applicant->id),
                     'email'=>$this->make_applicant_email_link($applicant->email), 
                     'courses'=>$applicant->profile_field_courses_requested,
-                    'currentrole'=>$applicant->profile_field_currentrole,    
-                    'applicationprogress'=>$this->make_progress_cell($applicant->profile_field_applicationprogress), 
+                    'currentrole'=>convert_rolestring_to_rolenum($applicant->profile_field_currentrole),    
+                    'applicationprogress'=>$this->make_progress_cell(convert_progressstring_to_progressnum($applicant->profile_field_applicationprogress)), 
                     'schoolname'=>$applicant->profile_field_schoolname, 
                     'ukprn'=>$applicant->profile_field_ukprn,
                     'schoolcountry'=>$applicant->profile_field_schoolcountry, 
@@ -104,9 +107,16 @@ class trackingpage implements \renderable, \templatable {
     }
 
     private function check_date_exists($date) {
-        if($date > 0) {
-            return gmdate("Y-m-d", (int)$date);
+        require_once('./signuplib.php');
+
+        if(is_string($date)) {
+            $date_chars = str_split($date);
+            if(count($date_chars) === 10) {
+                return convert_unixtime_to_gmdate($date);
+            }
+            return $date;
         }
+    
         return null;
     }
 
@@ -147,6 +157,7 @@ class trackingpage implements \renderable, \templatable {
     }
 
     private function make_progress_cell($progress) {
+
         if($progress == 1) {
             return '<td class="cell ukfn_text_center" scope="col"><span class="ukfn_progress_1">'.$progress.'</span>';
         } elseif($progress == 6) {

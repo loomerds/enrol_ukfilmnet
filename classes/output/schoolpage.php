@@ -75,7 +75,7 @@ class schoolpage implements \renderable, \templatable {
             $USER->profile_field_safeguarding_contact_email = $form_data->contact_email;
             $USER->profile_field_safeguarding_contact_phone = $form_data->contact_phone;
             $USER->profile_field_assurancecode = generate_random_verification_code();
-            $USER->profile_field_applicationprogress = 5;
+            $USER->profile_field_applicationprogress = convert_progressnum_to_progressstring(5);
             profile_save_data($USER);
 
             //Build a object for the email we will send to safeguarding officer

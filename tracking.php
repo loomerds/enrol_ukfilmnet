@@ -40,7 +40,6 @@ $PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
 $page_number = 8;
 
 $PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-tables.js'));
-//$PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-table.css'));
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $trackingpage = new \enrol_ukfilmnet\output\trackingpage();
 $page_content = $output->render_trackingpage($trackingpage);
@@ -55,6 +54,7 @@ try {
 
 if(!empty($_POST)) {
     handle_tracking_post();
+
 }
 
 echo $output->header();

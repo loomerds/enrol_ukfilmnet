@@ -71,12 +71,18 @@ class applicantpage implements \renderable, \templatable {
             $code = generate_random_verification_code();
             $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code);
             // Create a new user
-            $newuser = (object) array('email'=>$form_data->email,'username'=>$username,'firstname'=>$form_data->firstname,'lastname'=>$form_data->familyname, 'currentrole'=>$form_data->role, 'applicationprogress'=>2, 'verificationcode'=>$code);
+            $newuser = (object) array('email'=>$form_data->email,
+                                      'username'=>$username,
+                                      'firstname'=>$form_data->firstname,
+                                      'lastname'=>$form_data->familyname,
+                                      'currentrole'=>$form_data->role,
+                                      'applicationprogress'=>convert_progressnum_to_progressstring(2),
+                                      'verificationcode'=>$code);
             $user = create_applicant_user($newuser, $password);
             
-            // Set the new user's applicantprogress variable
+            // Set the new user's applicationprogress variable
             profile_load_data($user);
-            $user->profile_field_applicantprogress = 2;
+            $user->profile_field_applicationprogress = convert_progressnum_to_progressstring(2);
 
             // Make the new user the currently logged in user
             \core\session\manager::set_user($user);
@@ -104,7 +110,7 @@ class applicantpage implements \renderable, \templatable {
         if(isset($SESSION->cancel) and $SESSION->cancel == 1) {
             $SESSION->cancel = 0;
             redirect($CFG->wwwroot);
-        } elseif($this->page_number != $this->applicantprogress) {
+        } elseif($this->page_number != convert_progressstring_to_progressnum($this->applicantprogress)) {
             force_signup_flow($this->page_number);
         }
         return true;

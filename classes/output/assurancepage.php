@@ -82,9 +82,9 @@ class assurancepage implements \renderable, \templatable {
                 profile_load_data($applicant_user);
                 $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
                 $applicant_user->profile_field_assurancesubmitted = 1;
-                $applicant_user->profile_field_assurancesubmissiondate = time();
+                $applicant_user->profile_field_assurancesubmissiondate = convert_unixtime_to_gmdate(time());
                 $applicant_user->profile_field_assurancedoc = $filename;
-                $applicant_user->profile_field_applicationprogress = 6;
+                $applicant_user->profile_field_applicationprogress = convert_progressnum_to_progressstring(6);
                 profile_save_data($applicant_user);
             }
             // Delete temporary Safguarding user
