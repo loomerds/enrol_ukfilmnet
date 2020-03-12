@@ -30,6 +30,7 @@ require_once('./signuplib.php');
 require_once($CFG->dirroot.'/lib/dml/moodle_database.php');
 require_once($CFG->dirroot.'/course/externallib.php');
 require_once($CFG->dirroot.'/user/externallib.php');
+//require_once('./profilerecords.php');
 
 require_login();
 
