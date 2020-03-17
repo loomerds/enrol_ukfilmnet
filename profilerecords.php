@@ -25,10 +25,11 @@
 
 global $CFG, $SESSION;
 
-//defined('MOODLE_INTERNAL') || die();
+defined('MOODLE_INTERNAL') || die();
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 
-// This page exists to allow a call to this function which sets up custom  UKfilmNet profile_fields - it should only be run when initially setting up the site in order to ensure that the profile fields exist
+// This page exists to allow a call to this function from a site html block  which sets up custom UKfilmNet profile_fields - it should only be run when initially setting up the site in order to ensure that the profile fields exist
 create_profile_fields();
+
 redirect($PAGE_WWWROOT.'/admin/search.php?query');

@@ -12,9 +12,6 @@ body#page-enrol-ukfilmnet-courses #page, body#page-enrol-ukfilmnet-school #page,
 body#page-enrol-ukfilmnet-assurance #page, body#page-enrol-ukfilmnet-tracking #page {
     margin-top: 0px !important;
 }
-/*#page {
-    margin-top: 0px !important;
-}*/
 
 #region-main {
     padding: 0px !important;
@@ -77,8 +74,123 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_enrol_main {
     display: flex;
+    flex-wrap: wrap;
 
 }
+
+#page-enrol-ukfilmnet-assurance input {
+    width: 100% !important;
+}
+
+.ukfn_form_even {
+    width: 95% !important;
+    display: inline-flex !important;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_even .col-md-3, .ukfn_form_even .col-md-9 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    text-align: right;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_even.half {
+    width: 45% !important;
+    display: inline-flex !important;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_even.half .col-md-3, .ukfn_form_even.half .col-md-9 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    text-align: right;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_even.half label, .ukfn_form_big_left label, .ukfn_form_even label {
+    padding-right: 10px;
+}
+
+
+
+.ukfn_form_big_left {
+    display: flex;
+    width: 95%;
+    margin-left: 1.5rem;
+    align-items: flex-start; 
+    flex-wrap: wrap;
+}
+
+.ukfn_form_small {
+    display: flex;
+    flex: 0 0 20%;
+    max-width: 20%;
+    flex-wrap: wrap;
+}
+
+.ukfn_applicant_content p {
+    padding-right: 10px;
+}
+
+.ukfn_form_big_left #fitem_id_employment_start_date {
+    flex: 0 0 80%;
+    max-width: 80%;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fitem_id_employment_start_date .col-md-3, .ukfn_form_big_left #fitem_id_employment_start_date .col-md-9, .ukfn_form_big_left #fitem_id_dbs_cert_date .col-md-3,  .ukfn_form_big_left #fitem_id_dbs_cert_date .col-md-9 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    text-align: right;
+    padding-left: 0px;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fitem_id_dbs_cert_date {
+    flex: 0 0 60%;
+    max-width: 60%;
+    margin-right: 40px;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fitem_id_dbsnumber {
+    flex: 0 0 40%;
+    max-width: 40%;
+    padding-left: 20px;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fitem_id_dbsnumber .col-md-3 {
+    flex: 0 0 35%;
+    max-width: 35%;
+    text-align: right;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fitem_id_dbsnumber .col-md-9 {
+    flex: 0 0 60%;
+    max-width: 60%;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fgroup_id_applicant_suitability .col-md-3 {
+    flex: 0 0 80%;
+    max-width: 80%;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fgroup_id_applicant_suitability .col-md-9 {
+    flex: 0 0 20%;
+    max-width: 20%;
+    flex-wrap: wrap;
+}
+
+.ukfn_form_big_left #fgroup_id_applicant_suitability .col-md-9 input {
+    width: unset!important;
+}
+
+
 
 .ukfn_progress_list_area {
     width:260px; 

@@ -60,8 +60,8 @@ class assurancepage implements \renderable, \templatable {
             
             redirect(PAGE_WWWROOT);
         } else if ($form_data = $mform->get_data()) {
-            // Process validated data her
-
+            // Process validated data here
+            
             // Save the Assurance Form file uploaded by the Officer
             $fullpath = $CFG->dirroot.'/enrol/ukfilmnet/assurancefiles';
             $override = false;
@@ -91,13 +91,13 @@ class assurancepage implements \renderable, \templatable {
             if($USER->firstname === 'Safeguarding') {
                 delete_user($USER);
             }
-            
             redirect(PAGE_WWWROOT);
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
-            $toform = $mform->get_data();
+            $form_data = $mform->get_data();
             //Set default data (if any)
-            $mform->set_data($toform);
+//print_r2($form_data);
+            $mform->set_data($form_data);
             //displays the form
             $assuranceinput = $mform->render();
         }

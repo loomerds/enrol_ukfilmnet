@@ -63,8 +63,42 @@ $string['applicant_password'] = 'Password';
 $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code';
 $string['employee_work_email'] = 'Employee school email';
-$string['qtsnumber'] = 'Employee QTS number';
+
 $string['assurance_form'] = 'Assurance form';
+
+// Assurance Form Labels
+$string['assurance_form_title'] = 'Reference in Respect of ';
+$string['assurance_form_instructions'] = 'PLEASE COMPLETE THIS ONLINE FORM, PRINT IT ON YOUR INSTITUTION\'S LETTERHEAD, THEN SIGN, SCAN & UPLOAD IT VIA THE UPLOAD FEATURE BELOW.';
+$string['form_firstname'] = 'Applicant First Name';
+$string['form_familyname'] = 'Applicant Surname';
+
+$string['employment_start_date'] = 'The applicant\'s period of employment with you';
+$string['employment_end'] = 'To:';
+$string['job_title'] = 'The applicant\' most recent job title with you';
+$string['main_duties'] = 'The main duties & responsibilities of that post:';
+$string['how_long_employee_known'] = 'How long have you known the applicant?';
+$string['capacity_employee_known'] = 'In what capacity do you know the Applicant?';
+$string['dbs_cert_date'] = 'Applicant DBS Certificate Date';
+$string['dbsnumber'] = 'DBS #:';
+$string['applicant_suitability'] = 'Referring to the supervisory role of applicant were they to use the UKfilmNet online resources as described above, do you bleieve the applicant is suitable for such access including whether they are suitable to work with children/vulnerable adults and that they hav enot been prohibited from doing so?';
+$string['qts_qualified'] = 'Are you satisfied that the applicant is QTS Qualified (and has a clear Enhanced DBS certificate) to work with children/vulnerable adults?';
+$string['qtsnumber'] = 'Employee QTS number';
+$string['behavior_allegations'] = 'To the best of your knowledge, has the applicant ever had an allegation made against the, which was founded, in regard to his or her behavior towards children?';
+$string['disciplinary_actions'] = 'Has the applicant been the subject of disciplinary action for which penalties or sanctionos remain in force?';
+$string['tra_check'] = 'If the applicant was appointed after 2/9/13 have you conducted a check that confirms they are not on the Teaching Regulation Agency (previously NCTL) Prohibited List?';
+$string['subject_to_ocr_check'] = 'If the applicant is a Tier 2 skilled worker who has lived abroad for 12 months or more in the last 10 years can you confirm they have provided you with an overseas criminal record certificate?';
+$string['brit_school_abroad_mod_or_dubai_school'] = 'Is Your Organisation a British School Abroad, M.O.D or Dubai School?';
+$string['school_subject_to_inspection'] = 'Is Your Organisation subject to inspections by a Recognised Inspection Provider as specifically defined in Note 1 below? (Note 1)';
+$string['about_referee'] = 'ABOUT YOU (THE REFEREE)';
+$string['referee_name'] = 'Referee\'s (Your) Name:';
+$string['referee_position'] = 'Position:';
+$string['referee_email'] = 'Email:';
+$string['school_registered_address'] = 'Organisation Registered Address:';
+$string['school_web_address'] = 'Organisation Web Address';
+$string['school_name'] = 'Organisation Name:';
+$string['ukprn_number'] = ' UKPRN Number (Note 2)';
+$string['note_1'] = 'Note 1: In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
+$string['note2'] = 'Note 2: UKPRN Number can be located on DFE "G.I.A.S" using <a href="https://www.gov.uk/guidance/get-information-about-schools">get-information-about-schools</a>';
 
 // Request Courses Questions Text
 $string['total_courses_question'] = 
@@ -234,7 +268,6 @@ $string['error_missing_assurance_code'] = 'Missing Assurance code';
 $string['error_assurance_code_mismatch'] = 'The Assurance code isn\'t for this Employee email';
 $string['error_missing_employee_work_email'] = 'Missing employee school email';
 $string['error_employee_work_email_mismatch'] = 'The Employee school email you entered is invalid';
-$string['error_missing_qtsnumber'] = 'Missing QTS number';
 $string['error_missing_assurance_form'] = 'You must upload the Assurance/Reference Form';
 $string['error_employee_email_assurance_code_mismatch'] = 'The Employee email isn\'t for this Assurance code';
 $string['error_assurance_already_submitted'] = 'An Assurance Form was previously submitted<br> for this employee';
@@ -242,8 +275,33 @@ $string['error_missing_student_email'] = 'Missing student email address';
 $string['error_missing_student_firstname'] ='Missing student first name';
 $string['error_missing_student_familyname'] = 'Missing student family name';
 $string['error_missing_schoolname'] = 'Missing school name';
+
+$string['error_missing_start_date'] ='Missing start date';
+//$string['error_missing_to_date'] ='Missing to date';
+
+$string['error_missing_job_title'] ='Missing job title';
+$string['error_missing_main_duties'] ='Missing main duties';
+$string['error_missing_time_known'] ='Missing time known';
+$string['error_missing_capacity_known'] ='Missing capacity known';
+$string['error_missing_dbs_date'] ='Missing DBS date';
+$string['error_missing_dbs_number'] ='Missing DBS number';
+$string['error_missing_suitable_to_work'] ='Missing suitable to work';
+$string['error_missing_qts_qualified'] ='Missing QTS qualified';
+$string['error_missing_qtsnumber'] = 'Missing QTS number';
+$string['error_missing_founded_allegations'] ='Missing founded allegations';
+$string['error_missing_disciplinary_action'] ='Missing disciplinary action';
+$string['error_missing_prohibited_list'] ='Missing prohibited list';
+$string['error_missing_ocr_certificate'] ='Missing OCR certificate';
+$string['error_missing_school_type'] ='Missing school type';
+$string['error_missing_subject_to_inspections'] ='Missing subject to RIP';
+$string['error_missing_referee_name'] ='Missing referee\'s name';
+$string['error_missing_referee_position'] ='Missing referee\'s position';
+$string['error_missing_referee_email'] ='Missing referee\'s email';
+$string['error_missing_organisation_address'] ='Missing orgainisation address';
+$string['error_missing_ukprn_number'] ='Missing UKPRN number';
 $string['error_missing_total_courses_questions'] = 'Please answer this question';
 $string['error_total_courses_excessive'] = 'The maximum number allowed here is 5';
+$string['error_yes_or_no'];
 
 // String variables
 $string['roleallowed_range_max'] = '03';
