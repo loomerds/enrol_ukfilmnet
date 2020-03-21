@@ -95,19 +95,19 @@ class assurance_form extends \moodleform {
 
                     $mform->addElement('text', 'job_title', get_string('job_title', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
                     $mform->setType('job_title', PARAM_NOTAGS);
-                    $mform->addRule('job_title', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                    $mform->addRule('job_title', get_string('error_missing_job_title', 'enrol_ukfilmnet'), 'required', null, 'server');
 
                     $mform->addElement('text', 'main_duties', get_string('main_duties', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
                     $mform->setType('main_duties', PARAM_NOTAGS);
-                    $mform->addRule('main_duties', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                    $mform->addRule('main_duties', get_string('error_missing_main_duties', 'enrol_ukfilmnet'), 'required', null, 'server');
                     
                     $mform->addElement('text', 'how_long_employee_known', get_string('how_long_employee_known', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
                     $mform->setType('how_long_employee_known', PARAM_NOTAGS);
-                    $mform->addRule('how_long_employee_known', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                    $mform->addRule('how_long_employee_known', get_string('error_missing_time_known', 'enrol_ukfilmnet'), 'required', null, 'server');
                     
                     $mform->addElement('text', 'capacity_employee_known', get_string('capacity_employee_known', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
                     $mform->setType('capacity_employee_known', PARAM_NOTAGS);
-                    $mform->addRule('capacity_employee_known', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                    $mform->addRule('capacity_employee_known', get_string('error_missing_capacity_known', 'enrol_ukfilmnet'), 'required', null, 'server');
 
                     $mform->addElement('html', '<div class="ukfn_form_big_left">');        
                         $mform->addElement('date_selector', 'dbs_cert_date', get_string('dbs_cert_date', 'enrol_ukfilmnet'));
@@ -116,7 +116,7 @@ class assurance_form extends \moodleform {
                         
                         $mform->addElement('text', 'dbsnumber', get_string('dbsnumber', 'enrol_ukfilmnet'), ['class'=>'ukfn-assurance-content']);
                         $mform->setType('dbsnumber', PARAM_NOTAGS);
-                        $mform->addRule('dbsnumber', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addRule('dbsnumber', get_string('error_missing_dbs_number', 'enrol_ukfilmnet'), 'required', null, 'server');
                     $mform->addElement('html', '</div>');
 
                     $mform->addElement('html', '<div class="ukfn_form_big_left">');        
@@ -188,14 +188,14 @@ class assurance_form extends \moodleform {
                     $mform->addElement('html', '<div class="ukfn_form_even referee">');
                         $mform->addElement('text', 'referee_name', get_string('referee_name', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
                         $mform->setType('referee_name', PARAM_NOTAGS);
-                        $mform->addRule('referee_name', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addRule('referee_name', get_string('error_missing_referee_name', 'enrol_ukfilmnet'), 'required', null, 'server');
 
                         $mform->addElement('text', 'referee_position', get_string('referee_position', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
                         $mform->setType('referee_position', PARAM_NOTAGS);
-                        $mform->addRule('referee_position', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addRule('referee_position', get_string('error_missing_referee_position', 'enrol_ukfilmnet'), 'required', null, 'server');
                         $mform->addElement('text', 'referee_email', get_string('referee_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
                         $mform->setType('referee_email', PARAM_NOTAGS);
-                        $mform->addRule('referee_email', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addRule('referee_email', get_string('error_missing_referee_email', 'enrol_ukfilmnet'), 'required', null, 'server');
                     $mform->addElement('html', '</div>');
 
                     $mform->addElement('html', '<div class="ukfn_form signature"><strong>Signature of Referee:</strong><br><br><br></div>');
@@ -207,7 +207,7 @@ class assurance_form extends \moodleform {
                     $mform->addElement('html', '<div class="ukfn_form_even school_info">');
                         $mform->addElement('textarea', 'school_registered_address', get_string('school_registered_address', 'enrol_ukfilmnet', 'wrap="virtual" rows="30" cols="50"'));
                         $mform->setType('school_registered_address', PARAM_NOTAGS);
-                        $mform->addRule('school_registered_address', get_string('', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addRule('school_registered_address', get_string('error_missing_organisation_address', 'enrol_ukfilmnet'), 'required', null, 'server');
 
                         $mform->addElement('text', 'school_web_address', get_string('school_web_address', 'enrol_ukfilmnet'));
                         $mform->setType('school_web_address', PARAM_NOTAGS);
@@ -224,9 +224,10 @@ class assurance_form extends \moodleform {
 
             $mform->addElement('html', '</div>');
             
+            $mform->addElement('html', '<div class ="ukfn_print_upload_text">'.get_string('assurance_print_upload_instructions', 'enrol_ukfilmnet').'</div>');
 
             $mform->addElement('html', '<div class="ukfn_form_assurance_filepicker">');
-                $mform->addElement('filepicker', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'), null, array('maxbytes' => $maxbytes, 'accepted_types' => array('.pdf')));
+                $mform->addElement('filepicker', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'), null, array('maxbytes' => $maxbytes, 'accepted_types' => array('.pdf', '.jpeg', '.jpg', '.png')));
                 $mform->setType('MAX_FILE_SIZE', PARAM_INT);
                 $mform->addRule('assurance_form', get_string('error_missing_assurance_form', 'enrol_ukfilmnet'), 'required', null, 'server');
             $mform->addElement('html', '</div>');

@@ -64,7 +64,7 @@ $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code:';
 $string['employee_work_email'] = 'Employee school email:';
 
-$string['assurance_form'] = 'Assurance form';
+$string['assurance_form'] = '<strong>Reference Filepicker:</strong>';
 
 // Assurance Form Labels
 $string['assurance_form_title'] = 'Reference in Respect of ';
@@ -74,7 +74,7 @@ $string['form_familyname'] = 'Applicant Surname';
 
 $string['employment_start_date'] = 'Applicant\'s employment with you began:';
 $string['employment_end'] = 'Employment with you continues:';
-$string['applicant_is_employed'] = 'Is applicant your employee and is that employment on-going:';
+$string['applicant_is_employed'] = 'Is applicant your employee and is that employment on-going?';
 $string['job_title'] = 'Applicant\'s most recent job title with you:';
 $string['main_duties'] = 'Main duties & responsibilities of the job:';
 $string['how_long_employee_known'] = 'How long have you known the applicant?';
@@ -180,6 +180,18 @@ To complete the Safeguarding Assurance Form relating to your employee, please en
 
 $string['assurance_form_instructions'] = '
 Please read and complete the Reference Form below.<br>
+<br>';
+
+$string['assurance_print_upload_instructions'] = '
+<strong>To finalize</strong> this reference, please do the following:
+<ul>
+<li><strong>review</strong> the information you are providing to make sure it is correct</li>
+<li><strong>print</strong> this page</li>
+<li><strong>sign</strong> the printed page on the "Signature of Referee" line in blue or black ink</li>
+<li><strong>scan</strong> the signed page to a .pdf, or take a picture of the signed page and store it as a .jpeg or .png</li>
+<li><strong>upload</strong> your .pdf, .jpeg, .jpg, or .png file using the "Reference Filepicker" below</li>
+<li>click the <strong>"Submit"</strong> button below</li>
+</ul>
 <br>';
 
 $string['tracking_instructions'] = 'Some tracking instructions may go here.';

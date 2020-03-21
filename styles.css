@@ -142,10 +142,20 @@ h3.ukfn_enrol_page_title {
 .ukfn_form_doc {
     border-style: solid;
     border-width: 1px;
+    margin-bottom: 1.5rem;
 }
 
 .ukfn_form_doc .form-inline .form-check {
     padding-left: 10px;
+}
+
+.ukfn_print_upload_text {
+    line-height: 1.2rem;
+}
+
+.ukfn_print_upload_text ul {
+    padding-top: .5rem;
+    margin-left: 10px;
 }
 
 .ukfn_form_content {
