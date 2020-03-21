@@ -142,7 +142,7 @@ class assurance_form extends \moodleform {
                     $mform->addElement('html', '<div class="ukfn_form_big_left">');        
                         $behavior_allegations = [];
                         $behavior_allegations[] =& $mform->createElement('checkbox', 'behavior_allegations_yes', '', 'YES ');
-                        $behavior_allegations[] =& $mform->createElement('checkbox', 'behavior_allegaions_no', '', ' NO');
+                        $behavior_allegations[] =& $mform->createElement('checkbox', 'behavior_allegations_no', '', ' NO');
                         $mform->addGroup($behavior_allegations, 'behavior_allegations', get_string('behavior_allegations', 'enrol_ukfilmnet'), '', false);
                     $mform->addElement('html', '</div>');
 
@@ -186,13 +186,20 @@ class assurance_form extends \moodleform {
                     $mform->addElement('html', '<div class="ukfn_form"><h4>About You (the referee)</h4></div>');
                     
                     $mform->addElement('html', '<div class="ukfn_form_even referee">');
-                        $mform->addElement('text', 'referee_name', get_string('referee_name', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
-                        $mform->setType('referee_name', PARAM_NOTAGS);
-                        $mform->addRule('referee_name', get_string('error_missing_referee_name', 'enrol_ukfilmnet'), 'required', null, 'server');
+                        $mform->addElement('text', 'referee_firstname', get_string('referee_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
+                        $mform->setType('referee_firstname', PARAM_NOTAGS);
+                        $mform->addRule('referee_firstname', get_string('error_missing_referee_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
 
+                        $mform->addElement('text', 'referee_familyname', get_string('referee_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
+                        $mform->setType('referee_familyname', PARAM_NOTAGS);
+                        $mform->addRule('referee_familyname', get_string('error_missing_referee_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
+                    $mform->addElement('html', '</div>');
+
+                    $mform->addElement('html', '<div class="ukfn_form_even referee">');
                         $mform->addElement('text', 'referee_position', get_string('referee_position', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
                         $mform->setType('referee_position', PARAM_NOTAGS);
                         $mform->addRule('referee_position', get_string('error_missing_referee_position', 'enrol_ukfilmnet'), 'required', null, 'server');
+
                         $mform->addElement('text', 'referee_email', get_string('referee_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
                         $mform->setType('referee_email', PARAM_NOTAGS);
                         $mform->addRule('referee_email', get_string('error_missing_referee_email', 'enrol_ukfilmnet'), 'required', null, 'server');
@@ -278,11 +285,11 @@ class assurance_form extends \moodleform {
         if($data['disciplinary_actions_yes'] == $data['disciplinary_actions_no']) {
             $errors['disciplinary_actions'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
         }
-        if(($data['tra_check_yes'] == $data['tra_check_no'] and $data['tra_check_no'] == $data['tra_check_n/a']) or ($data['tra_check_yes'] == $data['tra_check_no']) or ($data['tra_check_yes'] == $data['tra_check_n/a']) or ($data['tra_check_no'] == $data['tra_check_n/a'])) {
+        if(count($data['tra_check']) != 1) {
             $errors['tra_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
         }
-        if(($data['subject_to_ocr_check_yes'] == $data['subject_to_ocr_check_no'] and $data['subject_to_ocr_check_no'] == $data['subject_to_ocr_check_n/a']) or ($data['subject_to_ocr_check_yes'] == $data['subject_to_ocr_check_no']) or ($data['subject_to_ocr_check_yes'] == $data['subject_to_ocr_check_n/a']) or ($data['subject_to_ocr_check_no'] == $data['subject_to_ocr_check_n/a'])) {
-            $errors['subject_to_ocr_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        if(count($data['subject_to_ocr_check']) != 1) {
+                $errors['subject_to_ocr_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
         }
         if($data['brit_school_abroad_mod_or_dubai_school_yes'] == $data['brit_school_abroad_mod_or_dubai_school_no']) {
             $errors['brit_school_abroad_mod_or_dubai_school'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');

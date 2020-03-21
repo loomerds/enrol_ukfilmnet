@@ -158,6 +158,10 @@ h3.ukfn_enrol_page_title {
     margin-left: 10px;
 }
 
+.ukfn_form_assurance_filepicker .col-md-3 {
+    max-width: fit-content;
+}
+
 .ukfn_form_content {
     margin: 1.5rem;
 }
@@ -367,28 +371,28 @@ h3.ukfn_enrol_page_title {
     width: 100% !important;
 }
 
-#fitem_id_referee_name, #fitem_id_referee_position, #fitem_id_referee_email {
+#fitem_id_referee_firstname, #fitem_id_referee_familyname, #fitem_id_referee_position, #fitem_id_referee_email {
     display: flex;
-    flex: 0 0 33%;
+    flex: 0 0 50%;
     align-content: flex-start;
     text-align: left;
     margin-right: 0px;
     flex-wrap: wrap;
 }
 
-#fitem_id_referee_name .col-md-3, #fitem_id_referee_email .col-md-3 {
+#fitem_id_referee_firstname .col-md-3, #fitem_id_referee_familyname .col-md-3, #fitem_id_referee_email .col-md-3, #fitem_id_referee_position .col-md-3 {
     flex: 0 0 35%;
-    max-width: fit-content;
+    max-width: 35%;
     flex-wrap: wrap;
 }
 
-#fitem_id_referee_name .col-md-9, #fitem_id_referee_email .col-md-9{
+#fitem_id_referee_firstname .col-md-9, #fitem_id_referee_familyname .col-md-9, #fitem_id_referee_email .col-md-9, #fitem_id_referee_position .col-md-9{
     flex: 0 0 65%;
     max-width: 65%;
     flex-wrap: wrap;
 }
 
-#fitem_id_referee_position .col-md-3 {
+/*#fitem_id_referee_position .col-md-3 {
     flex: 0 0 40%;
     max-width: fit-content;
     flex-wrap: wrap;
@@ -398,15 +402,15 @@ h3.ukfn_enrol_page_title {
     flex: 0 0 60%;
     max-width: 60%;
     flex-wrap: wrap;
-}
+}*/
 
-#fitem_id_referee_name .col-md-3 label, #fitem_id_referee_position .col-md-3 label, #fitem_id_referee_email .col-md-3 label {
+#fitem_id_referee_firstname .col-md-3 label, #fitem_id_referee_familyname .col-md-3 label, #fitem_id_referee_position .col-md-3 label, #fitem_id_referee_email .col-md-3 label {
     width: auto;
     margin-left: 0px;
     flex-wrap: wrap;
 }
 
-#fitem_id_referee_name .col-md-9 input, #fitem_id_referee_position .col-md-9 input, #fitem_id_referee_email .col-md-9 input {
+#fitem_id_referee_name .col-md-9 input, #fitem_id_referee_familyname .col-md-3 label,  #fitem_id_referee_position .col-md-9 input, #fitem_id_referee_email .col-md-9 input {
     width: 120% !important;
     margin-left: 0px;
     margin-right: 0px;
@@ -414,11 +418,11 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_form.signature {
-    margin-left: 25px;
+    margin-left: 37px;
 }
 
 .ukfn_form.signature_line {
-    margin-left: 25px;
+    margin-left: 37px;
     margin-bottom: 1rem;
 }
 

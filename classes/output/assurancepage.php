@@ -92,7 +92,29 @@ class assurancepage implements \renderable, \templatable {
             // Update the relevant applicant's user profile
             if($applicant_user !== null) {
                 profile_load_data($applicant_user);
+                $applicant_user->profile_field_employment_status = $form_data->applicant_is_employed;
+                $applicant_user->profile_field_employment_start_date = $form_data->employment_start_date;
+                $applicant_user->profile_field_job_title = $form_data->job_title;
+                $applicant_user->profile_field_main_duties = $form_data->main_duties;
+                $applicant_user->profile_field_how_long_employee_known = $form_data->how_long_employee_known;
+                $applicant_user->profile_field_capacity_employee_known = $form_data->capacity_employee_known;
+                $applicant_user->profile_field_dbs_cert_date = $form_data->dbs_cert_date;
+                $applicant_user->profile_field_dbsnumber = $form_data->dbsnumber;
+                $applicant_user->profile_field_applicant_suitability = $form_data->applicant_suitability;
+                $applicant_user->profile_field_qts_qualified = $form_data->qts_qualified;
                 $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
+                $applicant_user->profile_field_behavior_allegations = $form_data->behavior_allegations;
+                $applicant_user->profile_field_disciplinary_actions = $form_data->disciplinary_actions;
+                $applicant_user->profile_field_tra_check = $form_data->tra_check;
+                $applicant_user->profile_field_ocr_certificate = $form_data->ocr_certificate;
+                $applicant_user->profile_field_brit_school_abroad_mod_or_dubai_school = $form_data->brit_school_abroad_mod_or_dubai_school;
+                $applicant_user->profile_field_school_subject_to_inspection = $form_data->school_subject_to_inspection;
+                $applicant_user->profile_field_safeguarding_contact_firstname = $form_data->referee_firstname;
+                $applicant_user->profile_field_safeguarding_contact_familyname = $form_data->referee_familyname;
+                $applicant_user->profile_field_safeguarding_contact_position = $form_data->safeguarding_contact_position;
+                $applicant_user->profile_field_safeguarding_contact_email = $form_data->referee_email;
+                $applicant_user->profile_field_school_registered_address = $form_data->school_registered_address;
+                $applicant_user->profile_field_school_registered_address = $form_data->school_registered_address;
                 $applicant_user->profile_field_assurancesubmitted = 1;
                 $applicant_user->profile_field_assurancesubmissiondate = convert_unixtime_to_gmdate(time());
                 $applicant_user->profile_field_assurancedoc = $filename;
@@ -105,7 +127,7 @@ class assurancepage implements \renderable, \templatable {
             }
             redirect(PAGE_WWWROOT);
         } else {
-//print()
+print_r2($_POST);
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
             $form_data = $mform->get_data();
 
@@ -130,7 +152,6 @@ class assurancepage implements \renderable, \templatable {
                         $SESSION->firstname = $applicant_user->firstname;
                         $SESSION->familyname = $applicant_user->lastname;
                         $SESSION->schoolname = $applicant_user->profile_field_schoolname;
-//print_r2();
                     }
                 }
             }
