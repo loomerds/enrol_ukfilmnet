@@ -31,8 +31,17 @@ use stdClass;
 require_once('assuranceform.php');
 require_once('signuplib.php');
 
+
 // This is a Template Class it collects/creates the data for a template
 class assurancepage implements \renderable, \templatable {
+
+    //private $is_logged_in = 0;
+    /*private $ukprn;
+    private $username;
+    private $firstname;
+    private $familyname;
+    private $schoolname;*/
+
 
     public function __construct($sometext = null) {
     }
@@ -45,9 +54,12 @@ class assurancepage implements \renderable, \templatable {
 
     public function get_assurance_content() {
 
-        global $CFG, $DB, $USER;
+        global $CFG, $DB, $USER, $SESSION;
+        //require_once('/../../../../../user/profile/lib.php');
+
         
         $assuranceinput = '';
+        //$SESSION->is_logged_in = 0;
         $mform = new assurance_form();
 
         //Form processing and displaying is done here
@@ -93,11 +105,36 @@ class assurancepage implements \renderable, \templatable {
             }
             redirect(PAGE_WWWROOT);
         } else {
+//print()
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
             $form_data = $mform->get_data();
+
             //Set default data (if any)
-//print_r2($form_data);
             $mform->set_data($form_data);
+            
+            $post_assurance_code = $_POST['assurance_code'];
+            $post_email = $_POST['email'];
+            $applicant_user = $DB->get_record('user', array('username' => $post_email, 'auth' => 'manual'));   
+            $assurance_code;
+            $email;
+            if($applicant_user !== false) {
+                profile_load_data($applicant_user);
+                $assurance_code = $applicant_user->profile_field_assurancecode;
+                $email = $applicant_user->email;
+            
+                if($_POST['submitbutton'] === 'Login') {
+                    if($assurance_code == $post_assurance_code and $email == $post_email) {
+                        $SESSION->is_logged_in = 1;
+                        $SESSION->ukprn = $applicant_user->profile_field_ukprn;
+                        $SESSION->username = $applicant_user->username;
+                        $SESSION->firstname = $applicant_user->firstname;
+                        $SESSION->familyname = $applicant_user->lastname;
+                        $SESSION->schoolname = $applicant_user->profile_field_schoolname;
+//print_r2();
+                    }
+                }
+            }
+
             //displays the form
             $assuranceinput = $mform->render();
         }
