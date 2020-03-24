@@ -99,7 +99,7 @@ h3.ukfn_enrol_page_title {
     width: 40%;
 } 
 
-.ukfn_stealth {
+.ukfn_stealth, #fitem_id_is_logged_in .ukfn_stealth .col-md-9 input{
     display: none;
 }
 
@@ -235,8 +235,8 @@ h3.ukfn_enrol_page_title {
 }*/
 
 .ukfn_form_big_left #fitem_id_dbs_cert_date {
-    flex: 0 0 65%;
-    max-width: 65%;
+    flex: 0 0 50%;
+    max-width: 50%;
     flex-wrap: wrap;
 }
 
@@ -254,21 +254,22 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_form_big_left #fitem_id_dbsnumber {
-    flex: 0 0 35%;
-    max-width: 35%;
+    flex: 0 0 50%;
+    max-width: 50%;
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .ukfn_form_big_left #fitem_id_dbsnumber .col-md-3 {
-    flex: 0 0 30%;
-    max-width: 30%;
+    flex: 0 0 50%;
+    max-width: fit-content;
     text-align: right;
     flex-wrap: wrap;
 }
 
 .ukfn_form_big_left #fitem_id_dbsnumber .col-md-9 {
-    flex: 0 0 70%;
-    max-width: 70%;
+    flex: 0 0 50%;
+    max-width: 50%;
     flex-wrap: wrap;
 }
 
@@ -296,6 +297,18 @@ h3.ukfn_enrol_page_title {
     flex-wrap: wrap;
 }
 
+.ukfn_form_even .ukfn_form_big_left {
+    display: flex;
+    flex: 0 0 60%;
+    max-width: 60%;
+}
+
+.ukfn_form_big_left #fgroup_id_qts_qualified {
+    display: flex;
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+
 .ukfn_form_big_left #fgroup_id_qts_qualified .col-md-3 {
     flex: 0 0 75% !important;
     max-width: 75% !important;
@@ -313,6 +326,10 @@ h3.ukfn_enrol_page_title {
     width: unset!important;
 }
 
+#fgroup_id_qts_qualified .col-md-9 label {
+    padding-left: 20px;
+}
+
 .ukfn_form_even .ukfn_form_big_left {
     flex: 0 0 60%;
     max-width: 60%;
@@ -320,28 +337,34 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_form_even .ukfn_form_big_left {
-    flex: 0 0 65%;
-    max-width: 65%;
+    flex: 0 0 60%;
+    max-width: 60%;
     flex-wrap: wrap;
 }
 
 .ukfn_form_even #fitem_id_qtsnumber {
-    flex: 0 0 35%;
-    max-width: 35%;
+    flex: 0 0 40%;
+    max-width: 40%;
     flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 #fitem_id_qtsnumber .col-md-3 {
-    flex: 0 0 30%;
-    max-width: 30%;
+    flex: 0 0 35%;
+    max-width: fit-content;
     flex-wrap: wrap;
     padding-left: 0px;
 }
 
 #fitem_id_qtsnumber .col-md-9 {
-    flex: 0 0 70%;
-    max-width: 70%;
+    flex: 0 0 65%;
+    max-width: 250px;
     flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+#fitem_id_qtsnumber .col-md-9 input {
+    max-width: 250px;
 }
 
 #fgroup_id_disciplinary_actions, #fgroup_id_brit_school_abroad_mod_or_dubai_school {
@@ -434,10 +457,28 @@ h3.ukfn_enrol_page_title {
 .ukfn_form_even.school_info #fitem_id_school_web_address, .ukfn_form_even.school_info  #fitem_id_school_registered_address {
     display: flex;
     flex: 0 0 50%;
+    justify-content: flex-end !important;
 }
 
 .ukfn_form_even.school_info .col-md-3, #fitem_id_school_registered_address .col-md-3 {
     padding-left: 0px;
+    text-align: left;
+}
+
+#fitem_id_school_registered_address .col-md-3 label span, #fitem_id_school_web_address .col-md-3 label span, #fitem_id_dbsnumber .col-md-3 label span {
+    padding-left: 0px;
+    text-align: left;
+    display: block;
+    margin-right: 40px;
+}
+
+#fitem_id_school_web_address .col-md-3 label span {
+    margin-right: 20px;
+}
+
+#fitem_id_school_registered_address textarea {
+    height: 70px;
+    width: 100%;
 }
 
 .ukfn_form_even.school_info .ukfn_form_orgname {
@@ -467,7 +508,7 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_form_even.school_info #fitem_id_school_web_address .col-md-9.form-inline.felement {
    flex: 0 0 100%;
-   max-width: 60%;
+   max-width: 65%;
 }
 .ukfn_form_even.school_info #fitem_id_school_web_address .col-md-3 label, .ukfn_form_even.school_info #fitem_id_school_registered_address .col-md-3 label {
     display: flex;

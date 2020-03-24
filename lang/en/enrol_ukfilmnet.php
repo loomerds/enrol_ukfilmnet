@@ -64,7 +64,7 @@ $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code:';
 $string['employee_work_email'] = 'Employee school email:';
 
-$string['assurance_form'] = '<strong>Reference Filepicker:</strong>';
+$string['form_filepicker'] = '<strong>Upload Form:</strong>';
 
 // Assurance Form Labels
 $string['assurance_form_title'] = 'Reference in Respect of ';
@@ -76,15 +76,15 @@ $string['employment_start_date'] = 'Applicant\'s employment with you began:';
 $string['employment_end'] = 'Employment with you continues:';
 $string['applicant_is_employed'] = 'Is applicant your employee and is that employment on-going?';
 $string['job_title'] = 'Applicant\'s most recent job title with you:';
-$string['main_duties'] = 'Main duties & responsibilities of the job:';
+$string['main_duties'] = 'Main duties & responsibilities of the post:';
 $string['how_long_employee_known'] = 'How long have you known the applicant?';
-$string['capacity_employee_known'] = 'In what capacity do you know the Applicant?';
+$string['capacity_employee_known'] = 'In what capacity do you know them?';
 $string['dbs_cert_date'] = 'Applicant DBS Certificate Date';
-$string['dbsnumber'] = 'DBS#:';
+$string['dbsnumber'] = 'DBS Number<br><span>(12 Char):</span>';
 $string['applicant_suitability'] = 'Referring to the supervisory role of applicant, if they were granted access to use the UKfilmNet online resources in the instruction of your students, do you believe the applicant is suitable for such access including whether they are suitable to work with children/vulnerable adults and that they have not been prohibited from doing so?';
-$string['qts_qualified'] = 'Are you satisfied that the applicant is QTS Qualified (and has a clear Enhanced DBS certificate) to work with children/vulnerable adults?';
-$string['qtsnumber'] = 'QTS#:';
-$string['behavior_allegations'] = 'To the best of your knowledge, has the applicant ever had an allegation made against the, which was founded, in regard to his or her behavior towards children?';
+$string['qts_qualified'] = 'Are you satisfied that the applicant is TRN (previously known as a QTS, GTC, DfE, DfES or DCSF number) Qualified (and has a clear Enhanced DBS certificate) to work with children/vulnerable adults?';
+$string['qtsnumber'] = 'TRN Number:';
+$string['behavior_allegations'] = 'To the best of your knowledge, has the applicant ever had an allegation made against them, which was founded, in regard to his or her behavior towards children?';
 $string['disciplinary_actions'] = 'Has the applicant been the subject of disciplinary action for which penalties or sanctions remain in force?';
 $string['tra_check'] = 'If the applicant was appointed after 2/9/13 have you conducted a check that confirms they are not on the Teaching Regulation Agency (previously NCTL) Prohibited List?';
 $string['subject_to_ocr_check'] = 'If the applicant is a Tier 2 skilled worker who has lived abroad for 12 months or more in the last 10 years can you confirm they have provided you with an overseas criminal record certificate?';
@@ -92,11 +92,11 @@ $string['brit_school_abroad_mod_or_dubai_school'] = 'Is Your Organisation a Brit
 $string['school_subject_to_inspection'] = 'Is Your Organisation subject to inspections by a Recognised Inspection Provider as specifically defined in Note 1 below? (Note 1)';
 $string['about_referee'] = 'ABOUT YOU (THE REFEREE)';
 $string['referee_firstname'] = 'First Name:';
-$string['referee_familyname'] = 'Family Name:';
+$string['referee_familyname'] = 'Surname:';
 $string['referee_position'] = 'Position:';
 $string['referee_email'] = 'Email:';
-$string['school_registered_address'] = 'Registered Address:';
-$string['school_web_address'] = 'Web Address:';
+$string['school_registered_address'] = 'Organisation<br><span>Registered Address:</span>';
+$string['school_web_address'] = 'Organisation<br><span>Web Address:</span>';
 $string['school_name'] = 'Organisation Name:';
 $string['ukprn_number'] = ' UKPRN Number (Note 2):';
 $string['note_1'] = 'Note 1: In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
@@ -176,22 +176,24 @@ When we have received and reviewed the Assurance/Reference infomation we request
 $string['assurance_login_instructions'] = 
 'Thank you for responding to our email requesting that you provde safeguarding assurances with reference to your employee.<br>
 <br>
-To complete the Safeguarding Assurance Form relating to your employee, please enter the Employee School Email address and Assurance Code we provided you via email. Remember that it is important to keep these login credentials safe and secret. You will need them in the future to view your employee\'s student enrolment information.
+To complete the Safeguarding Assurance Form relating to your employee, please <strong>enter the Employee School Email address and Assurance Code we provided you via email</strong>.<br>
+<br> 
+Remember that it is important to <strong>keep these login credentials safe and secret</strong>. You will need them in the future to view your employee\'s student enrolment information.
 <br>';
 
 $string['assurance_form_instructions'] = '
-Please read and complete the Reference Form below.<br>
+Please <strong>read and complete</strong> the Reference Form below.<br>
 <br>';
 
 $string['assurance_print_upload_instructions'] = '
-<strong>To finalize</strong> this reference, please do the following:
+<strong>WHAT YOU NEED TO DO NOW:</strong>
 <ul>
-<li><strong>review</strong> the information you are providing to make sure it is correct</li>
-<li><strong>print</strong> this page</li>
-<li><strong>sign</strong> the printed page on the "Signature of Referee" line in blue or black ink</li>
-<li><strong>scan</strong> the signed page to a .pdf, or take a picture of the signed page and store it as a .jpeg or .png</li>
-<li><strong>upload</strong> your .pdf, .jpeg, .jpg, or .png file using the "Reference Filepicker" below</li>
-<li>click the <strong>"Submit"</strong> button below</li>
+<li><strong>CHECK</strong> the information you have provided is correct</li>
+<li><strong>PRINT</strong> this page</li>
+<li><strong>SIGN</strong> the printed page where is says "Signature of Referee" (blue or black ink)</li>
+<li><strong>SCAN (or smartphone photography)</strong> the signed print-out</li>
+<li><strong>UPLOAD</strong> your scanned, signed form below</li>
+<li><strong>CLICK</strong> the "Submit" button below</li>
 </ul>
 <br>';
 
@@ -260,6 +262,9 @@ $string['button_cancel'] = 'Cancel';
 $string['button_exit'] = 'Exit';
 $string['button_login'] = 'Login';
 
+// Help Messages
+$string['qtsnumber_help'] = 'Please note that you need to enter your number without “/” or “RP”. For example, if your number is “RP 99/12345”, just enter “9912345”. If your number is “68/12345” just enter “6812345”. If you don’t know what your teacher reference number is, this can usually be found on your payslip or teachers’ pension documentation; alternatively, please contact the DfE on QTS.enquiries@education.gsi.gov.uk or 0207 593 5394.';
+
 // Error Messages
 $string['error_missing_role'] = 'Missing current role';
 $string['error_missing_email'] = 'Missing school email address';
@@ -285,7 +290,7 @@ $string['error_missing_assurance_code'] = 'Missing Assurance code';
 $string['error_assurance_code_mismatch'] = 'The Assurance code isn\'t for this Employee email';
 $string['error_missing_employee_work_email'] = 'Missing employee school email';
 $string['error_employee_work_email_mismatch'] = 'The Employee school email you entered is invalid';
-$string['error_missing_assurance_form'] = 'You must upload the Assurance/Reference Form:';
+$string['error_missing_form_filepicker'] = 'You must upload the Assurance/Reference Form:';
 $string['error_employee_email_assurance_code_mismatch'] = 'The Employee email isn\'t for this Assurance code';
 $string['error_assurance_already_submitted'] = 'An Assurance Form was previously submitted<br> for this employee';
 $string['error_missing_student_email'] = 'Missing student email address';
