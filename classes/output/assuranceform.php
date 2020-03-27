@@ -43,13 +43,14 @@ class assurance_form extends \moodleform {
 
         $maxbytes = 9185760;
         $mform = $this->_form;
-//print_r2($mform);
-        if(isset($SESSION->is_logged_in)) {
+
+        if(!isset($SESSION->is_logged_in)) {
             $mform->addElement('html', '<div class="ukfn_log-in_box ukfn_not_stealth">');
         } else {
             $mform->addElement('html', '<div class="ukfn_log-in_box ukfn_stealth">');
         }
                 $mform->addElement('html', '<div class ="ukfn_form_text">'.get_string('assurance_login_instructions', 'enrol_ukfilmnet').'</div>');
+
                 $mform->addElement('html', '<div class="ukfn_log-in_details ukfn_form_even">');
                     $mform->addElement('text', 'email', get_string('employee_work_email', 'enrol_ukfilmnet'));
                     $mform->setType('email', PARAM_NOTAGS);
@@ -58,10 +59,8 @@ class assurance_form extends \moodleform {
                     $mform->addElement('text', 'assurance_code', get_string('assurance_code', 'enrol_ukfilmnet'));
                     $mform->setType('assurance_code', PARAM_NOTAGS);
                     $mform->addRule('assurance_code', get_string('error_missing_assurance_code', 'enrol_ukfilmnet'), 'required', null, 'server');
-
-                    /*$mform->addElement('text', 'is_logged_in', '', ['class'=>'ukfn_stealth']);
-                    $mform->setType('is_logged_in', PARAM_NOTAGS);*/
                 $mform->addElement('html', '</div>');
+
                 $mform->addElement('html', '<div class="ukfn_button_group">');
                     $buttonarray = [];
                     $buttonarray[] = $mform->createElement('submit', 'submitbutton', get_string('button_login', 'enrol_ukfilmnet'));
@@ -239,9 +238,7 @@ class assurance_form extends \moodleform {
 
                         $mform->addElement('html', '<div class="ukfn_form signature"><strong>Signature of Referee:</strong><br><br><br></div>');
 
-                        $mform->addElement('html', '<div class="ukfn_form signature_line"><strong>___________________________</strong><br></div>');
-
-                        /*$mform->addElement('html', '<div class="ukfn_form"><h4>About Your Organization</h4></div>');*/
+                        $mform->addElement('html', '<div class="ukfn_form signature_line"><strong>________________________________     <span>Date: ____________________</span></strong><br></div>');
 
                         $mform->addElement('html', '<div class="ukfn_form_even school_info">');
                             $mform->addElement('textarea', 'school_registered_address', get_string('school_registered_address', 'enrol_ukfilmnet', 'wrap="virtual" rows="20" cols="50"'));
@@ -255,21 +252,11 @@ class assurance_form extends \moodleform {
                         $mform->addElement('html', '</div>');
 
                         $mform->addElement('html', '<div class="ukfn_form_even school_info">');
-                            /*if(isset($SESSION->schoolname)) {
-                                $mform->addElement('html', '
-                                    <div class="ukfn_form_orgname">'.get_string('school_name', 'enrol_ukfilmnet').'
-                                        <div class="ukfn_schoolname">'.$SESSION->schoolname.'</div></div>');
-                            }*/
 
                             $mform->addElement('text', 'schoolname', get_string('school_name', 'enrol_ukfilmnet'), ['class'=>'ukfn_schoolname']);
                             $mform->setType('schoolname', PARAM_NOTAGS);
                             $mform->addRule('schoolname', get_string('error_missing_school_name', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('schoolname', 'applicant_is_employed_yes');
-
-                            /*if(isset($_defaultValues->ukprn)) {
-                                    $mform->addElement('html', '
-                                <div class="ukfn_form_ukprnnum">'.get_string('ukprn_number', 'enrol_ukfilmnet').'  <span class="ukfn_ukprn">'.$mform->_submitValues->ukprn.'</span></div>');
-                            }*/
                         
                             $mform->addElement('text', 'ukprn', get_string('ukprn_number', 'enrol_ukfilmnet'), ['class'=>'ukfn_ukprn']);
                                 $mform->setType('ukprn', PARAM_NOTAGS);
@@ -280,8 +267,10 @@ class assurance_form extends \moodleform {
                     $mform->addElement('html', '</div>');
 
                 $mform->addElement('html', '</div>');
+
+                $mform->addElement('html', '<div class="ukfn_notes_text"><p>'.get_string('note_1', 'enrol_ukfilmnet').'</p><p>'.get_string('note_2', 'enrol_ukfilmnet').'</p></div>');
                 
-                $mform->addElement('html', '<div class ="ukfn_print_upload_text">'.get_string('assurance_print_upload_instructions', 'enrol_ukfilmnet').'</div>');
+                $mform->addElement('html', '<div class="ukfn_print_upload_text">'.get_string('assurance_print_upload_instructions', 'enrol_ukfilmnet').'</div>');
 
                 $mform->addElement('html', '<div class="ukfn_form_assurance_filepicker">');
                     $mform->addElement('filepicker', 'assurance_form', get_string('assurance_form', 'enrol_ukfilmnet'), null, array('maxbytes' => $maxbytes, 'accepted_types' => array('.pdf', '.jpeg', '.jpg', '.png')));
@@ -293,7 +282,6 @@ class assurance_form extends \moodleform {
                 $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);
             
             $mform->addElement('html', '</div>');
-                  
     }
 
     //Custom validation should be added here
@@ -302,71 +290,66 @@ class assurance_form extends \moodleform {
         require_once($CFG->dirroot.'/user/profile/lib.php');
 
         $errors = parent::validation($data, $files);
-        //if($SESSION->is_logged_in !== '1') {
-            $email = $data['email'];
-            if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
-                $user = $DB->get_record('user', array('username' => $email, 'auth' => 'manual'));
-                profile_load_data($user);
-                
-                if($user->profile_field_assurancesubmitted == 1) {
-                    $errors['email'] = get_string('error_assurance_already_submitted', 'enrol_ukfilmnet');
-                    return $errors;
-                }
-                if($data['assurance_code'] !== $user->profile_field_assurancecode && strlen($data['assurance_code']) > 0) {
-                    $errors['assurance_code'] = get_string('error_assurance_code_mismatch', 'enrol_ukfilmnet');
-                    $errors['email'] = get_string('error_employee_email_assurance_code_mismatch', 'enrol_ukfilmnet');
-                }
+
+        $email = $data['email'];
+        if(false !== $DB->get_record('user', array('username' => $email, 'auth' => 'manual'))) {
+            $user = $DB->get_record('user', array('username' => $email, 'auth' => 'manual'));
+            profile_load_data($user);
+            
+            if($user->profile_field_assurancesubmitted == 1) {
+                $errors['email'] = get_string('error_assurance_already_submitted', 'enrol_ukfilmnet');
+                return $errors;
+            }
+            if($data['assurance_code'] !== $user->profile_field_assurancecode && strlen($data['assurance_code']) > 0) {
+                $errors['assurance_code'] = get_string('error_assurance_code_mismatch', 'enrol_ukfilmnet');
+                $errors['email'] = get_string('error_employee_email_assurance_code_mismatch', 'enrol_ukfilmnet');
+            }
+        } else {
+            if(strlen($email) < 1) {
+                $errors['email'] = get_string('error_missing_employee_work_email', 'enrol_ukfilmnet');
             } else {
-                if(strlen($email) < 1) {
-                    $errors['email'] = get_string('error_missing_employee_work_email', 'enrol_ukfilmnet');
-                } else {
-                    $errors['email'] = get_string('error_employee_work_email_mismatch', 'enrol_ukfilmnet');
-                }
+                $errors['email'] = get_string('error_employee_work_email_mismatch', 'enrol_ukfilmnet');
             }
-            if(strlen($data['assurance_code']) < 1) {
-                $errors['assurance_code'] = get_string('error_missing_assurance_code','enrol_ukfilmnet');
-            }
-            if(!isset($SESSION->is_logged_in)) {
-                $errors['is_logged_in'] = '';
-            }
-        //}
-        
-        //if(isset($SESSION->is_logged_in)) {
-            //if($data['applicant_suitability_yes'] == $data['applicant_suitability_no']) {
-            if((isset($data['applicant_suitability_yes']) and isset($data['applicant_suitability_no'])) or (!isset($data['applicant_suitability_yes']) and !isset($data['applicant_suitability_no']))) {
-                $errors['applicant_suitability'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['qts_qualified_yes'] == $data['qts_qualified_no']) {
-            if((isset($data['qts_qualified_yes']) and isset($data['qts_qualified_no'])) or (!isset($data['qts_qualified_yes']) and !isset($data['qts_qualified_no']))) {
-                $errors['qts_qualified'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['behavior_allegations_yes'] == $data['behavior_allegations_no']) {
-            if((isset($data['behavior_allegations_yes']) and isset($data['behavior_allegations_no'])) or (!isset($data['behavior_allegations_yes']) and !isset($data['behavior_allegations_no']))) {
-                $errors['behavior_allegations'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['disciplinary_actions_yes'] == $data['disciplinary_actions_no']) {
-            if((isset($data['disciplinary_actions_yes']) and isset($data['disciplinary_actions_no'])) or (!isset($data['disciplinary_actions_yes']) and !isset($data['disciplinary_actions_no']))) {
-                $errors['disciplinary_actions'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            if(isset($data['tra_check']) and count($data['tra_check']) != 1) {
-                $errors['tra_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            if(isset($data['subject_to_ocr_check']) and count($data['subject_to_ocr_check']) != 1) {
-                    $errors['subject_to_ocr_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['brit_school_abroad_mod_or_dubai_school_yes'] == $data['brit_school_abroad_mod_or_dubai_school_no']) {
-            if((isset($data['brit_school_abroad_mod_or_dubai_school_yes']) and isset($data['brit_school_abroad_mod_or_dubai_school_no'])) or (!isset($data['brit_school_abroad_mod_or_dubai_school_yes']) and !isset($data['brit_school_abroad_mod_or_dubai_school_no']))) {
-                $errors['brit_school_abroad_mod_or_dubai_school'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['school_subject_to_inspection_yes'] == $data['school_subject_to_inspection_no']) {
-            if((isset($data['school_subject_to_inspection_yes']) and isset($data['school_subject_to_inspection_no'])) or (!isset($data['school_subject_to_inspection_yes']) and !isset($data['school_subject_to_inspection_no']))) {
-                $errors['school_subject_to_inspection'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-            //if($data['applicant_is_employed_yes'] == $data['applicant_is_employed_no']) {
-            if((isset($data['applicant_is_employed_yes']) and isset($data['applicant_is_employed_no'])) or (!isset($data['applicant_is_employed_yes']) and !isset($data['applicant_is_employed_no']))) {
-                $errors['applicant_is_employed'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
-            }
-        //}
+        }
+        if(strlen($data['assurance_code']) < 1) {
+            $errors['assurance_code'] = get_string('error_missing_assurance_code','enrol_ukfilmnet');
+        }
+        if(!isset($SESSION->is_logged_in)) {
+            $errors['is_logged_in'] = '';
+        }
+        if((isset($data['applicant_suitability_yes']) and isset($data['applicant_suitability_no'])) or (!isset($data['applicant_suitability_yes']) and !isset($data['applicant_suitability_no']))) {
+            $errors['applicant_suitability'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['qts_qualified_yes']) and isset($data['qts_qualified_no'])) or (!isset($data['qts_qualified_yes']) and !isset($data['qts_qualified_no']))) {
+            $errors['qts_qualified'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['behavior_allegations_yes']) and isset($data['behavior_allegations_no'])) or (!isset($data['behavior_allegations_yes']) and !isset($data['behavior_allegations_no']))) {
+            $errors['behavior_allegations'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['disciplinary_actions_yes']) and isset($data['disciplinary_actions_no'])) or (!isset($data['disciplinary_actions_yes']) and !isset($data['disciplinary_actions_no']))) {
+            $errors['disciplinary_actions'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if(isset($data['tra_check']) and count($data['tra_check']) != 1) {
+            $errors['tra_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if(isset($data['subject_to_ocr_check']) and count($data['subject_to_ocr_check']) != 1) {
+                $errors['subject_to_ocr_check'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['brit_school_abroad_mod_or_dubai_school_yes']) and isset($data['brit_school_abroad_mod_or_dubai_school_no'])) or (!isset($data['brit_school_abroad_mod_or_dubai_school_yes']) and !isset($data['brit_school_abroad_mod_or_dubai_school_no']))) {
+            $errors['brit_school_abroad_mod_or_dubai_school'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['school_subject_to_inspection_yes']) and isset($data['school_subject_to_inspection_no'])) or (!isset($data['school_subject_to_inspection_yes']) and !isset($data['school_subject_to_inspection_no']))) {
+            $errors['school_subject_to_inspection'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if((isset($data['applicant_is_employed_yes']) and isset($data['applicant_is_employed_no'])) or (!isset($data['applicant_is_employed_yes']) and !isset($data['applicant_is_employed_no']))) {
+            $errors['applicant_is_employed'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
+        }
+        if($data['dbs_cert_date'] > time()) {
+            $errors['dbs_cert_date'] = get_string('error_future_dbs_cert_date', 'enrol_ukfilmnet');
+        }
+        if($data['dbs_cert_date'] > $data['employment_start_date']) {
+            $errors['employment_start_date'] = get_string('error_dbs_after_employment_start', 'enrol_ukfilmnet');
+        }
 
         return $errors;
     }

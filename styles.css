@@ -7,6 +7,16 @@ body#page-enrol-ukfilmnet-assurance, body#page-enrol-ukfilmnet-tracking {
     background-size: cover;
 }
 
+body#page-enrol-ukfilmnet-applicant input, body#page-enrol-ukfilmnet-emailverify input,
+body#page-enrol-ukfilmnet-courses input, body#page-enrol-ukfilmnet-school input, body#page-enrol-ukfilmnet-safeguarding input, body#page-enrol-ukfilmnet-students input, body#page-enrol-ukfilmnet-assurance input, body#page-enrol-ukfilmnet-tracking input {
+    background-color: rgba(248,249,250,.7)!important; 
+}
+
+body#page-enrol-ukfilmnet-applicant input.btn, body#page-enrol-ukfilmnet-emailverify .input btn,
+body#page-enrol-ukfilmnet-courses input.btn, body#page-enrol-ukfilmnet-school input.btn, body#page-enrol-ukfilmnet-safeguarding input.btn, body#page-enrol-ukfilmnet-students input.btn, body#page-enrol-ukfilmnet-assurance input.btn, body#page-enrol-ukfilmnet-tracking input.btn {
+    background-color: #111 !important; 
+}
+
 body#page-enrol-ukfilmnet-applicant #page, body#page-enrol-ukfilmnet-emailverify #page,
 body#page-enrol-ukfilmnet-courses #page, body#page-enrol-ukfilmnet-school #page, body#page-enrol-ukfilmnet-safeguarding #page, body#page-enrol-ukfilmnet-students #page,
 body#page-enrol-ukfilmnet-assurance #page, body#page-enrol-ukfilmnet-tracking #page {
@@ -142,7 +152,7 @@ h3.ukfn_enrol_page_title {
 .ukfn_form_doc {
     border-style: solid;
     border-width: 1px;
-    margin-bottom: 1.5rem;
+    margin-bottom: .5rem;
 }
 
 .ukfn_form_doc .form-inline .form-check {
@@ -151,6 +161,7 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_print_upload_text {
     line-height: 1.2rem;
+    padding-top: 1.5rem;
 }
 
 .ukfn_print_upload_text ul {
@@ -209,13 +220,6 @@ h3.ukfn_enrol_page_title {
     flex-wrap: wrap;
     padding-right: 0px;
 }
-
-/*.ukfn_form_even #fitem_id_dbs_cert_date .col-md-3,  #fitem_id_dbs_cert_date .col-md-9 {
-    flex: 0 0 50%;
-    max-width: 50%;
-    text-align: left;
-    flex-wrap: wrap;
-}*/
 
 /* Begin 'ukfn_form_big_left' container css*/
 
@@ -433,18 +437,6 @@ h3.ukfn_enrol_page_title {
     flex-wrap: wrap;
 }
 
-/*#fitem_id_referee_position .col-md-3 {
-    flex: 0 0 40%;
-    max-width: fit-content;
-    flex-wrap: wrap;
-}
-
-#fitem_id_referee_position .col-md-9 {
-    flex: 0 0 60%;
-    max-width: 60%;
-    flex-wrap: wrap;
-}*/
-
 #fitem_id_referee_firstname .col-md-3 label, #fitem_id_referee_familyname .col-md-3 label, #fitem_id_referee_position .col-md-3 label, #fitem_id_referee_email .col-md-3 label {
     width: auto;
     margin-left: 0px;
@@ -465,6 +457,10 @@ h3.ukfn_enrol_page_title {
 .ukfn_form.signature_line {
     margin-left: 37px;
     margin-bottom: 1rem;
+}
+
+.ukfn_form.signature_line span {
+    padding-left: 20px;
 }
 
 .ukfn_form_even.school_info {
@@ -558,7 +554,15 @@ h3.ukfn_enrol_page_title {
 .ukfn_form_even.school_info #fitem_id_school_web_address .col-md-3 label, .ukfn_form_even.school_info #fitem_id_school_registered_address .col-md-3 label {
     display: flex;
     max-width: fit-content;
-    
+}
+
+.ukfn_applicant_content .form-control-feedback.invalid-feedback {
+    text-align: center !important;
+} 
+
+.ukfn_notes_text p {
+    font-size: .8rem;
+    margin-bottom: .5rem;
 }
 
 
@@ -607,12 +611,14 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_progress_items p.item_complete {
-    background-color: #060; 
+    background-color: #060;
+    opacity: 0.40;
     color: white;
 }
 
 .ukfn_progress_items p.item_current {
     background-color: #b22222; 
+    opacity: 0.40;
     color: #ffffff;
 }
 
@@ -767,6 +773,7 @@ td.ukfn_enrol_col input {
 .ukfn_checkbox_cell_checked {
     
     background-color: #060;
+    opacity: 0.40;
     vertical-align: middle !important;
     
     
@@ -774,7 +781,8 @@ td.ukfn_enrol_col input {
 
 .ukfn_checkbox_cell_unchecked {
     
-    background-color: #b22222;
+    background-color: #b22240;
+    opacity: 0.40;
     vertical-align: middle !important;
     
     
@@ -870,6 +878,11 @@ td.ukfn_enrol_col input {
     text-align: center;
 }
 
+.ukfn_text_center span.ukfn_0em_text {
+    display: flex;
+    align-self: center;
+}
+
 .help-tip .tracking_progress_tip {
     width: 220px;
 }
@@ -880,8 +893,8 @@ td.ukfn_enrol_col input {
 }
 
 .ukfn_progress_6 {
-    background-color: yellow;
-    color: #000;
+    background-color: #f0ad4e;
+    color: #fff;
 }
 
 .ukfn_progress_7 {

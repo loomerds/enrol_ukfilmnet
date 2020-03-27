@@ -99,8 +99,8 @@ $string['school_registered_address'] = 'Organisation<br><span>Registered Address
 $string['school_web_address'] = 'Organisation<br><span>Web Address:</span>';
 $string['school_name'] = 'Organisation Name:';
 $string['ukprn_number'] = ' UKPRN Number<br><span>(Note 2):</span>';
-$string['note_1'] = 'Note 1: In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
-$string['note2'] = 'Note 2: UKPRN Number can be located on DFE "G.I.A.S" using <a href="https://www.gov.uk/guidance/get-information-about-schools">get-information-about-schools</a>';
+$string['note_1'] = '<strong>Note 1:</strong> In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
+$string['note_2'] = '<strong>Note 2:</strong> UKPRN Number can be located on DFE "G.I.A.S" using <a href="https://www.gov.uk/guidance/get-information-about-schools">get-information-about-schools</a>';
 
 // Request Courses Questions Text
 $string['total_courses_question'] = 
@@ -190,7 +190,7 @@ $string['assurance_print_upload_instructions'] = '
 <ul>
 <li><strong>CHECK</strong> the information you have provided is correct</li>
 <li><strong>PRINT</strong> this page</li>
-<li><strong>SIGN</strong> the printed page where is says "Signature of Referee" (blue or black ink)</li>
+<li><strong>SIGN and DATE</strong> the printed page where is says "Signature of Referee" (blue or black ink)</li>
 <li><strong>SCAN (or smartphone photography)</strong> the signed print-out</li>
 <li><strong>UPLOAD</strong> your scanned, signed form below</li>
 <li><strong>CLICK</strong> the "Submit" button below</li>
@@ -327,6 +327,8 @@ $string['error_missing_total_courses_questions'] = 'Please answer this question'
 $string['error_total_courses_excessive'] = 'The maximum number allowed here is 5';
 $string['error_yes_or_no'] = 'Select one checkbox';
 $string['error_length_of_12'] = 'The number must be 12 characters long';
+$string['error_future_dbs_cert_date'] = 'The DBS certification date must not be in the future';
+$string['error_dbs_after_employment_start'] = 'This date must be after the DBS Certificate date';
 
 // String variables
 $string['roleallowed_range_max'] = '03';

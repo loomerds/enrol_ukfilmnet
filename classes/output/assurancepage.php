@@ -96,15 +96,13 @@ class assurancepage implements \renderable, \templatable {
                 profile_load_data($applicant_user);
                 $applicant_user->profile_field_schoolname = $form_data->schoolname;
                 $applicant_user->profile_field_ukprn = $form_data->ukprn;
-
-                
                 $applicant_user->profile_field_applicant_is_employed = $this->checkbox_values['applicant_is_employed'];
-                $applicant_user->profile_field_employment_start_date = $form_data->employment_start_date;
+                $applicant_user->profile_field_employment_start_date = convert_unixtime_to_gmdate($form_data->employment_start_date);
                 $applicant_user->profile_field_job_title = $form_data->job_title;
                 $applicant_user->profile_field_main_duties = $form_data->main_duties;
                 $applicant_user->profile_field_how_long_employee_known = $form_data->how_long_employee_known;
                 $applicant_user->profile_field_capacity_employee_known = $form_data->capacity_employee_known;
-                $applicant_user->profile_field_dbs_cert_date = $form_data->dbs_cert_date;
+                $applicant_user->profile_field_dbs_cert_date = convert_unixtime_to_gmdate($form_data->dbs_cert_date);
                 $applicant_user->profile_field_dbsnumber = $form_data->dbsnumber;
                 $applicant_user->profile_field_applicant_suitability = $this->checkbox_values['applicant_suitability'];
                 $applicant_user->profile_field_qts_qualified = $this->checkbox_values['qts_qualified'];
@@ -139,9 +137,11 @@ class assurancepage implements \renderable, \templatable {
             
             if(isset($_POST['assurance_code'])) {
                 $post_assurance_code = $_POST['assurance_code'];
+                $SESSION->assurance_code = $_POST['assurance_code'];
             }
             if(isset($_POST['email'])) {
                 $post_email = $_POST['email'];
+                $SESSION->email = $_POST['email'];
             }
             if(isset($post_email)) {
                 $applicant_user = $DB->get_record('user', array('username' => $post_email, 'auth' => 'manual'));
@@ -162,17 +162,17 @@ class assurancepage implements \renderable, \templatable {
                         $SESSION->firstname = $applicant_user->firstname;
                         $SESSION->familyname = $applicant_user->lastname;
                         $SESSION->schoolname = $applicant_user->profile_field_schoolname;
-
                         redirect(PAGE_ASSURANCE);
                     }
                 }
             }
-
             if(isset($SESSION->is_logged_in) and $SESSION->is_logged_in == 1) {
                 $form_data['firstname'] = $SESSION->firstname;
                 $form_data['familyname'] = $SESSION->familyname;
                 $form_data['schoolname'] = $SESSION->schoolname;
                 $form_data['ukprn'] = $SESSION->ukprn;
+                $form_data['email'] = $SESSION->email;
+                $form_data['assurance_code'] = $SESSION->assurance_code;
             }
 
             //Set default data (if any)
@@ -247,10 +247,6 @@ class assurancepage implements \renderable, \templatable {
                 break;
             }
         }
-    }
-
-    private function validate_login() {
-
     }
 }
 
