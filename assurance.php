@@ -35,7 +35,9 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
 
     $username = make_random_password();
     $password = make_random_password();
-    $newuser = (object) array('email'=>$username,'username'=>$username,'firstname'=>'Safeguarding',
+    $newuser = (object) array('email'=>$username,
+                              'username'=>$username,                 
+                              'firstname'=>'Safeguarding',
                               'lastname'=>'Officer',
                               'currentrole'=>'',
                               'applicationprogress'=>'',
@@ -44,6 +46,13 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
     $user->policyagreed = 1;
     manager::set_user($user);
 }
+
+/*if(isset($SESSION->redirect_to_self) and $SESSION->redirect_to_self == true) {
+    $SESSION->redirect_to_self = false;
+//print_r2('got to header refresh');
+    //header("Refresh:0");
+    //header("Refresh:0");
+}*/
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));

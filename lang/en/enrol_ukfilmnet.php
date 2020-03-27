@@ -64,7 +64,7 @@ $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code:';
 $string['employee_work_email'] = 'Employee school email:';
 
-$string['form_filepicker'] = '<strong>Upload Form:</strong>';
+$string['assurance_form'] = '<strong>Upload Form:</strong>';
 
 // Assurance Form Labels
 $string['assurance_form_title'] = 'Reference in Respect of ';
@@ -98,7 +98,7 @@ $string['referee_email'] = 'Email:';
 $string['school_registered_address'] = 'Organisation<br><span>Registered Address:</span>';
 $string['school_web_address'] = 'Organisation<br><span>Web Address:</span>';
 $string['school_name'] = 'Organisation Name:';
-$string['ukprn_number'] = ' UKPRN Number (Note 2):';
+$string['ukprn_number'] = ' UKPRN Number<br><span>(Note 2):</span>';
 $string['note_1'] = 'Note 1: In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
 $string['note2'] = 'Note 2: UKPRN Number can be located on DFE "G.I.A.S" using <a href="https://www.gov.uk/guidance/get-information-about-schools">get-information-about-schools</a>';
 
@@ -264,6 +264,7 @@ $string['button_login'] = 'Login';
 
 // Help Messages
 $string['qtsnumber_help'] = 'Please note that you need to enter your number without “/” or “RP”. For example, if your number is “RP 99/12345”, just enter “9912345”. If your number is “68/12345” just enter “6812345”. If you don’t know what your teacher reference number is, this can usually be found on your payslip or teachers’ pension documentation; alternatively, please contact the DfE on QTS.enquiries@education.gsi.gov.uk or 0207 593 5394.';
+$string['dbsnumber_help'] = 'The 12-digit DBS certificate number can be found on the top right-hand side of your DBS certificate. If you forget your unique subscription ID number, call DBS on 03000 200 190';
 
 // Error Messages
 $string['error_missing_role'] = 'Missing current role';
@@ -290,7 +291,7 @@ $string['error_missing_assurance_code'] = 'Missing Assurance code';
 $string['error_assurance_code_mismatch'] = 'The Assurance code isn\'t for this Employee email';
 $string['error_missing_employee_work_email'] = 'Missing employee school email';
 $string['error_employee_work_email_mismatch'] = 'The Employee school email you entered is invalid';
-$string['error_missing_form_filepicker'] = 'You must upload the Assurance/Reference Form:';
+$string['error_missing_assurance_form'] = 'You must upload the Assurance/Reference Form:';
 $string['error_employee_email_assurance_code_mismatch'] = 'The Employee email isn\'t for this Assurance code';
 $string['error_assurance_already_submitted'] = 'An Assurance Form was previously submitted<br> for this employee';
 $string['error_missing_student_email'] = 'Missing student email address';
@@ -325,6 +326,7 @@ $string['error_missing_ukprn_number'] ='Missing UKPRN number';
 $string['error_missing_total_courses_questions'] = 'Please answer this question';
 $string['error_total_courses_excessive'] = 'The maximum number allowed here is 5';
 $string['error_yes_or_no'] = 'Select one checkbox';
+$string['error_length_of_12'] = 'The number must be 12 characters long';
 
 // String variables
 $string['roleallowed_range_max'] = '03';

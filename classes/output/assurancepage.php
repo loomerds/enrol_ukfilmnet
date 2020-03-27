@@ -35,23 +35,6 @@ require_once('signuplib.php');
 // This is a Template Class it collects/creates the data for a template
 class assurancepage implements \renderable, \templatable {
 
-    //private $is_logged_in = 0;
-    /*private $ukprn;
-    private $username;
-    private $firstname;
-    private $familyname;
-    private $schoolname;*/
-    //private $post;
-    /*private $applicant_is_employed = 'no';
-    private $applicant_suitability = 'no';
-    private $qts_qualified = 'no';
-    private $behavior_allegations = 'no';
-    private $disciplinary_actions = 'no';
-    private $tra_check = 'no';
-    private $subject_to_ocr_check = 'no';
-    private $british_school_abroad_mod_or_dubai_school = 'no';
-    private $school_subject_to_inspection = 'no';*/
-
     private $checkbox_values = array('applicant_is_employed'=>"no",
                                      'applicant_suitability'=>'no',
                                      'qts_qualified'=>'no',
@@ -59,11 +42,10 @@ class assurancepage implements \renderable, \templatable {
                                      'disciplinary_actions'=>'no',
                                      'tra_check'=>'no',
                                      'subject_to_ocr_check'=>'no',
-                                     'british_school_abroad_mod_or_dubai_school'=>'no',
+                                     'brit_school_abroad_mod_or_dubai_school'=>'no',
                                      'school_subject_to_inspection'=>'no');
 
     public function __construct($sometext = null) {
-        //$this->post = $_POST;
     }
 
     public function export_for_template(\renderer_base $output) {
@@ -75,11 +57,8 @@ class assurancepage implements \renderable, \templatable {
     public function get_assurance_content() {
 
         global $CFG, $DB, $USER, $SESSION;
-        //require_once('/../../../../../user/profile/lib.php');
-
-        $SESSION->is_logged_in = '0';
+        
         $assuranceinput = '';
-        //$SESSION->is_logged_in = 0;
         $mform = new assurance_form();
 
         //Form processing and displaying is done here
@@ -92,9 +71,9 @@ class assurancepage implements \renderable, \templatable {
             
             redirect(PAGE_WWWROOT);
         } else if ($form_data = $mform->get_data()) {
-print_r2("we are inside the form_data processing area");
+
             // Process validated data here
-           /* $checkbox_results = $this->create_checkbox_results_list();
+            $checkbox_results = $this->create_checkbox_results_list();
             $this->set_checkbox_values($checkbox_results);
 
             // Save the Assurance Form file uploaded by the Officer
@@ -115,6 +94,10 @@ print_r2("we are inside the form_data processing area");
             // Update the relevant applicant's user profile
             if($applicant_user !== null) {
                 profile_load_data($applicant_user);
+                $applicant_user->profile_field_schoolname = $form_data->schoolname;
+                $applicant_user->profile_field_ukprn = $form_data->ukprn;
+
+                
                 $applicant_user->profile_field_applicant_is_employed = $this->checkbox_values['applicant_is_employed'];
                 $applicant_user->profile_field_employment_start_date = $form_data->employment_start_date;
                 $applicant_user->profile_field_job_title = $form_data->job_title;
@@ -124,20 +107,20 @@ print_r2("we are inside the form_data processing area");
                 $applicant_user->profile_field_dbs_cert_date = $form_data->dbs_cert_date;
                 $applicant_user->profile_field_dbsnumber = $form_data->dbsnumber;
                 $applicant_user->profile_field_applicant_suitability = $this->checkbox_values['applicant_suitability'];
-                $applicant_user->profile_field_qts_qualified = $this->checkbox_values['qtsqualified'];
+                $applicant_user->profile_field_qts_qualified = $this->checkbox_values['qts_qualified'];
                 $applicant_user->profile_field_qtsnumber = $form_data->qtsnumber;
                 $applicant_user->profile_field_behavior_allegations = $this->checkbox_values['behavior_allegations'];
                 $applicant_user->profile_field_disciplinary_actions = $this->checkbox_values['disciplinary_actions'];
                 $applicant_user->profile_field_tra_check = $this->checkbox_values['tra_check'];
-                $applicant_user->profile_field_ocr_certificate = $this->checkbox_values['ocr_certificate'];
+                $applicant_user->profile_field_ocr_certificate = $this->checkbox_values['subject_to_ocr_check'];
                 $applicant_user->profile_field_brit_school_abroad_mod_or_dubai_school = $this->checkbox_values['brit_school_abroad_mod_or_dubai_school'];
                 $applicant_user->profile_field_school_subject_to_inspection = $this->checkbox_values['school_subject_to_inspection'];
                 $applicant_user->profile_field_safeguarding_contact_firstname = $form_data->referee_firstname;
                 $applicant_user->profile_field_safeguarding_contact_familyname = $form_data->referee_familyname;
-                $applicant_user->profile_field_safeguarding_contact_position = $form_data->safeguarding_contact_position;
+                $applicant_user->profile_field_safeguarding_contact_position = $form_data->referee_position;
                 $applicant_user->profile_field_safeguarding_contact_email = $form_data->referee_email;
                 $applicant_user->profile_field_school_registered_address = $form_data->school_registered_address;
-                $applicant_user->profile_field_school_registered_address = $form_data->school_registered_address;
+                $applicant_user->profile_field_school_web_address = $form_data->school_web_address;
                 $applicant_user->profile_field_assurancesubmitted = 1;
                 $applicant_user->profile_field_assurancesubmissiondate = convert_unixtime_to_gmdate(time());
                 $applicant_user->profile_field_assurancedoc = $filename;
@@ -148,18 +131,10 @@ print_r2("we are inside the form_data processing area");
             if($USER->firstname === 'Safeguarding') {
                 delete_user($USER);
             }
-            redirect(PAGE_WWWROOT);*/
+            redirect(PAGE_WWWROOT);
         } else {
-            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form]print_r2($SESSION_);
-            if(isset($SESSION->redirect_to_self) == true and $SESSION->redirect_to_self == true) {
-                $SESSION->redirect_to_self = false;
-                redirect(PAGE_ASSURANCE);
+            // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
 
-            }
-            
-            //Set default data (if any)
-            $mform->set_data($form_data);
-            
             $applicant_user;
             
             if(isset($_POST['assurance_code'])) {
@@ -170,12 +145,11 @@ print_r2("we are inside the form_data processing area");
             }
             if(isset($post_email)) {
                 $applicant_user = $DB->get_record('user', array('username' => $post_email, 'auth' => 'manual'));
-                profile_load_data($applicant_user);
             }
 
             $assurance_code;
             $email;
-
+            $form_data = [];
             if(isset($applicant_user) and $applicant_user !== false) {
                 profile_load_data($applicant_user);
 
@@ -183,16 +157,27 @@ print_r2("we are inside the form_data processing area");
                 $email = $applicant_user->email;
                 if($_POST['submitbutton'] === 'Login') {
                     if($assurance_code == $post_assurance_code and $email == $post_email) {
-                        $SESSION->is_logged_in = '1';
+                        $SESSION->is_logged_in = 1;
                         $SESSION->ukprn = $applicant_user->profile_field_ukprn;
-                        $SESSION->username = $applicant_user->username;
                         $SESSION->firstname = $applicant_user->firstname;
                         $SESSION->familyname = $applicant_user->lastname;
                         $SESSION->schoolname = $applicant_user->profile_field_schoolname;
+
+                        redirect(PAGE_ASSURANCE);
                     }
-                    $SESSION->redirect_to_self = true;
                 }
             }
+
+            if(isset($SESSION->is_logged_in) and $SESSION->is_logged_in == 1) {
+                $form_data['firstname'] = $SESSION->firstname;
+                $form_data['familyname'] = $SESSION->familyname;
+                $form_data['schoolname'] = $SESSION->schoolname;
+                $form_data['ukprn'] = $SESSION->ukprn;
+            }
+
+            //Set default data (if any)
+            $mform->set_data($form_data);
+
             //displays the form
             $assuranceinput = $mform->render();
         }

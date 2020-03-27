@@ -158,12 +158,26 @@ h3.ukfn_enrol_page_title {
     margin-left: 10px;
 }
 
-.ukfn_form_assurance_filepicker .col-md-3 {
-    max-width: fit-content;
+#fitem_id_form_filepicker .col-md-3 {
+    max-width: 30%;
+    text-align: right;
+}
+
+#fitem_id_form_filepicker .col-md-9 {
+    max-width: 60%;
+    text-align: left;
 }
 
 .ukfn_form_content {
     margin: 1.5rem;
+}
+
+#page-enrol-ukfilmnet-assurance .text-info {
+    color: #060 !important;
+}
+
+#page-enrol-ukfilmnet-assurance .text-danger {
+    color:  #b22222 !important;
 }
 
 #page-enrol-ukfilmnet-assurance .row {
@@ -261,15 +275,15 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_form_big_left #fitem_id_dbsnumber .col-md-3 {
-    flex: 0 0 50%;
-    max-width: fit-content;
+    flex: 0 0 170px;
+    max-width: 170px;
     text-align: right;
     flex-wrap: wrap;
 }
 
 .ukfn_form_big_left #fitem_id_dbsnumber .col-md-9 {
-    flex: 0 0 50%;
-    max-width: 50%;
+    flex: 0 0 150px;
+    max-width: 150px;
     flex-wrap: wrap;
 }
 
@@ -286,15 +300,16 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_form_big_left #fgroup_id_applicant_suitability .col-md-3, #fgroup_id_behavior_allegations .col-md-3, #fgroup_id_disciplinary_actions .col-md-3, #fgroup_id_brit_school_abroad_mod_or_dubai_school .col-md-3, #fgroup_id_school_subject_to_inspection .col-md-3 {
-    flex: 0 0 80% !important;
-    max-width: 80% !important;
+    flex: 0 0 75% !important;
+    max-width: 75% !important;
     flex-wrap: wrap;
 }
 
 .ukfn_form_big_left #fgroup_id_applicant_suitability .col-md-9, #fgroup_id_behavior_allegations .col-md-9, #fgroup_id_disciplinary_actions .col-md-9, #fgroup_id_brit_school_abroad_mod_or_dubai_school .col-md-9, #fgroup_id_school_subject_to_inspection .col-md-9 {
-    flex: 0 0 20% !important;
-    max-width: 20% !important;
+    flex: 0 0 25% !important;
+    max-width: 25% !important;
     flex-wrap: wrap;
+    justify-content: center;
 }
 
 .ukfn_form_even .ukfn_form_big_left {
@@ -350,15 +365,15 @@ h3.ukfn_enrol_page_title {
 }
 
 #fitem_id_qtsnumber .col-md-3 {
-    flex: 0 0 35%;
-    max-width: fit-content;
+    flex: 0 0 170px;
+    max-width: 170px;
     flex-wrap: wrap;
     padding-left: 0px;
 }
 
 #fitem_id_qtsnumber .col-md-9 {
-    flex: 0 0 65%;
-    max-width: 250px;
+    flex: 0 0 150px;
+    max-width: 150px;
     flex-wrap: wrap;
     justify-content: flex-end;
 }
@@ -367,8 +382,12 @@ h3.ukfn_enrol_page_title {
     max-width: 250px;
 }
 
-#fgroup_id_disciplinary_actions, #fgroup_id_brit_school_abroad_mod_or_dubai_school {
-    width: 112%;
+#fgroup_id_disciplinary_actions, #fgroup_id_brit_school_abroad_mod_or_dubai_school, #fgroup_id_school_subject_to_inspection, #fgroup_id_applicant_suitability, #fgroup_id_behavior_allegations {
+    width: 100%;
+}
+
+#fgroup_id_tra_check, #fgroup_id_subject_to_ocr_check {
+    width: 100%;
 }
 
 #fgroup_id_tra_check .col-md-3, #fgroup_id_subject_to_ocr_check .col-md-3 {
@@ -382,7 +401,6 @@ h3.ukfn_enrol_page_title {
     flex: 0 0 25% !important;
     max-width: 25% !important;
     flex-wrap: wrap;
-    margin-left: -4px;
     justify-content: center;
 }
 
@@ -462,18 +480,30 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_form_even.school_info .col-md-3, #fitem_id_school_registered_address .col-md-3 {
     padding-left: 0px;
-    text-align: left;
+    text-align: right;
 }
 
-#fitem_id_school_registered_address .col-md-3 label span, #fitem_id_school_web_address .col-md-3 label span, #fitem_id_dbsnumber .col-md-3 label span {
+#fitem_id_school_registered_address .col-md-3 label, #fitem_id_school_web_address .col-md-3 label, #fitem_id_dbsnumber .col-md-3 label, #fitem_id_ukprn .col-md-3 label {
+    text-align: right;
+}
+
+#fitem_id_school_registered_address .col-md-3 label span, #fitem_id_dbsnumber .col-md-3 label span, #fitem_id_dbsnumber .col-md-3 label, #fitem_id_ukprn .col-md-3 label span {
     padding-left: 0px;
-    text-align: left;
+    text-align: right;
     display: block;
-    margin-right: 40px;
+    margin-right: 33px;
+}
+
+#fitem_id_school_web_address .col-md-3 {
+    max-width: 35%;
+    display: block;
+    padding-right: 10px;
 }
 
 #fitem_id_school_web_address .col-md-3 label span {
-    margin-right: 20px;
+    padding-left: 0px;
+    text-align: right;
+    display: block;
 }
 
 #fitem_id_school_registered_address textarea {
@@ -481,13 +511,29 @@ h3.ukfn_enrol_page_title {
     width: 100%;
 }
 
-.ukfn_form_even.school_info .ukfn_form_orgname {
+.ukfn_form_even.school_info #fitem_id_schoolname {
     width: 65%;
     max-width: 65%;
     font-weight: bold;
 }
 
-.ukfn_form_even.school_info .ukfn_form_ukprnnum {
+.ukfn_form_even.school_info #fitem_id_schoolname .col-md-3 {
+    width: 35%;
+    max-width: 35%;
+}
+
+.ukfn_form_even.school_info #fitem_id_schoolname .col-md-9 {
+    width: 65%;
+    max-width: 65%;
+    flex: 0 0 100%;
+}
+
+.ukfn_form_even.school_info #fitem_id_schoolname .col-md-9 input {
+    width: 100%;
+    max-width: 100%;
+}
+
+.ukfn_form_even.school_info #fitem_id_ukprn {
     width: 35%;
     max-width: 35%;
     font-weight: bold;
@@ -498,7 +544,6 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_ukprn, .ukfn_schoolname {
-    padding-left: 10px;
     display: inline-block;
 }
 
