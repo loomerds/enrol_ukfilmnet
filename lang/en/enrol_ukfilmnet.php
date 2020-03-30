@@ -177,8 +177,6 @@ $string['assurance_login_instructions'] =
 'Thank you for responding to our email requesting that you provde safeguarding assurances with reference to your employee.<br>
 <br>
 To complete the Safeguarding Assurance Form relating to your employee, please <strong>enter the Employee School Email address and Assurance Code we provided you via email</strong>.<br>
-<br> 
-Remember that it is important to <strong>keep these login credentials safe and secret</strong>. You will need them in the future to view your employee\'s student enrolment information.
 <br>';
 
 $string['assurance_form_instructions'] = '
@@ -376,17 +374,11 @@ For reasons of safeguarding, your employee will not have access to students othe
 <br>
 In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname} we are required to take reasonable steps to confirm that the individual is who they say they are, and that they are employed by you. Please could either yourself or your designated Safeguarding lead complete the following process:
 <ul>
-<li>Download this <a href="{$a->form_url}">Assurance/Reference Form</a></li>
-<li>Print the Assurance/Reference Form on your Organisational Letterhead</li>
-<li>Complete the Assurance/Reference Form in black or blue ink</li>
-<li>Scan the completed Assurance/Reference Form and save it in .pdf format</li>
-<li>Browse to <a href="{$a->assurance_url}">UKfilmNet Safeguarding Assurance</a> and:</li>
-<ul>
+
+<li>Browse to <a href="{$a->assurance_url}">UKfilmNet Safeguarding Assurance</a></li>
 <li>Enter the Email Address of your employee - {$a->applicant_email}</li>
 <li>Enter the following Assurance Code - {$a->assurance_code}</li>
-<li>Upload the completed Assurance/Reference Form</li>
-<li>Click the "Submit" button to complete the Safeguarding Office Assurance process</li>
-</ul>
+<li>Follow the instructions for completing and submitting a Reference form on behalf of your employee</li>
 </ul>
 Once you have completed these steps we can consider the application your employee has made for access to the resource and other professional colleagues in developing their CPD, skills and knowledge.<br>
 <br>

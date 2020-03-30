@@ -12,9 +12,22 @@ body#page-enrol-ukfilmnet-courses input, body#page-enrol-ukfilmnet-school input,
     background-color: rgba(248,249,250,.7)!important; 
 }
 
-body#page-enrol-ukfilmnet-applicant input.btn, body#page-enrol-ukfilmnet-emailverify .input btn,
+body#page-enrol-ukfilmnet-applicant input.btn, body#page-enrol-ukfilmnet-emailverify input.btn,
 body#page-enrol-ukfilmnet-courses input.btn, body#page-enrol-ukfilmnet-school input.btn, body#page-enrol-ukfilmnet-safeguarding input.btn, body#page-enrol-ukfilmnet-students input.btn, body#page-enrol-ukfilmnet-assurance input.btn, body#page-enrol-ukfilmnet-tracking input.btn {
     background-color: #111 !important; 
+}
+
+body#page-enrol-ukfilmnet-students tbody tr input {
+    border-style: unset;
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-right-color: #fff;
+}
+
+body#page-enrol-ukfilmnet-students thead tr {
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+    border-bottom-color: #fff;
 }
 
 body#page-enrol-ukfilmnet-applicant #page, body#page-enrol-ukfilmnet-emailverify #page,
@@ -60,6 +73,12 @@ h3.ukfn_enrol_page_title {
     margin-bottom: 1rem;
 }
 
+#page-enrol-ukfilmnet-applicant h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-emailverify h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-courses h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-school h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-safeguarding h4.ukfn_applicant_subheading, #page-enrol-ukfilmnet-students h4.ukfn_applicant_subheading {
+    margin-left: 10px;
+}
+
+
+
 #page-enrol-ukfilmnet-tracking thead tr th, #page-enrol-ukfilmnet-students thead tr th {
     /*background-color: #f8f9fa;*/
     background-color: #000 !important;
@@ -101,8 +120,12 @@ h3.ukfn_enrol_page_title {
     margin-bottom: 1rem;
 }
 
-#fitem_id_email, #fitem_id_assurance_code {
+.ukfn_log-in_details #fitem_id_email, #fitem_id_assurance_code {
     width: 80%;
+}
+
+#fitem_id_email.ukfn_applicant_email {
+    width: unset !important;
 }
 
 #fitem_id_email .col-md-3, #fitem_id_assurance_code .col-md-3 {

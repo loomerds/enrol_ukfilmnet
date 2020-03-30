@@ -51,7 +51,7 @@ class applicant_form extends \moodleform {
                           '10'=>get_string('applicant_role_parentguardian', 'enrol_ukfilmnet')];
         $mform->addElement('select', 'role', get_string('applicant_current_role', 'enrol_ukfilmnet'), $current_roles, ['class'=>'ukfn-applicant-current-roles']);
         $mform->addRule('role', null, 'required', null, 'server');
-        $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-email']);
+        $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn_applicant_email']);
         $mform->setType('email', PARAM_NOTAGS);
         $mform->addRule('email', get_string('error_missing_email', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('text', 'firstname', get_string('applicant_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
