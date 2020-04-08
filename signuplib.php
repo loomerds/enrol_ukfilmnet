@@ -165,6 +165,62 @@ function create_student_user($studentinfo, $auth = 'manual') {
     return $user;
 }
 
+function create_sgo_user($applicantinfo, $auth = 'manual') {
+    global $CFG, $DB;
+    require_once($CFG->dirroot.'/user/profile/lib.php');
+    require_once($CFG->dirroot.'/user/lib.php');
+    require_once($CFG->dirroot.'/lib/accesslib.php');
+    require_once($CFG->dirroot.'/lib/moodlelib.php');
+    
+    $username = trim(core_text::strtolower($applicantinfo->safeguarding_contact_email));
+    $authplugin = get_auth_plugin($auth);
+    $customfields = $authplugin->get_custom_user_profile_fields();
+    $newuser = new stdClass();
+    
+    if (!empty($newuser->email)) {
+        if (email_is_not_allowed($newuser->email)) {
+            unset($newuser->email);
+        }
+    }
+    if (!isset($newuser->city)) {
+        $newuser->city = '';
+    }
+    
+    $newuser->auth = $auth;
+    $newuser->username = $username;
+    $newuser->email = $applicantinfo->profile_field_safeguarding_contact_email;
+    $newuser->firstname = $applicantinfo->profile_field_safeguarding_contact_firstname;
+    $newuser->lastname = $applicantinfo->profile_field_safeguarding_contact_familyname;
+
+    if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
+        $newuser->lang = $CFG->lang;
+    }
+    $newuser->confirmed = 1;
+    $newuser->lastip = getremoteaddr();
+    $newuser->timecreated = time();
+    $newuser->timemodified = $newuser->timecreated;
+    $newuser->mnethostid = $CFG->mnet_localhost_id;
+     
+    $newuser->id = user_create_user($newuser, false);
+    // Save user profile data.
+    profile_save_data($newuser);
+
+    $applicantrole = $DB->get_record('role', array('shortname'=>get_string('sgo_role_name', 'enrol_ukfilmnet')));
+    $systemcontext = context_system::instance();
+    $usercontext = context_user::instance($newuser->id);
+  
+    role_assign($applicantrole->id, $newuser->id, $systemcontext->id);
+    role_assign($applicantrole->id, $newuser->id, $usercontext->id);
+
+    $user = get_complete_user_data('id', $newuser->id);
+    set_user_preference('auth_forcepasswordchange', 0, $user);
+
+    // Set the password.
+    update_internal_user_password($user, make_random_password());
+
+    return $user;
+}
+
 function print_r2($val){
     echo '<pre>';
     echo '<br>';
@@ -267,7 +323,7 @@ function process_students($datum) {
     } 
     $removed = rtrim($removed, ",");
 
-// Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
+    // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $students = array_values($students);
 
     foreach($students as $student) {
@@ -285,7 +341,7 @@ function process_students($datum) {
     }
 
     // Add students to appropriate cohorts
-    add_to_cohort($students, $datum['cohort_names']);
+    add_or_remove_students_to_cohorts($students, $datum['cohort_names']);
 
     if($removed === '' or $removed === null) {
         redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
@@ -296,7 +352,10 @@ function process_students($datum) {
     }
 }
 
-function is_already_in_cohort($user, $cohortid, $target_cohort) {
+// Note that $target_cohort receives a reference to the cohort object's id field
+// Note that $cohortid receives a reference to the cohort object's cohortid field
+// We don't actually need this function - cohort_add_member already stops duplicates
+function is_already_in_cohort($user, $target_cohort, $cohortid = null) {
     global $DB;
 
     $user_cohorts = $DB->get_records('cohort_members', array('userid'=>$user->id));
@@ -310,10 +369,11 @@ function is_already_in_cohort($user, $cohortid, $target_cohort) {
     return 0;
 } 
 
-function add_to_cohort($studentinputs, $cohort_names) {
+function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/cohort/lib.php');    
 
+    $resourse_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('resource_courses_idnumber', 'enrol_ukfilmnet')));
     foreach ($studentinputs as $input) {
         $cohort_idnumbers = [];
         $user;
@@ -333,18 +393,23 @@ function add_to_cohort($studentinputs, $cohort_names) {
 
         // Add and remove students from cohorts on basis of checkbox input changes
         $count = 0;
+
         foreach($cohort_names as $cohort_name) {
             $target_cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_name));
             if(strlen($cohort_idnumbers[$count]) > 2) { // if the input is checked
-                if(is_already_in_cohort($user, $cohort_name, $target_cohort->id) == false) {
+
+                // Note that $target_cohort->id is the cohort object's id field
+                //if(is_already_in_cohort($user, $target_cohort->id, $cohort_name) == false) {
                     // add them to $cohort_name
                     cohort_add_member($target_cohort->id, $user->id);
-                } 
+                    cohort_add_member($resourse_courses_cohort->id, $user->id);
+                //}
+                
             } else {  // if the input is NOT checked
-                if(is_already_in_cohort($user, $cohort_name, $target_cohort->id) == true) {
+                //if(is_already_in_cohort($user, $target_cohort->id, $cohort_name) == true) {
                     // remove them from $cohort_name
                     cohort_remove_member($target_cohort->id, $user->id);
-                } 
+                //} 
             }
             $count++;
         }
@@ -417,6 +482,9 @@ function application_approved($approved) {
 
     foreach($approved as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
+        $resource_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('resource_courses_idnumber', 'enrol_ukfilmnet')));
+        $support_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('support_courses_idnumber', 'enrol_ukfilmnet')));
+
         if($applicant_user !== null) {
             profile_load_data($applicant_user);
             if(convert_progressstring_to_progressnum($applicant_user->profile_field_applicationprogress) == '6') {
@@ -425,6 +493,7 @@ function application_approved($approved) {
                 profile_save_data($applicant_user);        
                 email_user_accept_reject($applicant_user, "approved");
                 
+                // Create teacher's classroom courses and enrol the teacher
                 for($count = 0; $count<$applicant_user->profile_field_courses_requested; $count++) {
                     $newcourse = create_classroom_course_from_teacherid($userid, 
                             get_string('template_course', 'enrol_ukfilmnet'), 
@@ -433,14 +502,32 @@ function application_approved($approved) {
                     $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();
                     $usercontext = context_user::instance($applicant_user->id);
+                    
+                    // Change applicant's basic system role assignment
                     role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
                     role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
                     
+                    // Enrol applicant in their classroom course(s) as a teacher
                     enrol_user_this($newcourse, $applicant_user, '3', 'manual');
                 }
+
+                // Add teacher to resource_courses
+                //if(is_already_in_cohort($applicant_user, $resource_courses_cohort->id) == false) {
+                cohort_add_member($resource_courses_cohort->id, $applicant_user->id);
+                //}
+                // Add teacher to support_courses
+                //if(is_already_in_cohort($applicant_user, $support_courses_cohort->id) == false) {
+                cohort_add_member($support_courses_cohort->id, $applicant_user->id);
+                //}
+                $sgo_user = create_sgo_user($applicant_user);
+                add_sgo_to_cohorts($applicant_user, $sgo_user);
             }
         }
     }
+}
+
+function add_sgo_to_cohorts($applicant_user, $sgo_user) {
+    
 }
 
 function email_user_accept_reject($applicant, $status){

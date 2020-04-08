@@ -34,6 +34,8 @@ require_once($CFG->dirroot.'/user/externallib.php');
 
 require_login();
 
+//print_r2($DB->get_records('cohort'));
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
 $PAGE->set_context(context_system::instance());
@@ -55,7 +57,6 @@ try {
 
 if(!empty($_POST)) {
     handle_tracking_post();
-
 }
 
 echo $output->header();

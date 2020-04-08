@@ -336,6 +336,9 @@ $string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '5';
+$string['resource_courses_idnumber'] = 'resource_courses';
+$string['support_courses_idnumber'] = 'support_courses';
+$string['sgo_role_name'] = 'user';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
