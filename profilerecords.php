@@ -33,4 +33,4 @@ defined('MOODLE_INTERNAL') || die();
 
 create_profile_fields(); // function is located in signuplib.php
 
-redirect($PAGE_WWWROOT.'/admin/search.php?query');
+redirect(PAGE_WWWROOT.'/admin/search.php?query');
