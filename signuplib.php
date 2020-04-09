@@ -166,15 +166,14 @@ function create_student_user($studentinfo, $auth = 'manual') {
 }
 
 function create_sgo_user($applicantinfo, $auth = 'manual') {
+//print_r2($applicantinfo);
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/user/lib.php');
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
     
-    $username = trim(core_text::strtolower($applicantinfo->safeguarding_contact_email));
-    $authplugin = get_auth_plugin($auth);
-    $customfields = $authplugin->get_custom_user_profile_fields();
+    $username = trim(core_text::strtolower($applicantinfo->profile_field_safeguarding_contact_email));
     $newuser = new stdClass();
     
     if (!empty($newuser->email)) {
@@ -189,7 +188,7 @@ function create_sgo_user($applicantinfo, $auth = 'manual') {
     $newuser->auth = $auth;
     $newuser->username = $username;
     $newuser->email = $applicantinfo->profile_field_safeguarding_contact_email;
-    $newuser->firstname = $applicantinfo->profile_field_safeguarding_contact_firstname;
+    $newuser->firstname = 'DSL-'.$applicantinfo->profile_field_safeguarding_contact_firstname;
     $newuser->lastname = $applicantinfo->profile_field_safeguarding_contact_familyname;
 
     if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
