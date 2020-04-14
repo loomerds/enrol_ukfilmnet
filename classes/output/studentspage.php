@@ -78,7 +78,8 @@ class studentspage implements \renderable, \templatable {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot.'/lib/accesslib.php');
 
-        $courses = get_courses();
+        //$courses = get_courses();
+        $courses = $DB->get_records('course');
 print_r2($courses);
         $cohort_names = [];
 // Change this capacity to one we know we will not take away from teachers and DSLs
