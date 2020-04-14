@@ -33,46 +33,6 @@ require_once(__DIR__ .'/../../cohort/lib.php');
 require_login();
 is_applicant_user($USER);
 
-/*if($USER->username == 'guest') {
-    
-   // manager::set_user($user);
-
-    redirect(PAGE_WWWROOT.'/login/index.php');
-}*/
-
-/*$teach_enrol = $DB->get_record('user_enrolments', array('userid' => $USER->id));
-foreach($teach_enrol as $enrolment) {
-    $teacher_enrol_info = $DB->get_record('enrol', array('id' =>$enrolment));
-    if(!isset($teacher_enrol_info)) {
-        print_r2($USER->username);
-    }
-    print_r2($teacher_enrol_info);
-}
-unset($teach_enrol);
-$teach_enrol = $DB->get_record('user_enrolments', array('userid' => $USER->id));
-foreach($teach_enrol as $enrolment) {
-    $teacher_enrol_info = $DB->get_record('enrol', array('id' =>$enrolment));
-    $courseid = $teacher_enrol_info->courseid;
-    $enrolees = $DB->get_records('enrol', array('courseid'=>$courseid));
-    foreach($enrolees as $enrolee) {
-        print_r2($enrolee);
-    }
-}*/
-
-/*$enrolees = $DB->get_records('user_enrolments'); //get all enrolees
-foreach($enrolees as $enrolee) {
-    $userid = $enrolee->userid;
-    $enrolid = $enrolee->enrolid;
-    $user = $DB->get_record('user', array('id' => $userid));
-    print_r2($user->username);
-    print_r2($enrolee);
-    $enrol = $DB->get_record('enrol', array('id' => $enrolid));
-    print_r2($enrol);
-}
-*/
-
-//print_r2($DB->get_records('role'));
-
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/students.php'));
 $PAGE->set_context(context_system::instance());
@@ -80,7 +40,6 @@ $PAGE->set_title(get_string('students_title', 'enrol_ukfilmnet'));
 $page_number = 6;
 
 $PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-tables.js'));
-//$PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-table.css'));
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $studentspage = new \enrol_ukfilmnet\output\studentspage($page_number);
 $page_content = $output->render_studentspage($studentspage);

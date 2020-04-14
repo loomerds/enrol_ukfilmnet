@@ -78,17 +78,13 @@ class studentspage implements \renderable, \templatable {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot.'/lib/accesslib.php');
 
-        //$courses = get_courses();
         $courses = $DB->get_records('course');
-print_r2($courses);
         $cohort_names = [];
-// Change this capacity to one we know we will not take away from teachers and DSLs
         $capacity = get_string('essential_teacher_dsl_capacity', 'enrol_ukfilmnet');
         foreach($courses as $course) {
             $context = \context_course::instance($course->id);
             if(is_enrolled($context, $USER, $capacity)) {
                 $cohort_names[] = $course->shortname;
-//print_r2($course->shortname);
             }
         }
         asort($cohort_names);
