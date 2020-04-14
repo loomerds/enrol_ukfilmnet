@@ -62,6 +62,7 @@ class studentspage implements \renderable, \templatable {
         // Create an array of this teacher's cohorts
         $teacher_cohorts = [];
         $cohort_names = $this->get_teacher_cohort_names(); 
+print_r2($cohort_names);
         $cohorts = $DB->get_records('cohort');
         foreach($cohorts as $cohort){
             if(in_array($cohort->idnumber, $cohort_names)) {
@@ -94,7 +95,7 @@ class studentspage implements \renderable, \templatable {
     }
 
     private function make_extra_header_cols($cohort_names) {
-print_r2($cohort_names);
+//print_r2($cohort_names);
         $extra_header_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
