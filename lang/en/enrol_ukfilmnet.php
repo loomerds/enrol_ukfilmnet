@@ -339,6 +339,7 @@ $string['number_of_enrol_table_rows'] = '5';
 $string['resource_courses_idnumber'] = 'resource_courses';
 $string['support_courses_idnumber'] = 'support_courses';
 $string['sgo_role_name'] = 'user';
+$string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';

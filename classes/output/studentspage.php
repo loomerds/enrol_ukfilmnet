@@ -62,7 +62,6 @@ class studentspage implements \renderable, \templatable {
         // Create an array of this teacher's cohorts
         $teacher_cohorts = [];
         $cohort_names = $this->get_teacher_cohort_names(); 
-print_r2($cohort_names);
         $cohorts = $DB->get_records('cohort');
         foreach($cohorts as $cohort){
             if(in_array($cohort->idnumber, $cohort_names)) {
@@ -81,11 +80,13 @@ print_r2($cohort_names);
 
         $courses = get_courses();
         $cohort_names = [];
-        $capacity = 'enrol/manual:manage';
+// Change this capacity to one we know we will not take away from teachers and DSLs
+        $capacity = get_string('essential_teacher_dsl_capacity', 'enrol_ukfilmnet');
         foreach($courses as $course) {
             $context = \context_course::instance($course->id);
             if(is_enrolled($context, $USER, $capacity)) {
                 $cohort_names[] = $course->shortname;
+print_r2($course->shortname);
             }
         }
         asort($cohort_names);
@@ -95,7 +96,6 @@ print_r2($cohort_names);
     }
 
     private function make_extra_header_cols($cohort_names) {
-//print_r2($cohort_names);
         $extra_header_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
