@@ -94,6 +94,7 @@ class studentspage implements \renderable, \templatable {
     }
 
     private function make_extra_header_cols($cohort_names) {
+print_r2($cohort_names);
         $extra_header_cols = '';
         $cohort_length = count($cohort_names);
         $count = 0;
