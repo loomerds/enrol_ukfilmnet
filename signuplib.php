@@ -52,15 +52,6 @@ define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
  * @return stdClass A complete user object
  */
 
-function is_applicant_user($user) {
-    profile_load_data($user);
-    $is_applicant = strlen($user->profile_field_applicationprogress) >0;
-    if (isguestuser() or !$is_applicant) {
-        redirect(PAGE_WWWROOT);
-    }
-
-} 
-
 function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -120,6 +111,14 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     return $user;
 }
 
+function is_applicant_user($user) {
+    profile_load_data($user);
+    $is_applicant = strlen($user->profile_field_applicationprogress) >0;
+    if (isguestuser() or !$is_applicant) {
+        redirect(PAGE_WWWROOT);
+    }
+} 
+
 function create_student_user($studentinfo, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -165,15 +164,14 @@ function create_student_user($studentinfo, $auth = 'manual') {
     return $user;
 }
 
-function create_sgo_user($applicantinfo, $auth = 'manual') {
-//print_r2($applicantinfo);
+function create_sgo_user($applicant_user, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
     require_once($CFG->dirroot.'/user/lib.php');
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
     
-    $username = trim(core_text::strtolower($applicantinfo->profile_field_safeguarding_contact_email));
+    $username = trim(core_text::strtolower($applicant_user->profile_field_safeguarding_contact_email));
     $newuser = new stdClass();
     
     if (!empty($newuser->email)) {
@@ -187,9 +185,9 @@ function create_sgo_user($applicantinfo, $auth = 'manual') {
     
     $newuser->auth = $auth;
     $newuser->username = $username;
-    $newuser->email = $applicantinfo->profile_field_safeguarding_contact_email;
-    $newuser->firstname = 'DSL-'.$applicantinfo->profile_field_safeguarding_contact_firstname;
-    $newuser->lastname = $applicantinfo->profile_field_safeguarding_contact_familyname;
+    $newuser->email = $applicant_user->profile_field_safeguarding_contact_email;
+    $newuser->firstname = 'DSL-'.$applicant_user->profile_field_safeguarding_contact_firstname;
+    $newuser->lastname = $applicant_user->profile_field_safeguarding_contact_familyname;
 
     if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
         $newuser->lang = $CFG->lang;
@@ -211,13 +209,17 @@ function create_sgo_user($applicantinfo, $auth = 'manual') {
     role_assign($applicantrole->id, $newuser->id, $systemcontext->id);
     role_assign($applicantrole->id, $newuser->id, $usercontext->id);
 
-    $user = get_complete_user_data('id', $newuser->id);
-    set_user_preference('auth_forcepasswordchange', 0, $user);
+    $sgo_user = get_complete_user_data('id', $newuser->id);
+    set_user_preference('auth_forcepasswordchange', 0, $sgo_user);
 
     // Set the password.
-    update_internal_user_password($user, make_random_password());
+    $sgo_user_password = make_random_password();
+    update_internal_user_password($sgo_user, $sgo_user_password);
 
-    return $user;
+    // Email login and approval notice to sgo
+    email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_user_password);
+
+    return $sgo_user;
 }
 
 function print_r2($val){
@@ -520,15 +522,18 @@ function application_approved($approved) {
                 }
                 if(in_array($sgo_email, $user_emails)) {    
                     $sgo_user = $DB->get_record('user', array('email'=>$sgo_email));
+                    email_sgo_existinguser_info($applicant_user, $sgo_user);
                 } else {
                     $sgo_user = create_sgo_user($applicant_user);
                 }
+
+                // Add DSL officer to classroom courses
                 add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort, $support_courses_cohort);
-                //add_sgo_to_classroom_courses($applicant_user, $sgo_user);
             }
         }
     }
 }
+
 function get_applicant_cohort_names($applicant_user) {
     global $CFG, $DB, $USER;
     require_once($CFG->dirroot.'/lib/accesslib.php');
@@ -547,29 +552,6 @@ function get_applicant_cohort_names($applicant_user) {
 
     return $cohort_names;
 }
-
-/*function add_sgo_to_classroom_courses($applicant_user, $sgo_user) {
-    global $DB;
-
-    $cohort_names = get_applicant_cohort_names($applicant_user);
-
-    foreach($cohort_names as $cohort_name) {
-
-    }
-
-    //    print_r2($cohort_names);
-
-    // Get a list of the classroom courses of the applicant_user
-    $applicant_user_enrolments = $DB->get_records('user_enrolments', array('userid'=>$applicant_user->id));
-    foreach($applicant_user_enrolments as $enrolment) {
-        $this_enrolment = $DB->get_record('enrol', array('id'=>$course->enrolid));
-        $this_course = $DB->get_record('course', array(''=>$this_enrolment->courseid));
-        
-        //cohort_add_member($this_course->courseid, $sgo_user->id);
-print_r2($this_course);
-    }
-//print_r2($applicant_user_courses);
-}*/
 
 function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort, $support_courses_cohort) {
     global $DB;
@@ -591,12 +573,6 @@ function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort
             role_unassign(get_role_id('student'), $sgo_user->id, $context->id);
         }
     }
-
-    /*foreach($cohort_names as $cohort_name) {
-        $cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_name));
-        cohort_add_member($cohort->id, $sgo_user->id);
-        role_assign('4', $sgo_user->id, );//need to add the course contextid
-    }*/
 }
 
 function get_role_id($role_shortname) {
@@ -608,6 +584,50 @@ function get_role_id($role_shortname) {
             return $role->id;
         }
     }
+}
+
+function email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_password) {
+    
+    profile_load_data($applicant_user);
+    $sgo_user_firstname = substr($sgo_user->firstname, 4);
+
+
+    // Create array of variables for email to safeguarding officer
+    $emailvariables = (object) array('schoolname_ukprn'=>$applicant_user->profile_field_ukprn, 
+                                     'schoolname'=>$applicant_user->profile_field_schoolname,
+                                     'schoolcountry'=>$applicant_user->profile_field_schoolcountry, 
+                                     'contact_firstname'=>$sgo_user_firstname,
+                                     'contact_familyname'=>$sgo_user->lastname,
+                                     'applicant_firstname'=>$applicant_user->firstname,
+                                     'applicant_familyname'=>$applicant_user->lastname,
+                                     'applicant_email'=>$applicant_user->email,
+                                     'contact_password'=>$sgo_password,
+                                     'contact_username'=>$sgo_user->username,
+                                     'ukfilmnet_url'=>get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+
+    // Send email to safeguarding officer
+    email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_new_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
+}
+
+function email_sgo_existinguser_info($applicant_user, $sgo_user) {
+    
+    profile_load_data($applicant_user);
+
+    $sgo_user_firstname = substr($sgo_user->firstname, 4);
+//print_r2($sgo_user_firstname);
+    // Create array of variables for email to safeguarding officer
+    $emailvariables = (object) array('schoolname_ukprn'=>$applicant_user->profile_field_ukprn, 
+                                     'schoolname'=>$applicant_user->profile_field_schoolname,
+                                     'schoolcountry'=>$applicant_user->profile_field_schoolcountry, 
+                                     'contact_firstname'=>$sgo_user_firstname,
+                                     'contact_familyname'=>$sgo_user->lastname,
+                                     'applicant_firstname'=>$applicant_user->firstname,
+                                     'applicant_familyname'=>$applicant_user->lastname,
+                                     'applicant_email'=>$applicant_user->email,
+                                     'ukfilmnet_url'=>get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+
+    // Send email to safeguarding officer
+    email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_existing_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
 }
 
 function email_user_accept_reject($applicant, $status){
@@ -814,40 +834,6 @@ function get_array_from_json_file($save_filename) {
     }
     return $target_array;
 }
-
-/*function force_progress($application_progress, $current_page) {
-    global $CFG;
-
-    switch($application_progress) {
-        case '2':
-            if($current_page != '2') {    
-                echo "<script>location.href='./emailverify.php'</script>";
-            }
-            break;
-        case '3':
-            if($current_page != '3') {  
-                echo "<script>location.href='./courses.php'</script>";
-            }
-            break;
-        case '4':
-            if($current_page != '4') {  
-               echo "<script>location.href='./school.php'</script>";
-            }
-            break;
-        case '5':
-            if($current_page != '5') {  
-                echo "<script>location.href='./safeguarding.php'</script>";
-            }
-            break;
-        case '6':
-            if($current_page != '6') {  
-                echo "<script>location.href='./students.php'</script>";
-            }
-            break;
-        default:
-        break;
-    }
-}*/
 
 function go_to_page($target_page) {
     global $CFG;

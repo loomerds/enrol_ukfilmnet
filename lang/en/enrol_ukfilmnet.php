@@ -394,6 +394,74 @@ Yours Sincerely,<br>
 <br>
 Dom Foulsham<br>
 Director of Curriculum | UKfilmNet.org';
+
+$string['safeguarding_subject'] = 'Approval of {$a->applicant_firstname} {$a->applicant_familyname}';
+$string['safeguarding_new_sgo_account_text'] = '
+{$a->schoolname}<br>
+{$a->contact_firstname} {$a->contact_familyname}<br>
+<br>
+<strong>Dear {$a->contact_firstname} {$a->contact_familyname},<br>
+<br>
+RE: UKfilmNet Approval of Your Employee - {$a->applicant_firstname} {$a->applicant_familyname}</strong><br>
+<br>
+We are pleased to inform you that <strong>your employee\'s request for teacher access to UKfilmNet has been approved!</strong><br>
+<br>
+<strong>What have they requested access to?</strong><br>
+<br>
+The online platform uses Moodle to create learning spaces which give teacher/lecturer and lecturers access to the students where they currently teach at {$a->schoolname}. It allows them to view hundreds of master-classes co-created with the BBC, Channel4, Sky News, NBC, and hundreds of experts from UK and US higher education, centres of excellence and broadcasters.<br>
+<br>
+The learning space allows your employee to set quizzes, share resources, create forums and promote communal learning, discovering and discussion in the craft of film and media.<br>
+<br>
+For reasons of safeguarding, your employee will not have access to students other than those from your organisation they currently teach. They will however be able to ask questions, seek advice and get help from hundreds of other teacher/lecturer of the same subject using the online resource and its virtual staff-room and forums. Likewise, those teachers/lecturers will not have access to students from other schools. This again is for reasons of safeguarding.<br>
+<br>
+<strong>Your Safeguarding Access</strong><br>
+<br>
+In order to help you to carry out student safeguarding, we have also created a Safeguarding Officer account for you. Using your account you have read-only access to all UKfilmNet textbook courses and non-editing teacher access to your teacher\'s UKfilmNet Classroom courses.<br>
+<br>
+Your login instructions and credentials are as follows:
+<ul>
+<li>Browse to <a href="{$a->ukfilmnet_url}">UKfilmNet</a></li>
+<li>Your Username is - {$a->contact_username}</li>
+<li>Your Password is - {$a->contact_password}</li>
+</ul>
+
+If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+<br>
+Yours Sincerely,<br>
+<br>
+Dom Foulsham<br>
+Director of Curriculum | UKfilmNet.org';
+$string['safeguarding_existing_sgo_account_text'] = '
+{$a->schoolname}<br>
+{$a->contact_firstname} {$a->contact_familyname}<br>
+<br>
+<strong>Dear {$a->contact_firstname} {$a->contact_familyname},<br>
+<br>
+RE: UKfilmNet Approval of Your Employee - {$a->applicant_firstname} {$a->applicant_familyname}</strong><br>
+<br>
+We are pleased to inform you that <strong>your employee\'s request for teacher access to UKfilmNet has been approved!</strong><br>
+<br>
+<strong>What have they requested access to?</strong><br>
+<br>
+The online platform uses Moodle to create learning spaces which give teacher/lecturer and lecturers access to the students where they currently teach at {$a->schoolname}. It allows them to view hundreds of master-classes co-created with the BBC, Channel4, Sky News, NBC, and hundreds of experts from UK and US higher education, centres of excellence and broadcasters.<br>
+<br>
+The learning space allows your employee to set quizzes, share resources, create forums and promote communal learning, discovering and discussion in the craft of film and media.<br>
+<br>
+For reasons of safeguarding, your employee will not have access to students other than those from your organisation they currently teach. They will however be able to ask questions, seek advice and get help from hundreds of other teacher/lecturer of the same subject using the online resource and its virtual staff-room and forums. Likewise, those teachers/lecturers will not have access to students from other schools. This again is for reasons of safeguarding.<br>
+<br>
+<strong>Your Safeguarding Access</strong><br>
+<br>
+In order to help you to carry out student safeguarding, we have also given you non-editing teacher access to your teacher\'s UKfilmNet Classroom courses via your existing UKfilmNet Safeguarding Officer account.<br>
+<br>
+If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+<br>
+Yours Sincerely,<br>
+<br>
+Dom Foulsham<br>
+Director of Curriculum | UKfilmNet.org';
+
+
+$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
 $string['determination_subject'] = 'UKfilmNet Account Request Determination';
 $string['determination_text_approved'] = '
 Dear {$a->firstname},<br>
