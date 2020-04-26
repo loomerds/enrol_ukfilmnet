@@ -327,6 +327,10 @@ $string['error_yes_or_no'] = 'Select one checkbox';
 $string['error_length_of_12'] = 'The number must be 12 characters long';
 $string['error_future_dbs_cert_date'] = 'The DBS certification date must not be in the future';
 $string['error_dbs_after_employment_start'] = 'This date must be after the DBS Certificate date';
+$string['error_must_answer_yes'] = 'You cannot submit this form unless you answer "YES" to this question';
+$string['error_must_answer_no'] = 'You cannot submit this form unless you answer "NO" to this question';
+$string['error_must_answer_na_or_yes'] = 'You cannot submit this form unless you answer "N/A" or "YES" to this question';
+
 
 // String variables
 $string['roleallowed_range_max'] = '03';

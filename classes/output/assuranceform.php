@@ -344,6 +344,30 @@ class assurance_form extends \moodleform {
         if((isset($data['applicant_is_employed_yes']) and isset($data['applicant_is_employed_no'])) or (!isset($data['applicant_is_employed_yes']) and !isset($data['applicant_is_employed_no']))) {
             $errors['applicant_is_employed'] = get_string('error_yes_or_no', 'enrol_ukfilmnet');
         }
+        if(!isset($data['applicant_is_employed_yes'])) {
+            $errors['applicant_is_employed'] = get_string('error_must_answer_yes', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['applicant_suitability_yes'])) {
+            $errors['applicant_suitability'] = get_string('error_must_answer_yes', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['qts_qualified_yes'])) {
+            $errors['qts_qualified'] = get_string('error_must_answer_yes', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['behavior_allegations_no'])) {
+            $errors['behavior_allegations'] = get_string('error_must_answer_no', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['disciplinary_actions_no'])) {
+            $errors['disciplinary_actions'] = get_string('error_must_answer_no', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['tra_check']['tra_check_n/a']) and !isset($data['tra_check']['tra_check_yes'])) {
+            $errors['tra_check'] = get_string('error_must_answer_na_or_yes', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['subject_to_ocr_check']['subject_to_ocr_check_n/a']) and !isset($data['subject_to_ocr_check']['subject_to_ocr_check_yes'])) {
+            $errors['subject_to_ocr_check'] = get_string('error_must_answer_na_or_yes', 'enrol_ukfilmnet');
+        }
+        if(!isset($data['school_subject_to_inspection_yes'])) {
+            $errors['school_subject_to_inspection'] = get_string('error_must_answer_yes', 'enrol_ukfilmnet');
+        }
         if($data['dbs_cert_date'] > time()) {
             $errors['dbs_cert_date'] = get_string('error_future_dbs_cert_date', 'enrol_ukfilmnet');
         }
