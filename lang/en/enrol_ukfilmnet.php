@@ -394,10 +394,10 @@ Please note that as part of the process you may receive a reminder of this reque
 <br>
 If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Yours Sincerely,<br>
+Good luck with your teaching and learning,<br>
 <br>
-Dom Foulsham<br>
-Director of Curriculum | UKfilmNet.org';
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
 $string['safeguarding_subject'] = 'Approval of {$a->applicant_firstname} {$a->applicant_familyname}';
 $string['safeguarding_new_sgo_account_text'] = '
@@ -431,10 +431,10 @@ Your login instructions and credentials are as follows:
 
 If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Yours Sincerely,<br>
+Good luck with your teaching and learning,<br>
 <br>
-Dom Foulsham<br>
-Director of Curriculum | UKfilmNet.org';
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 $string['safeguarding_existing_sgo_account_text'] = '
 {$a->schoolname}<br>
 {$a->contact_firstname} {$a->contact_familyname}<br>
@@ -459,10 +459,10 @@ In order to help you to carry out student safeguarding, we have also given you n
 <br>
 If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Yours Sincerely,<br>
+Good luck with your teaching and learning,<br>
 <br>
-Dom Foulsham<br>
-Director of Curriculum | UKfilmNet.org';
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
 
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
