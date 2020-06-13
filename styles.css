@@ -91,8 +91,10 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_error_feedback {
     font-size: 80%;
-    color: #d9534f;
-    font-weight: 400;
+    /*color: #d9534f;
+    font-weight: 400;*/
+    color: red;
+    font-weight: bold;
     text-align: left;
 }
 
@@ -581,6 +583,8 @@ h3.ukfn_enrol_page_title {
 
 .ukfn_applicant_content .form-control-feedback.invalid-feedback {
     text-align: center !important;
+    color: red;
+    font-weight: bold;
 } 
 
 .ukfn_notes_text p {
