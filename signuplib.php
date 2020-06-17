@@ -603,7 +603,8 @@ function email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_password) {
                                      'applicant_email'=>$applicant_user->email,
                                      'contact_password'=>$sgo_password,
                                      'contact_username'=>$sgo_user->username,
-                                     'ukfilmnet_url'=>get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+                                     'emailverify_url'=>PAGE_WWWROOT.get_string('emailverify_url', 'enrol_ukfilmnet'),
+                                     'ukfilmnet_url'=>PAGE_WWWROOT);
 
     // Send email to safeguarding officer
     email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_new_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
@@ -624,7 +625,7 @@ function email_sgo_existinguser_info($applicant_user, $sgo_user) {
                                      'applicant_firstname'=>$applicant_user->firstname,
                                      'applicant_familyname'=>$applicant_user->lastname,
                                      'applicant_email'=>$applicant_user->email,
-                                     'ukfilmnet_url'=>get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+                                     'ukfilmnet_url'=>PAGE_WWWROOT);
 
     // Send email to safeguarding officer
     email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_existing_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
@@ -637,7 +638,8 @@ function email_user_accept_reject($applicant, $status){
 
     $emailvariables = (object) array('firstname'=>$applicant->firstname, 
                                      'familyname'=>$applicant->lastname, 
-                                     'email'=>$applicant->email);
+                                     'email'=>$applicant->email,
+                                     'students_url'=>PAGE_WWWROOT.get_string('students_url', 'enrol_ukfilmnet'));
     if($status === "denied") {
         email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_denied', 'enrol_ukfilmnet', $emailvariables));
     } elseif($status === "approved") {

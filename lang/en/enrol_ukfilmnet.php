@@ -345,6 +345,13 @@ $string['support_courses_idnumber'] = 'support_courses';
 $string['sgo_role_name'] = 'user';
 $string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
 
+// URL variables
+//$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
+$string['emailverify_url'] = '/enrol/ukfilmnet/emailverify.php';
+$string['students_url'] = '/enrol/ukfilmnet/students.php';
+$string['assurance_url'] = '/enrol/ukfilmnet/assurance.php';
+
+
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
 $string['verification_text'] = '
@@ -354,9 +361,7 @@ Thank you for requesting a UKfilmNet account. As a part of the signup process, w
 <li>UKfilmNet Password: <strong>{$a->password}</strong></li>
 <li>your Email Verification Code: <strong>{$a->code}</strong></li>
 </ul>
-Please return to the UKfilmNet website and click on the "Return to Sign-up" button located in the left hand column of the site front page. If you do not see a left hand column on the page when you browse to the UKfilmNet website, click on the large gray button located on the left side of the black title bar at the top of the page.<br>
-<br>
-When you click on the "Return to Sign-up button, you should be taken to a signup page titled Applicant Email Verification. Input your username, password, and verification code, then click "Submit" to continue the UKfilmNet Signup process.<br>
+If the UKfilmNet website Applicant Email Verification page is not already open in your browser, click on this <a href="{$a->emailverify_url}">link to the UKfilmNet website Applicant Email Verification page</a>. You should be taken to a signup page titled Applicant Email Verification. On that page, input your username, password, and verification code, then click "Submit" to continue the UKfilmNet Signup process.<br>
 <br>
 Your Friends at UKfilmNet';
 $string['assurance_subject'] = 'Reference in Respect of {$a->applicant_firstname} {$a->applicant_familyname}';
@@ -392,12 +397,12 @@ Once you have completed these steps we can consider the application your employe
 <br>
 Please note that as part of the process you may receive a reminder of this request, but please note that after 4 weeks, the application from <strong>{$a->applicant_firstname} {$a->applicant_familyname}</strong> will automatically be deleted if the reference has not been received. <strong>As part of the requirements for access to the resource, your employee’s account details will be shared by email with the organisational head or designated Safeguarding lead, to ensure additional supervision and transparency of online activity conducted by the employee and his/her students.</strong><br>
 <br>
-If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+If you have any queries, please email <a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
 Good luck with your teaching and learning,<br>
 <br>
 The Safeguarding and Enrolment Team<br>
-<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
+<a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
 $string['safeguarding_subject'] = 'Approval of {$a->applicant_firstname} {$a->applicant_familyname}';
 $string['safeguarding_new_sgo_account_text'] = '
@@ -464,13 +469,11 @@ Good luck with your teaching and learning,<br>
 The Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
-
-$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
 $string['determination_subject'] = 'UKfilmNet Account Request Determination';
 $string['determination_text_approved'] = '
 Dear {$a->firstname},<br>
 <br>
-We are happy to inform you that your request for a UKfilmNet account has been review and granted!<br>
+We are happy to inform you that your request for a UKfilmNet account has been reviewed and granted!<br>
 <br>
 When you log in to UKfilmNet you should find that you are able to access the UKfilmNet resource classes as well as the support and educator forum classes. Feel free to browse them.<br>
 <br>
