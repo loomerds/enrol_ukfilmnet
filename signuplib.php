@@ -347,7 +347,7 @@ function process_students($datum) {
     if($removed === '' or $removed === null) {
         redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
     } else {
-        $removed = '<p class="ukfn_error_feedback">The student(s) having the following email addresses'.$removed.' were not added because you did not include one or more of the required fields - Email, First Name, or Family Name.</p>';
+        $removed = '<p class="ukfn_error_feedback">The student(s) having the following email addresses'.$removed.' were not added because you did not include one or more of the required fields (Email, First Name, and Family Name) and include student in at least one course.</p>';
         $_SESSION['removed_message'] = $removed;
         redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
     }
@@ -409,6 +409,12 @@ function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
                     cohort_remove_member($target_cohort->id, $user->id);
             }
             $count++;
+        }
+
+        // If student is a member of only one cohort it must be the resource_courses_cohort, remove student from that cohort
+        $user_cohorts = $DB->get_records('cohort_members', array('userid'=>$user->id));
+        if(count($user_cohorts) < 2) {
+            cohort_remove_member($resourse_courses_cohort->id, $user->id);
         }
     }
 }
