@@ -341,7 +341,7 @@ function process_students($datum) {
         }
     }
 
-    // Add students to appropriate cohorts
+    // Add or remove students to appropriate cohorts
     add_or_remove_students_to_cohorts($students, $datum['cohort_names']);
 
     if($removed === '' or $removed === null) {
@@ -394,19 +394,23 @@ function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
 
         // Add and remove students from cohorts on basis of checkbox input changes
         $count = 0;
-
         foreach($cohort_names as $cohort_name) {
             $target_cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_name));
             if(strlen($cohort_idnumbers[$count]) > 2) { // if the input is checked
 
                 // Note that $target_cohort->id is the cohort object's id field
-                cohort_add_member($target_cohort->id, $user->id);
-                cohort_add_member($resourse_courses_cohort->id, $user->id);
+                // Stops teacher from adding DSL users to support courses and their courses
+                if(substr($user->firstname, 0, 4) !== 'DSL-') {
+                    cohort_add_member($target_cohort->id, $user->id);
+                    cohort_add_member($resourse_courses_cohort->id, $user->id);
+                }
+            } else {  // If the input is NOT checked
                 
-            } else {  // if the input is NOT checked
-                
-                    // remove them from $cohort_name
+                // If uers is NOT a Designated Safty Lead, remove user from cohort
+                // Stops teacher from removing DSL users from their courses
+                if(substr($user->firstname, 0, 4) !== 'DSL-') {
                     cohort_remove_member($target_cohort->id, $user->id);
+                }
             }
             $count++;
         }
