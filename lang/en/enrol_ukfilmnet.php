@@ -210,7 +210,7 @@ $string['students_instructions'] =
 <br>
 <strong>To unenrol a student</strong> - uncheck the course checkbox of that student for that course and click the "Submit" button. If all course checkboxes of a student are unchecked, that student will no longer appear in your enrolments list after you click "Submit."<br>
 <br>
-Your school Safeguarding Officer is able to view your UKfilmNet Enrol Students page at all times.<br>
+Your school Designated Safeguarding Lead is able to view your UKfilmNet Enrol Students page at all times.<br>
 <br>';
 
 // Current Role Descriptors

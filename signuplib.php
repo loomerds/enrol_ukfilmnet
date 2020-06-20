@@ -321,34 +321,46 @@ function process_students($datum) {
             continue;
         }
 
-    } 
-    $removed = rtrim($removed, ",");
-
+    }
+    
     // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
-    $students = array_values($students);
-
-    foreach($students as $student) {
+    $taken = '';
+    foreach($students as $key => $student) {
         $users = $DB->get_records('user');
         $email_taken = false;
         foreach($users as $user) {
-            if($student['student_email'] == $user->email) {
+            
+            // Remove student rows if the email address (after being set to all lower case) matches an existing user name
+            if(strtolower($student['student_email']) === $user->username) {                
                 $email_taken = true;
+                if(strtolower($student['student_email']) != $student['student_email']) {
+                    $taken = $taken.', '.$student['student_email'];
+                    unset($students[$key]);
+                }
                 break;
-            }
+            } 
         }
         if($email_taken == false) {
-            create_student_user((object)$student);
+                create_student_user((object)$student);
         }
     }
+    
+    $removed = rtrim($removed, ",");
+    $taken = rtrim($taken, ",");
 
     // Add or remove students to appropriate cohorts
     add_or_remove_students_to_cohorts($students, $datum['cohort_names']);
 
-    if($removed === '' or $removed === null) {
+    if(($taken === '' or $taken === null) and ($removed === '' or $removed === null)) {
         redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
     } else {
-        $removed = '<p class="ukfn_error_feedback">The student(s) having the following email addresses'.$removed.' were not added because you did not include one or more of the required fields (Email, First Name, and Family Name) and include student in at least one course.</p>';
-        $_SESSION['removed_message'] = $removed;
+        if($taken != '' or $taken != null) {
+            $removed = '<p class="ukfn_error_feedback">The user(s) having the following email addresses'.$taken.', were not added because that email address is already being used by another UKfilmNet user.</p>';
+            $_SESSION['removed_message'] = $removed;
+        } else {
+            $removed = '<p class="ukfn_error_feedback">The user(s) having the following email addresses'.$removed.', were not added because you did not: 1) include one or more of the required fields (Email, First Name, and Family Name), or 2) you did not include the student in at least one course.</p>';
+            $_SESSION['removed_message'] = $removed;
+        }
         redirect(PAGE_WWWROOT.'/enrol/ukfilmnet/students.php');
     }
 }
@@ -396,7 +408,7 @@ function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
         $count = 0;
         foreach($cohort_names as $cohort_name) {
             $target_cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_name));
-            if(strlen($cohort_idnumbers[$count]) > 2) { // if the input is checked
+            if(strlen($cohort_idnumbers[$count]) > 2) { // If the input is checked
 
                 // Note that $target_cohort->id is the cohort object's id field
                 // Stops teacher from adding DSL users to support courses and their courses
