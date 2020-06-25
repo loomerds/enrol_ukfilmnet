@@ -320,9 +320,8 @@ function process_students($datum) {
             unset($students[$key]);
             continue;
         }
-
     }
-    
+
     // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
     $taken = '';
     foreach($students as $key => $student) {
@@ -922,7 +921,7 @@ function force_signup_flow($target_page) {
 
 function get_schoolname($target_ukprn) {
     $target = $target_ukprn[0];
-    $ukprns = get_array_from_json_file('uk_schools_selector_list_array.txt');
+    $ukprns = ('uk_schools_selector_list_array.txt');
     $schoolname = '';
     foreach($ukprns as $ukprn) {
         foreach($ukprn as $num) {
@@ -951,7 +950,6 @@ function create_school_name_select_list() {
     return $schools_list;
 }
 
-
 // Presumes there is a file in the assets folder named _uk_schools_short.txt which has an array with subarrays each containing Establishmnet names, ukprn, and street fields - which file can be created by calling the create_array_from_csv($csvfile, $save_filename) function on a .csv file containing these three fields as columns
 // This function takes that file and concatenates the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv() function to create the txt file uk_schools_selector_list_array.txt which is used by schoolform.php to provide an array to the Name of school input element
 // Consider adding this to a Moodle site admin feature that be used to update the Name of school data programatically
@@ -959,23 +957,25 @@ function create_school_name_select_list() {
 function update_list(){
     $schoolinfos = get_array_from_json_file('uk_schools_short.txt');
         $schoolslist = [];
-        foreach($schoolinfos as $infos) {
+        foreach($schoolinfos as &$infos) {
             $count = 0;
-            foreach($infos as $info) {
-                //if($infos[$count]>10) {
+            foreach($infos as &$info) {
                 $schoolinfos[0][$count][0] = $info[0].', '.$info[2];
                 array_pop($schoolinfos[0][$count]);
-                
-                //}
+                if($info[1] == '' or $info[1] == null) {
+                    unset($schoolinfos[0][$count]);
+                }
             $count++;
             }
-            
         }
+        array_values($schoolinfos[0]);
+
+        asort($schoolinfos[0]);
+
         foreach($schoolinfos as $info) {
             $schoollist = $info;
         }
-        
-        $fp = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/uk_schools_selector_list_array.csv', 'w');
+        $fp = fopen('./assets/uk_schools_selector_list_array.csv', 'w');
         foreach($schoollist as $list) {
             fputcsv($fp, $list);
         }
@@ -1123,7 +1123,6 @@ function create_profile_fields() {
 }
 
 function get_profile_field_records() {
-
 
     return Array (
         1 => array

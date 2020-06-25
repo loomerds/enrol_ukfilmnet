@@ -28,6 +28,9 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
 
+//create_array_from_csv('EDUBASE-short.csv', 'EDUBASE-short.txt');
+update_list();
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
 $PAGE->set_context(context_system::instance());
