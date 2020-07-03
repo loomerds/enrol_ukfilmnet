@@ -22,15 +22,9 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-global $DB, $CFG;
-require(__DIR__ . '/../../config.php');
-require_once('../locallib.php');
+global $USER, $DB;
+require(__DIR__ .'/../../config.php');
 require_once('./signuplib.php');
-require_once($CFG->dirroot.'/lib/dml/moodle_database.php');
-require_once($CFG->dirroot.'/course/externallib.php');
-require_once($CFG->dirroot.'/user/externallib.php');
-require_once($CFG->dirroot.'/lib/pagelib.php');
 
 require_login();
 $context = context_system::instance();
@@ -38,29 +32,16 @@ if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
 }
 
-$PAGE->set_pagelayout('standard');
-$PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
-$PAGE->set_context(context_system::instance());
-$PAGE->set_title(get_string('tracking_title', 'enrol_ukfilmnet'));
-$page_number = 8;
+// Handle deletion of temporary SGO accounts - this function deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality
 
-$PAGE->requires->js(new moodle_url('/enrol/ukfilmnet/amd/src/sortable-tables.js'));
-$output = $PAGE->get_renderer('enrol_ukfilmnet');
-$trackingpage = new \enrol_ukfilmnet\output\trackingpage();
-$page_content = $output->render_trackingpage($trackingpage);
+// get a list of all temp SGO accounts (user firstname === Safeguarding)
+$temp_sgo_accounts = $DB->get_records('user', array('firstname'=>'Safeguarding'));
 
-$context = $PAGE->context;
-
-try {
-    require_capability('moodle/site:config', $context);
-} catch (Exception $e) {
-    redirect(PAGE_WWWROOT);
+// if the user account is more than 2 hours old, delete it
+foreach($temp_sgo_accounts as $account) {
+    if($account->timecreated + 3600 < strtotime(date('Y-m-d H:i:s'))); {
+        delete_user($account);
+    }
 }
 
-if(!empty($_POST)) {
-    handle_tracking_post();
-}
-
-echo $output->header();
-echo $page_content;
-echo $output->footer();
+// Handle deletion of accounts that are not associated with any cohorts

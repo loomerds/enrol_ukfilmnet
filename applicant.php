@@ -28,8 +28,11 @@ require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
 
-//create_array_from_csv('EDUBASE-short.csv', 'EDUBASE-short.txt');
-update_list();
+// We can use the create_array_from_csv method below to create a list of uk schools from a .csv file - see signuplib.php comments for the update_list method
+//create_array_from_csv('the_name_of_your_csv_file.csv', 'uk_schools_short.txt');
+
+// Once we have created the list of uk schools using the method above, we can use the following method to update the uk_schools_selector_list_array.txt file which will be called by the create_school_name_select_list() method in schoolform.php
+//update_list();
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
