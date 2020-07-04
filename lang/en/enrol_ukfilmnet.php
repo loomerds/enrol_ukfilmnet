@@ -344,6 +344,7 @@ $string['resource_courses_idnumber'] = 'resource_courses';
 $string['support_courses_idnumber'] = 'support_courses';
 $string['sgo_role_name'] = 'user';
 $string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
+$string['sgo_temp_account_max_life'] = '3600'; // This value is number of seconds, e.g. 3600 equals 2 hours
 
 // URL variables
 //$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
