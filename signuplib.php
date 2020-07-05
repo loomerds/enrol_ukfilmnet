@@ -1123,6 +1123,33 @@ function create_profile_fields() {
 //print_r2('i ran');
 }
 
+function cohort_exists($cohort_idnumber) {
+    global $DB;
+    $existing_cohorts = $DB->get_records('cohort');
+    $cohort_exists = false;
+    foreach($existing_cohorts as $cohort) {
+        if($cohort->idnumber === $cohort_idnumber) {
+            $cohort_exists = true;
+            break;
+        }
+    }
+    return $cohort_exists;
+}
+
+function create_cohort_if_not_existing($cohort_name) {
+    $cohort_idnumber = strtolower($cohort_name);
+    if(cohort_exists($cohort_idnumber) == false) {
+        $new_cohort = (object) [
+            'id' => null,
+            'contextid' => 1,
+            'name' => $cohort_name,
+            'idnumber' => $cohort_idnumber, 
+        ];
+        
+        $new_cohort = cohort_add_cohort($new_cohort); 
+    }
+}
+
 function get_profile_field_records() {
 
     return Array (

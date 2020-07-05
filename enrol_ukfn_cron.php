@@ -33,19 +33,13 @@ if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
 }
 
-//Note that this is currently deleting all SGO accounts
 // Handle deletion of temporary SGO accounts - this function deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality
 
-// get a list of all temp SGO accounts (user firstname === Safeguarding)
+// Get a list of all temp SGO accounts
 $temp_sgo_accounts = $DB->get_records('user', array('firstname'=>'Safeguarding', 'deleted'=>0));
 
-// if the user account was created more than the time value of the plugin language string  ago, delete it
+// If the user account was created more than the time value of the plugin language string ago, delete it
 foreach($temp_sgo_accounts as $account) {
-print_r2('Username is: '.$account->username);
-print_r2('Timecreated is: '.$account->timecreated);
-print_r2('Cron run time is: '.strtotime(date('Y-m-d H:i:s')));
-print_r2('Cron run time minus timecreated is: '.((int)strtotime(date('Y-m-d H:i:s')) - (int)$account->timecreated));
-print_r2('SGO account max life is: '.(int)get_string('sgo_temp_account_max_life', 'enrol_ukfilmnet'));
     if((int)$account->timecreated < ((int)strtotime(date('Y-m-d H:i:s')) - get_string('sgo_temp_account_max_life', 'enrol_ukfilmnet'))) {
         delete_user($account);
     }
@@ -78,7 +72,22 @@ foreach($non_sgo_admin_guest_users as $user) {
     }
 }
 
-// 
+/* 
+ * Handle sending notice of intent to delete application email to applicant.
+ * This requires us to:
+ * 1) make sure an applicant teacher cohort exists, 
+ * 2) put applicant teachers in that cohort upon account creation, 
+ * 3) send an "intent to delete application 4 weeks after application account was created" email 
+ * to the applicant if the assurance form has not been submitted by their SGO within two weeks(?) 
+ * after their applicant account was created, 
+ * 4) remove the applicant teacher from the applicant teacher cohort (making the account subject to 
+ * "no-cohort" deletion) if the assurance form is not submitted within 4 weeks(?) after the date 
+ * their account was created 
+ * 5)make sure  to include an algorithm variable that sends out the intent to delete application 
+ * email some number of times (between once and daily during the 2 week warning period)
+ */
+
+// Get a list of accounts where the application progress is not null
 
 
 
