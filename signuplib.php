@@ -366,7 +366,7 @@ function process_students($datum) {
 
 // Note that $target_cohort receives a reference to the cohort object's id field
 // Note that $cohortid receives a reference to the cohort object's cohortid field
-// We don't actually need this function - cohort_add_member already stops duplicates
+// We probably don't actually need this function - cohort_add_member already stops duplicates
 function is_already_in_cohort($user, $target_cohort, $cohortid = null) {
     global $DB;
 
@@ -1120,7 +1120,6 @@ function create_profile_fields() {
             $DB->insert_record('user_info_field', $record_object);
         }
     }
-//print_r2('i ran');
 }
 
 function cohort_exists($cohort_idnumber) {
@@ -1129,25 +1128,34 @@ function cohort_exists($cohort_idnumber) {
     $cohort_exists = false;
     foreach($existing_cohorts as $cohort) {
         if($cohort->idnumber === $cohort_idnumber) {
-            $cohort_exists = true;
-            break;
+            return $cohort->id;
         }
     }
     return $cohort_exists;
 }
-
-function create_cohort_if_not_existing($cohort_name) {
-    $cohort_idnumber = strtolower($cohort_name);
+    
+// Note that in cohort table there id and idnumber are different fields, and that idnumber is a unique VARCAR identifier for the cohort that appears with the label "Cohort ID" in Site administration > User > Cohort > Edit.
+function create_cohort_if_not_existing($cohort_idnumber) {
+    global $DB;
     if(cohort_exists($cohort_idnumber) == false) {
         $new_cohort = (object) [
             'id' => null,
             'contextid' => 1,
-            'name' => $cohort_name,
+            'name' => ucfirst($cohort_idnumber),
             'idnumber' => $cohort_idnumber, 
         ];
         
-        $new_cohort = cohort_add_cohort($new_cohort); 
+        $new_cohort_id = cohort_add_cohort($new_cohort);
+        return $new_cohort_id;
     }
+    $existing_cohort = get_cohort_id_from_cohort_idnumber($cohort_idnumber);
+    return $existing_cohort->id;
+}
+
+function get_cohort_id_from_cohort_idnumber($cohort_idnumber) {
+    global $DB;
+    $cohort_id = $DB->get_record('cohort', array('idnumber'=>$cohort_idnumber));
+    return $cohort_id;
 }
 
 function get_profile_field_records() {

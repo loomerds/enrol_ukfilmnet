@@ -72,22 +72,4 @@ foreach($non_sgo_admin_guest_users as $user) {
     }
 }
 
-/* 
- * Handle sending notice of intent to delete application email to applicant.
- * This requires us to:
- * 1) make sure an applicant teacher cohort exists, 
- * 2) put applicant teachers in that cohort upon account creation, 
- * 3) send an "intent to delete application 4 weeks after application account was created" email 
- * to the applicant if the assurance form has not been submitted by their SGO within two weeks(?) 
- * after their applicant account was created, 
- * 4) remove the applicant teacher from the applicant teacher cohort (making the account subject to 
- * "no-cohort" deletion) if the assurance form is not submitted within 4 weeks(?) after the date 
- * their account was created 
- * 5)make sure  to include an algorithm variable that sends out the intent to delete application 
- * email some number of times (between once and daily during the 2 week warning period)
- */
-
-// Get a list of accounts where the application progress is not null
-
-
 

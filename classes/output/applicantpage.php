@@ -56,6 +56,7 @@ class applicantpage implements \renderable, \templatable {
         require_once($CFG->dirroot.'/enrol/locallib.php');
         require_once($CFG->dirroot.'/enrol/ukfilmnet/signuplib.php');
         require_once($CFG->dirroot.'/lib/classes/session/file.php');
+        require_once($CFG->dirroot.'/cohort/lib.php');
         
         $applicantinput = '';
         $mform = new applicant_form();
@@ -83,6 +84,10 @@ class applicantpage implements \renderable, \templatable {
             // Set the new user's applicationprogress variable
             profile_load_data($user);
             $user->profile_field_applicationprogress = convert_progressnum_to_progressstring(2);
+
+            // Add the new user to the Applicants cohort
+            $cohort_id = create_cohort_if_not_existing('applicants');
+            cohort_add_member($cohort_id, $user->id);
 
             // Make the new user the currently logged in user
             \core\session\manager::set_user($user);
