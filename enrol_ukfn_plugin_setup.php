@@ -71,6 +71,8 @@ foreach($applicants as $applicant) {
     
     // If the application days elapsed is greater than the application max life allowed - 1) send sorry deleted email, 2) delete applicant account
 print_r2($application_max_life);
+print_r2($application_days_elapsed);
+
     if($application_days_elapsed > $application_max_life) {
         // Send "too bad" email
         $emailvariables = (object) array(
