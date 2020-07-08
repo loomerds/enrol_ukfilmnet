@@ -49,8 +49,10 @@ if(!has_capability('moodle/role:manage', $context)) {
  * 
  */
 
-// Get a list of users in the applicant cohort
+// Get the cohort id for the cohort with an idnumber of 'applicants' (create the corhort if it does not yet exist)
 $applicants_cohort_id = create_cohort_if_not_existing('applicants');
+// Get a list of users in the applicant cohort
+
 $applicants = [];
 $all_users = $DB->get_records('user');
 foreach($all_users as $user) {
@@ -59,4 +61,32 @@ foreach($all_users as $user) {
     }
 }
 // Delete applicants if application is 4 weeks(?) old
+$current_unix_date = (int)strtotime(date('Y-m-d H:i:s'));
+$application_max_life = (int)ceil(get_string('application_account_max_life', 'enrol_ukfilmnet') / 86400);
+$application_reminder_interval = (int)ceil(get_string('application_reminder_interval', 'enrol_ukfilmnet') / 86400);
+foreach($applicants as $applicant) {
+    $application_start_date = (int)$applicant->timecreated;
+    $application_days_elapsed = (int)ceil(($current_unix_date - $application_start_date) / 86400);
+    $send_reminder = (ceil($application_days_elapsed % $application_reminder_interval)) == 0 ? 'true' : 'false';
+    
+    // If the application days elapsed is greater than the application max life allowed - 1) send sorry deleted email, 2) delete applicant account
+print_r2($application_max_life);
+    if($application_days_elapsed > $application_max_life) {
+        // Send "too bad" email
+        $emailvariables = (object) array(
+            'firstname'=>$user->firstname,
+            'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'),
+            'email_application_deleted'=>PAGE_WWWROOT.get_string('email_application_deleted','enrol_ukfilmnet'));
+    
 
+        // Delete applicant account
+        //delete_user($user);
+    print_r2($user->email).' was deleted';
+
+    }
+    // Elseif send_reminder is true, send reminder email
+    elseif($send_reminder === 'true') {
+        // Send warning email
+    }
+    
+}

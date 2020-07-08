@@ -344,10 +344,12 @@ $string['resource_courses_idnumber'] = 'resource_courses';
 $string['support_courses_idnumber'] = 'support_courses';
 $string['sgo_role_name'] = 'user';
 $string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
-$string['sgo_temp_account_max_life'] = '3600'; // This value is number of seconds, e.g. 3600 equals 2 hours
+$string['sgo_temp_account_max_life'] = '3600'; // This value is in number of seconds, e.g. 3600 equals 2 hours
+$string['application_account_max_life'] = '2419200'; // This value is in number of seconds, e.g. 2419200 equals 28 days
+$string['application_reminder_interval'] = '172800'; // This value is in number of seconds, e.g. 604800 equals 7 days
 
 // URL variables
-//$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
+$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
 $string['emailverify_url'] = '/enrol/ukfilmnet/emailverify.php';
 $string['students_url'] = '/enrol/ukfilmnet/students.php';
 $string['assurance_url'] = '/enrol/ukfilmnet/assurance.php';
@@ -483,6 +485,7 @@ To set up your personal teaching classes and enrol your students, please return 
 Enjoy!<br>
 <br>
 Your Friends at UKfilmNet';
+
 $string['determination_text_denied'] = '
 Dear {$a->firstname},<br>
 <br>
@@ -492,3 +495,25 @@ Other stuff to be determined.<br>
 <br>
 Your Friends at UKfilmNet';
 $string['determination_text_tester'] = 'This is an email test - hope you got it!';
+
+$string['email_application_deleted'] = '
+Dear {$a->firstname},<br>
+<br>
+We are sad to have to tell you that your application for teacher access to UKfilmNet has been deleted because you did not completed it or your Designated Safety Lead did not veryify your employment within four weeks.<br>
+<br>
+We hope you will reapply.<br>
+<br>
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
+
+$string['email_application_warning'] = '
+Dear {$a->firstname},<br>
+<br>
+We are writing to let you know that your application for teacher access to UKfilmNet is not yet complete. This means either that you have not finished the application process or that your school\'s Designated Safety Lead has not yet verified your employment. Please make sure that you have completed your application and that your school\'s Designated Safety Lead has verified your employment before {$a->application_period_end_date}, your application will automatically be deleted. <br>
+<br>
+We hope to received your completed application and DSL employment verification before {$a->application_period_end_date}.<br>
+<br>
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
