@@ -496,7 +496,9 @@ Other stuff to be determined.<br>
 Your Friends at UKfilmNet';
 $string['determination_text_tester'] = 'This is an email test - hope you got it!';
 
-$string['email_application_deleted'] = '
+$string['application_deleted_subject'] = 'Your UKfilmNet Application Has Been Deleted';
+
+$string['application_deleted_text'] = '
 Dear {$a->firstname},<br>
 <br>
 We are sad to have to tell you that your application for teacher access to UKfilmNet has been deleted because you did not completed it or your Designated Safety Lead did not veryify your employment within four weeks.<br>
@@ -507,10 +509,12 @@ The Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
 
-$string['email_application_warning'] = '
+$string['application_warning_subject'] = 'Your UKfilmNet Application Is Not Complete';
+
+$string['application_warning_text'] = '
 Dear {$a->firstname},<br>
 <br>
-We are writing to let you know that your application for teacher access to UKfilmNet is not yet complete. This means either that you have not finished the application process or that your school\'s Designated Safety Lead has not yet verified your employment. Please make sure that you have completed your application and that your school\'s Designated Safety Lead has verified your employment before {$a->application_period_end_date}, your application will automatically be deleted. <br>
+We are writing to let you know that your application for teacher access to UKfilmNet is not yet complete. This means either that you have not finished the application process or that your school\'s Designated Safety Lead has not yet verified your employment. <strong>Please make sure you complete your application and that your school\'s Designated Safety Lead has verified your employment before {$a->application_period_end_date}, or your application will automatically be deleted.</strong><br>
 <br>
 We hope to received your completed application and DSL employment verification before {$a->application_period_end_date}.<br>
 <br>

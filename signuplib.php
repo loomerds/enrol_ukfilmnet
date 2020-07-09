@@ -1148,14 +1148,14 @@ function create_cohort_if_not_existing($cohort_idnumber) {
         $new_cohort_id = cohort_add_cohort($new_cohort);
         return $new_cohort_id;
     }
-    $existing_cohort = get_cohort_id_from_cohort_idnumber($cohort_idnumber);
-    return $existing_cohort->id;
+    $existing_cohort_id = get_cohort_id_from_cohort_idnumber($cohort_idnumber);
+    return $existing_cohort_id;
 }
 
 function get_cohort_id_from_cohort_idnumber($cohort_idnumber) {
     global $DB;
-    $cohort_id = $DB->get_record('cohort', array('idnumber'=>$cohort_idnumber));
-    return $cohort_id;
+    $cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_idnumber));
+    return $cohort->id;
 }
 
 function get_profile_field_records() {
