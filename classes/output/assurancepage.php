@@ -125,6 +125,27 @@ class assurancepage implements \renderable, \templatable {
                 $applicant_user->profile_field_applicationprogress = convert_progressnum_to_progressstring(6);
                 profile_save_data($applicant_user);
             }
+
+            // Update email of this temp Safeguarding user
+            $USER->email = $form_data->referee_email;
+
+            // Get the Moodle admin user who is handling safeguarding issues
+            $moodle_admin_safeguarding_user = $DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet')));
+
+            // Email notices of Assurance Form submission
+            $emailvariables = (object) array(
+                'applicant_fullname'=>$applicant_user->firstname.' '.$applicant_user->lastname,
+                'applicant_firstname'=>$applicant_user->firstname,
+                'dsl_firstname'=>$form_data->referee_firstname,
+                'dsl_fullname'=>$form_data->referee_firstname.' '.$form_data->referee_familyname,
+                'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+
+            email_to_user($applicant_user, get_admin(), get_string('safeguarding_assurance_form_submitted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_assurance_form_submitted_text_dsl', 'enrol_ukfilmnet', $emailvariables));
+
+            email_to_user($USER, get_admin(), get_string('safeguarding_assurance_form_submitted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_assurance_form_submitted_text_applicant', 'enrol_ukfilmnet', $emailvariables));
+
+            email_to_user($moodle_admin_safeguarding_user, get_admin(), get_string('safeguarding_assurance_form_submitted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_assurance_form_submitted_text_ukfilmnet', 'enrol_ukfilmnet', $emailvariables));
+
             // Delete temporary Safguarding user
             if($USER->firstname === 'Safeguarding') {
                 delete_user($USER);

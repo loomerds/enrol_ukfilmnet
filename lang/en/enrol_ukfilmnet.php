@@ -62,7 +62,7 @@ $string['applicant_username'] = 'Username';
 $string['applicant_password'] = 'Password';
 $string['verification_code'] = 'Verification code';
 $string['assurance_code'] ='Assurance code:';
-$string['employee_work_email'] = 'Employee school email:';
+$string['employee_work_email'] = '<strong>Employee\'s</strong> school email:';
 
 $string['assurance_form'] = '<strong>Upload Form:</strong>';
 
@@ -89,7 +89,7 @@ $string['disciplinary_actions'] = 'Has the applicant been the subject of discipl
 $string['tra_check'] = 'If the applicant was appointed after 2/9/13 have you conducted a check that confirms they are not on the Teaching Regulation Agency (previously NCTL) Prohibited List?';
 $string['subject_to_ocr_check'] = 'If the applicant is a Tier 2 skilled worker who has lived abroad for 12 months or more in the last 10 years can you confirm they have provided you with an overseas criminal record certificate?';
 $string['brit_school_abroad_mod_or_dubai_school'] = 'Is Your Organisation a British School Abroad, an M.O.D school, or a Dubai School?';
-$string['school_subject_to_inspection'] = 'Is Your Organisation subject to inspections by a Recognised Inspection Provider as specifically defined in Note 1 below? (Note 1)';
+$string['school_subject_to_inspection'] = 'Is Your Organisation subject to inspections by a Recognised Inspection Provider as defined below?<span class=\'ukrn_notes_reference\'>(Note 1)</span>';
 $string['about_referee'] = 'ABOUT YOU (THE REFEREE)';
 $string['referee_firstname'] = 'First Name:';
 $string['referee_familyname'] = 'Surname:';
@@ -98,7 +98,7 @@ $string['referee_email'] = 'Email:';
 $string['school_registered_address'] = 'Organisation<br><span>Registered Address:</span>';
 $string['school_web_address'] = 'Organisation<br><span>Web Address:</span>';
 $string['school_name'] = 'Organisation Name:';
-$string['ukprn_number'] = ' UKPRN Number<br><span>(Note 2):</span>';
+$string['ukprn_number'] = ' UKPRN Number:<br><span class=\'ukrn_notes_reference\'>(Note 2)</span>';
 $string['note_1'] = '<strong>Note 1:</strong> In England: this means Ofsted, in Wales this is Welsh ESTYN, in Scotland it is Education Scotland, in Northern Ireland it is the Department of Education, for Overseas Schools this means and Inspection Provider that has been inspected and approved by a one of the UK\'s Department For Education\'s list of Recognised Ofted Inspectorates deemed fit for purpose. <a href="https://ukfilmnet.org/welcome/docs/overseas-inspection.pdf">overseas-inspection.pdf</a>';
 $string['note_2'] = '<strong>Note 2:</strong> UKPRN Number can be located on DFE "G.I.A.S" using <a href="https://www.gov.uk/guidance/get-information-about-schools">get-information-about-schools</a>';
 
@@ -347,6 +347,8 @@ $string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
 $string['sgo_temp_account_max_life'] = '3600'; // This value is in number of seconds, e.g. 3600 equals 2 hours
 $string['application_account_max_life'] = '2419200'; // This value is in number of seconds, e.g. 2419200 equals 28 days
 $string['application_reminder_interval'] = '172800'; // This value is in number of seconds, e.g. 604800 equals 7 days
+//$string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org2'; // testing only
+$string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org';
 
 // URL variables
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
@@ -485,7 +487,6 @@ To set up your personal teaching classes and enrol your students, please return 
 Enjoy!<br>
 <br>
 Your Friends at UKfilmNet';
-
 $string['determination_text_denied'] = '
 Dear {$a->firstname},<br>
 <br>
@@ -497,7 +498,6 @@ Your Friends at UKfilmNet';
 $string['determination_text_tester'] = 'This is an email test - hope you got it!';
 
 $string['application_deleted_subject'] = 'Your UKfilmNet Application Has Been Deleted';
-
 $string['application_deleted_text'] = '
 Dear {$a->firstname},<br>
 <br>
@@ -510,7 +510,6 @@ The Safeguarding and Enrolment Team<br>
 <br>';
 
 $string['application_warning_subject'] = 'Your UKfilmNet Application Is Not Complete';
-
 $string['application_warning_text'] = '
 Dear {$a->firstname},<br>
 <br>
@@ -520,4 +519,27 @@ We hope to received your completed application and DSL employment verification b
 <br>
 The Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
+
+$string['safeguarding_assurance_form_submitted_subject'] = '{$a->applicant_fullname} - UKfilmNet Safeguarding Assurance Form Submitted';
+$string['safeguarding_assurance_form_submitted_text_dsl'] = '
+Dear {$a->dsl_firstname},<br>
+<br>
+Thank you for submitting a Safeguarding Assurance Form in respect of {$a->applicant_fullname} to UKfilmNet today. We will review the information you have provided and make a determination concerning your employee\'s application for teacher access to UKfilmNet teaching resouces and online teaching environmnet in the very near future.<br>
+<br>
+If you have questions, or if you did not submit a Safeguarding Assurance Form in respect of this employee, please let us know.<br>
+<br>
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
+$string['safeguarding_assurance_form_submitted_text_applicant'] = '
+Dear {$a->applicant_firstname},<br>
+<br>
+This is to let you know that {$a->dsl_fullname} submitted a Safeguarding Assurance Form today in respect of your application for teacher access to UKfilmNet\'s teaching resouces and online teaching environmnet. We will let you know in the very near future whether we are able to grant your application request.<br>
+<br>
+The Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
+$string['safeguarding_assurance_form_submitted_text_ukfilmnet'] = '
+A Safeguarding Assurance Form was submitted today on behalf of teacher applicant <strong>{$a->applicant_fullname}</strong>.<br>
 <br>';
