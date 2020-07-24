@@ -261,7 +261,8 @@ function handle_tracking_post() {
 
 // Takes data returned from the form and uses it to create student user accounts and place students into cohorts
 function process_students($datum) {
-    global $DB;
+    global $DB, $CFG;
+    require_once($CFG->dirroot.'/cohort/lib.php');
 
     // Remove unwanted indexes from our datum subarrays (selected checkboxes have created two indexes each in our datum subarrays, one holding a checkbox value and one holding 0 - remove the index holding 0 following each index holding a checkbox value - this oddity exists because all checkboxes were forced to return 0 to deal with the fact that unchecked checkboxes normally don't return anything) 
     $count = 0;
@@ -322,7 +323,7 @@ function process_students($datum) {
         }
     }
 
-    // Turn each row of student data into an object and give students Moodle accounts if they don't already have accounts
+    // Turn each row of student data into an object, give students Moodle accounts if they don't already have accounts, add students to students cohort
     $taken = '';
     foreach($students as $key => $student) {
         $users = $DB->get_records('user');
@@ -340,7 +341,10 @@ function process_students($datum) {
             } 
         }
         if($email_taken == false) {
-                create_student_user((object)$student);
+            $new_student = create_student_user((object)$student);
+            $cohort_id = create_cohort_if_not_existing('students');
+            cohort_add_member($cohort_id, $new_student->id);
+
         }
     }
     
@@ -2097,4 +2101,27 @@ function get_profile_field_records() {
                 'param5' => '',
             )
     );
+}
+
+function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '') {
+    global $DB;
+    //$ukfnteacher_role_id;
+    $role_id;
+    if(!$DB->record_exists('role', array('shortname'=>$short_name))) {
+        $role_id = create_role($custom_full_name, $short_name, $description, $role_archetype);
+        reset_role_capabilities($role_id);
+        $context = context_system::instance();
+        set_role_contextlevels($role_id, array(CONTEXT_COURSE, CONTEXT_MODULE));
+        
+    } else {
+        $role = $DB->get_record('role', array('shortname'=>$short_name));
+        $role_id = $role->id;
+    }
+    if($capabilities_to_change != '') {
+        $context = context_system::instance();
+        set_role_contextlevels($role_id, array(CONTEXT_COURSE, CONTEXT_MODULE));
+        foreach($capabilities_to_change as $capability) {
+            assign_capability($capability[0], $capability[1], $role_id, $context, true);
+        }
+    }
 }
