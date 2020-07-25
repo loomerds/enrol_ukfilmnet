@@ -2103,25 +2103,70 @@ function get_profile_field_records() {
     );
 }
 
-function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '') {
+function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '', $context_types, $role_assignments='', $role_overrides='', $role_switches='', $role_to_view='') {
     global $DB;
-    //$ukfnteacher_role_id;
     $role_id;
+    $context = context_system::instance();
+
+
+    // If the role doesn't exit, create it
     if(!$DB->record_exists('role', array('shortname'=>$short_name))) {
         $role_id = create_role($custom_full_name, $short_name, $description, $role_archetype);
         reset_role_capabilities($role_id);
-        $context = context_system::instance();
-        set_role_contextlevels($role_id, array(CONTEXT_COURSE, CONTEXT_MODULE));
+        set_role_contextlevels($role_id, $context_types);
         
     } else {
         $role = $DB->get_record('role', array('shortname'=>$short_name));
         $role_id = $role->id;
     }
-    if($capabilities_to_change != '') {
-        $context = context_system::instance();
-        set_role_contextlevels($role_id, array(CONTEXT_COURSE, CONTEXT_MODULE));
+
+    // Update role permissions if called for
+    if($capabilities_to_change != '') {        set_role_contextlevels($role_id, $context_types);
         foreach($capabilities_to_change as $capability) {
-            assign_capability($capability[0], $capability[1], $role_id, $context, true);
+            if(get_capability_info($capability[0]) != null) {
+                assign_capability($capability[0], $capability[1], $role_id, $context, true);
+            }
+            else {
+                trigger_error('The <strong>'.$capability[0].'</strong> capability you tried to add or modify does not exist in the <strong>'.$custom_full_name.'</strong> role. Check the code ', E_USER_WARNING);
+            }
+        }
+        //$context->mark_dirty();
+    }
+
+    // Update Allow role assignments
+    if($role_assignments !== '') {
+        $DB->delete_records('role_allow_assign', array('roleid'=>$role_id));
+        foreach($role_assignments as $role) {
+            $target_role_id = $DB->get_record('role', array('shortname'=>$role))->id;
+            core_role_set_assign_allowed($role_id, $target_role_id);
         }
     }
+
+    // Update Allow role overrides
+    if($role_overrides !== '') {
+        $DB->delete_records('role_allow_override', array('roleid'=>$role_id));
+        foreach($role_overrides as $role) {
+            $target_role_id = $DB->get_record('role', array('shortname'=>$role))->id;
+            core_role_set_override_allowed($role_id, $target_role_id);
+        }
+    }
+
+    // Update Allow role switches
+    if($role_switches !== '') {
+        $DB->delete_records('role_allow_switch', array('roleid'=>$role_id));
+        foreach($role_switches as $role) {
+            $target_role_id = $DB->get_record('role', array('shortname'=>$role))->id;
+            core_role_set_switch_allowed($role_id, $target_role_id);
+        }
+    }
+
+    // Update Allow role to view
+    if($role_to_view !== '') {
+        $DB->delete_records('role_allow_view', array('roleid'=>$role_id));
+        foreach($role_to_view as $role) {
+            $target_role_id = $DB->get_record('role', array('shortname'=>$role))->id;
+            core_role_set_view_allowed($role_id, $target_role_id);
+        }
+    }
+    $context->mark_dirty();
 }
