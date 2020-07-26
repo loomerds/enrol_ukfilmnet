@@ -53,7 +53,7 @@ foreach($temp_sgo_accounts as $account) {
 $all_users = $DB->get_records('user');
 $non_sgo_admin_guest_users = [];
 foreach($all_users as $user) {
-    if($user->firstname !== 'Safeguarding' and !(has_capability('moodle/role:manage', $context, $user)) and $user->username !== 'guest') {
+    if($user->firstname !== 'Safeguarding' and !(has_capability('moodle/role:manage', $context, $user)) and $user->username !== 'guest' and $user->deleted != 1) {
         $non_sgo_admin_guest_users[] = $user;
     }
 }
