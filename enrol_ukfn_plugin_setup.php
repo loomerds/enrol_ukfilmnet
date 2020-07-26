@@ -40,15 +40,17 @@ if(!has_capability('moodle/role:manage', $context)) {
  * 
  */
 
-// Get the cohort id for the cohort with an idnumber of 'applicants' (create the corhort if it does not yet exist)
+// Create needed corhorts if they do not yet exist, and get their ids
 $applicants_cohort_id = create_cohort_if_not_existing('applicants');
 $students_cohort_id = create_cohort_if_not_existing('students');
+
+// Create permission type variables
 $not_set = null;
 $allow = CAP_ALLOW;
 $prevent = CAP_PREVENT;
 $prohibit = CAP_PROHIBIT;
 
-// Array of capabilities to be changed in order to restrict ukfnteacher permissions - modify this array and run this script to add further restrictions or ease restrictions
+// Array of capabilities to be changed in order to restrict ukfnteacher role permissions - modify this array and run this script to add further restrictions or ease restrictions
 $ukfnteacher_capabilities_to_change = [
                                 ['enrol/manual:enrol', $prohibit],
                                 ['enrol/flatfile:manage', $prohibit],
@@ -96,4 +98,33 @@ $ukfnteacher_capabilities_to_change = [
 
 $ukfnteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
 
-$ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfn Teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
+$ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet Teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
+
+// Array of capabilities to be changed in order to augment applicant role permissions beyond those of its user role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+$applicant_capabilities_to_change = [
+    ['message/airnotifier:managedevice', $allow],
+    ['mod/folder:managefiles', $allow],
+    ['mod/label:view', $allow],
+    ['mod/page:view', $allow],
+    ['mod/url:view', $allow],
+    ['moodle/block:view', $allow],
+    ['moodle/user:changeownpassword', $allow],
+    ['moodle/webservice:createmobiletoken', $allow],
+    ['report/usersessions:manageownsessions', $allow],
+    ['repository/areafiles:view', $allow],
+    ['repository/filesystem:view', $allow],
+    ['repository/upload:view', $allow],
+    ['repository/url:view', $allow],
+    ['tool/dataprivacy:requestdelete', $allow],
+    ['tool/policy:accept', $allow]
+];
+
+$applicant_context_types = [CONTEXT_SYSTEM, CONTEXT_USER];
+
+$applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet applicant', 'applicant', 'A role for all UKfilmNet educator access applicants - based on Moodle\'s Authenticated user role, but less restrited', 'user', $applicant_capabilities_to_change, $applicant_context_types, [], [], [],[]);
+
+// Lock the email field for all authentication plugins
+$plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_email'));
+
+
+//print_r2(admin_setting_manageauths::output_html());
