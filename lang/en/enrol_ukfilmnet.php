@@ -349,6 +349,7 @@ $string['application_account_max_life'] = '2419200'; // This value is in number 
 $string['application_reminder_interval'] = '172800'; // This value is in number of seconds, e.g. 604800 equals 7 days
 //$string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org2'; // testing only
 $string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org';
+$string['ukfnteacher_role_name'] = 'ukfnteacher';
 
 // URL variables
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';

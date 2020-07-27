@@ -127,4 +127,9 @@ $applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UK
 $plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_email'));
 
 
+// Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
+
+
+
+
 //print_r2(admin_setting_manageauths::output_html());

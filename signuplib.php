@@ -526,11 +526,11 @@ function application_approved($approved) {
                     $usercontext = context_user::instance($applicant_user->id);
                     
                     // Change applicant's basic system role assignment
-                    role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
-                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);
+                    /*role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
+                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);*/
                     
                     // Enrol applicant in their classroom course(s) as a teacher
-                    enrol_user_this($newcourse, $applicant_user, get_role_id('editingteacher'), 'manual');
+                    enrol_user_this($newcourse, $applicant_user, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
                 }
 
                 // Add teacher to resource_courses
