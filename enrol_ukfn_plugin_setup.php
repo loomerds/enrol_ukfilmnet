@@ -27,6 +27,7 @@ require(__DIR__ .'/../../config.php');
 require_once('./signuplib.php');
 require_once('../../cohort/lib.php');
 require_once('../../lib/moodlelib.php');
+require_once('../../course/lib.php');
 
 require_login();
 $context = context_system::instance();
@@ -128,8 +129,22 @@ $plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_e
 
 
 // Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
+$classroom_course_template_data = (object) array(
+    'category'=>$DB->get_record('course_categories', array('idnumber'=>get_string('template_course_category', 'enrol_ukfilmnet')))->id,
+    'sortorder'=>0,
+    'fullname'=>get_string('template_course_fullname', 'enrol_ukfilmnet'),
+    'shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet'),
+    'idnmber'=>null,
+    'summary'=>get_string('template_course_summary', 'enrol_ukfilmnet'),
+    'summaryformat'=>0,
+    'format'=>get_string('template_course_format', 'enrol_ukfilmnet'),
+    'visible'=>intval((get_string('template_course_visibility', 'enrol_ukfilmnet'))),
+);
 
-
+$course_exists = $DB->get_record('course', array('shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet')));
+if(!$course_exists) {
+    $classroom_course_template = create_course($classroom_course_template_data);
+}
 
 
 //print_r2(admin_setting_manageauths::output_html());

@@ -518,8 +518,8 @@ function application_approved($approved) {
                 // Create teacher's classroom courses and enrol the teacher
                 for($count = 0; $count<$applicant_user->profile_field_courses_requested; $count++) {
                     $newcourse = create_classroom_course_from_teacherid($userid, 
-                            get_string('template_course', 'enrol_ukfilmnet'), 
-                            get_string('course_category', 'enrol_ukfilmnet'));
+                            get_string('template_course_category', 'enrol_ukfilmnet'), 
+                            get_string('classroom_course_category', 'enrol_ukfilmnet'));
 
                     $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();

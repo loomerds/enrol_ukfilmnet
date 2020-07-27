@@ -334,8 +334,15 @@ $string['error_must_answer_na_or_yes'] = 'You cannot submit this form unless you
 
 // String variables
 $string['roleallowed_range_max'] = '03';
+$string['template_course_fullname'] = 'Classroom Course Template';
+$string['template_course_shortname'] = 'classroom_course_template';
+$string['template_course_summary'] = 'A template for creating Classroom courses programmatically.';
+$string['template_course_format'] = 'topics';
+$string['template_course_visibility'] = '0';
+$string['template_course_category'] = 'classrooms';
+
 $string['template_course'] = 'your-class';
-$string['course_category'] = 'CLASSROOMS';
+$string['classroom_course_category'] = 'CLASSROOMS';
 $string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
