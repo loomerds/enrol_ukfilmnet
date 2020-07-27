@@ -44,6 +44,8 @@ if(!has_capability('moodle/role:manage', $context)) {
 // Create needed corhorts if they do not yet exist, and get their ids
 $applicants_cohort_id = create_cohort_if_not_existing('applicants');
 $students_cohort_id = create_cohort_if_not_existing('students');
+$resource_courses_cohort_id = create_cohort_if_not_existing('resource_courses');
+$support_courses_cohort_id = create_cohort_if_not_existing('support_courses');
 
 // Create permission type variables
 $not_set = null;
@@ -145,6 +147,8 @@ $course_exists = $DB->get_record('course', array('shortname'=>get_string('templa
 if(!$course_exists) {
     $classroom_course_template = create_course($classroom_course_template_data);
 }
+
+// Create resource_courses cohort
 
 
 //print_r2(admin_setting_manageauths::output_html());
