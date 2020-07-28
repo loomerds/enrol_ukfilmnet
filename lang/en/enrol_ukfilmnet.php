@@ -296,10 +296,7 @@ $string['error_missing_student_email'] = 'Missing student email address';
 $string['error_missing_student_firstname'] ='Missing student first name';
 $string['error_missing_student_familyname'] = 'Missing student family name';
 $string['error_missing_schoolname'] = 'Missing school name';
-
 $string['error_missing_start_date'] ='Missing start date';
-//$string['error_missing_to_date'] ='Missing to date';
-
 $string['error_missing_job_title'] ='Missing job title';
 $string['error_missing_main_duties'] ='Missing main duties';
 $string['error_missing_time_known'] ='Missing time known';
@@ -340,9 +337,15 @@ $string['template_course_summary'] = 'A template for creating Classroom courses 
 $string['template_course_format'] = 'topics';
 $string['template_course_visibility'] = '0';
 $string['template_course_category'] = 'classrooms';
-
-$string['template_course'] = 'your-class';
 $string['classroom_course_category'] = 'CLASSROOMS';
+$string['classrooms_category_name'] = 'CLASSROOMS';
+$string['classrooms_category_idnumber'] = 'classrooms';
+$string['classrooms_category_parent'] = 0;
+$string['classrooms_category_description'] = 'All Classroom Courses and the template course used to create them go in this category.';
+$string['dfm_category_name'] = 'DIGITAL FILMMAKING';
+$string['dfm_category_idnumber'] = 'DFM';
+$string['dfm_category_parent'] = 0;
+$string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
 $string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';

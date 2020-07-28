@@ -129,6 +129,33 @@ $applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UK
 // Lock the email field for all authentication plugins
 $plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_email'));
 
+// Create the classrooms and DFM categories programmatically
+
+$classrooms_category_data = array(
+    'name'=>get_string('classrooms_category_name', 'enrol_ukfilmnet'),
+    'idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'),
+    'parent'=>intval(get_string('classrooms_category_parent', 'enrol_ukfilmnet')),
+    'descriptionformat'=>0,
+    'description'=>get_string('classrooms_category_description', 'enrol_ukfilmnet'),
+);
+
+$classrooms_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet')));
+if(!$classrooms_category_exists) {
+    $classrooms_category = core_course_category::create($classrooms_category_data);
+}
+
+$dfm_category_data = array(
+    'name'=>get_string('dfm_category_name', 'enrol_ukfilmnet'),
+    'idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet'),
+    'parent'=>intval(get_string('dfm_category_parent', 'enrol_ukfilmnet')),
+    'descriptionformat'=>0,
+    'description'=>get_string('dfm_category_description', 'enrol_ukfilmnet'),
+);
+
+$dfm_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet')));
+if(!$dfm_category_exists) {
+    $dfm_category = core_course_category::create($dfm_category_data);
+}
 
 // Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
 $classroom_course_template_data = (object) array(
@@ -147,8 +174,3 @@ $course_exists = $DB->get_record('course', array('shortname'=>get_string('templa
 if(!$course_exists) {
     $classroom_course_template = create_course($classroom_course_template_data);
 }
-
-// Create resource_courses cohort
-
-
-//print_r2(admin_setting_manageauths::output_html());
