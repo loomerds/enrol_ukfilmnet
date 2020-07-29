@@ -51,7 +51,7 @@ class schoolpage implements \renderable, \templatable {
 
     public function get_school_content() {
 
-        global $CFG, $USER;
+        global $CFG, $USER, $DB;
         require_once($CFG->dirroot.'/enrol/ukfilmnet/signuplib.php');
         
         $schoolinput = '';
@@ -102,7 +102,12 @@ class schoolpage implements \renderable, \templatable {
                 'currentrole'=>$form_data->role, 
                 'applicationprogress'=>0, 
                 'verificationcode'=>'000000');
-            $contact_user = create_applicant_user($tempuser, 'make_random_password');
+            $existinguser = $DB->record_exists('user', array('email'=>$form_data->contact_email));
+            if($existinguser == false) {
+                $contact_user = create_applicant_user($tempuser, 'make_random_password');
+            } else {
+                $contact_user = $DB->get_record('user', array('email'=>$form_data->contact_email));
+            }
 
             // Create array of variables for email to safeguarding officer
             $emailvariables = (object) array('schoolname_ukprn'=>$ukprn, 
