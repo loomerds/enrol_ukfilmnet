@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $DB, $CFG;
+global $DB, $CFG, $USER;
 require(__DIR__ . '/../../config.php');
 require_once('../locallib.php');
 require_once('./signuplib.php');
@@ -33,9 +33,11 @@ require_once($CFG->dirroot.'/user/externallib.php');
 require_once($CFG->dirroot.'/lib/pagelib.php');
 
 require_login();
+
 $context = context_system::instance();
 if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
+
 }
 
 $PAGE->set_pagelayout('standard');
@@ -52,7 +54,9 @@ $page_content = $output->render_trackingpage($trackingpage);
 $context = $PAGE->context;
 
 try {
-    require_capability('moodle/site:config', $context);
+    //require_capability('moodle/site:config', $context);
+    require_capability('moodle/role:manage', $context);
+
 } catch (Exception $e) {
     redirect(PAGE_WWWROOT);
 }

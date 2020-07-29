@@ -336,6 +336,7 @@ $string['template_course_shortname'] = 'classroom_course_template';
 $string['template_course_summary'] = 'A template for creating Classroom courses programmatically.';
 $string['template_course_format'] = 'topics';
 $string['template_course_visibility'] = '0';
+
 $string['template_course_category'] = 'classrooms';
 $string['classroom_course_category'] = 'CLASSROOMS';
 $string['classrooms_category_name'] = 'CLASSROOMS';
@@ -346,7 +347,7 @@ $string['dfm_category_name'] = 'DIGITAL FILMMAKING';
 $string['dfm_category_idnumber'] = 'DFM';
 $string['dfm_category_parent'] = 0;
 $string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
-$string['misc_course_category'] = 'CLASSROOMS';
+//$string['misc_course_category'] = 'CLASSROOMS';
 $string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '5';
@@ -358,7 +359,10 @@ $string['sgo_temp_account_max_life'] = '3600'; // This value is in number of sec
 $string['application_account_max_life'] = '2419200'; // This value is in number of seconds, e.g. 2419200 equals 28 days
 $string['application_reminder_interval'] = '172800'; // This value is in number of seconds, e.g. 604800 equals 7 days
 //$string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org2'; // testing only
+$string['moodle_admin_safeguarding_user_username'] = 'ukfn_sg';
 $string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org';
+$string['moodle_admin_safeguarding_user_firstname'] = 'ukfn';
+$string['moodle_admin_safeguarding_user_lastname'] = 'sg';
 $string['ukfnteacher_role_name'] = 'ukfnteacher';
 
 // URL variables

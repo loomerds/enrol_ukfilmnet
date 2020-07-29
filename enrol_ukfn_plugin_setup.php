@@ -174,3 +174,4 @@ $course_exists = $DB->get_record('course', array('shortname'=>get_string('templa
 if(!$course_exists) {
     $classroom_course_template = create_course($classroom_course_template_data);
 }
+$ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');

@@ -119,6 +119,71 @@ function is_applicant_user($user) {
     }
 } 
 
+function create_ukfnsafeguarding_user($auth = 'manual') {
+    global $CFG, $DB;
+    require_once($CFG->dirroot.'/user/profile/lib.php');
+    require_once($CFG->dirroot.'/user/lib.php');
+    require_once($CFG->dirroot.'/lib/accesslib.php');
+    require_once($CFG->dirroot.'/lib/moodlelib.php');
+    
+    if($DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet'))) === false) {
+        $username = get_string('moodle_admin_safeguarding_user_username', 'enrol_ukfilmnet');
+        $authplugin = get_auth_plugin($auth);
+        //$customfields = $authplugin->get_custom_user_profile_fields();
+        $newuser = new stdClass();
+        
+        if (!empty($newuser->email)) {
+            if (email_is_not_allowed($newuser->email)) {
+                unset($newuser->email);
+            }
+        }
+        if (!isset($newuser->city)) {
+            $newuser->city = '';
+        }
+        
+        $newuser->auth = $auth;
+        $newuser->username = $username;
+        $newuser->email = get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet');
+        $newuser->firstname = get_string('moodle_admin_safeguarding_user_firstname', 'enrol_ukfilmnet');
+        $newuser->lastname = get_string('moodle_admin_safeguarding_user_lastname', 'enrol_ukfilmnet');
+        $password = 'safeguarding';
+        /*$newuser->profile_field_currentrole = convert_rolenum_to_rolestring($applicantinfo->currentrole);
+        $newuser->profile_field_verificationcode = $applicantinfo->verificationcode;
+        $newuser->profile_field_applicationprogress = $applicantinfo->applicationprogress;
+        */
+        if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
+            $newuser->lang = $CFG->lang;
+        }
+        $newuser->confirmed = 1;
+        $newuser->lastip = getremoteaddr();
+        $newuser->timecreated = time();
+        $newuser->timemodified = $newuser->timecreated;
+        $newuser->mnethostid = $CFG->mnet_localhost_id;
+        
+        $newuser->id = user_create_user($newuser, false);
+        // Save user profile data.
+        // profile_save_data($newuser);
+
+        $managerrole = $DB->get_record('role', array('shortname'=>'manager'));
+        $systemcontext = context_system::instance();
+        $usercontext = context_user::instance($newuser->id);
+    
+        role_assign($managerrole->id, $newuser->id, $systemcontext->id);
+        role_assign($managerrole->id, $newuser->id, $usercontext->id);
+
+        $user = get_complete_user_data('id', $newuser->id);
+        set_user_preference('auth_forcepasswordchange', 1, $user);
+
+        // Set the password.
+        update_internal_user_password($user, $password);
+        
+        return $user;
+    } else {
+        return false;
+    }
+    
+}
+
 function create_student_user($studentinfo, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -518,8 +583,9 @@ function application_approved($approved) {
                 // Create teacher's classroom courses and enrol the teacher
                 for($count = 0; $count<$applicant_user->profile_field_courses_requested; $count++) {
                     $newcourse = create_classroom_course_from_teacherid($userid, 
-                            get_string('template_course_category', 'enrol_ukfilmnet'), 
-                            get_string('classroom_course_category', 'enrol_ukfilmnet'));
+                    // should this be the template course category or a reference to the template course shortname itself?
+                            get_string('template_course_shortname', 'enrol_ukfilmnet'), 
+                            get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
 
                     $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();
@@ -672,7 +738,7 @@ function email_user_accept_reject($applicant, $status){
     }
 }
 
-function create_classroom_course_from_teacherid ($teacherid, $template, $category_name) {
+function create_classroom_course_from_teacherid ($teacherid, $template, $category_idnumber) {
     global $DB, $CFG;
 
     require_once($CFG->libdir.'/datalib.php');
@@ -714,22 +780,16 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     // Get a category id for the new course
     $categories = core_course_category::get_all();
     $target_categoryid = '';
-    $miscellaneous_categoryid = '';
+    //$miscellaneous_categoryid = '';
 
     foreach($categories as $category) {
-        if($category->name == $category_name) {
+
+        if($category->idnumber == $category_idnumber) {
             $target_categoryid = $category->id;
         }
-        if($category->name == get_string('misc_course_category', 'enrol_ukfilmnet')) {
-            $miscellaneous_categoryid = $category->id;
-        }
-    }
-    if($target_categoryid == '') {
-        $target_categoryid = $miscellaneous_categoryid;
-        
     }
 
-    // Build a new course object
+// Build a new course object
     $newcourse['courseid'] = $target_courseid;
     $newcourse['fullname'] = $unique_shortname;
     $newcourse['shortname'] = $unique_shortname;
