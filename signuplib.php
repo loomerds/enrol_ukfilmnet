@@ -103,7 +103,7 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     role_assign($applicantrole->id, $newuser->id, $usercontext->id);
 
     $user = get_complete_user_data('id', $newuser->id);
-    set_user_preference('auth_forcepasswordchange', 0, $user);
+    set_user_preference('auth_forcepasswordchange', 1, $user);
 
     // Set the password.
     update_internal_user_password($user, $password);
@@ -275,7 +275,7 @@ function create_sgo_user($applicant_user, $auth = 'manual') {
     role_assign($applicantrole->id, $newuser->id, $usercontext->id);
 
     $sgo_user = get_complete_user_data('id', $newuser->id);
-    set_user_preference('auth_forcepasswordchange', 0, $sgo_user);
+    set_user_preference('auth_forcepasswordchange', 1, $sgo_user);
 
     // Set the password.
     $sgo_user_password = make_random_password();
