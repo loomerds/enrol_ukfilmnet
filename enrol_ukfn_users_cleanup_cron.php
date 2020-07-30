@@ -38,7 +38,9 @@ $PAGE->set_context(context_system::instance());
 
 // HANDLE DELETION OF COHORTS THAT ARE NOT ASSOCIATED WITH ANY COURSES
 
-// Get a list of all course short names
+delete_dangling_cohorts();
+
+/*// Get a list of all course short names
 $course_shortnames = ['applicants', 'students', 'resource_courses', 'support_courses'];
 $courses = $DB->get_records('course');
 foreach($courses as $course) {
@@ -51,7 +53,7 @@ foreach($cohorts as $cohort) {
     if(!in_array($cohort->idnumber, $course_shortnames)) {
         cohort_delete_cohort($cohort);
     }
-}
+}*/
 
 // HANDLE DELETION OF TEMPORARY SGO ACCOUNTS 
 

@@ -571,6 +571,9 @@ function application_approved($approved) {
     include_once($CFG->dirroot.'/course/externallib.php');
     include_once($CFG->dirroot.'/lib/enrollib.php');
 
+    // Remove any dangling cohorts (cohorts that are not associated with a course)
+    delete_dangling_cohorts();
+
     foreach($approved as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         $resource_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('resource_courses_idnumber', 'enrol_ukfilmnet')));
@@ -587,7 +590,6 @@ function application_approved($approved) {
                 // Create teacher's classroom courses and enrol the teacher
                 for($count = 0; $count<$applicant_user->profile_field_courses_requested; $count++) {
                     $newcourse = create_classroom_course_from_teacherid($userid, 
-                    // should this be the template course category or a reference to the template course shortname itself?
                             get_string('template_course_shortname', 'enrol_ukfilmnet'), 
                             get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
 
@@ -2233,4 +2235,26 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
         }
     }
     $context->mark_dirty();
+}
+
+// HANDLE DELETION OF COHORTS THAT ARE NOT ASSOCIATED WITH ANY COURSES
+function delete_dangling_cohorts() {
+    global $DB;
+    require_once('../../cohort/lib.php');
+
+    // Ensure that cohorts with these $course_shortnames will not be deleted
+    $course_shortnames = ['applicants', 'students', 'resource_courses', 'support_courses'];
+    // Get a list of all course short names and add them to $course_shortnames
+    $courses = $DB->get_records('course');
+    foreach($courses as $course) {
+        $course_shortnames[] = $course->shortname;
+    }
+
+    // Get a list of all cohorts and delete cohorts if their associated classroom course does not exist
+    $cohorts = $DB->get_records('cohort');
+    foreach($cohorts as $cohort) {
+        if(!in_array($cohort->idnumber, $course_shortnames)) {
+            cohort_delete_cohort($cohort);
+        }
+    }
 }
