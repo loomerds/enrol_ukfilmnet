@@ -148,7 +148,7 @@ class assurancepage implements \renderable, \templatable {
 
             // Delete temporary Safguarding user
             if($USER->firstname === 'Safeguarding') {
-                delete_user($USER);
+               delete_user($USER);
             }
             redirect(PAGE_WWWROOT);
         } else {

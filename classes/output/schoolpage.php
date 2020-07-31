@@ -126,7 +126,9 @@ class schoolpage implements \renderable, \templatable {
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
 
             // Delete temporary safeguarding officer user
-            delete_user($contact_user);
+            if($contact_user->firstname === 'Safeguarding') {
+                delete_user($contact_user);
+            }
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form.
             $toform = $mform->get_data();

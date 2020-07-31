@@ -47,13 +47,6 @@ if($USER->id < 1 or $USER->firstname != 'Safeguarding') {
     manager::set_user($user);
 }
 
-/*if(isset($SESSION->redirect_to_self) and $SESSION->redirect_to_self == true) {
-    $SESSION->redirect_to_self = false;
-//print_r2('got to header refresh');
-    //header("Refresh:0");
-    //header("Refresh:0");
-}*/
-
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/assurance.php'));
 $PAGE->set_context(context_system::instance());
