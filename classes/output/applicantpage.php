@@ -63,9 +63,8 @@ class applicantpage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            // retain this for possible future use
+            go_to_page(strval(0));
         } else if ($form_data = $mform->get_data()) {
-
             //Build a object we can use to pass variables to the email we will send to applicant
             $username = $form_data->email;
             $password = make_random_password();

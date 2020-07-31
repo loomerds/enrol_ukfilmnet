@@ -106,7 +106,7 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     if($user->firstname === 'Safeguarding') {
         set_user_preference('auth_forcepasswordchange', 0, $user);
     } else {
-        set_user_preference('auth_forcepasswordchange', 1, $user);
+        set_user_preference('auth_forcepasswordchange', 0, $user);
     }
 
     // Set the password.

@@ -48,9 +48,10 @@ $page_content = $output->render_applicantpage($applicantpage);
 
 // This should probably be factored out
 // Handle cancels
-if(isset($_POST['cancel'])) {
+/*if(isset($_POST['cancel'])) {
     go_to_page(strval(0));
 }
+
 // Handle submits
 elseif(isset($_POST['submitbutton'])) {
     // If all required inputs were received progress to next signup page
@@ -64,19 +65,19 @@ elseif(isset($_POST['submitbutton'])) {
     if($all_items_submitted == true) {
         go_to_page(strval(1+$page_number)); //what about final page?
     }
-}
+}*/
 // Force non-submit based arrivals on the page to correct applicantprogress page 
-else {
-    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
-        profile_load_data($USER);
-        if(isset($USER->profile_field_applicationprogress)) {
-            $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
-            if($progress != $page_number) {
-                go_to_page(strval($progress));
-            }
+//else {
+if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+    profile_load_data($USER);
+    if(isset($USER->profile_field_applicationprogress)) {
+        $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
+        if($progress != $page_number) {
+            go_to_page(strval($progress));
         }
-    }           
-}
+    }
+}           
+//}
 
 echo $output->header();
 echo $page_content;

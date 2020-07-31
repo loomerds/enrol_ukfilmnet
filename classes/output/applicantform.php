@@ -36,7 +36,7 @@ require_once("$CFG->libdir/formslib.php");
 class applicant_form extends \moodleform {
     //Add elements to form
     public function definition() {
-        global $CFG;
+        global $CFG, $DB;
         $mform = $this->_form; 
         $current_roles = ['0'=>get_string('applicant_role_instruction', 'enrol_ukfilmnet'),
                           '01'=>get_string('applicant_role_ukteacher', 'enrol_ukfilmnet'), 
@@ -54,6 +54,9 @@ class applicant_form extends \moodleform {
         $mform->addElement('text', 'email', get_string('applicant_email', 'enrol_ukfilmnet'), ['class'=>'ukfn_applicant_email']);
         $mform->setType('email', PARAM_NOTAGS);
         $mform->addRule('email', get_string('error_missing_email', 'enrol_ukfilmnet'), 'required', null, 'server');
+        $mform->addRule('email', get_string('error_invalid_email', 'enrol_ukfilmnet'), 'email', null, 'server');
+
+
         $mform->addElement('text', 'firstname', get_string('applicant_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-applicant-firstname']);
         $mform->setType('firstname', PARAM_TEXT);
         $mform->addRule('firstname', get_string('error_missing_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
@@ -65,7 +68,7 @@ class applicant_form extends \moodleform {
     }
     //Custom validation should be added here
     function validation($data, $files) {
-        global $SESSION;
+        global $SESSION, $DB;
         $errors = parent::validation($data, $files);
         
         if((int)$data['role'] > (int)get_string('roleallowed_range_max', 'enrol_ukfilmnet')) {
@@ -74,13 +77,13 @@ class applicant_form extends \moodleform {
         if($data['role'] === '0') {
             $errors['role'] = get_string('error_missing_role', 'enrol_ukfilmnet');
         }
-        if(strpos($data['email'], '@') === false) {
-            $errors['email'] = get_string('error_invalid_email', 'enrol_ukfilmnet');
-        }
-        if($this->check_for_email_conflict($data['email']) == false) {
+        if($this->check_for_email_conflict($data['email']) == true) {
             $errors['email'] = get_string('error_existing_email', 'enrol_ukfilmnet');
         }
-        
+        /*if($data['email'] === $DB->get_record('user', array('email'=>$data['email']))->email) {
+            $errors['email'] = get_string('error_existing_email', 'enrol_ukfilmnet');
+        }*/
+//print_r2($errors);
         return $errors;
     }
 
@@ -88,14 +91,13 @@ class applicant_form extends \moodleform {
         global $DB;
 
         $users = $DB->get_records('user');
-        $email_taken = true;
+        $email_taken = false;
         foreach($users as $user) {
             if($email == $user->email) {
-                $email_taken = false;
+                $email_taken = true;
                 break;
             }
         }
-
         return $email_taken;
     }
 }
