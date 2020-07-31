@@ -43,38 +43,14 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $emailverifypage = new \enrol_ukfilmnet\output\emailverifypage($page_number);
 $page_content = $output->render_emailverifypage($emailverifypage);
 
-
-// This should probably be factored out
-// Handle cancels
-if(isset($_POST['cancel'])) {
-    go_to_page(strval(0));
-}
-// Handle submits 
-elseif(isset($_POST['submitbutton'])) {
-    // If all required inputs were received progress to next signup page
-    $form_items = $_POST;
-    $all_items_submitted = true;
-    foreach($form_items as $key=>$value) {
-        if(strlen($value) < 1) {
-            $all_items_submitted = false;
+if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
+    profile_load_data($USER);
+    if(isset($USER->profile_field_applicationprogress)) {
+        $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
+        if($progress != $page_number) {
+            go_to_page(strval($progress));
         }
     }
-    if($all_items_submitted == true) {
-        go_to_page(strval(1+$page_number)); //what about final page?
-    }
-}
-// Force non-submit based arrivals on the page to correct applicantprogress page
-else {
-    if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
-        profile_load_data($USER);
-        if(isset($USER->profile_field_applicationprogress)) {
-            $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
-            if($progress != $page_number) {
-                go_to_page(strval($progress));
-            }
-        }
-    }
-                
 }
 
 echo $output->header();

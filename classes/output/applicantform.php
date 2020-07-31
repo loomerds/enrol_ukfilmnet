@@ -80,10 +80,6 @@ class applicant_form extends \moodleform {
         if($this->check_for_email_conflict($data['email']) == true) {
             $errors['email'] = get_string('error_existing_email', 'enrol_ukfilmnet');
         }
-        /*if($data['email'] === $DB->get_record('user', array('email'=>$data['email']))->email) {
-            $errors['email'] = get_string('error_existing_email', 'enrol_ukfilmnet');
-        }*/
-//print_r2($errors);
         return $errors;
     }
 

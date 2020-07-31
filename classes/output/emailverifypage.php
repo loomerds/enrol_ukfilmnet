@@ -55,7 +55,7 @@ class emailverifypage implements \renderable, \templatable {
 
         //Form processing and displaying is done here
         if ($mform->is_cancelled()) {
-            // retain this for possible future use
+            go_to_page(strval(0));
         } else if ($form_data = $mform->get_data()) {
             
             // Make sure we have the right user
