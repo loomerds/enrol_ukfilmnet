@@ -22,7 +22,7 @@
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-global $USER, $DB;
+global $USER, $DB, $CFG;
 require(__DIR__ .'/../../config.php');
 require_once('./signuplib.php');
 require_once('../../cohort/lib.php');
@@ -36,10 +36,16 @@ if(!has_capability('moodle/role:manage', $context)) {
 }
 
 /*
- * Handle application deletion and warning(s) of deletion
  * 
  * 
  */
+
+// Assure that Cohort sync enrolment plugin is enabled
+if(!in_array('cohort', $enabled)) {
+    $enabled['cohort'] = true;
+    $enabled = array_keys($enabled);
+    set_config('enrol_plugins_enabled', implode(',', $enabled));
+}
 
 // Create needed corhorts if they do not yet exist, and get their ids
 $applicants_cohort_id = create_cohort_if_not_existing('applicants');
@@ -175,3 +181,10 @@ if(!$course_exists) {
     $classroom_course_template = create_course($classroom_course_template_data);
 }
 $ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');
+
+// Assure that Cohort sync enrolment plugin is enabled
+if(!in_array('cohort', $enabled)) {
+    $enabled['cohort'] = true;
+    $enabled = array_keys($enabled);
+    set_config('enrol_plugins_enabled', implode(',', $enabled));
+}
