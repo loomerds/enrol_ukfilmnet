@@ -40,9 +40,18 @@ if(!has_capability('moodle/role:manage', $context)) {
  * 
  */
 
-// Assure that Cohort sync enrolment plugin is enabled
+// Ensure that the Cohort sync enrolment plugin is enabled
+$enabled = enrol_get_plugins(true);
 if(!in_array('cohort', $enabled)) {
     $enabled['cohort'] = true;
+    $enabled = array_keys($enabled);
+    set_config('enrol_plugins_enabled', implode(',', $enabled));
+}
+
+// Ensure that the Manual enrolment plugin is enabled
+$enabled = enrol_get_plugins(true);
+if(!in_array('manual', $enabled)) {
+    $enabled['manual'] = true;
     $enabled = array_keys($enabled);
     set_config('enrol_plugins_enabled', implode(',', $enabled));
 }
@@ -182,9 +191,5 @@ if(!$course_exists) {
 }
 $ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');
 
-// Assure that Cohort sync enrolment plugin is enabled
-if(!in_array('cohort', $enabled)) {
-    $enabled['cohort'] = true;
-    $enabled = array_keys($enabled);
-    set_config('enrol_plugins_enabled', implode(',', $enabled));
-}
+// Ensure that Manual accounts authentication is enabled
+
