@@ -28,9 +28,13 @@ require_once('./signuplib.php');
 require_once('../../cohort/lib.php');
 require_once('../../lib/moodlelib.php');
 require_once('../../course/lib.php');
+require_once('../../blocks/moodleblock.class.php');
+require_once('../../blocks/html/block_html.php');
+//use block_html;
 
 require_login();
 $context = context_system::instance();
+$PAGE->set_context($context);
 if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
 }
@@ -191,5 +195,37 @@ if(!$course_exists) {
 }
 $ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');
 
-// Ensure that Manual accounts authentication is enabled
+
+// Create a UKFN Enrol Admin Options block if it doesn't exist
+$ukfn_enrol_admin_block_configdata = 'Tzo4OiJzdGRDbGFzcyI6Mzp7czo1OiJ0aXRsZSI7czoyNDoiVUtGTiBFbnJvbCBBZG1pbiBPcHRpb25zIjtzOjY6ImZvcm1hdCI7czoxOiIxIjtzOjQ6InRleHQiO3M6NDUxOiI8cD48L3A+DQo8dWw+DQogICAgPGxpIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyI+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC90cmFja2luZy5waHAiPlZpZXcgU2lnbi11cCBQcm9ncmVzczwvYT48L2xpPg0KPC91bD4NCjxkaXYgY2xhc3M9ImVkaXRvci1pbmRlbnQiIHN0eWxlPSJtYXJnaW4tbGVmdDogMzBweDsiPjxwPiZuYnNwOyAmbmJzcDsgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3A+PC9kaXY+DQo8dWw+DQogICAgPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fc2V0dXAucGhwIj5SdW4gUGx1Z2luIFNldC11cCBTY3JpcHRzPC9hPjwvbGk+DQogICAgPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl91c2Vyc19jbGVhbnVwX2Nyb24ucGhwIj5SdW4gVXNlcnMgQ2xlYW51cCBTY3JpcHQ8L2E+PC9saT4NCjwvdWw+Ijt9';
+$htmlblock_instances = $DB->get_records('block_instances', array('blockname'=>'html'));
+$instance_exists = false;
+foreach($htmlblock_instances as $instance) {
+    if($instance->configdata === $ukfn_enrol_admin_block_configdata) {  
+        $instance_exists = true;
+        break;
+    }
+}
+
+if(!$instance_exists) {
+    $html_blockinstance = new stdClass;
+    $html_blockinstance->blockname = 'html';
+    $html_blockinstance->parentcontextid = 1;
+    $html_blockinstance->showinsubcontexts = 1;
+    $html_blockinstance->pagetypepattern = 'admin-search';
+    $html_blockinstance->subpagepattern = null;
+    $html_blockinstance->defaultregion = 'side-nav';
+    $html_blockinstance->defaultweight = 3;
+    $html_blockinstance->configdata = $ukfn_enrol_admin_block_configdata;
+    $html_blockinstance->timecreated = time();
+    $html_blockinstance->timemodified = $html_blockinstance->timecreated;
+    $html_blockinstance->id = $DB->insert_record('block_instances', $html_blockinstance);
+    context_block::instance($html_blockinstance->id);
+
+    // If the new instance was created, allow it to do additional setup
+    if ($block = block_instance($html_blockinstance->blockname, $html_blockinstance)) {
+        $block->instance_create();
+    }
+}
+
 
