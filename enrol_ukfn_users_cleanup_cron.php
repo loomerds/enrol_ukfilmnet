@@ -40,21 +40,6 @@ $PAGE->set_context(context_system::instance());
 
 delete_dangling_cohorts();
 
-/*// Get a list of all course short names
-$course_shortnames = ['applicants', 'students', 'resource_courses', 'support_courses'];
-$courses = $DB->get_records('course');
-foreach($courses as $course) {
-    $course_shortnames[] = $course->shortname;
-}
-
-// Get a list of all cohorts and delete cohorts if their associated classroom course does not exist
-$cohorts = $DB->get_records('cohort');
-foreach($cohorts as $cohort) {
-    if(!in_array($cohort->idnumber, $course_shortnames)) {
-        cohort_delete_cohort($cohort);
-    }
-}*/
-
 // HANDLE DELETION OF TEMPORARY SGO ACCOUNTS 
 
 // Deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality

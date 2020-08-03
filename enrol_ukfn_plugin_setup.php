@@ -228,4 +228,54 @@ if(!$instance_exists) {
     }
 }
 
+// Create custom profile fields if they do not yet exist
 
+// Create user_info_category "UKfilmNet Applicant Info" if it doesn't exist
+$ukfn_applicant_info_category_id;
+if($DB->record_exists('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))) {
+    $ukfn_applicant_info_category_id = $DB->get_record('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))->id;
+} else {
+    $count = 0;
+    $categories = $DB->get_records('user_info_category');
+    foreach($categories as $category) {
+        if($category->sortorder > $count) {
+            $count = $category->sortorder;
+        }
+    }
+    $applicant_category = new stdClass();
+    $applicant_category->name = get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet');
+    $applicant_category->sortorder = $count + 1;
+
+    $ukfn_applicant_info_category_id = $DB->insert_record('user_info_category', $applicant_category);
+}
+
+// Save the user_info_field table records to a file in the assets folder - do this only when you want to update that file because the user_info_field records have changed
+/*
+$array = $DB->get_records('user_info_field');
+$encodedString = json_encode($array);
+file_put_contents('./assets/ukfn_applicant_info_field_array.txt', $encodedString);
+*/
+
+// Get the existing UKfilmNet Applicants user_info_field array from file
+$ukfn_applicant_info_field_array = file_get_contents('./assets/ukfn_applicant_info_field_array.txt');
+$ukfn_applicant_info_field_array = json_decode($ukfn_applicant_info_field_array, true);
+
+// Insert the UKfilmNet Applicants user_info_field records into the user_info_field table - deleting/replacing exiting table records as needed
+foreach($ukfn_applicant_info_field_array as &$record) {
+    // Make sure that the categoryid field of each record matches that of the UKfilmnet Applicant Info table's id 
+    $record['categoryid'] = $ukfn_applicant_info_category_id;
+    // If the record to be inserted does not conflict with existing records in the user_info_field, add the record - delete conflicting records
+    $shortnames = $DB->get_records('user_info_field', array('shortname'=>$record['shortname']));
+    if(!$shortnames) {
+        $DB->insert_record('user_info_field', $record);
+    } else {
+        foreach($shortnames as $shortname) {
+            if($shortname->categoryid !== $record['categoryid']) {
+                $DB->delete_records('user_info_field', array('shortname'=>$record['shortname'], 'categoryid'=>$shortname->categoryid));
+            }
+        }
+    }
+}
+
+// Let the Moodle admin know that the setup script ran
+echo(get_string('setup_script_run_confirmation', 'enrol_ukfilmnet'));

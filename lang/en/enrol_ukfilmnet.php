@@ -364,6 +364,7 @@ $string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org';
 $string['moodle_admin_safeguarding_user_firstname'] = 'ukfn';
 $string['moodle_admin_safeguarding_user_lastname'] = 'sg';
 $string['ukfnteacher_role_name'] = 'ukfnteacher';
+$string['ukfn_user_info_category_name'] = 'UKfilmNet Applicant Info';
 
 // URL variables
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
@@ -371,6 +372,8 @@ $string['emailverify_url'] = '/enrol/ukfilmnet/emailverify.php';
 $string['students_url'] = '/enrol/ukfilmnet/students.php';
 $string['assurance_url'] = '/enrol/ukfilmnet/assurance.php';
 
+// Setup script instructions
+$string['setup_script_run_confirmation'] = '<div style="padding:20px"><p>Dear Moodle Admin,</p><p>You have run the UKFN Enrol Plugin setup script. Don\'t forget that there are also several setup tasks that you must complete manually. A document entitled "UKfilmNet Moodle enrolment plugin special settings" describes what the setup script does programmatically, and what must be done manually by the site administrator in order to make sure the site is set up to work properly. A copy of the document should be found in the plugin code at /enrol/ukfilmnet/assets/UKfilmNet_Moodle_enrolment_plugin_special_settings.pdf.</p> <p>When you have finished reading the above, you may click on the browser\'s back arrow button to return to the page you were on before you ran the setup script.</p></div>';
 
 // Email strings
 $string['verification_subject'] = 'UKfilmNet Email Verification';
