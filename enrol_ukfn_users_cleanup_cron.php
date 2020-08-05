@@ -125,4 +125,50 @@ foreach($applicants as $applicant) {
     }
 }
 
+// HANDLE ADDING ADDITIONALLY REQUESTED CLASSROOM COURSES
+
+// Get a list of all users having UKfilmNet Teacher roles
+$ukfnteacher_role_id = $DB->get_record('role', array('shortname'=>'ukfnteacher'))->id;
+$ukfnteacher_role_assignments = $DB->get_records('role_assignments', array('roleid'=>$ukfnteacher_role_id));
+
+// Build an array where the keys are UKfilmNet Teacher user ids and the values show how many classroom courses have been created for each UKfilmNet Teacher
+$num_of_ukfnteacher_classrooms = [];
+foreach($ukfnteacher_role_assignments as $role_assignment) {  
+    if(!array_key_exists($role_assignment->userid, $num_of_ukfnteacher_classrooms)) {
+        $num_of_ukfnteacher_classrooms[$role_assignment->userid] = 1;
+    } else {
+        $num_of_ukfnteacher_classrooms[$role_assignment->userid] = $num_of_ukfnteacher_classrooms[$role_assignment->userid]+1;
+    }
+}
+
+// Make sure that the number of classroom courses created for each UKfilmNet Teacher is greater than or equal to the number they have requested
+foreach($num_of_ukfnteacher_classrooms as $teacherid=>$classrooms) {
+    $classrooms_count = $classrooms;
+    $ukfnteacher = $DB->get_record('user', array('id'=>$teacherid));
+    profile_load_data($ukfnteacher);
+    $classrooms_requested = $ukfnteacher->profile_field_courses_requested;
+    while($classrooms_count < $classrooms_requested) {
+        $newcourse = create_classroom_course_from_teacherid($teacherid, 
+                            get_string('template_course_shortname', 'enrol_ukfilmnet'), 
+                            get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
+
+                    $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
+                    $systemcontext = context_system::instance();
+                    $usercontext = context_user::instance($ukfnteacher->id);
+                    
+                    // Change applicant's basic system role assignment
+                    /*role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
+                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);*/
+                    
+                    // Enrol applicant in their classroom course(s) as a teacher
+                    enrol_user_this($newcourse, $ukfnteacher, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
+print_r2('class added for '.$ukfnteacher->email);
+        $classrooms_count++;
+    }
+}
+print_r2($num_of_ukfnteacher_classrooms);
+
+// Compare that finding with the number of courses they requested
+
+// If the number of courses requested is larger, add course(s)
 
