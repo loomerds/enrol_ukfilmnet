@@ -40,7 +40,7 @@ define('PAGE_SAFEGUARDING', $CFG->wwwroot.'/enrol/ukfilmnet/safeguarding.php');
 define('PAGE_STUDENTS', $CFG->wwwroot.'/enrol/ukfilmnet/students.php');
 define('PAGE_ASSURANCE', $CFG->wwwroot.'/enrol/ukfilmnet/assurance.php');
 define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
-
+define('PAGE_ADMIN', $CFG->wwwroot.'/admin/search.php');
 /**
  * Creates a bare-bones user record
  *
@@ -957,6 +957,9 @@ function go_to_page($target_page) {
             break;
         case '8':
             redirect(PAGE_STUDENTS);
+            break;
+        case 'admin':
+            redirect(PAGE_ADMIN);
             break;
         default:
             break;

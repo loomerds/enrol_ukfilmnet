@@ -46,28 +46,7 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $applicantpage = new \enrol_ukfilmnet\output\applicantpage($page_number);
 $page_content = $output->render_applicantpage($applicantpage);
 
-// This should probably be factored out
-// Handle cancels
-/*if(isset($_POST['cancel'])) {
-    go_to_page(strval(0));
-}
-
-// Handle submits
-elseif(isset($_POST['submitbutton'])) {
-    // If all required inputs were received progress to next signup page
-    $form_items = $_POST;
-    $all_items_submitted = true;
-    foreach($form_items as $key=>$value) {
-        if(strlen($value) < 1) {
-            $all_items_submitted = false;
-        }
-    }
-    if($all_items_submitted == true) {
-        go_to_page(strval(1+$page_number)); //what about final page?
-    }
-}*/
 // Force non-submit based arrivals on the page to correct applicantprogress page 
-//else {
 if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
     profile_load_data($USER);
     if(isset($USER->profile_field_applicationprogress)) {
