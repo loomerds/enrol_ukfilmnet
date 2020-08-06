@@ -85,7 +85,6 @@ $ukfnteacher_capabilities_to_change = [
                                 ['moodle/course:reviewotherusers', $prohibit],
                                 ['moodle/grade:viewall', $prohibit],
                                 ['moodle/role:assign', $prohibit],
-                                ['enrol/apply:config', $prohibit],
                                 ['enrol/category:config', $prohibit],
                                 ['enrol/cohort:config', $prohibit],
                                 ['enrol/database:config', $prohibit],

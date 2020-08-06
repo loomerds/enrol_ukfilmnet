@@ -63,10 +63,7 @@ foreach($num_of_ukfnteacher_classrooms as $teacherid=>$classrooms) {
         $newcourseinfo = create_classroom_course_from_teacherid($teacherid, 
                             get_string('template_course_shortname', 'enrol_ukfilmnet'), 
                             get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
-print_r2($newcourseinfo);
         $newcourse = $DB->get_record('course', array('shortname'=>$newcourseinfo['shortname']));
-        print_r2($newcourse);
-
         $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
         $systemcontext = context_system::instance();
         $usercontext = context_user::instance($ukfnteacher->id);
@@ -82,6 +79,8 @@ print_r2($newcourseinfo);
         $safeguarding_contact = $DB->get_record('user', array('email'=>$ukfnteacher->profile_field_safeguarding_contact_email));
         $context = context_course::instance($newcourse->id);
         $cohort = $DB->get_record('cohort', array('idnumber'=>$newcourse->shortname));
+print_r2($cohort);
+
         cohort_add_member($cohort->id, $safeguarding_contact->id);
         role_assign(get_role_id('teacher'), $safeguarding_contact->id, $context->id);
         role_unassign(get_role_id('student'), $safeguarding_contact->id, $context->id);
