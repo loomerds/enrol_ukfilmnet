@@ -27,7 +27,7 @@
  * (used in user_enrolments->status) 
  */
 
-global $CFG;
+global $CFG, $DB;
 
 defined('MOODLE_INTERNAL') || die();
 define('PAGE_WWWROOT', $CFG->wwwroot);
@@ -41,6 +41,7 @@ define('PAGE_STUDENTS', $CFG->wwwroot.'/enrol/ukfilmnet/students.php');
 define('PAGE_ASSURANCE', $CFG->wwwroot.'/enrol/ukfilmnet/assurance.php');
 define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
 define('PAGE_ADMIN', $CFG->wwwroot.'/admin/search.php');
+
 /**
  * Creates a bare-bones user record
  *

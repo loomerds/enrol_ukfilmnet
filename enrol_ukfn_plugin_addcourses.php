@@ -36,6 +36,8 @@ $PAGE->set_context(context_system::instance());
 
 // HANDLE ADDING ADDITIONALLY REQUESTED CLASSROOM COURSES
 
+delete_dangling_cohorts();
+
 // Get a list of all users having UKfilmNet Teacher roles
 $ukfnteacher_role_id = $DB->get_record('role', array('shortname'=>'ukfnteacher'))->id;
 $ukfnteacher_role_assignments = $DB->get_records('role_assignments', array('roleid'=>$ukfnteacher_role_id));
@@ -56,26 +58,38 @@ foreach($num_of_ukfnteacher_classrooms as $teacherid=>$classrooms) {
     $ukfnteacher = $DB->get_record('user', array('id'=>$teacherid));
     profile_load_data($ukfnteacher);
     $classrooms_requested = $ukfnteacher->profile_field_courses_requested;
+
     while($classrooms_count < $classrooms_requested) {
-        $newcourse = create_classroom_course_from_teacherid($teacherid, 
+        $newcourseinfo = create_classroom_course_from_teacherid($teacherid, 
                             get_string('template_course_shortname', 'enrol_ukfilmnet'), 
                             get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
+print_r2($newcourseinfo);
+        $newcourse = $DB->get_record('course', array('shortname'=>$newcourseinfo['shortname']));
+        print_r2($newcourse);
 
-                    $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
-                    $systemcontext = context_system::instance();
-                    $usercontext = context_user::instance($ukfnteacher->id);
-                    
-                    // Change applicant's basic system role assignment
-                    /*role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
-                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);*/
-                    
-                    // Enrol applicant in their classroom course(s) as a teacher
-                    enrol_user_this($newcourse, $ukfnteacher, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
+        $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
+        $systemcontext = context_system::instance();
+        $usercontext = context_user::instance($ukfnteacher->id);
+        
+        // Change applicant's basic system role assignment
+        /*role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
+        role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);*/
+        
+        // Enrol applicant in their classroom course(s) as a teacher
+        enrol_user_this($newcourseinfo, $ukfnteacher, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
+
+        // Enrol the applicant's DSL in the course via addition to the associated cohort as a non-editing teacher
+        $safeguarding_contact = $DB->get_record('user', array('email'=>$ukfnteacher->profile_field_safeguarding_contact_email));
+        $context = context_course::instance($newcourse->id);
+        $cohort = $DB->get_record('cohort', array('idnumber'=>$newcourse->shortname));
+        cohort_add_member($cohort->id, $safeguarding_contact->id);
+        role_assign(get_role_id('teacher'), $safeguarding_contact->id, $context->id);
+        role_unassign(get_role_id('student'), $safeguarding_contact->id, $context->id);
         $classrooms_count++;
     }
 }
 
-go_to_page('admin');
+//go_to_page('admin');
 
 
 
