@@ -269,6 +269,8 @@ function create_sgo_user($applicant_user, $auth = 'manual') {
     $newuser->mnethostid = $CFG->mnet_localhost_id;
      
     $newuser->id = user_create_user($newuser, false);
+print_r2($DB->get_record('user', array('id'=>$newuser->id)));
+
     // Save user profile data.
     profile_save_data($newuser);
 
@@ -572,9 +574,15 @@ function application_approved($approved) {
     include_once($CFG->dirroot.'/course/externallib.php');
     include_once($CFG->dirroot.'/lib/enrollib.php');
 
-    // Remove any dangling cohorts (cohorts that are not associated with a course)
+    // Remove any dangling cohorts (classroom cohorts that are no longer  associated with a course)
     delete_dangling_cohorts();
-
+$existing_emails = [];
+$users_list = $DB->get_records('user');
+foreach($users_list as $a_user) {
+    array_push($existing_emails, $a_user->email);
+}
+print_r2($existing_emails);
+    // Process each approval - change progress level, send email notification to applicant, create classroom courses requested, enrol applicant in classroom courses with a role of ukfnteacher, enrol applicant in resource_courses and support_courses with a student role, create DSL user if necessary and enrol DSL in classroom courses and resource_courses 
     foreach($approved as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         $resource_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('resource_courses_idnumber', 'enrol_ukfilmnet')));
@@ -606,12 +614,34 @@ function application_approved($approved) {
                     enrol_user_this($newcourse, $applicant_user, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
                 }
 
-                // Add teacher to resource_courses
+                // Add teacher to resource_courses and support_courses
                 cohort_add_member($resource_courses_cohort->id, $applicant_user->id);
                 cohort_add_member($support_courses_cohort->id, $applicant_user->id);
                 
                 // Create a DSL officer account if it doesn't already exist
+                
                 $sgo_user = null;
+                $sgo_username = $applicant_user->profile_field_safeguarding_contact_email;
+                $user_names = [];
+                $all_users = $DB->get_records('user');
+                foreach($all_users as $a_user) {
+                    array_push($user_names, $a_user->username);
+                }
+                if(in_array($sgo_username, $user_names)) {    
+                    $sgo_user = $DB->get_record('user', array('email'=>$sgo_username));
+                    if($sgo_user->firstname === 'Safeguarding') {
+                        delete_user($sgo_user);
+                        $sgo_user = create_sgo_user($applicant_user);
+                    } else {
+                        email_sgo_existinguser_info($applicant_user, $sgo_user);
+                    }
+print_r2('went here instead');
+                } else {
+print_r2('reached call to create sgo user');
+                    $sgo_user = create_sgo_user($applicant_user);
+                }
+                
+                /*$sgo_user = null;
                 $sgo_email = $applicant_user->profile_field_safeguarding_contact_email;
                 $user_emails = [];
                 $all_users = $DB->get_records('user');
@@ -621,9 +651,12 @@ function application_approved($approved) {
                 if(in_array($sgo_email, $user_emails)) {    
                     $sgo_user = $DB->get_record('user', array('email'=>$sgo_email));
                     email_sgo_existinguser_info($applicant_user, $sgo_user);
+print_r2('went here instead');
                 } else {
+print_r2('reached call to create sgo user');
                     $sgo_user = create_sgo_user($applicant_user);
                 }
+                */
 
                 // Add DSL officer to classroom courses
                 add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort, $support_courses_cohort);

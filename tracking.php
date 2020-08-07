@@ -54,7 +54,6 @@ $page_content = $output->render_trackingpage($trackingpage);
 $context = $PAGE->context;
 
 try {
-    //require_capability('moodle/site:config', $context);
     require_capability('moodle/role:manage', $context);
 
 } catch (Exception $e) {

@@ -97,7 +97,7 @@ class schoolpage implements \renderable, \templatable {
             $tempuser = (object) array(
                 'email'=>$form_data->contact_email,
                 'username'=>$form_data->contact_email,
-                'firstname'=>$form_data->contact_firstname,
+                'firstname'=>'Safeguarding',
                 'lastname'=>$form_data->contact_familyname, 
                 'currentrole'=>$form_data->role, 
                 'applicationprogress'=>0, 
@@ -113,7 +113,7 @@ class schoolpage implements \renderable, \templatable {
             $emailvariables = (object) array('schoolname_ukprn'=>$ukprn, 
                                              'schoolname'=>$schoolname,
                                              'schoolcountry'=>$schoolcountry, 
-                                             'contact_firstname'=>$contact_firstname,
+                                             'contact_firstname'=>$form_data->contact_firstname,
                                              'contact_familyname'=>$contact_familyname,
                                              'applicant_firstname'=>$applicant_firstname,
                                              'applicant_familyname'=>$applicant_familyname,
