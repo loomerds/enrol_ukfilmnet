@@ -267,9 +267,7 @@ function create_sgo_user($applicant_user, $auth = 'manual') {
     $newuser->timecreated = time();
     $newuser->timemodified = $newuser->timecreated;
     $newuser->mnethostid = $CFG->mnet_localhost_id;
-     
     $newuser->id = user_create_user($newuser, false);
-print_r2($DB->get_record('user', array('id'=>$newuser->id)));
 
     // Save user profile data.
     profile_save_data($newuser);
@@ -581,7 +579,7 @@ $users_list = $DB->get_records('user');
 foreach($users_list as $a_user) {
     array_push($existing_emails, $a_user->email);
 }
-print_r2($existing_emails);
+
     // Process each approval - change progress level, send email notification to applicant, create classroom courses requested, enrol applicant in classroom courses with a role of ukfnteacher, enrol applicant in resource_courses and support_courses with a student role, create DSL user if necessary and enrol DSL in classroom courses and resource_courses 
     foreach($approved as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
@@ -605,12 +603,6 @@ print_r2($existing_emails);
                     $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();
                     $usercontext = context_user::instance($applicant_user->id);
-                    
-                    // Change applicant's basic system role assignment
-                    /*role_assign($approvedteacher_role->id, $applicant_user->id, $systemcontext->id);
-                    role_assign($approvedteacher_role->id, $applicant_user->id, $usercontext->id);*/
-                    
-                    // Enrol applicant in their classroom course(s) as a teacher
                     enrol_user_this($newcourse, $applicant_user, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
                 }
 
@@ -635,28 +627,9 @@ print_r2($existing_emails);
                     } else {
                         email_sgo_existinguser_info($applicant_user, $sgo_user);
                     }
-print_r2('went here instead');
                 } else {
-print_r2('reached call to create sgo user');
                     $sgo_user = create_sgo_user($applicant_user);
                 }
-                
-                /*$sgo_user = null;
-                $sgo_email = $applicant_user->profile_field_safeguarding_contact_email;
-                $user_emails = [];
-                $all_users = $DB->get_records('user');
-                foreach($all_users as $a_user) {
-                    array_push($user_emails, $a_user->email);
-                }
-                if(in_array($sgo_email, $user_emails)) {    
-                    $sgo_user = $DB->get_record('user', array('email'=>$sgo_email));
-                    email_sgo_existinguser_info($applicant_user, $sgo_user);
-print_r2('went here instead');
-                } else {
-print_r2('reached call to create sgo user');
-                    $sgo_user = create_sgo_user($applicant_user);
-                }
-                */
 
                 // Add DSL officer to classroom courses
                 add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort, $support_courses_cohort);
@@ -691,7 +664,7 @@ function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort
     cohort_add_member($resource_courses_cohort->id, $sgo_user->id);
     
     // Uncomment the next line if we want to give sgo's access to the teacher forum course
-    //cohort_add_member($support_courses_cohort->id, $sgo_user->id);
+    cohort_add_member($support_courses_cohort->id, $sgo_user->id);
 
     $cohort_names = get_applicant_cohort_names($applicant_user);
     $courses = $DB->get_records('course');

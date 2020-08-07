@@ -412,19 +412,17 @@ In order to grant access to {$a->applicant_firstname} {$a->applicant_familyname}
 <ul>
 
 <li>Browse to <a href="{$a->assurance_url}">UKfilmNet Safeguarding Assurance</a></li>
-<li>Enter the Email Address of your employee - {$a->applicant_email}</li>
-<li>Enter the following Assurance Code - {$a->assurance_code}</li>
+<li>Enter the Email Address of your employee - <strong>{$a->applicant_email}</strong></li>
+<li>Enter the following Assurance Code - <strong>{$a->assurance_code}</strong></li>
 <li>Follow the instructions for completing and submitting a Reference form on behalf of your employee</li>
 </ul>
 Once you have completed these steps we can consider the application your employee has made for access to the resource and other professional colleagues in developing their CPD, skills and knowledge.<br>
 <br>
-Please note that as part of the process you may receive a reminder of this request, but please note that after 4 weeks, the application from <strong>{$a->applicant_firstname} {$a->applicant_familyname}</strong> will automatically be deleted if the reference has not been received. <strong>As part of the requirements for access to the resource, your employee’s account details will be shared by email with the organisational head or designated Safeguarding lead, to ensure additional supervision and transparency of online activity conducted by the employee and his/her students.</strong><br>
+Please note that as part of the process you may receive a reminder of this request, but please note that <strong>after 4 weeks, the application from {$a->applicant_firstname} {$a->applicant_familyname} will automatically be deleted if the reference has not been received</strong>.<br>
 <br>
 If you have any queries, please email <a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Good luck with your teaching and learning,<br>
-<br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
 $string['safeguarding_subject'] = 'Approval of {$a->applicant_firstname} {$a->applicant_familyname}';
@@ -453,16 +451,15 @@ In order to help you to carry out student safeguarding, we have also created a S
 Your login instructions and credentials are as follows:
 <ul>
 <li>Browse to <a href="{$a->ukfilmnet_url}">UKfilmNet</a></li>
-<li>Your Username is - {$a->contact_username}</li>
-<li>Your Password is - {$a->contact_password}</li>
+<li>Your Username is - <strong>{$a->contact_username}</strong></li>
+<li>Your Password is - <strong>{$a->contact_password}</strong></li>
 </ul>
 
 If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Good luck with your teaching and learning,<br>
-<br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
+
 $string['safeguarding_existing_sgo_account_text'] = '
 {$a->schoolname}<br>
 {$a->contact_firstname} {$a->contact_familyname}<br>
@@ -487,9 +484,7 @@ In order to help you to carry out student safeguarding, we have also given you n
 <br>
 If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
 <br>
-Good luck with your teaching and learning,<br>
-<br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
 
 $string['determination_subject'] = 'UKfilmNet Account Request Determination';
@@ -519,11 +514,11 @@ $string['application_deleted_subject'] = 'Your UKfilmNet Application Has Been De
 $string['application_deleted_text'] = '
 Dear {$a->firstname},<br>
 <br>
-We are sad to have to tell you that your application for teacher access to UKfilmNet has been deleted because you did not completed it or your Designated Safety Lead did not veryify your employment within four weeks.<br>
+We are saddened to tell you that your application for teacher access to UKfilmNet has been deleted because you did not completed it or your Designated Safety Lead did not veryify your employment within four weeks.<br>
 <br>
 We hope you will reapply.<br>
 <br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
 
@@ -535,7 +530,7 @@ We are writing to let you know that your application for teacher access to UKfil
 <br>
 We hope to received your completed application and DSL employment verification before {$a->application_period_end_date}.<br>
 <br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
 
@@ -547,7 +542,7 @@ Thank you for submitting a Safeguarding Assurance Form in respect of {$a->applic
 <br>
 If you have questions, or if you did not submit a Safeguarding Assurance Form in respect of this employee, please let us know.<br>
 <br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
 $string['safeguarding_assurance_form_submitted_text_applicant'] = '
@@ -555,7 +550,7 @@ Dear {$a->applicant_firstname},<br>
 <br>
 This is to let you know that {$a->dsl_fullname} submitted a Safeguarding Assurance Form today in respect of your application for teacher access to UKfilmNet\'s teaching resouces and online teaching environmnet. We will let you know in the very near future whether we are able to grant your application request.<br>
 <br>
-The Safeguarding and Enrolment Team<br>
+The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
 $string['safeguarding_assurance_form_submitted_text_ukfilmnet'] = '

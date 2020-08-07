@@ -79,8 +79,6 @@ foreach($num_of_ukfnteacher_classrooms as $teacherid=>$classrooms) {
         $safeguarding_contact = $DB->get_record('user', array('email'=>$ukfnteacher->profile_field_safeguarding_contact_email));
         $context = context_course::instance($newcourse->id);
         $cohort = $DB->get_record('cohort', array('idnumber'=>$newcourse->shortname));
-//print_r2($cohort);
-
         cohort_add_member($cohort->id, $safeguarding_contact->id);
         role_assign(get_role_id('teacher'), $safeguarding_contact->id, $context->id);
         role_unassign(get_role_id('student'), $safeguarding_contact->id, $context->id);
@@ -93,8 +91,8 @@ $users_list = $DB->get_records('user', array('deleted'=>1));
 foreach($users_list as $a_user) {
     array_push($existing_emails, $a_user->email);
 }
-print_r2($existing_emails);
-//go_to_page('admin');
+
+go_to_page('admin');
 
 
 
