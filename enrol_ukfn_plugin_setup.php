@@ -62,7 +62,7 @@ if(!in_array('manual', $enabled)) {
 
 // Create needed corhorts if they do not yet exist, and get their ids
 $applicants_cohort_id = create_cohort_if_not_existing('applicants');
-$students_cohort_id = create_cohort_if_not_existing('students');
+$student_cohort_id = create_cohort_if_not_existing('student');
 $resource_courses_cohort_id = create_cohort_if_not_existing('resource_courses');
 $support_courses_cohort_id = create_cohort_if_not_existing('support_courses');
 
@@ -148,13 +148,13 @@ $ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
 $ukfnstudent_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet student', 'ukfnstudent', 'A role for all UKfilmNet students - based on Moodle\'s student role, but more restrited', 'student', $ukfnstudent_capabilities_to_change, $ukfnstudent_context_types, [], [], [],[]);
 
 // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
-$ukfn_resourcecourse_users_capabilities_to_change = [
+$ukfn_resourcecourse_user_capabilities_to_change = [
     ['moodle/course:viewparticipants', $prohibit],
 ];
 
-$ukfn_resourcecourse_users_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+$ukfn_resourcecourse_user_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
 
-$ukfn_resourcecourse_users_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet resource course users', 'ukfnresourcecourseusers', 'A role for UKfilmNet resource course users - based on Moodle\'s student role, but more restrited', 'student', $ukfn_resourcecourse_users_capabilities_to_change, $ukfn_resourcecourse_users_context_types, [], [], [],[]);
+$ukfn_resourcecourse_user_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet resource course user', 'ukfnresourcecourseuser', 'A role for UKfilmNet resource course users - based on Moodle\'s student role, but more restrited', 'student', $ukfn_resourcecourse_user_capabilities_to_change, $ukfn_resourcecourse_user_context_types, [], [], [],[]);
 
 // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
 $ukfnnoneditingteacher_capabilities_to_change = [

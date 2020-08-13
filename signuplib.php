@@ -820,7 +820,8 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     // Create a new cohort with the same name as our course shortname and get its id
     $cohortid = create_ukfn_cohort($newcourse['shortname'], $courseinfo['id']);
     $course_created = $DB->get_record('course', array('shortname'=>$courseinfo['shortname']));
-    $data = create_cohortsync_data($courseinfo['shortname'], $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
+    //$data = create_cohortsync_data($courseinfo['shortname'], $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
+    $data = create_cohortsync_data('Cohort sync', $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
     
     // Add the new cohort to the new course's corhort sync
     $cohort_plugin = new enrolukfn_cohort_plugin();
