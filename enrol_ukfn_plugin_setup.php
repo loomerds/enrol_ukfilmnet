@@ -148,43 +148,52 @@ $ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
 $ukfnstudent_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet student', 'ukfnstudent', 'A role for all UKfilmNet students - based on Moodle\'s student role, but more restrited', 'student', $ukfnstudent_capabilities_to_change, $ukfnstudent_context_types, [], [], [],[]);
 
 // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+$ukfn_resourcecourse_users_capabilities_to_change = [
+    ['moodle/course:viewparticipants', $prohibit],
+];
+
+$ukfn_resourcecourse_users_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+$ukfn_resourcecourse_users_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet resource course users', 'ukfnresourcecourseusers', 'A role for UKfilmNet resource course users - based on Moodle\'s student role, but more restrited', 'student', $ukfn_resourcecourse_users_capabilities_to_change, $ukfn_resourcecourse_users_context_types, [], [], [],[]);
+
+// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
 $ukfnnoneditingteacher_capabilities_to_change = [
-                                ['enrol/manual:enrol', $prohibit],
-                                ['enrol/flatfile:manage', $prohibit],
-                                ['enrol/paypal:manage', $prohibit],
-                                ['enrol/self:manage', $prohibit],
-                                ['enrol/manual:unenrol', $prohibit],
-                                ['enrol/flatfile:unenrol', $prohibit],
-                                ['enrol/self:unenrol', $prohibit],
-                                ['enrol/lti:unenrol', $prohibit],
-                                ['moodle/course:reviewotherusers', $prohibit],
-                                ['moodle/role:assign', $prohibit],
-                                ['enrol/category:config', $prohibit],
-                                ['enrol/cohort:config', $prohibit],
-                                ['enrol/database:config', $prohibit],
-                                ['enrol/guest:config', $prohibit],
-                                ['enrol/imsenterprise:config', $prohibit],
-                                ['enrol/lti:config', $prohibit], 
-                                ['enrol/meta:config', $prohibit],
-                                ['enrol/mnet:config', $prohibit],
-                                ['enrol/self:config', $prohibit],
-                                ['moodle/course:enrolconfig', $prohibit],
-                                ['moodle/course:enrolreview', $prohibit],
-                                ['moodle/cohort:view', $prohibit],
-                                ['moodle/course:changecategory', $prohibit],
-                                ['moodle/course:changefullname', $prohibit],
-                                ['moodle/course:changeshortname', $prohibit],
-                                ['moodle/course:renameroles', $prohibit],
-                                ['moodle/question:editall', $prohibit],
-                                ['moodle/question:moveall', $prohibit],
-                                ['moodle/question:tagall', $prohibit],
-                                ['moodle/rating:viewall', $prohibit],
-                                ['moodle/rating:viewany', $prohibit],
-                                ['moodle/role:safeoverride', $prohibit],
-                                ['moodle/user:viewhiddendetails', $prohibit],
-                                ['mod/assign:manageallocations', $prohibit],
-                                ['mod/chat:deletelog', $prohibit],
-                                ['mod/feedback:createpublictemplate', $prohibit]
+    ['enrol/manual:enrol', $prohibit],
+    ['enrol/flatfile:manage', $prohibit],
+    ['enrol/paypal:manage', $prohibit],
+    ['enrol/self:manage', $prohibit],
+    ['enrol/manual:unenrol', $prohibit],
+    ['enrol/flatfile:unenrol', $prohibit],
+    ['enrol/self:unenrol', $prohibit],
+    ['enrol/lti:unenrol', $prohibit],
+    ['moodle/course:reviewotherusers', $prohibit],
+    ['moodle/role:assign', $prohibit],
+    ['enrol/category:config', $prohibit],
+    ['enrol/cohort:config', $prohibit],
+    ['enrol/database:config', $prohibit],
+    ['enrol/guest:config', $prohibit],
+    ['enrol/imsenterprise:config', $prohibit],
+    ['enrol/lti:config', $prohibit], 
+    ['enrol/meta:config', $prohibit],
+    ['enrol/mnet:config', $prohibit],
+    ['enrol/self:config', $prohibit],
+    ['moodle/course:enrolconfig', $prohibit],
+    ['moodle/course:enrolreview', $prohibit],
+    ['moodle/cohort:view', $prohibit],
+    ['moodle/course:changecategory', $prohibit],
+    ['moodle/course:changefullname', $prohibit],
+    ['moodle/course:changeshortname', $prohibit],
+    ['moodle/course:renameroles', $prohibit],
+    ['moodle/question:editall', $prohibit],
+    ['moodle/question:moveall', $prohibit],
+    ['moodle/question:tagall', $prohibit],
+    ['moodle/rating:viewall', $prohibit],
+    ['moodle/rating:viewany', $prohibit],
+    ['moodle/role:safeoverride', $prohibit],
+    ['moodle/user:viewhiddendetails', $prohibit],
+    ['mod/assign:manageallocations', $prohibit],
+    ['mod/chat:deletelog', $prohibit],
+    ['mod/feedback:createpublictemplate', $prohibit]
 ];
 
 $ukfnnoneditingteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
