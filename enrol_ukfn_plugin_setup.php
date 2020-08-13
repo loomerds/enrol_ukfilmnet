@@ -116,7 +116,7 @@ $ukfnteacher_capabilities_to_change = [
 
 $ukfnteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
 
-$ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet Teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
+$ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
 
 // Array of capabilities to be changed in order to augment applicant role permissions beyond those of its user role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
 $applicant_capabilities_to_change = [
@@ -140,6 +140,62 @@ $applicant_capabilities_to_change = [
 $applicant_context_types = [CONTEXT_SYSTEM, CONTEXT_USER];
 
 $applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet applicant', 'applicant', 'A role for all UKfilmNet educator access applicants - based on Moodle\'s Authenticated user role, but less restrited', 'user', $applicant_capabilities_to_change, $applicant_context_types, [], [], [],[]);
+
+// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+$ukfnstudent_capabilities_to_change = [
+
+];
+
+$ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+$ukfnstudent_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet student', 'ukfnstudent', 'A role for all UKfilmNet students - based on Moodle\'s student role, but more restrited', 'student', $ukfnstudent_capabilities_to_change, $ukfnstudent_context_types, [], [], [],[]);
+
+// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+$ukfnnoneditingteacher_capabilities_to_change = [
+                                ['enrol/manual:enrol', $prohibit],
+                                ['enrol/flatfile:manage', $prohibit],
+                                ['enrol/paypal:manage', $prohibit],
+                                ['enrol/self:manage', $prohibit],
+                                ['enrol/manual:unenrol', $prohibit],
+                                ['enrol/flatfile:unenrol', $prohibit],
+                                ['enrol/self:unenrol', $prohibit],
+                                ['enrol/lti:unenrol', $prohibit],
+                                ['moodle/course:reviewotherusers', $prohibit],
+                                ['moodle/grade:viewall', $prohibit],
+                                ['moodle/role:assign', $prohibit],
+                                ['enrol/category:config', $prohibit],
+                                ['enrol/cohort:config', $prohibit],
+                                ['enrol/database:config', $prohibit],
+                                ['enrol/guest:config', $prohibit],
+                                ['enrol/imsenterprise:config', $prohibit],
+                                ['enrol/lti:config', $prohibit], //
+                                ['enrol/meta:config', $prohibit],
+                                ['enrol/mnet:config', $prohibit],
+                                ['enrol/self:config', $prohibit],
+                                ['moodle/course:enrolconfig', $prohibit],
+                                ['moodle/course:enrolreview', $prohibit],
+                                ['moodle/cohort:view', $prohibit],
+                                ['moodle/course:changecategory', $prohibit],
+                                ['moodle/course:changefullname', $prohibit],
+                                ['moodle/course:changeshortname', $prohibit],
+                                ['moodle/course:renameroles', $prohibit],
+                                ['moodle/question:editall', $prohibit],
+                                ['moodle/question:moveall', $prohibit],
+                                ['moodle/question:tagall', $prohibit],
+                                ['moodle/rating:viewall', $prohibit],
+                                ['moodle/rating:viewany', $prohibit],
+                                ['moodle/role:review', $prohibit],
+                                ['moodle/role:safeoverride', $prohibit],
+                                ['moodle/user:viewhiddendetails', $prohibit],
+                                ['mod/assign:manageallocations', $prohibit],
+                                ['mod/chat:deletelog', $prohibit],
+                                ['mod/feedback:createpublictemplate', $prohibit]
+];
+
+$ukfnnoneditingteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+$ukfnnoneditingteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet non-editing teacher', 'ukfnnoneditingteacher', 'A role for all UKfilmNet non-editing teachers - based on Moodle\'s non-editing teacher role, but more restrited', 'teacher', $ukfnnoneditingteacher_capabilities_to_change, $ukfnnoneditingteacher_context_types, [], [], [],[]);
+
 
 // Lock the email field for all authentication plugins
 $plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_email'));
@@ -227,7 +283,7 @@ if(!$instance_exists) {
     }
 }
 
-// Create custom profile fields if they do not yet exist
+// HANDLE CREATION OF CUSTOM PROFILE FIELDS IF THEY DO NOT YET EXIST
 
 // Create user_info_category "UKfilmNet Applicant Info" if it doesn't exist
 $ukfn_applicant_info_category_id;
@@ -276,5 +332,6 @@ foreach($ukfn_applicant_info_field_array as &$record) {
     }
 }
 
+//print_r2($DB->get_record('role', array('shortname'=>get_string('ukfnstudent_role_name', 'enrol_ukfilmnet')))->id);
 // Let the Moodle admin know that the setup script ran
 echo(get_string('setup_script_run_confirmation', 'enrol_ukfilmnet'));

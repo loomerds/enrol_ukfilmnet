@@ -412,7 +412,7 @@ function process_students($datum) {
         }
         if($email_taken == false) {
             $new_student = create_student_user((object)$student);
-            $cohort_id = create_cohort_if_not_existing('students');
+            $cohort_id = create_cohort_if_not_existing(get_string('ukfnstudent_cohort_name', 'enrol_ukfilmnet'));
             cohort_add_member($cohort_id, $new_student->id);
 
         }
@@ -574,13 +574,15 @@ function application_approved($approved) {
 
     // Remove any dangling cohorts (classroom cohorts that are no longer  associated with a course)
     delete_dangling_cohorts();
-$existing_emails = [];
-$users_list = $DB->get_records('user');
-foreach($users_list as $a_user) {
-    array_push($existing_emails, $a_user->email);
-}
 
-    // Process each approval - change progress level, send email notification to applicant, create classroom courses requested, enrol applicant in classroom courses with a role of ukfnteacher, enrol applicant in resource_courses and support_courses with a student role, create DSL user if necessary and enrol DSL in classroom courses and resource_courses 
+    // Get a list of all user emails
+    $existing_emails = [];
+    $users_list = $DB->get_records('user');
+    foreach($users_list as $a_user) {
+        array_push($existing_emails, $a_user->email);
+    }
+
+    // Process each approval - 1) change progress level, 2) send email notification to applicant, 3) create classroom courses requested, 4) enrol applicant in classroom courses with a role of ukfnteacher, 5)enrol applicant in resource_courses and support_courses with a student role, 6) create DSL user if necessary and enrol DSL in classroom courses and resource_courses 
     foreach($approved as $userid) {
         $applicant_user = $DB->get_record('user', array('id' => $userid, 'auth' => 'manual'));
         $resource_courses_cohort = $DB->get_record('cohort', array('idnumber'=>get_string('resource_courses_idnumber', 'enrol_ukfilmnet')));
@@ -600,7 +602,7 @@ foreach($users_list as $a_user) {
                             get_string('template_course_shortname', 'enrol_ukfilmnet'), 
                             get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
 
-                    $approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
+                    //$approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();
                     $usercontext = context_user::instance($applicant_user->id);
                     enrol_user_this($newcourse, $applicant_user, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
@@ -673,8 +675,8 @@ function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort
             $context = context_course::instance($course->id);
             $cohort = $DB->get_record('cohort', array('idnumber'=>$course->shortname));
             cohort_add_member($cohort->id, $sgo_user->id);
-            role_assign(get_role_id('teacher'), $sgo_user->id, $context->id);
-            role_unassign(get_role_id('student'), $sgo_user->id, $context->id);
+            role_assign(get_role_id('ukfnnoneditingteacher'), $sgo_user->id, $context->id);
+            //role_unassign(get_role_id('ukfnstudent'), $sgo_user->id, $context->id);
         }
     }
 }
@@ -802,7 +804,7 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
         }
     }
 
-// Build a new course object
+    // Build a new course object
     $newcourse['courseid'] = $target_courseid;
     $newcourse['fullname'] = $unique_shortname;
     $newcourse['shortname'] = $unique_shortname;
@@ -818,9 +820,9 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     // Create a new cohort with the same name as our course shortname and get its id
     $cohortid = create_ukfn_cohort($newcourse['shortname'], $courseinfo['id']);
     $course_created = $DB->get_record('course', array('shortname'=>$courseinfo['shortname']));
-    $data = create_cohortsync_data($courseinfo['shortname'], $cohortid);
+    $data = create_cohortsync_data($courseinfo['shortname'], $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
     
-    // Add the new cohort to the new cours's corhort sync
+    // Add the new cohort to the new course's corhort sync
     $cohort_plugin = new enrolukfn_cohort_plugin();
     $cohort_plugin->add_instance($course_created, $data);
 
@@ -873,9 +875,12 @@ function create_ukfn_cohort($name, $courseid) {
     return $id;
 }
 
-function create_cohortsync_data($name, $cohortid) {
+// Create and return a data object for use in creating a cohort sync enrolment 
+function create_cohortsync_data($name, $cohortid, $default_role_shortname) {
+    global $DB;
+    $roleid = $DB->get_record('role', array('shortname'=>$default_role_shortname))->id;
     $data = array('name'=>$name, 'customint1'=>$cohortid,
-                  'roleid'=>5, 'customint2'=>0);
+                  'roleid'=>$roleid, 'customint2'=>0);
     return $data;
 }
 
@@ -2197,7 +2202,8 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
     }
 
     // Update role permissions if called for
-    if($capabilities_to_change != '') {        set_role_contextlevels($role_id, $context_types);
+    if($capabilities_to_change != '') {        
+        set_role_contextlevels($role_id, $context_types);
         foreach($capabilities_to_change as $capability) {
             if(get_capability_info($capability[0]) != null) {
                 assign_capability($capability[0], $capability[1], $role_id, $context, true);

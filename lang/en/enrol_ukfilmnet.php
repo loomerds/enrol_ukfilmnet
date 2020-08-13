@@ -348,7 +348,7 @@ $string['dfm_category_idnumber'] = 'DFM';
 $string['dfm_category_parent'] = 0;
 $string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
 //$string['misc_course_category'] = 'CLASSROOMS';
-$string['student_role_id'] = '5';
+//$string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '5';
 $string['resource_courses_idnumber'] = 'resource_courses';
@@ -365,6 +365,10 @@ $string['moodle_admin_safeguarding_user_firstname'] = 'ukfn';
 $string['moodle_admin_safeguarding_user_lastname'] = 'sg';
 $string['ukfnteacher_role_name'] = 'ukfnteacher';
 $string['ukfn_user_info_category_name'] = 'UKfilmNet Applicant Info';
+$string['ukfnstudent_role_name'] = 'ukfnstudent';
+$string['ukfnnoneditingteacher_role_name'] = 'ukfnnoneditingteacher';
+$string['cohort_sync_default_role'] = 'ukfnstudent';
+$string['ukfnstudent_cohort_name'] = 'student';
 
 // URL variables
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
@@ -556,3 +560,4 @@ The UKfilmNet Safeguarding and Enrolment Team<br>
 $string['safeguarding_assurance_form_submitted_text_ukfilmnet'] = '
 A Safeguarding Assurance Form was submitted today on behalf of teacher applicant <strong>{$a->applicant_fullname}</strong>.<br>
 <br>';
+
