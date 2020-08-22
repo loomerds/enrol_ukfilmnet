@@ -726,7 +726,6 @@ h3.ukfn_enrol_page_title {
 #page-enrol-ukfilmnet-safeguarding #nav-drawer,
 #page-enrol-ukfilmnet-courses #nav-drawer,
 #page-enrol-ukfilmnet-school #nav-drawer,
-/*#page-enrol-ukfilmnet-students #nav-drawer,*/
 #page-enrol-ukfilmnet-applicant .nav,
 #page-enrol-ukfilmnet-emailverify .nav,
 #page-enrol-ukfilmnet-school .nav,
@@ -739,7 +738,6 @@ h3.ukfn_enrol_page_title {
 #page-enrol-ukfilmnet-emailverify.drawer-open-left,
 #page-enrol-ukfilmnet-safeguarding.drawer-open-left,
 #page-enrol-ukfilmnet-courses.drawer-open-left,
-/*#page-enrol-ukfilmnet-students.drawer-open-left,*/
 #page-enrol-ukfilmnet-school.drawer-open-left {
     margin-left: 0px;
 }

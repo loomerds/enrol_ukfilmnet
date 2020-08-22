@@ -46,10 +46,10 @@ class students_form extends \moodleform {
         $mform->setType('student_email', PARAM_NOTAGS);
         $mform->addRule('student_email', get_string('error_missing_student_email', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('text', 'student_firstname', get_string('student_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn_student_firstname ukfn_enrol_col']);
-        $mform->setType('student_firstname', PARAM_NOTAGS);
+        $mform->setType('student_firstname', PARAM_TEXT);
         $mform->addRule('student_firstname', get_string('error_missing_student_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
         $mform->addElement('text', 'student_familyname', get_string('student_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn_student_familyname ukfn_enrol_col']);
-        $mform->setType('student_familyname', PARAM_NOTAGS);
+        $mform->setType('student_familyname', PARAM_TEXT);
         $mform->addRule('student_familyname', get_string('error_missing_student_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
     }
 

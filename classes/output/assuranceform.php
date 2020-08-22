@@ -99,22 +99,22 @@ class assurance_form extends \moodleform {
                         $mform->addElement('html', '</div>');
 
                         $mform->addElement('text', 'job_title', get_string('job_title', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
-                        $mform->setType('job_title', PARAM_NOTAGS);
+                        $mform->setType('job_title', PARAM_TEXT);
                         $mform->addRule('job_title', get_string('error_missing_job_title', 'enrol_ukfilmnet'), 'required', null, 'server');
                         $mform->disabledIf('job_title', 'applicant_is_employed_yes');
 
                         $mform->addElement('text', 'main_duties', get_string('main_duties', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
-                        $mform->setType('main_duties', PARAM_NOTAGS);
+                        $mform->setType('main_duties', PARAM_TEXT);
                         $mform->addRule('main_duties', get_string('error_missing_main_duties', 'enrol_ukfilmnet'), 'required', null, 'server');
                         $mform->disabledIf('main_duties', 'applicant_is_employed_yes');
                         
                         $mform->addElement('text', 'how_long_employee_known', get_string('how_long_employee_known', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
-                        $mform->setType('how_long_employee_known', PARAM_NOTAGS);
+                        $mform->setType('how_long_employee_known', PARAM_TEXT);
                         $mform->addRule('how_long_employee_known', get_string('error_missing_time_known', 'enrol_ukfilmnet'), 'required', null, 'server');
                         $mform->disabledIf('how_long_employee_known', 'applicant_is_employed_yes');
                         
                         $mform->addElement('text', 'capacity_employee_known', get_string('capacity_employee_known', 'enrol_ukfilmnet'), ['class'=>'ukfn_form_even']);
-                        $mform->setType('capacity_employee_known', PARAM_NOTAGS);
+                        $mform->setType('capacity_employee_known', PARAM_TEXT);
                         $mform->addRule('capacity_employee_known', get_string('error_missing_capacity_known', 'enrol_ukfilmnet'), 'required', null, 'server');
                         $mform->disabledIf('capacity_employee_known', 'applicant_is_employed_yes');
 
@@ -211,12 +211,12 @@ class assurance_form extends \moodleform {
                         
                         $mform->addElement('html', '<div class="ukfn_form_even referee">');
                             $mform->addElement('text', 'referee_firstname', get_string('referee_firstname', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
-                            $mform->setType('referee_firstname', PARAM_NOTAGS);
+                            $mform->setType('referee_firstname', PARAM_TEXT);
                             $mform->addRule('referee_firstname', get_string('error_missing_referee_firstname', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('referee_firstname', 'applicant_is_employed_yes');
 
                             $mform->addElement('text', 'referee_familyname', get_string('referee_familyname', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
-                            $mform->setType('referee_familyname', PARAM_NOTAGS);
+                            $mform->setType('referee_familyname', PARAM_TEXT);
                             $mform->addRule('referee_familyname', get_string('error_missing_referee_familyname', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('referee_familyname', 'applicant_is_employed_yes');
 
@@ -224,7 +224,7 @@ class assurance_form extends \moodleform {
 
                         $mform->addElement('html', '<div class="ukfn_form_even referee">');
                             $mform->addElement('text', 'referee_position', get_string('referee_position', 'enrol_ukfilmnet'), ['class'=>'ukfn-qts-content']);
-                            $mform->setType('referee_position', PARAM_NOTAGS);
+                            $mform->setType('referee_position', PARAM_TEXT);
                             $mform->addRule('referee_position', get_string('error_missing_referee_position', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('referee_position', 'applicant_is_employed_yes');
 
@@ -242,7 +242,7 @@ class assurance_form extends \moodleform {
 
                         $mform->addElement('html', '<div class="ukfn_form_even school_info">');
                             $mform->addElement('textarea', 'school_registered_address', get_string('school_registered_address', 'enrol_ukfilmnet', 'wrap="virtual" rows="20" cols="50"'));
-                            $mform->setType('school_registered_address', PARAM_NOTAGS);
+                            $mform->setType('school_registered_address', PARAM_TEXT);
                             $mform->addRule('school_registered_address', get_string('error_missing_organisation_address', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('school_registered_address', 'applicant_is_employed_yes');
 
@@ -254,7 +254,7 @@ class assurance_form extends \moodleform {
                         $mform->addElement('html', '<div class="ukfn_form_even school_info">');
 
                             $mform->addElement('text', 'schoolname', get_string('school_name', 'enrol_ukfilmnet'), ['class'=>'ukfn_schoolname']);
-                            $mform->setType('schoolname', PARAM_NOTAGS);
+                            $mform->setType('schoolname', PARAM_TEXT);
                             $mform->addRule('schoolname', get_string('error_missing_school_name', 'enrol_ukfilmnet'), 'required', null, 'server');
                             $mform->disabledIf('schoolname', 'applicant_is_employed_yes');
                         

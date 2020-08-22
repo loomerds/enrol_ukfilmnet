@@ -529,25 +529,6 @@ function make_random_numstring() {
     return rand(1, 1000);
 }
 
-// this function needs to be fixed
-function convert_clean_string_assoc_array ($dirty_array) {
-    $approved_and_cleaned = [];
-    foreach($dirty_array as $dirty) {
-        var_dump($dirty);
-        //var_dump("wooo");
-        //$clean = [];
-        //foreach($dirty as $value) {
-            //$clean[] = ['userid'=>$value];
-            $clean['userid'] = $dirty;
-            $clean = filter_var_array($clean, array('userid'=>FILTER_SANITIZE_STRING));
-        //}
-        $approved_and_cleaned[] = $clean;
-        var_dump($approved_and_cleaned);
-    }
-    //var_dump($clean);
-    return $approved_and_cleaned;
-}
-
 function application_denied($denied) {
     global $DB;
     foreach($denied as $userid) {

@@ -39,13 +39,11 @@ $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $safeguardingpage = new \enrol_ukfilmnet\output\safeguardingpage($page_number);
 $page_content = $output->render_safeguardingpage($safeguardingpage);
 
-// This should probably be factored out
 // Handle cancels
-//print_r2($_POST);
-
 if(isset($_POST['cancelbutton'])) { //this is bespoke relative to the other pages, fix it if refactoring
     go_to_page(strval(0));
 }
+
 // Handle submits 
 elseif(isset($_POST['submitbutton'])) {
     // If all required inputs were received progress to next signup page
@@ -60,7 +58,7 @@ elseif(isset($_POST['submitbutton'])) {
         }
     }
     if($all_items_submitted == true) {
-        go_to_page(strval(1+$page_number)); //what about final page?
+        go_to_page(strval(1+$page_number));
     }
 }
 // Force non-submit based arrivals on the page to correct applicantprogress page

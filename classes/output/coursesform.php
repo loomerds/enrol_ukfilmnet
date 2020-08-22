@@ -41,7 +41,7 @@ class courses_form extends \moodleform {
 
         $mform = $this->_form; 
         $mform->addElement('text', 'total_courses', get_string('total_courses_question', 'enrol_ukfilmnet'), ['class'=>'ukfn_courses_questions']);
-        $mform->setType('total_courses', PARAM_NOTAGS);
+        $mform->setType('total_courses', PARAM_INT);
         $mform->addRule('total_courses', get_string('error_missing_total_courses_questions', 'enrol_ukfilmnet'), 'required', null, 'server');
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);           
     }
