@@ -131,7 +131,8 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
     require_once($CFG->dirroot.'/lib/accesslib.php');
     require_once($CFG->dirroot.'/lib/moodlelib.php');
     
-    if($DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet'))) === false) {
+    $user = $DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet')));
+    if( $user === false) {
         $username = get_string('moodle_admin_safeguarding_user_username', 'enrol_ukfilmnet');
         $authplugin = get_auth_plugin($auth);
         //$customfields = $authplugin->get_custom_user_profile_fields();
@@ -181,10 +182,13 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
 
         // Set the password.
         update_internal_user_password($user, $password);
-        
-        return $user;
-    } else {
+//print_r2($user);
+        //return $user;
+    } 
+    if($DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet'))) === false) {
         return false;
+    } else {
+        return $user;
     }
     
 }
@@ -1225,6 +1229,24 @@ function get_cohort_id_from_cohort_idnumber($cohort_idnumber) {
     return $cohort->id;
 }
 
+// Enable an enrolment plugin if it is not already enabled
+function enable_enrolment_plugin($plugin_name) {
+    $enabled = enrol_get_plugins(true);
+    if(!array_key_exists($plugin_name, $enabled)) {
+        $enabled[$plugin_name] = true;
+        $enabled = array_keys($enabled);
+        set_config('enrol_plugins_enabled', implode(',', $enabled));
+    }
+    unset($enabled);
+    $enabled = enrol_get_plugins(true);
+    $there = in_array($plugin_name, $enabled);
+    if(array_key_exists($plugin_name, $enabled)) {
+        return true;
+    }
+    unset($enabled);
+    return false;
+}
+
 function get_profile_field_records() {
 
     return Array (
@@ -2168,7 +2190,8 @@ function get_profile_field_records() {
 
 function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '', $context_types, $role_assignments='', $role_overrides='', $role_switches='', $role_to_view='') {
     global $DB;
-    $role_id;
+    $role_id = -1;
+    //$results = [];
     $context = context_system::instance();
 
 
@@ -2182,6 +2205,11 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
         $role = $DB->get_record('role', array('shortname'=>$short_name));
         $role_id = $role->id;
     }
+    //$results['role_id'] = $role_id;
+
+    if($role_id === -1) {
+        return $role_id;
+    }
 
     // Update role permissions if called for
     if($capabilities_to_change != '') {        
@@ -2191,14 +2219,14 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
                 assign_capability($capability[0], $capability[1], $role_id, $context, true);
             }
             else {
-                trigger_error('The <strong>'.$capability[0].'</strong> capability you tried to add or modify does not exist in the <strong>'.$custom_full_name.'</strong> role. Check the code ', E_USER_WARNING);
+                // Uncomment the next line if you wish to warn the Moodle site admin when this script attempts to modify permissions of a role capability that does not exist
+                //trigger_error('The <strong>'.$capability[0].'</strong> capability you tried to add or modify does not exist in the <strong>'.$custom_full_name.'</strong> role. Check the code ', E_USER_WARNING);
             }
         }
-        //$context->mark_dirty();
     }
 
     // Update Allow role assignments
-    if($role_assignments !== '') {
+    if($role_assignments == '') {
         $DB->delete_records('role_allow_assign', array('roleid'=>$role_id));
         foreach($role_assignments as $role) {
             $target_role_id = $DB->get_record('role', array('shortname'=>$role))->id;
@@ -2233,6 +2261,8 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
         }
     }
     $context->mark_dirty();
+    
+    return $role_id;
 }
 
 // HANDLE DELETION OF COHORTS THAT ARE NOT ASSOCIATED WITH ANY COURSES

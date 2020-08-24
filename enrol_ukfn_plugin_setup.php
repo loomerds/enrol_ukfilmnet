@@ -44,298 +44,404 @@ if(!has_capability('moodle/role:manage', $context)) {
  * 
  */
 
-// Ensure that the Cohort sync enrolment plugin is enabled
-$enabled = enrol_get_plugins(true);
-if(!in_array('cohort', $enabled)) {
-    $enabled['cohort'] = true;
-    $enabled = array_keys($enabled);
-    set_config('enrol_plugins_enabled', implode(',', $enabled));
-}
-
-// Ensure that the Manual enrolment plugin is enabled
-$enabled = enrol_get_plugins(true);
-if(!in_array('manual', $enabled)) {
-    $enabled['manual'] = true;
-    $enabled = array_keys($enabled);
-    set_config('enrol_plugins_enabled', implode(',', $enabled));
-}
-
-// Create needed corhorts if they do not yet exist, and get their ids
-$applicants_cohort_id = create_cohort_if_not_existing('applicants');
-$student_cohort_id = create_cohort_if_not_existing('student');
-$resource_courses_cohort_id = create_cohort_if_not_existing('resource_courses');
-$support_courses_cohort_id = create_cohort_if_not_existing('support_courses');
-
-// Create permission type variables
-$not_set = null;
-$allow = CAP_ALLOW;
-$prevent = CAP_PREVENT;
-$prohibit = CAP_PROHIBIT;
-
-// Array of capabilities to be changed in order to restrict ukfnteacher role permissions - modify this array and run this script to add further restrictions or ease restrictions
-$ukfnteacher_capabilities_to_change = [
-    ['enrol/manual:enrol', $prohibit],
-    ['enrol/flatfile:manage', $prohibit],
-    ['enrol/paypal:manage', $prohibit],
-    ['enrol/self:manage', $prohibit],
-    ['enrol/manual:unenrol', $prohibit],
-    ['enrol/flatfile:unenrol', $prohibit],
-    ['enrol/self:unenrol', $prohibit],
-    ['enrol/lti:unenrol', $prohibit],
-    ['moodle/course:reviewotherusers', $prohibit],
-    ['moodle/role:assign', $prohibit],
-    ['enrol/category:config', $prohibit],
-    ['enrol/cohort:config', $prohibit],
-    ['enrol/database:config', $prohibit],
-    ['enrol/guest:config', $prohibit],
-    ['enrol/imsenterprise:config', $prohibit],
-    ['enrol/lti:config', $prohibit], 
-    ['enrol/meta:config', $prohibit],
-    ['enrol/mnet:config', $prohibit],
-    ['enrol/self:config', $prohibit],
-    ['moodle/course:enrolconfig', $prohibit],
-    ['moodle/course:enrolreview', $prohibit],
-    ['moodle/cohort:view', $prohibit],
-    ['moodle/course:changecategory', $prohibit],
-    ['moodle/course:changeshortname', $prohibit],
-    ['moodle/course:renameroles', $prohibit],
-    ['moodle/question:editall', $prohibit],
-    ['moodle/question:moveall', $prohibit],
-    ['moodle/question:tagall', $prohibit],
-    ['moodle/rating:viewall', $prohibit],
-    ['moodle/rating:viewany', $prohibit],
-    ['moodle/role:safeoverride', $prohibit],
-    ['moodle/user:viewhiddendetails', $prohibit],
-    ['mod/assign:manageallocations', $prohibit],
-    ['mod/chat:deletelog', $prohibit],
-    ['mod/feedback:createpublictemplate', $prohibit],
-];
-
-$ukfnteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
-
-$ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
-
-// Array of capabilities to be changed in order to augment applicant role permissions beyond those of its user role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
-$applicant_capabilities_to_change = [
-    ['message/airnotifier:managedevice', $allow],
-    ['mod/folder:managefiles', $allow],
-    ['mod/label:view', $allow],
-    ['mod/page:view', $allow],
-    ['mod/url:view', $allow],
-    ['moodle/block:view', $allow],
-    ['moodle/user:changeownpassword', $allow],
-    ['moodle/webservice:createmobiletoken', $allow],
-    ['report/usersessions:manageownsessions', $allow],
-    ['repository/areafiles:view', $allow],
-    ['repository/filesystem:view', $allow],
-    ['repository/upload:view', $allow],
-    ['repository/url:view', $allow],
-    ['tool/dataprivacy:requestdelete', $allow],
-    ['tool/policy:accept', $allow]
-];
-
-$applicant_context_types = [CONTEXT_SYSTEM, CONTEXT_USER];
-
-$applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet applicant', 'applicant', 'A role for all UKfilmNet educator access applicants - based on Moodle\'s Authenticated user role, but less restrited', 'user', $applicant_capabilities_to_change, $applicant_context_types, [], [], [],[]);
-
-// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
-$ukfnstudent_capabilities_to_change = [
-
-];
-
-$ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
-
-$ukfnstudent_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet student', 'ukfnstudent', 'A role for all UKfilmNet students - based on Moodle\'s student role, but more restrited', 'student', $ukfnstudent_capabilities_to_change, $ukfnstudent_context_types, [], [], [],[]);
-
-// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
-$ukfn_resourcecourse_user_capabilities_to_change = [
-    ['moodle/course:viewparticipants', $prohibit],
-];
-
-$ukfn_resourcecourse_user_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
-
-$ukfn_resourcecourse_user_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet resource course user', 'ukfnresourcecourseuser', 'A role for UKfilmNet resource course users - based on Moodle\'s student role, but more restrited', 'student', $ukfn_resourcecourse_user_capabilities_to_change, $ukfn_resourcecourse_user_context_types, [], [], [],[]);
-
-// Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
-$ukfnnoneditingteacher_capabilities_to_change = [
-    ['enrol/manual:enrol', $prohibit],
-    ['enrol/flatfile:manage', $prohibit],
-    ['enrol/paypal:manage', $prohibit],
-    ['enrol/self:manage', $prohibit],
-    ['enrol/manual:unenrol', $prohibit],
-    ['enrol/flatfile:unenrol', $prohibit],
-    ['enrol/self:unenrol', $prohibit],
-    ['enrol/lti:unenrol', $prohibit],
-    ['moodle/course:reviewotherusers', $prohibit],
-    ['moodle/role:assign', $prohibit],
-    ['enrol/category:config', $prohibit],
-    ['enrol/cohort:config', $prohibit],
-    ['enrol/database:config', $prohibit],
-    ['enrol/guest:config', $prohibit],
-    ['enrol/imsenterprise:config', $prohibit],
-    ['enrol/lti:config', $prohibit], 
-    ['enrol/meta:config', $prohibit],
-    ['enrol/mnet:config', $prohibit],
-    ['enrol/self:config', $prohibit],
-    ['moodle/course:enrolconfig', $prohibit],
-    ['moodle/course:enrolreview', $prohibit],
-    ['moodle/cohort:view', $prohibit],
-    ['moodle/course:changecategory', $prohibit],
-    ['moodle/course:changefullname', $prohibit],
-    ['moodle/course:changeshortname', $prohibit],
-    ['moodle/course:renameroles', $prohibit],
-    ['moodle/question:editall', $prohibit],
-    ['moodle/question:moveall', $prohibit],
-    ['moodle/question:tagall', $prohibit],
-    ['moodle/rating:viewall', $prohibit],
-    ['moodle/rating:viewany', $prohibit],
-    ['moodle/role:safeoverride', $prohibit],
-    ['moodle/user:viewhiddendetails', $prohibit],
-    ['mod/assign:manageallocations', $prohibit],
-    ['mod/chat:deletelog', $prohibit],
-    ['mod/feedback:createpublictemplate', $prohibit]
-];
-
-$ukfnnoneditingteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
-
-$ukfnnoneditingteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet non-editing teacher', 'ukfnnoneditingteacher', 'A role for all UKfilmNet non-editing teachers - based on Moodle\'s non-editing teacher role, but more restrited', 'teacher', $ukfnnoneditingteacher_capabilities_to_change, $ukfnnoneditingteacher_context_types, [], [], [],[]);
-
-
-// Lock the email field for all authentication plugins
-$plugin_objects = $DB->get_records('config_plugins', array('name'=>'field_lock_email'));
-
-// Create the classrooms and DFM categories programmatically
-$classrooms_category_data = array(
-    'name'=>get_string('classrooms_category_name', 'enrol_ukfilmnet'),
-    'idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'),
-    'parent'=>intval(get_string('classrooms_category_parent', 'enrol_ukfilmnet')),
-    'descriptionformat'=>0,
-    'description'=>get_string('classrooms_category_description', 'enrol_ukfilmnet'),
-);
-
-$classrooms_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet')));
-if(!$classrooms_category_exists) {
-    $classrooms_category = core_course_category::create($classrooms_category_data);
-}
-
-$dfm_category_data = array(
-    'name'=>get_string('dfm_category_name', 'enrol_ukfilmnet'),
-    'idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet'),
-    'parent'=>intval(get_string('dfm_category_parent', 'enrol_ukfilmnet')),
-    'descriptionformat'=>0,
-    'description'=>get_string('dfm_category_description', 'enrol_ukfilmnet'),
-);
-
-$dfm_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet')));
-if(!$dfm_category_exists) {
-    $dfm_category = core_course_category::create($dfm_category_data);
-}
-
-// Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
-$classroom_course_template_data = (object) array(
-    'category'=>$DB->get_record('course_categories', array('idnumber'=>get_string('template_course_category', 'enrol_ukfilmnet')))->id,
-    'sortorder'=>0,
-    'fullname'=>get_string('template_course_fullname', 'enrol_ukfilmnet'),
-    'shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet'),
-    'idnmber'=>null,
-    'summary'=>get_string('template_course_summary', 'enrol_ukfilmnet'),
-    'summaryformat'=>0,
-    'format'=>get_string('template_course_format', 'enrol_ukfilmnet'),
-    'visible'=>intval((get_string('template_course_visibility', 'enrol_ukfilmnet'))),
-);
-
-$course_exists = $DB->get_record('course', array('shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet')));
-if(!$course_exists) {
-    $classroom_course_template = create_course($classroom_course_template_data);
-}
-$ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');
-
-
-// Create a UKFN Enrol Admin Options block if it doesn't exist
-$ukfn_enrol_admin_block_configdata = 'Tzo4OiJzdGRDbGFzcyI6Mzp7czo1OiJ0aXRsZSI7czoyNDoiVUtGTiBFbnJvbCBBZG1pbiBPcHRpb25zIjtzOjY6ImZvcm1hdCI7czoxOiIxIjtzOjQ6InRleHQiO3M6NTQyOiI8cD48L3A+DQo8dWw+DQogICAgPGxpIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyI+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC90cmFja2luZy5waHAiPlZpZXcgU2lnbi11cCBQcm9ncmVzczwvYT48L2xpPg0KPC91bD4NCjxkaXYgY2xhc3M9ImVkaXRvci1pbmRlbnQiIHN0eWxlPSJtYXJnaW4tbGVmdDogMzBweDsiPg0KICAgIDxwPiZuYnNwOyAmbmJzcDsgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3A+DQo8L2Rpdj4NCjx1bD4NCiAgICA8bGk+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC9lbnJvbF91a2ZuX3BsdWdpbl9zZXR1cC5waHAiPlJ1biBTZXQtdXAgU2NyaXB0PC9hPjwvbGk+DQogICAgPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fY2xlYW51cC5waHAiPlJ1biBDbGVhbnVwIFNjcmlwdDwvYT48L2xpPg0KICAJPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fYWRkY291cnNlcy5waHAiPlJ1biBBZGQgQ291cnNlcyAgU2NyaXB0PC9hPjwvbGk+DQo8L3VsPiI7fQ==';
-$htmlblock_instances = $DB->get_records('block_instances', array('blockname'=>'html'));
-
-// If the Moodle admin manually makes changes to the UKFN Enrol Admin Options block you can find the new value of the configdata field of that block by uncommenting the line of code below and running this Setup Script.
-//print_r2($htmlblock_instances);
-
-$instance_exists = false;
-foreach($htmlblock_instances as $instance) {
-    if($instance->configdata === $ukfn_enrol_admin_block_configdata) {  
-        $instance_exists = true;
-        break;
+// Run setup tasks and display success data
+echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-left: 25px"><ol>');
+    
+    // Make sure Cohort Enrolment is enabled
+    $cohort_enrolment_enabled = enable_enrolment_plugin('cohort');
+    if($cohort_enrolment_enabled) {
+        echo('<li>Cohort enrolment is enabled.</li>');
+    } else {
+        echo('<li>Cohort enrolment is not enabled. <strong>Try running the setup script again, or enable it manually.</strong></li>');
     }
-}
 
-if(!$instance_exists) {
-    $html_blockinstance = new stdClass;
-    $html_blockinstance->blockname = 'html';
-    $html_blockinstance->parentcontextid = 1;
-    $html_blockinstance->showinsubcontexts = 1;
-    $html_blockinstance->pagetypepattern = 'admin-search';
-    $html_blockinstance->subpagepattern = null;
-    $html_blockinstance->defaultregion = 'side-nav';
-    $html_blockinstance->defaultweight = 3;
-    $html_blockinstance->configdata = $ukfn_enrol_admin_block_configdata;
-    $html_blockinstance->timecreated = time();
-    $html_blockinstance->timemodified = $html_blockinstance->timecreated;
-    $html_blockinstance->id = $DB->insert_record('block_instances', $html_blockinstance);
-    context_block::instance($html_blockinstance->id);
-
-    // If the new instance was created, allow it to do additional setup
-    if ($block = block_instance($html_blockinstance->blockname, $html_blockinstance)) {
-        $block->instance_create();
+    // Make sure Manual Enrolment is enabled
+    $manual_enrolment_enabled = enable_enrolment_plugin('manual');
+    if($manual_enrolment_enabled) {
+        echo('<li>Manual enrolment is enabled.</li>');
+    } else {
+        echo('<li>Manual enrolment is not enabled. <strong>Try running the setup script again, or enable it manually.</strong></li>');
     }
-}
 
-// HANDLE CREATION OF CUSTOM PROFILE FIELDS IF THEY DO NOT YET EXIST
+    // Create needed corhorts if they do not yet exist, and get their ids
+    $applicants_cohort_id = create_cohort_if_not_existing('applicants');
+    if(!($applicants_cohort_id < 0)) {
+        echo('<li>The Applicants cohort exists.</li>');
+    } else {
+        echo('>li>The Applicants cohort was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+    $student_cohort_id = create_cohort_if_not_existing('student');
+    if(!($student_cohort_id < 0)) {
+        echo('<li>The Student cohort exists.</li>');
+    } else {
+        echo('<li>The Student cohort was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+    $resource_courses_cohort_id = create_cohort_if_not_existing('resource_courses');
+    if(!($resource_courses_cohort_id < 0)) {
+        echo('<li>The Resource courses cohort exists.</li>');
+    } else {
+        echo('<li>The Resource courses cohort was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+    $support_courses_cohort_id = create_cohort_if_not_existing('support_courses');
+    if(!($support_courses_cohort_id < 0)) {
+        echo('<li>The Support courses cohort exists.</li>');
+    } else {
+        echo('<li>The Support courses cohort was not created. <strong>Try running the setup script again.</strong></li>');
+    }
 
-// Create user_info_category "UKfilmNet Applicant Info" if it doesn't exist
-$ukfn_applicant_info_category_id;
-if($DB->record_exists('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))) {
-    $ukfn_applicant_info_category_id = $DB->get_record('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))->id;
-} else {
-    $count = 0;
-    $categories = $DB->get_records('user_info_category');
-    foreach($categories as $category) {
-        if($category->sortorder > $count) {
-            $count = $category->sortorder;
+    // Create permission type variables
+    $not_set = null;
+    $allow = CAP_ALLOW;
+    $prevent = CAP_PREVENT;
+    $prohibit = CAP_PROHIBIT;
+
+    // Array of capabilities to be changed in order to restrict ukfnteacher role permissions - modify this array and run this script to add further restrictions or ease restrictions
+    $ukfnteacher_capabilities_to_change = [
+        ['enrol/manual:enrol', $prohibit],
+        ['enrol/flatfile:manage', $prohibit],
+        ['enrol/paypal:manage', $prohibit],
+        ['enrol/self:manage', $prohibit],
+        ['enrol/manual:unenrol', $prohibit],
+        ['enrol/flatfile:unenrol', $prohibit],
+        ['enrol/self:unenrol', $prohibit],
+        ['enrol/lti:unenrol', $prohibit],
+        ['moodle/course:reviewotherusers', $prohibit],
+        ['moodle/role:assign', $prohibit],
+        ['enrol/category:config', $prohibit],
+        ['enrol/cohort:config', $prohibit],
+        ['enrol/database:config', $prohibit],
+        ['enrol/guest:config', $prohibit],
+        ['enrol/imsenterprise:config', $prohibit],
+        ['enrol/lti:config', $prohibit], 
+        ['enrol/meta:config', $prohibit],
+        ['enrol/mnet:config', $prohibit],
+        ['enrol/self:config', $prohibit],
+        ['moodle/course:enrolconfig', $prohibit],
+        ['moodle/course:enrolreview', $prohibit],
+        ['moodle/cohort:view', $prohibit],
+        ['moodle/course:changecategory', $prohibit],
+        ['moodle/course:changeshortname', $prohibit],
+        ['moodle/course:renameroles', $prohibit],
+        ['moodle/question:editall', $prohibit],
+        ['moodle/question:moveall', $prohibit],
+        ['moodle/question:tagall', $prohibit],
+        ['moodle/rating:viewall', $prohibit],
+        ['moodle/rating:viewany', $prohibit],
+        ['moodle/role:safeoverride', $prohibit],
+        ['moodle/user:viewhiddendetails', $prohibit],
+        ['mod/assign:manageallocations', $prohibit],
+        ['mod/chat:deletelog', $prohibit],
+        ['mod/feedback:createpublictemplate', $prohibit],
+    ];
+
+    $ukfnteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+    $ukfnteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet teacher', 'ukfnteacher', 'A role for all UKfilmNet teachers - based on Moodle\'s editingteacher role, but more restritive', 'editingteacher', $ukfnteacher_capabilities_to_change, $ukfnteacher_context_types, [], [], ['student'],[]);
+
+    if(!($ukfnteacher_role_id === -1)) {
+        echo('<li>The UKfilmNet Teacher role exists.</li>');
+    } else {
+        echo('<li>The UKfilmNet Teacher role was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // Array of capabilities to be changed in order to augment applicant role permissions beyond those of its user role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    $applicant_capabilities_to_change = [
+        ['message/airnotifier:managedevice', $allow],
+        ['mod/folder:managefiles', $allow],
+        ['mod/label:view', $allow],
+        ['mod/page:view', $allow],
+        ['mod/url:view', $allow],
+        ['moodle/block:view', $allow],
+        ['moodle/user:changeownpassword', $allow],
+        ['moodle/webservice:createmobiletoken', $allow],
+        ['report/usersessions:manageownsessions', $allow],
+        ['repository/areafiles:view', $allow],
+        ['repository/filesystem:view', $allow],
+        ['repository/upload:view', $allow],
+        ['repository/url:view', $allow],
+        ['tool/dataprivacy:requestdelete', $allow],
+        ['tool/policy:accept', $allow],
+        ['tool/policy:dogchow', $prohibit]
+    ];
+
+    $applicant_context_types = [CONTEXT_SYSTEM, CONTEXT_USER];
+
+    $applicant_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet applicant', 'applicant', 'A role for all UKfilmNet educator access applicants - based on Moodle\'s Authenticated user role, but less restrited', 'user', $applicant_capabilities_to_change, $applicant_context_types, [], [], [],[]);
+
+    if(!($applicant_role_id === -1)) {
+        echo('<li>The UKfilmNet Applicant role exists.</li>');
+    } else {
+        echo('<li>The UKfilmNet Applicant role was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    $ukfnstudent_capabilities_to_change = [
+
+    ];
+
+    $ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+    $ukfnstudent_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet student', 'ukfnstudent', 'A role for all UKfilmNet students - based on Moodle\'s student role, but more restrited', 'student', $ukfnstudent_capabilities_to_change, $ukfnstudent_context_types, [], [], [],[]);
+
+    if(!($ukfnstudent_role_id === -1)) {
+        echo('<li>The UKfilmNet Student role exists.</li>');
+    } else {
+        echo('<li>The UKfilmNet Student role was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    $ukfn_resourcecourse_user_capabilities_to_change = [
+        ['moodle/course:viewparticipants', $prohibit],
+    ];
+
+    $ukfn_resourcecourse_user_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+    $ukfn_resourcecourse_user_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet resource course user', 'ukfnresourcecourseuser', 'A role for UKfilmNet resource course users - based on Moodle\'s student role, but more restrited', 'student', $ukfn_resourcecourse_user_capabilities_to_change, $ukfn_resourcecourse_user_context_types, [], [], [],[]);
+
+    if(!($ukfn_resourcecourse_user_role_id === -1)) {
+        echo('<li>The UKfilmNet Resource Course User role exists.</li>');
+    } else {
+        echo('<li>The UKfilmNet Resource Course User role was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    $ukfnnoneditingteacher_capabilities_to_change = [
+        ['enrol/manual:enrol', $prohibit],
+        ['enrol/flatfile:manage', $prohibit],
+        ['enrol/paypal:manage', $prohibit],
+        ['enrol/self:manage', $prohibit],
+        ['enrol/manual:unenrol', $prohibit],
+        ['enrol/flatfile:unenrol', $prohibit],
+        ['enrol/self:unenrol', $prohibit],
+        ['enrol/lti:unenrol', $prohibit],
+        ['moodle/course:reviewotherusers', $prohibit],
+        ['moodle/role:assign', $prohibit],
+        ['enrol/category:config', $prohibit],
+        ['enrol/cohort:config', $prohibit],
+        ['enrol/database:config', $prohibit],
+        ['enrol/guest:config', $prohibit],
+        ['enrol/imsenterprise:config', $prohibit],
+        ['enrol/lti:config', $prohibit], 
+        ['enrol/meta:config', $prohibit],
+        ['enrol/mnet:config', $prohibit],
+        ['enrol/self:config', $prohibit],
+        ['moodle/course:enrolconfig', $prohibit],
+        ['moodle/course:enrolreview', $prohibit],
+        ['moodle/cohort:view', $prohibit],
+        ['moodle/course:changecategory', $prohibit],
+        ['moodle/course:changefullname', $prohibit],
+        ['moodle/course:changeshortname', $prohibit],
+        ['moodle/course:renameroles', $prohibit],
+        ['moodle/question:editall', $prohibit],
+        ['moodle/question:moveall', $prohibit],
+        ['moodle/question:tagall', $prohibit],
+        ['moodle/rating:viewall', $prohibit],
+        ['moodle/rating:viewany', $prohibit],
+        ['moodle/role:safeoverride', $prohibit],
+        ['moodle/user:viewhiddendetails', $prohibit],
+        ['mod/assign:manageallocations', $prohibit],
+        ['mod/chat:deletelog', $prohibit],
+        ['mod/feedback:createpublictemplate', $prohibit]
+    ];
+
+    $ukfnnoneditingteacher_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
+
+    $ukfnnoneditingteacher_role_id = create_role_if_not_existing_and_update_role_permissions('UKfilmNet non-editing teacher', 'ukfnnoneditingteacher', 'A role for all UKfilmNet non-editing teachers - based on Moodle\'s non-editing teacher role, but more restrited', 'teacher', $ukfnnoneditingteacher_capabilities_to_change, $ukfnnoneditingteacher_context_types, [], [], [],[]);
+
+    if(!($ukfnnoneditingteacher_role_id === -1)) {
+        echo('<li>The UKfilmNet Non-editing Teacher role exists.</li>');
+    } else {
+        echo('<li>The UKfilmNet Non-editing Teacher role role was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // Create the classrooms and DFM categories programmatically
+    $classrooms_category_data = array(
+        'name'=>get_string('classrooms_category_name', 'enrol_ukfilmnet'),
+        'idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'),
+        'parent'=>intval(get_string('classrooms_category_parent', 'enrol_ukfilmnet')),
+        'descriptionformat'=>0,
+        'description'=>get_string('classrooms_category_description', 'enrol_ukfilmnet'),
+    );
+
+    $classrooms_category_already_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet')));
+    if(!$classrooms_category_already_exists) {
+        $classrooms_category = core_course_category::create($classrooms_category_data);
+    }
+    $classrooms_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('classrooms_category_idnumber', 'enrol_ukfilmnet')));
+    if($classrooms_category_exists) {
+        echo('<li>The CLASSROOMS category exists.</li>');
+    } else {
+        echo('<li>The CLASSROOMS category was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+    
+
+    $dfm_category_data = array(
+        'name'=>get_string('dfm_category_name', 'enrol_ukfilmnet'),
+        'idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet'),
+        'parent'=>intval(get_string('dfm_category_parent', 'enrol_ukfilmnet')),
+        'descriptionformat'=>0,
+        'description'=>get_string('dfm_category_description', 'enrol_ukfilmnet'),
+    );
+
+    $dfm_category_already_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet')));
+    if(!$dfm_category_already_exists) {
+        $dfm_category = core_course_category::create($dfm_category_data);
+    }
+    $dfm_category_exists = $DB->get_record('course_categories', array('idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet')));
+    if($dfm_category_exists) {
+        echo('<li>The DIGITAL FILMMAKING category exists.</li>');
+    } else {
+        echo('<li>The DIGITAL FILMMAKING category was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+
+    // Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
+    $classroom_course_template_data = (object) array(
+        'category'=>$DB->get_record('course_categories', array('idnumber'=>get_string('template_course_category', 'enrol_ukfilmnet')))->id,
+        'sortorder'=>0,
+        'fullname'=>get_string('template_course_fullname', 'enrol_ukfilmnet'),
+        'shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet'),
+        'idnmber'=>null,
+        'summary'=>get_string('template_course_summary', 'enrol_ukfilmnet'),
+        'summaryformat'=>0,
+        'format'=>get_string('template_course_format', 'enrol_ukfilmnet'),
+        'visible'=>intval((get_string('template_course_visibility', 'enrol_ukfilmnet'))),
+    );
+
+    $course_already_exists = $DB->get_record('course', array('shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet')));
+    if(!$course_already_exists) {
+        $classroom_course_template = create_course($classroom_course_template_data);
+    }
+    $course_exists = $DB->get_record('course', array('shortname'=>get_string('template_course_shortname', 'enrol_ukfilmnet')));
+    if($course_exists) {
+        echo('<li>The Classroom Course template exists.</li>');
+    } else {
+        echo('<li>The Classroom Course template was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+
+    // Create a UKfilmNet Safeguarding user
+    $ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');
+    if($ukfn_sg_user === false) {
+        echo('<li>The UKfilmNet Safeguarding user was not created. <strong>Try running the setup script again.</strong></li>');
+    } else {
+        echo('<li>The UKfilmNet Safeguarding user exists.</li>');
+    }
+
+    // Create a UKFN Enrol Admin Options block if it doesn't exist
+    $ukfn_enrol_admin_block_configdata = 'Tzo4OiJzdGRDbGFzcyI6Mzp7czo1OiJ0aXRsZSI7czoyNDoiVUtGTiBFbnJvbCBBZG1pbiBPcHRpb25zIjtzOjY6ImZvcm1hdCI7czoxOiIxIjtzOjQ6InRleHQiO3M6NTQyOiI8cD48L3A+DQo8dWw+DQogICAgPGxpIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyI+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC90cmFja2luZy5waHAiPlZpZXcgU2lnbi11cCBQcm9ncmVzczwvYT48L2xpPg0KPC91bD4NCjxkaXYgY2xhc3M9ImVkaXRvci1pbmRlbnQiIHN0eWxlPSJtYXJnaW4tbGVmdDogMzBweDsiPg0KICAgIDxwPiZuYnNwOyAmbmJzcDsgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3A+DQo8L2Rpdj4NCjx1bD4NCiAgICA8bGk+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC9lbnJvbF91a2ZuX3BsdWdpbl9zZXR1cC5waHAiPlJ1biBTZXQtdXAgU2NyaXB0PC9hPjwvbGk+DQogICAgPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fY2xlYW51cC5waHAiPlJ1biBDbGVhbnVwIFNjcmlwdDwvYT48L2xpPg0KICAJPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fYWRkY291cnNlcy5waHAiPlJ1biBBZGQgQ291cnNlcyAgU2NyaXB0PC9hPjwvbGk+DQo8L3VsPiI7fQ==';
+    $htmlblock_instances = $DB->get_records('block_instances', array('blockname'=>'html'));
+
+    // If the Moodle admin manually makes changes to the UKFN Enrol Admin Options block you can find the new value of the configdata field of that block by uncommenting the line of code below and running this Setup Script.
+    //print_r2($htmlblock_instances);
+
+    $instance_exists = false;
+    foreach($htmlblock_instances as $instance) {
+        if($instance->configdata === $ukfn_enrol_admin_block_configdata) {  
+            $instance_exists = true;
+            break;
         }
     }
-    $applicant_category = new stdClass();
-    $applicant_category->name = get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet');
-    $applicant_category->sortorder = $count + 1;
 
-    $ukfn_applicant_info_category_id = $DB->insert_record('user_info_category', $applicant_category);
-}
+    if(!$instance_exists) {
+        $html_blockinstance = new stdClass;
+        $html_blockinstance->blockname = 'html';
+        $html_blockinstance->parentcontextid = 1;
+        $html_blockinstance->showinsubcontexts = 1;
+        $html_blockinstance->pagetypepattern = 'admin-search';
+        $html_blockinstance->subpagepattern = null;
+        $html_blockinstance->defaultregion = 'side-nav';
+        $html_blockinstance->defaultweight = 3;
+        $html_blockinstance->configdata = $ukfn_enrol_admin_block_configdata;
+        $html_blockinstance->timecreated = time();
+        $html_blockinstance->timemodified = $html_blockinstance->timecreated;
+        $html_blockinstance->id = $DB->insert_record('block_instances', $html_blockinstance);
+        context_block::instance($html_blockinstance->id);
 
-// Save the user_info_field table records to a file in the assets folder - do this only when you want to update that file because the user_info_field records have changed
-/*
-$array = $DB->get_records('user_info_field');
-$encodedString = json_encode($array);
-file_put_contents('./assets/ukfn_applicant_info_field_array.txt', $encodedString);
-*/
-
-// Get the existing UKfilmNet Applicants user_info_field array from file
-$ukfn_applicant_info_field_array = file_get_contents('./assets/ukfn_applicant_info_field_array.txt');
-$ukfn_applicant_info_field_array = json_decode($ukfn_applicant_info_field_array, true);
-
-// Insert the UKfilmNet Applicants user_info_field records into the user_info_field table - deleting/replacing exiting table records as needed
-foreach($ukfn_applicant_info_field_array as &$record) {
-    // Make sure that the categoryid field of each record matches that of the UKfilmnet Applicant Info table's id 
-    $record['categoryid'] = $ukfn_applicant_info_category_id;
-    // If the record to be inserted does not conflict with existing records in the user_info_field, add the record - delete conflicting records
-    $shortnames = $DB->get_records('user_info_field', array('shortname'=>$record['shortname']));
-    if(!$shortnames) {
-        $DB->insert_record('user_info_field', $record);
+        // If the new instance was created, allow it to do additional setup
+        if ($block = block_instance($html_blockinstance->blockname, $html_blockinstance)) {
+            $block->instance_create();
+            $instance_exists = true;
+        }
+    }
+    if($instance_exists) {
+        echo('<li>The UKFN Enrol Admin Options block exists.</li>');
     } else {
-        foreach($shortnames as $shortname) {
-            if($shortname->categoryid !== $record['categoryid']) {
-                $DB->delete_records('user_info_field', array('shortname'=>$record['shortname'], 'categoryid'=>$shortname->categoryid));
+        echo('<li>The UKFN Enrol Admin Options block was not created. <strong>Try running the setup script again.</strong></li>');
+    }
+
+    // HANDLE CREATION OF CUSTOM PROFILE FIELDS IF THEY DO NOT YET EXIST
+
+    // Create user_info_category "UKfilmNet Applicant Info" if it doesn't exist
+    $ukfn_applicant_info_category_id;
+    if($DB->record_exists('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))) {
+        $ukfn_applicant_info_category_id = $DB->get_record('user_info_category', array('name'=>get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet')))->id;
+    } else {
+        $count = 0;
+        $categories = $DB->get_records('user_info_category');
+        foreach($categories as $category) {
+            if($category->sortorder > $count) {
+                $count = $category->sortorder;
+            }
+        }
+        $applicant_category = new stdClass();
+        $applicant_category->name = get_string('ukfn_user_info_category_name', 'enrol_ukfilmnet');
+        $applicant_category->sortorder = $count + 1;
+
+        $ukfn_applicant_info_category_id = $DB->insert_record('user_info_category', $applicant_category);
+    }
+
+    // Save the user_info_field table records to a file in the assets folder - do this only when you want to update that file because the user_info_field records have changed
+    /*
+    $array = $DB->get_records('user_info_field');
+    $encodedString = json_encode($array);
+    file_put_contents('./assets/ukfn_applicant_info_field_array.txt', $encodedString);
+    */
+
+    // Get the existing UKfilmNet Applicants user_info_field array from file
+    $ukfn_applicant_info_field_array = file_get_contents('./assets/ukfn_applicant_info_field_array.txt');
+    $ukfn_applicant_info_field_array = json_decode($ukfn_applicant_info_field_array, true);
+    $saved_ukfn_applicant_info_field_array = $ukfn_applicant_info_field_array;
+
+    // Insert the UKfilmNet Applicants user_info_field records into the user_info_field table - deleting/replacing exiting table records as needed
+    foreach($ukfn_applicant_info_field_array as &$record) {
+        // Make sure that the categoryid field of each record matches that of the UKfilmnet Applicant Info table's id 
+        $record['categoryid'] = $ukfn_applicant_info_category_id;
+        // If the record to be inserted does not conflict with existing records in the user_info_field, add the record - delete conflicting records
+        $shortnames = $DB->get_records('user_info_field', array('shortname'=>$record['shortname']));
+        if(!$shortnames) {
+            $DB->insert_record('user_info_field', $record);
+        } else {
+            foreach($shortnames as $shortname) {
+                if($shortname->categoryid !== $record['categoryid']) {
+                    $DB->delete_records('user_info_field', array('shortname'=>$record['shortname'], 'categoryid'=>$shortname->categoryid));
+                }
             }
         }
     }
-}
 
-//print_r2($DB->get_record('role', array('shortname'=>get_string('ukfnstudent_role_name', 'enrol_ukfilmnet')))->id);
-// Let the Moodle admin know that the setup script ran
+    // Check to see if the UKfilmNet Applicant Info profile area and fields were created 
+    $db_ukfn_applicant_info_field_array = $DB->get_records('user_info_field', array('categoryid'=>$ukfn_applicant_info_category_id));
+
+    foreach($db_ukfn_applicant_info_field_array as &$record) {
+        $record = (array)$record;
+        unset($record['id']);
+    }
+    $db_ukfn_applicant_info_field_array = array_values($db_ukfn_applicant_info_field_array);
+
+    foreach($saved_ukfn_applicant_info_field_array as &$record) {
+        $record = (array)$record;
+        unset($record['id']);
+    }
+    $saved_ukfn_applicant_info_field_array = array_values($saved_ukfn_applicant_info_field_array);
+    
+    $differences = @array_diff_assoc($saved_ukfn_applicant_info_field_array, $db_ukfn_applicant_info_field_array);
+    if(empty($differences)) {
+        echo('<li>The UKfilmNet Applicant Info profile area and fields exist.</li>');
+    } else {
+        echo('<li>The UKfilmNet Applicant Info profile area and fields were not created. <strong>Try running the setup script again.</strong></li>');
+    }
+echo('</></div></div>');
+
+// Give the Moodle Site admin instructions about completing setup
 echo(get_string('setup_script_run_confirmation', 'enrol_ukfilmnet'));
