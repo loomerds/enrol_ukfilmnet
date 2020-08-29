@@ -76,7 +76,9 @@ foreach($non_sgo_admin_guest_users as $user) {
         }
     }
     if($has_a_cohort == false) {
-        delete_user($user);
+        //delete_user($user);
+        $DB->set_field('user', 'suspended', 1, array('id'=>$user->id));
+
     }
 }
 
