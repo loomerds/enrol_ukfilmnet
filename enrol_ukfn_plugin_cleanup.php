@@ -18,7 +18,7 @@
  * Development data generator.
  *
  * @package    enrol_ukfilmnet
- * @copyright  2019, Doug Loomer 
+ * @copyright  2020, Doug Loomer 
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -54,7 +54,7 @@ foreach($temp_sgo_accounts as $account) {
     }
 }
 
-// HANDLE DELETION OF ACCOUNTS THAT ARE NOT ASSOCIATED WITH ANY COHORTS (but don't delete temp SGO accounts, admin accounts, or the guest account)
+// HANDLE SUSPENSION OF ACCOUNTS THAT ARE NOT ASSOCIATED WITH ANY COHORTS (but don't suspend temp SGO accounts, admin accounts, or the guest account)
 
 // Get a list of all users who are not temp SGO's, do not have admin rights, and are not the guest user
 $all_users = $DB->get_records('user');
@@ -65,7 +65,7 @@ foreach($all_users as $user) {
     }
 }
 
-// For each user in the list of users who are not temp SGO's, guests, or admins, if they are not a memeber of any cohort, soft delete their account
+// For each user in the list of users who are not temp SGO's, guests, or admins, if they are not a memeber of any cohort, suspend their account
 $all_cohorts = $DB->get_records('cohort');
 foreach($non_sgo_admin_guest_users as $user) {
     $has_a_cohort = false;

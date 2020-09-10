@@ -18,7 +18,7 @@
  * Generator tool functions.
  *
  * @package    enrol_ukfilmnet
- * @copyright  2019, Doug Loomer
+ * @copyright  2020, Doug Loomer
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
