@@ -23,8 +23,9 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/** The user is put onto a waiting list and therefore the enrolment not active 
- * (used in user_enrolments->status) 
+
+/**
+ * A libray of functions to support the UKfilmNet enrolment plugin
  */
 
 global $CFG, $DB;
@@ -43,16 +44,13 @@ define('PAGE_TRACKING', $CFG->wwwroot.'/enrol/ukfilmnet/tracking.php');
 define('PAGE_ADMIN', $CFG->wwwroot.'/admin/search.php');
 
 /**
- * Creates a bare-bones user record
+ * Creates an Applicant user account
  *
- * @todo Outline auth types and provide code example
- *
- * @param array $applicantinfo Array of new user objects
- * @param string $password New users password to add to record
- * @param string $auth Form of authentication required
- * @return stdClass A complete user object
+ * @param object $applicantinfo An object with email, username, firstname, lastname, currentrole, applicationprogress, and verificationcode key/data fields for the user
+ * @param string $password A password for the user
+ * @param string $auth A Moodle authentication type
+ * @return stdClass A user object
  */
-
 function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -116,6 +114,11 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
     return $user;
 }
 
+/**
+ * Redirects to the site frontpage if $user is a Guest user or not an Applicant user
+ *
+ * @param object $user A moodle user object
+ */
 function is_applicant_user($user) {
     profile_load_data($user);
     $is_applicant = strlen($user->profile_field_applicationprogress) >0;
@@ -124,6 +127,12 @@ function is_applicant_user($user) {
     }
 } 
 
+/**
+ * Creates an UKfilmNet Safeguarding process manager admin user account
+ *
+ * @param string $auth A Moodle authentication type
+ * @return stdClass A user object
+ */
 function create_ukfnsafeguarding_user($auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -132,10 +141,10 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
     require_once($CFG->dirroot.'/lib/moodlelib.php');
     
     $user = $DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet')));
+    
     if( $user === false) {
         $username = get_string('moodle_admin_safeguarding_user_username', 'enrol_ukfilmnet');
         $authplugin = get_auth_plugin($auth);
-        //$customfields = $authplugin->get_custom_user_profile_fields();
         $newuser = new stdClass();
         
         if (!empty($newuser->email)) {
@@ -143,6 +152,7 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
                 unset($newuser->email);
             }
         }
+
         if (!isset($newuser->city)) {
             $newuser->city = '';
         }
@@ -153,10 +163,7 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
         $newuser->firstname = get_string('moodle_admin_safeguarding_user_firstname', 'enrol_ukfilmnet');
         $newuser->lastname = get_string('moodle_admin_safeguarding_user_lastname', 'enrol_ukfilmnet');
         $password = 'safeguarding';
-        /*$newuser->profile_field_currentrole = convert_rolenum_to_rolestring($applicantinfo->currentrole);
-        $newuser->profile_field_verificationcode = $applicantinfo->verificationcode;
-        $newuser->profile_field_applicationprogress = $applicantinfo->applicationprogress;
-        */
+        
         if (empty($newuser->lang) || !get_string_manager()->translation_exists($newuser->lang)) {
             $newuser->lang = $CFG->lang;
         }
@@ -165,11 +172,7 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
         $newuser->timecreated = time();
         $newuser->timemodified = $newuser->timecreated;
         $newuser->mnethostid = $CFG->mnet_localhost_id;
-        
         $newuser->id = user_create_user($newuser, false);
-        // Save user profile data.
-        // profile_save_data($newuser);
-
         $managerrole = $DB->get_record('role', array('shortname'=>'manager'));
         $systemcontext = context_system::instance();
         $usercontext = context_user::instance($newuser->id);
@@ -182,17 +185,22 @@ function create_ukfnsafeguarding_user($auth = 'manual') {
 
         // Set the password.
         update_internal_user_password($user, $password);
-//print_r2($user);
-        //return $user;
-    } 
+    }
+
     if($DB->get_record('user', array('email'=>get_string('moodle_admin_safeguarding_user_email', 'enrol_ukfilmnet'))) === false) {
         return false;
     } else {
         return $user;
     }
-    
 }
 
+/**
+ * Creates a UKfilmNet Student user account
+ *
+ * @param object $studentinfo An object with email, username, firstname, and lastname key/data fields for the user
+ * @param string $auth A Moodle authentication type
+ * @return stdClass A user object
+ */
 function create_student_user($studentinfo, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -238,6 +246,13 @@ function create_student_user($studentinfo, $auth = 'manual') {
     return $user;
 }
 
+/**
+ * Creates an SGO user account
+ *
+ * @param object $applicant_user The user object of the teacher the SGO will be managing
+ * @param string $auth A Moodle authentication type
+ * @return stdClass A user object
+ */
 function create_sgo_user($applicant_user, $auth = 'manual') {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -296,6 +311,11 @@ function create_sgo_user($applicant_user, $auth = 'manual') {
     return $sgo_user;
 }
 
+/**
+ * Makes code printing to the screen for debugging easier
+ *
+ * @param @string A string to be printed to the screen
+ */
 function print_r2($val){
     echo '<pre>';
     echo '<br>';
@@ -306,6 +326,11 @@ function print_r2($val){
     echo  '</pre>';
 }
 
+/**
+ * Handles initial student enrolment page POST data flow
+ *
+ * @param object $datum A POST object
+ */
 function handle_enrol_students_post($datum) {
     global $CFG;
 
@@ -313,10 +338,15 @@ function handle_enrol_students_post($datum) {
         redirect($CFG->wwwroot);
     } else {
         process_students($datum);
-        
     }
 }
 
+/**
+ * 
+ *
+ * @param 
+ * @return 
+ */
 function handle_tracking_post() {
     global $CFG;
 
