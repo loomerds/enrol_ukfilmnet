@@ -15,16 +15,42 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details.
+ * Generator tool functions.
  *
  * @package    enrol_ukfilmnet
- * @copyright  2020, Doug Loomer 
+ * @copyright  2020, Doug Loomer
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
-
-$plugin->version = 2020091600;
-$plugin->requires = 2019052003.00;
-$plugin->component = 'enrol_ukfilmnet';
+$tasks = [
+    
+    [
+        'classname' => 'enrol_ukfilmnet\task\cleanup_tempsgo_accounts',
+        'blocking' => 0,
+        'minute' => '30',
+        'hour' => '3',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    ],
+    [
+        'classname' => 'enrol_ukfilmnet\task\cleanup_nocohort_accounts',
+        'blocking' => 0,
+        'minute' => '32',
+        'hour' => '3',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    ],
+    [
+        'classname' => 'enrol_ukfilmnet\task\cleanup_applicant_accounts',
+        'blocking' => 0,
+        'minute' => '31',
+        'hour' => '3',
+        'day' => '*',
+        'month' => '*',
+        'dayofweek' => '*'
+    ],
+    
+];

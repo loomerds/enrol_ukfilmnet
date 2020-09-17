@@ -1171,6 +1171,7 @@ function convert_gmdate_to_unixtime($date) {
     return $unixtime;
 }
 
+/*
 function create_profile_fields() {
     global $DB;
 
@@ -1192,6 +1193,7 @@ function create_profile_fields() {
         }
     }
 }
+*/
 
 function cohort_exists($cohort_idnumber) {
     global $DB;
@@ -1247,7 +1249,7 @@ function enable_enrolment_plugin($plugin_name) {
     return false;
 }
 
-function get_profile_field_records() {
+/*function get_profile_field_records() {
 
     return Array (
         1 => array
@@ -2187,6 +2189,7 @@ function get_profile_field_records() {
             )
     );
 }
+*/
 
 function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '', $context_types, $role_assignments='', $role_overrides='', $role_switches='', $role_to_view='') {
     global $DB;
@@ -2283,6 +2286,106 @@ function delete_dangling_cohorts() {
     foreach($cohorts as $cohort) {
         if(!in_array($cohort->idnumber, $course_shortnames)) {
             cohort_delete_cohort($cohort);
+        }
+    }
+}
+
+// HANDLE DELETION OF TEMPORARY SGO ACCOUNTS 
+    // Deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality
+
+function delete_temp_sgo_accounts() {
+    global $DB;
+    require_once(__DIR__.'/../../cohort/lib.php');
+
+    // Get a list of all temp SGO accounts
+    $temp_sgo_accounts = $DB->get_records('user', array('firstname'=>'Safeguarding', 'deleted'=>0));
+
+    // If the user account was created more than the time value of the plugin language string ago, delete it
+    foreach($temp_sgo_accounts as $account) {
+        if((int)$account->timecreated < ((int)strtotime(date('Y-m-d H:i:s')) - get_string('sgo_temp_account_max_life', 'enrol_ukfilmnet'))) {
+            delete_user($account);
+        }
+    }
+}
+
+// HANDLE SUSPENSION OF ACCOUNTS THAT ARE NOT ASSOCIATED WITH ANY COHORTS (but don't suspend temp SGO accounts, admin accounts, or the guest account)
+
+function suspend_nocohort_accounts() {
+    global $DB;
+    require_once(__DIR__.'/../../cohort/lib.php');
+
+    // Get a list of all users who are not temp SGO's, do not have admin rights, and are not the guest user
+    $all_users = $DB->get_records('user');
+    $non_sgo_admin_guest_users = [];
+    $context = context_system::instance();
+    foreach($all_users as $user) {
+        if($user->firstname !== 'Safeguarding' and !(has_capability('moodle/role:manage', $context, $user)) and $user->username !== 'guest' and $user->deleted != 1) {
+            $non_sgo_admin_guest_users[] = $user;
+        }
+    }
+    // For each user in the list of users who are not temp SGO's, guests, or admins, if they are not a memeber of any cohort, suspend their account
+    $all_cohorts = $DB->get_records('cohort');
+    foreach($non_sgo_admin_guest_users as $user) {
+        $has_a_cohort = false;
+        foreach($all_cohorts as $cohort) {
+            if(cohort_is_member($cohort->id, $user->id)) {
+                $has_a_cohort = true;
+                break;
+            }
+        }
+        if($has_a_cohort == false) {
+            //delete_user($user);
+            $DB->set_field('user', 'suspended', 1, array('id'=>$user->id));
+        }
+    }
+}
+
+// HANDLE WARNING AND REMOVAL OF STALE APPLICANT TEACHER ACCOUNTS PROCESS
+
+function remove_stale_applicant_accounts() {
+    global $DB;
+    require_once(__DIR__.'/../../cohort/lib.php');
+
+    // Get a list of users in the applicant cohort
+    $applicants_cohort_id = create_cohort_if_not_existing('applicants');
+    $applicants = [];
+    $all_users = $DB->get_records('user');
+    foreach($all_users as $user) {
+        if(cohort_is_member($applicants_cohort_id, $user->id)) {
+            $applicants[] = $user;
+        }
+    }
+
+    // Remove applicant from the applicants cohort if application is older than application_max_life allows, otherwise send warning email if appropriate
+    $current_unix_date = (int)strtotime(date('Y-m-d H:i:s'));
+    $application_max_life = (int)ceil(get_string('application_account_max_life', 'enrol_ukfilmnet') / 86400);
+    //$application_max_life = 4; // for testing only
+    $application_reminder_interval = (int)ceil(get_string('application_reminder_interval', 'enrol_ukfilmnet') / 86400);
+    //$application_reminder_interval = 1; // for testing only
+    foreach($applicants as $applicant) {
+        $application_start_date = (int)$applicant->timecreated;
+        $application_days_elapsed = (int)ceil(($current_unix_date - $application_start_date) / 86400);
+        $send_reminder = (ceil($application_days_elapsed % $application_reminder_interval)) == 0 ? 'true' : 'false';
+        $application_period_end_date = $application_start_date + 86400*28;
+        $application_period_end_date_formated = date('M/d/Y', $application_period_end_date);
+
+        if($application_days_elapsed >= $application_max_life) {
+        //if(true) { //for testing only
+            $emailvariables = (object) array(
+                'firstname'=>$applicant->firstname,
+                'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+        
+            email_to_user($applicant, get_admin(), get_string('application_deleted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_deleted_text', 'enrol_ukfilmnet', $emailvariables));
+            $applicants_cohort_id = get_cohort_id_from_cohort_idnumber('applicants');
+            cohort_remove_member($applicants_cohort_id, $applicant->id);
+        }
+        elseif($send_reminder === 'true') {
+        //elseif(true) { //for testing only
+            $emailvariables = (object) array(
+                'firstname'=>$applicant->firstname,
+                'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'), 'application_period_end_date'=>$application_period_end_date_formated);
+
+            email_to_user($applicant, get_admin(), get_string('application_warning_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_warning_text', 'enrol_ukfilmnet', $emailvariables));
         }
     }
 }

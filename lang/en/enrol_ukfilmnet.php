@@ -328,6 +328,11 @@ $string['error_must_answer_yes'] = 'You cannot submit this form unless you answe
 $string['error_must_answer_no'] = 'You cannot submit this form unless you answer "NO" to this question';
 $string['error_must_answer_na_or_yes'] = 'You cannot submit this form unless you answer "N/A" or "YES" to this question';
 
+// Scheduled tasks
+$string['cleanup_tempsgo_accounts_task'] = 'Cleanup temp sgo accounts';
+$string['cleanup_nocohort_accounts_task'] = 'Cleanup no cohort accounts';
+$string['cleanup_applicant_accounts_task'] = 'Cleanup applicant accounts';
+$string['cleanup_task'] = 'Cleanup - general';
 
 // String variables
 $string['roleallowed_range_max'] = '03';
