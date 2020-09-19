@@ -1011,9 +1011,23 @@ function create_cohortsync_data($name, $cohortid, $default_role_shortname) {
     return $data;
 }
 
-
+/**
+ * Class to extend enrol_plugin for the purpose of implementing a useable verion of add_instance
+ * 
+ * This probably could have been done by adding an add_instance function in enrol_ukfilmnet lib.php
+ *
+ * @author     Doug Loomer doug@dougloomer.com
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class enrolukfn_cohort_plugin extends enrol_plugin {
 
+    /**
+     * Create an new instance of the Cohort sync enrolment plugin
+     *
+     * @param object $course A Moodle course object
+     * @param array $fields An array of instance fields (default = null)
+     * @return mixed An int that is the id of the object created, null if no object was created
+     */
     function add_instance($course, array $fields = null) {
         global $CFG, $DB;
 
@@ -1035,28 +1049,12 @@ class enrolukfn_cohort_plugin extends enrol_plugin {
     }
 }
 
-function create_array_from_csv($csvfile, $save_filename) {
-    global $CFG;
-
-    $csvfile = file($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$csvfile);
-    $data = [];
-    foreach($csvfile as $line) {
-        $data[] = str_getcsv($line);
-    } 
-    $target = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename, 'w');
-    if($target) {
-        fputs($target, json_encode($data));
-    }  
-    fclose($target);
-    
-    // For testing only
-    $target_array = [];
-    $target_string = file_get_contents($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename);
-    if($target_string) {
-        $target_array[] = json_decode($target_string, true);
-    }
-}
-
+/**
+ * Creates an array from a json encoded txt file
+ *
+ * @param string $save_filename The name of a json encolded text file
+ * @return array The array created
+ */
 function get_array_from_json_file($save_filename) {
     global $CFG;
 
@@ -1068,6 +1066,13 @@ function get_array_from_json_file($save_filename) {
     return $target_array;
 }
 
+/**
+ * Redirects browser to a given target page
+ * 
+ * Used to redirect an Applicant user to the plugin page that matches their current application progress level, or to the site front page
+ *
+ * @param string $target_page An alias reference to a target plugin page based upon an Applicant user's application progress level
+ */
 function go_to_page($target_page) {
     global $CFG;
     switch($target_page) {
@@ -1106,6 +1111,15 @@ function go_to_page($target_page) {
     }
 }
 
+/**
+ * Redirects browser to a given target page
+ * 
+ * Used to redirect an Applicant user to the plugin page that matches their current application progress level (but not to the site's frontpage)
+ * 
+ * Note: this function is only called once in the plugin (in applicantpage.php). The single call to this function should probably be replace by a call to the go_to_page function above, after which this function could be removed from the code.
+ *
+ * @param string $target_page An alias reference to a target plugin page based upon an Applicant user's application progress level
+ */
 function force_signup_flow($target_page) {
     global $CFG;
     switch($target_page) {
@@ -1132,6 +1146,12 @@ function force_signup_flow($target_page) {
     }
 }
 
+/**
+ * Gets school name based upon the school's UKPRN 
+ *
+ * @param string $target_ukprn A UKPRN in string format or possibly as an int
+ * @return mixed A string, an int, or null
+ */
 function get_schoolname($target_ukprn) {
     $target = $target_ukprn[0];
     $ukprns = get_array_from_json_file('uk_schools_selector_list_array.txt');
@@ -1145,31 +1165,55 @@ function get_schoolname($target_ukprn) {
     }
 }
 
-function create_school_name_select_list() {
-    $schools_list_raw = get_array_from_json_file('uk_schools_selector_list_array.txt');
-    $schools_list = [];
-    $count = 0;
-    foreach($schools_list_raw as $raw) {
-        foreach($raw as $ra) {
+/**
+ * Creates an array from a .csv file and saves it as a json encoded .txt file
+ *
+ * This is a helper function for the update_list function below
+ * 
+ * @param string $csvfile The path, including file name, to a csv file
+ * @param string $save_filename The name of the .txt file to be saved
+ */
+function create_array_from_csv($csvfile, $save_filename) {
+    global $CFG;
 
-            if($count > 1 and strlen($ra[0]) > 7) {
-                $key = $ra[1];
-                $val = $ra[0];
-                $schools_list += [$key=>$val];
-            }
-            $count++;
-        }           
-    }
+    $csvfile = file($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$csvfile);
+    $data = [];
+    foreach($csvfile as $line) {
+        $data[] = str_getcsv($line);
+    } 
+    $target = fopen($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename, 'w');
+    if($target) {
+        fputs($target, json_encode($data));
+    }  
+    fclose($target);
     
-    return $schools_list;
+    // For testing only
+    /*$target_array = [];
+    $target_string = file_get_contents($CFG->dirroot.'/enrol/ukfilmnet/assets/'.$save_filename);
+    if($target_string) {
+        $target_array[] = json_decode($target_string, true);
+        print_r2($target_array);
+    }*/
 }
 
-// Presumes there is a file in the assets folder named uk_schools_short.txt which has an array with subarrays each containing Establishmnet names, ukprn, and street fields - which file can be created by calling the create_array_from_csv($csvfile, $save_filename) function on a .csv file containing these three fields as columns
-// This function takes that file and concatenates the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv() function to create the txt file uk_schools_selector_list_array.txt which is used by schoolform.php to provide an array to the Name of school input element
-// Consider adding this to a Moodle site admin feature that be used to update the Name of school data programatically
-
+/**
+ * Updates the json formated file named uk_schools_selector_list_array.txt which is located in the plugin's assets folder
+ * 
+ * Important Notes: 
+ * 
+ * This function presumes there is a file in the assets folder of this plugin named uk_schools_short.csv which has three columns named: 1) Establishmnet names, 2) ukprn, and 3) street fields. This .cvs file must be manually created!
+ * 
+ * This function first calls the create_array_from_csv function above which creates a json formated file named uk_schools_temp_short.txt which contains an array with subarrays each containing the three fields listed above.
+ * 
+ * This function takes that uk_schools_temp_short.txt file and concatenates the values of the street field into the Establishment field, then strips the street field from each subarray - it then saves that array as a .csv file and calls the create_array_from_csv  function to create the txt file uk_schools_selector_list_array.txt which file is used by schoolform.php when it calls the create_school_name_select_list function below to provide an array to the Name of school input element
+ * 
+ * Currently, this function is only run by uncommenting the call to update_list() located in the tracking.php page, and then browsing to that page. If you choose to run this function, make sure to recomment the call to it in tracking.php after you have run this function.
+ * 
+ * Consider adding this function to a Moodle site admin feature that be used to update the Name of school data programatically
+ */
 function update_list(){
-    $schoolinfos = get_array_from_json_file('uk_schools_short.txt');
+    create_array_from_csv('uk_schools_short.csv', 'uk_schools_temp_short.txt');
+    $schoolinfos = get_array_from_json_file('uk_schools_temp_short.txt');
         $schoolslist = [];
         foreach($schoolinfos as &$infos) {
             $count = 0;
@@ -1198,6 +1242,38 @@ function update_list(){
         create_array_from_csv('uk_schools_selector_list_array.csv', 'uk_schools_selector_list_array.txt');            
 }
 
+/**
+ * Create an associative array of UKPRN/schoolname key/value pairs from a json formated .txt file for use in schoolform.php, and in the process remove any records that do not have a UKPRN number
+ * 
+ * This function is call each time schoolform.php loads
+ *
+ * @return array The associative array created by the function
+ */
+function create_school_name_select_list() {
+    $schools_list_raw = get_array_from_json_file('uk_schools_selector_list_array.txt');
+    $schools_list = [];
+    $count = 0;
+    foreach($schools_list_raw as $raw) {
+        foreach($raw as $ra) {
+
+            if($count > 1 and strlen($ra[0]) > 7) {
+                $key = $ra[1];
+                $val = $ra[0];
+                $schools_list += [$key=>$val];
+            }
+            $count++;
+        }           
+    }
+    
+    return $schools_list;
+}
+
+/**
+ * Converts the number values of applicant educational roles (these are NOT Moodle roles) to human friendly strings
+ *
+ * @param string $current_role An educational role key number
+ * @return string A human friendly string
+ */
 function convert_rolenum_to_rolestring($current_role) {
     switch($current_role) {
         case '01':
@@ -1223,10 +1299,15 @@ function convert_rolenum_to_rolestring($current_role) {
         default:
             return $current_role;
         break;
-        
     }
 }
 
+/**
+ * Converts the human friendly string values of applicant educational roles (these are NOT Moodle roles) to number values strings
+ *
+ * @param string $current_role A human friendly string
+ * @return string An educational role key number
+ */
 function convert_rolestring_to_rolenum($current_role) {
     switch($current_role) {
         case get_string('applicant_role_ukteacher', 'enrol_ukfilmnet'):
@@ -1252,10 +1333,15 @@ function convert_rolestring_to_rolenum($current_role) {
         default:
             return $current_role;
         break;
-        
     }
 }
 
+/**
+ * Converts the number values of teacher application progress to human friendly strings
+ *
+ * @param string $signup_progress A signup progress key number
+ * @return string A human friendly string
+ */
 function convert_progressnum_to_progressstring($signup_progress) {
     switch($signup_progress) {
         case '1':
@@ -1275,10 +1361,15 @@ function convert_progressnum_to_progressstring($signup_progress) {
         default:
             return $signup_progress;
         break;
-        
     }
 }
 
+/**
+ * Converts the human friendly sting values of teacher application progress to progress key numbers
+ *
+ * @param string $signup_progress A human friendly string
+ * @return string A application progress key number
+ */
 function convert_progressstring_to_progressnum($signup_progress) {
     switch($signup_progress) {
         case get_string('signup_progress_1', 'enrol_ukfilmnet'):
@@ -1298,15 +1389,26 @@ function convert_progressstring_to_progressnum($signup_progress) {
         default:
             return $signup_progress;
         break;
-        
     }
 }
 
+/**
+ * Converts a unixtimestamp to a human friendly string
+ *
+ * @param string $date A unixtimestamp date in string format
+ * @return string A human friendly date string
+ */
 function convert_unixtime_to_gmdate($date) {
     $gmdate = gmdate("Y-m-d G:i:s", (int)$date);
     return $gmdate;
 }
 
+/**
+ * Converts a human friendly date string into a unixtimestamp
+ *
+ * @param $date A human friendly date string
+ * @return string A unixtimestamp
+ */
 function convert_gmdate_to_unixtime($date) {
     $date_array = preg_split( "/(-|:| )/", $date);
     $unixtime = gmmktime($date_array[3],$date_array[4],$date_array[5],$date_array[1],$date_array[2],$date_array[0]);
@@ -1337,6 +1439,12 @@ function create_profile_fields() {
 }
 */
 
+/**
+ * Checks to see if a cohort exists
+ *
+ * @param string $cohort_idnumber A unique VARCAR identifier  
+ * @return boolean True or false
+ */
 function cohort_exists($cohort_idnumber) {
     global $DB;
     $existing_cohorts = $DB->get_records('cohort');
@@ -1348,8 +1456,15 @@ function cohort_exists($cohort_idnumber) {
     }
     return $cohort_exists;
 }
-    
-// Note that in cohort table there id and idnumber are different fields, and that idnumber is a unique VARCAR identifier for the cohort that appears with the label "Cohort ID" in Site administration > User > Cohort > Edit.
+
+/**
+ * Create a cohort if it does not exist
+ *
+ * Note that in cohort table there id and idnumber are different fields, and that idnumber is a unique VARCAR identifier for the cohort that appears with the label "Cohort ID" in Site administration > User > Cohort > Edit.
+ * 
+ * @param string $cohort_idnumber A unique VARCAR identifier
+ * @return int A cohort id
+ */
 function create_cohort_if_not_existing($cohort_idnumber) {
     global $DB;
     if(cohort_exists($cohort_idnumber) == false) {
@@ -1367,13 +1482,25 @@ function create_cohort_if_not_existing($cohort_idnumber) {
     return $existing_cohort_id;
 }
 
+/**
+ * Gets a cohort id from a cohort idnumber
+ *
+ * @param string A unique VARCAR identifier
+ * @return int A cohort id
+ */
 function get_cohort_id_from_cohort_idnumber($cohort_idnumber) {
     global $DB;
     $cohort = $DB->get_record('cohort', array('idnumber'=>$cohort_idnumber));
     return $cohort->id;
 }
 
-// Enable an enrolment plugin if it is not already enabled
+/**
+ * Enable an enrolment plugin if it is not already enabled
+ *
+ * @param string A plugin name
+ * @return boolean True or false
+ */
+// 
 function enable_enrolment_plugin($plugin_name) {
     $enabled = enrol_get_plugins(true);
     if(!array_key_exists($plugin_name, $enabled)) {
@@ -2333,12 +2460,24 @@ function enable_enrolment_plugin($plugin_name) {
 }
 */
 
+/**
+ * Create a Moodle role if it does not exist, and update the role's permissions
+ *
+ * @param string $custom_full_name A full name for the role
+ * @param string $short_name A short name for the role
+ * @param string $description A description for the role
+ * @param string $role_archetype The role this role will be based on
+ * @param array $capabilities_to_change An array of capabilities to change and the permission to be granted or removed (default = '')
+ * @param array $context_types An array of contexts for the role
+ * @param array $role_assignments An array of role assignments allowed (defaul = '')
+ * @param array $role_overrides An array of role overrides allowed (default = '')
+ * @param array $role_switches An array of role switches allowed (default = '')
+ * @param array $role_to_view An array of role views allowed (default = '')
+ */
 function create_role_if_not_existing_and_update_role_permissions($custom_full_name, $short_name, $description, $role_archetype, $capabilities_to_change = '', $context_types, $role_assignments='', $role_overrides='', $role_switches='', $role_to_view='') {
     global $DB;
     $role_id = -1;
-    //$results = [];
     $context = context_system::instance();
-
 
     // If the role doesn't exit, create it
     if(!$DB->record_exists('role', array('shortname'=>$short_name))) {
@@ -2350,7 +2489,6 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
         $role = $DB->get_record('role', array('shortname'=>$short_name));
         $role_id = $role->id;
     }
-    //$results['role_id'] = $role_id;
 
     if($role_id === -1) {
         return $role_id;
@@ -2410,7 +2548,9 @@ function create_role_if_not_existing_and_update_role_permissions($custom_full_na
     return $role_id;
 }
 
-// HANDLE DELETION OF COHORTS THAT ARE NOT ASSOCIATED WITH ANY COURSES
+/**
+ * Delete cohorts that are not associated with any courses
+ */
 function delete_dangling_cohorts() {
     global $DB;
     require_once('../../cohort/lib.php');
@@ -2432,9 +2572,11 @@ function delete_dangling_cohorts() {
     }
 }
 
-// HANDLE DELETION OF TEMPORARY SGO ACCOUNTS 
-    // Deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality
-
+/**
+ * Delete temporary SGO accounts
+ *
+ * Deletes all SGO accounts that are more than 2 hours old - NOTE this is not a complete purge of the user records - complete deletion/purge of a user account must be handled with the built-in functionality at Site administration > Users > Privacy and policies - see https://docs.moodle.org/39/en/GDPR for information about how to use Moodle's Privacy and policies functionality
+ */
 function delete_temp_sgo_accounts() {
     global $DB;
     require_once(__DIR__.'/../../cohort/lib.php');
@@ -2450,8 +2592,11 @@ function delete_temp_sgo_accounts() {
     }
 }
 
-// HANDLE SUSPENSION OF ACCOUNTS THAT ARE NOT ASSOCIATED WITH ANY COHORTS (but don't suspend temp SGO accounts, admin accounts, or the guest account)
-
+/**
+ * Suspend accounts that are not associated with any cohorts
+ * 
+ * Note: This function does NOT suspend temp SGO accounts, admin accounts, accounts with manager capabilities, or the guest account 
+ */
 function suspend_nocohort_accounts() {
     global $DB;
     require_once(__DIR__.'/../../cohort/lib.php');
@@ -2482,8 +2627,11 @@ function suspend_nocohort_accounts() {
     }
 }
 
-// HANDLE WARNING AND REMOVAL OF STALE APPLICANT TEACHER ACCOUNTS PROCESS
-
+/**
+ * Warn and eventually remove stale Applicant accounts from cohorts
+ * 
+ * Note: The accounts of users who are not members of any cohorts are suspended within 24 hours
+ */
 function remove_stale_applicant_accounts() {
     global $DB;
     require_once(__DIR__.'/../../cohort/lib.php');

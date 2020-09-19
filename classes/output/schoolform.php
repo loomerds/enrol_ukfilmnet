@@ -50,7 +50,7 @@ class school_form extends \moodleform {
         $selectcountry->setSelected('GB');
         $mform->addRule('school_country', null, 'required', null, 'server');
 
-        // Note that the autocomplete input box functionality is slow and can be erratic when search criteria are deleted...we were able to speed things up by cutting the size of the school_names list, but the functionality could still be better. This is a known issue the resolution of which has been deferred by Moodle HQ - see https://tracker.moodle.org/browse/MDL-62194?attachmentOrder=desc
+        // Note that the autocomplete input box functionality is slow and can be erratic when search criteria are deleted...we were able to speed things up by cutting the size of the school_names list, but the functionality could still be better. This is caused by a known issue the resolution of which has been deferred by Moodle HQ - see https://tracker.moodle.org/browse/MDL-62194?attachmentOrder=desc
         $school_names = create_school_name_select_list();
         // The line below is available to allow us to initialize $school_names with a static array from the file "school_names_list.php rather than initializing it dynamically with the create_school_name_select_list method. This approach may speed initial page loading but it does not seem to fix the autocomplete input box issues described above.
         //$school_names = $school_names_list;

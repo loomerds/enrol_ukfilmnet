@@ -40,6 +40,16 @@ if(!has_capability('moodle/role:manage', $context)) {
 
 }
 
+// We can uncomment and use the update_list function (call to it below) located in signuplib.php to create a list of uk schools from a .csv file and save the list in a json encoded .txt file named uk_schools_selector_list_array.txt
+
+// The schoolform.php page calls the create_school_name_select_list function each time it loads, and that function uses the uk_schools_selector_list_array.txt file to build the school.php page's School select list.
+
+// Before uncommenting the update_list function below you need to DEFINITELY - see signuplib.php comments for the update_list method for more details. 
+
+// Don't forget to recomment the update_list function below. It should NOT remain uncommented.
+
+//update_list();
+
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/tracking.php'));
 $PAGE->set_context(context_system::instance());
