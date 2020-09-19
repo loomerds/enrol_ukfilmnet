@@ -117,7 +117,7 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
 /**
  * Redirects to the site frontpage if $user is a Guest user or not an Applicant user
  *
- * @param object $user A moodle user object
+ * @param stdClass $user A moodle user object
  */
 function is_applicant_user($user) {
     profile_load_data($user);
@@ -249,7 +249,7 @@ function create_student_user($studentinfo, $auth = 'manual') {
 /**
  * Creates an SGO user account
  *
- * @param object $applicant_user The user object of the teacher the SGO will be managing
+ * @param stdClass $applicant_user The user object of the teacher the SGO will be managing
  * @param string $auth A Moodle authentication type
  * @return stdClass A user object
  */
@@ -314,7 +314,7 @@ function create_sgo_user($applicant_user, $auth = 'manual') {
 /**
  * Makes code printing to the screen for debugging easier
  *
- * @param @string A string to be printed to the screen
+ * @param string $val A string to be printed to the screen
  */
 function print_r2($val){
     echo '<pre>';
@@ -327,9 +327,9 @@ function print_r2($val){
 }
 
 /**
- * Handles initial student enrolment page POST data flow
+ * Handles initial Student Enrolment page $_POST data flow
  *
- * @param object $datum A POST object
+ * @param object $datum A $_POST object
  */
 function handle_enrol_students_post($datum) {
     global $CFG;
@@ -342,10 +342,9 @@ function handle_enrol_students_post($datum) {
 }
 
 /**
- * 
+ * Handles initial Tracking page $_POST data flow
  *
- * @param 
- * @return 
+ * Redirects to Site admin page, or calls application_denied or application_approved functions
  */
 function handle_tracking_post() {
     global $CFG;
@@ -363,7 +362,12 @@ function handle_tracking_post() {
     }
 }
 
-// Takes data returned from the form and uses it to create student user accounts and place students into cohorts
+/**
+ * Creates UKfilmNet Student user accounts and places UKfilmNet Student users into the appropriate cohorts, and/or removes UKfilmNet Student users from appropriate cohorts 
+ *
+ * @param object $datum A $_POST object from the Student Enrolment page 
+ */
+
 function process_students($datum) {
     global $DB, $CFG;
     require_once($CFG->dirroot.'/cohort/lib.php');
@@ -455,7 +459,7 @@ function process_students($datum) {
     $removed = rtrim($removed, ",");
     $taken = rtrim($taken, ",");
 
-    // Add or remove students to appropriate cohorts
+    // Add or remove students to/from appropriate cohorts
     add_or_remove_students_to_cohorts($students, $datum['cohort_names']);
 
     if(($taken === '' or $taken === null) and ($removed === '' or $removed === null)) {
@@ -472,9 +476,13 @@ function process_students($datum) {
     }
 }
 
-// Note that $target_cohort receives a reference to the cohort object's id field
-// Note that $cohortid receives a reference to the cohort object's cohortid field
-// We probably don't actually need this function - cohort_add_member already stops duplicates
+/**
+ * Checks whether a user is already in a given cohort
+ *
+ * @param stdClass $user A Moodle user object
+ * @param int $target_cohort The id of the cohort in question
+ * @return int 1 if the users is in the target cohort, else 0
+ */
 function is_already_in_cohort($user, $target_cohort, $cohortid = null) {
     global $DB;
 
@@ -489,6 +497,12 @@ function is_already_in_cohort($user, $target_cohort, $cohortid = null) {
     return 0;
 } 
 
+/**
+ * Adds or removes students to/from the appropriate cohorts
+ *
+ * @param array $studentinputs An array of student user to be add to or removed from specified cohorts
+ * @param array $cohort_names An array of cohort names to which students should be added or removed
+ */
 function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
     global $CFG, $DB;
     require_once($CFG->dirroot.'/cohort/lib.php');    
@@ -542,27 +556,60 @@ function add_or_remove_students_to_cohorts($studentinputs, $cohort_names) {
     }
 }
 
+/**
+ * Creates a username based upon an email address
+ *
+ * @param string $email An email address
+ * @return string A string to be used as a username
+ */
 function make_username($email) {
     return substr($email,0,stripos($email,'@',0));
 }
 
+/**
+ * Authenticates an Applicant user login
+ *
+ * @param string $username A username
+ * @param string $password A password
+ * @return stdClass A Moodle user object
+ */
 function applicant_login($username, $password) {
     $user = authenticate_user_login($username, $password);
     return complete_user_login($user);
 }
 
+/**
+ * Creates a random integer between 1111111 and 999999
+ *
+ * @return int An integer within the given range
+ */
 function generate_random_verification_code() {
     return rand(111111, 999999);
 }
 
+/**
+ * Creates a random password
+ *
+ * @return string A randomly generated string
+ */
 function make_random_password() {
     return 'ukfilm'.rand(1000, 9999);
 }
 
+/**
+ * Creates a random integer string between 1 and 1000
+ *
+ * @return string A randomly generated string
+ */
 function make_random_numstring() {
     return rand(1, 1000);
 }
 
+/**
+ * Handles UKfilmNet teacher application denials
+ *
+ * @param array $denied An array of user ids
+ */
 function application_denied($denied) {
     global $DB;
     foreach($denied as $userid) {
@@ -582,6 +629,11 @@ function application_denied($denied) {
     }
 }
 
+/**
+ * Handles UkfilmNet teacher application approvals
+ *
+ * @param array $approved An array of user ids
+ */
 function application_approved($approved) {
     global $DB, $CFG;
     include_once($CFG->dirroot.'/course/externallib.php');
@@ -616,8 +668,6 @@ function application_approved($approved) {
                     $newcourse = create_classroom_course_from_teacherid($userid, 
                             get_string('template_course_shortname', 'enrol_ukfilmnet'), 
                             get_string('classrooms_category_idnumber', 'enrol_ukfilmnet'));
-
-                    //$approvedteacher_role = $DB->get_record('role', array('shortname'=>'user'));
                     $systemcontext = context_system::instance();
                     $usercontext = context_user::instance($applicant_user->id);
                     enrol_user_this($newcourse, $applicant_user, get_role_id(get_string('ukfnteacher_role_name', 'enrol_ukfilmnet')), 'manual');
@@ -655,6 +705,12 @@ function application_approved($approved) {
     }
 }
 
+/**
+ * Get an array of the names of cohorts of which a user is a member
+ *
+ * @param stdClass $applicant_user A Moodle user object
+ * @return array A sorted array of cohort names
+ */
 function get_applicant_cohort_names($applicant_user) {
     global $CFG, $DB, $USER;
     require_once($CFG->dirroot.'/lib/accesslib.php');
@@ -674,13 +730,21 @@ function get_applicant_cohort_names($applicant_user) {
     return $cohort_names;
 }
 
+/**
+ * Adds a UKfilmnet SGO user to Resource and Support cohorts
+ *
+ * @param stdClass $applicant_user An Applicant user object
+ * @param stdClass $sgo_user An SGO user object
+ * @param object $resource_courses_cohort A cohort object
+ * @param object $support_courses_cohort A cohort object
+ */
 function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort, $support_courses_cohort) {
     global $DB;
 
     // Add the DSL user to the resource courses cohort
     cohort_add_member($resource_courses_cohort->id, $sgo_user->id);
     
-    // Uncomment the next line if we want to give sgo's access to the teacher forum course
+    // Add the DSL user to the support courses cohort
     cohort_add_member($support_courses_cohort->id, $sgo_user->id);
 
     $cohort_names = get_applicant_cohort_names($applicant_user);
@@ -695,7 +759,12 @@ function add_sgo_to_cohorts($applicant_user, $sgo_user, $resource_courses_cohort
         }
     }
 }
-
+/**
+ * Gets the id of a specified Moodle Role
+ *
+ * @param string $role_shortname A specfied Moodle Role name
+ * @return mixed An int or nothing
+ */
 function get_role_id($role_shortname) {
     global $DB;
 
@@ -707,6 +776,14 @@ function get_role_id($role_shortname) {
     }
 }
 
+/**
+ * Create and send a teacher application approved email to a new SGO user
+ *
+ * @param stdClass $applicant_user A Moodle user object
+ * @param stdClass $sgo_user A Moodle user object
+ * @param string $sgo_password A string containing random password
+ * @return 
+ */
 function email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_password) {
     
     profile_load_data($applicant_user);
@@ -731,12 +808,18 @@ function email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_password) {
     email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_new_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
 }
 
+/**
+ * Create and send a teacher application approved email to an existing SGO user
+ *
+ * @param stdClass $applicant_user A Moodle user object
+ * @param stdClass $sgo_user A Moodle user object
+ */
 function email_sgo_existinguser_info($applicant_user, $sgo_user) {
     
     profile_load_data($applicant_user);
 
     $sgo_user_firstname = substr($sgo_user->firstname, 4);
-//print_r2($sgo_user_firstname);
+
     // Create array of variables for email to safeguarding officer
     $emailvariables = (object) array('schoolname_ukprn'=>$applicant_user->profile_field_ukprn, 
                                      'schoolname'=>$applicant_user->profile_field_schoolname,
@@ -752,6 +835,12 @@ function email_sgo_existinguser_info($applicant_user, $sgo_user) {
     email_to_user($sgo_user, get_admin(), get_string('safeguarding_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_existing_sgo_account_text', 'enrol_ukfilmnet', $emailvariables));
 }
 
+/**
+ * Create and send an approved or denied email to an Applicant user
+ *
+ * @param stdClass $applicant A Moodle user object
+ * @param string $status A string indicating denial or approval of application
+ */
 function email_user_accept_reject($applicant, $status){
     global $CFG;
     
@@ -768,6 +857,14 @@ function email_user_accept_reject($applicant, $status){
     }
 }
 
+/**
+ * Create a Classroom course on the basis of a UKfilmNet Teacher id, and add Cohort sync Enrolment to the course
+ *
+ * @param int $teacherid A user id number
+ * @param string $template A template course name
+ * @param string $category A category id number
+ * @return object A Moodle course object
+ */
 function create_classroom_course_from_teacherid ($teacherid, $template, $category_idnumber) {
     global $DB, $CFG;
 
@@ -833,9 +930,8 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
                                            true);
 
     // Create a new cohort with the same name as our course shortname and get its id
-    $cohortid = create_ukfn_cohort($newcourse['shortname'], $courseinfo['id']);
+    $cohortid = create_ukfn_cohort($newcourse['shortname']);
     $course_created = $DB->get_record('course', array('shortname'=>$courseinfo['shortname']));
-    //$data = create_cohortsync_data($courseinfo['shortname'], $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
     $data = create_cohortsync_data('Cohort sync', $cohortid, get_string('ukfnstudent_role_name', 'enrol_ukfilmnet'));
     
     // Add the new cohort to the new course's corhort sync
@@ -846,6 +942,14 @@ function create_classroom_course_from_teacherid ($teacherid, $template, $categor
     return $courseinfo;
 }
 
+/**
+ * Enrol a user in a course directly rather than by Cohort sync
+ *
+ * @param object $courseinfo A Moodle course object
+ * @param stdClass $user A Moodle user object
+ * @param string $roleid A role name string
+ * @param string $enrolmethod An enrolment type name (default manual)
+ */
 function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
     global $DB;
 
@@ -865,18 +969,18 @@ function enrol_user_this($courseinfo, $user, $roleid, $enrolmethod = 'manual') {
                 break;
             }
         }
-        /*if ($manualinstance == null) {
-            $instanceid = $enrol->add_default_instance($course);
-            if ($instanceid === null) {
-                $instanceid = $enrol->add_instance($course);
-            }
-            $instance = $DB->get_record('enrol', array('id' => $instanceid));
-        }*/
+        
         $enrol->enrol_user($manualinstance, $user->id, $roleid, time(), 0);
     }
 }
 
-function create_ukfn_cohort($name, $courseid) {
+/**
+ * Create a new cohort object
+ *
+ * @param string $name A course shortname
+ * @return int The id of the new cohort
+ */
+function create_ukfn_cohort($name) {
     global $CFG;
     require_once($CFG->dirroot.'/cohort/lib.php');
 
@@ -891,7 +995,14 @@ function create_ukfn_cohort($name, $courseid) {
     return $id;
 }
 
-// Create and return a data object for use in creating a cohort sync enrolment 
+/**
+ * Create a data object for use in creating a cohort sync enrolment
+ *
+ * @param string $name A Cohort sync name
+ * @param int $cohortid A cohort id
+ * @param string $default_role_shortname A name for the Cohort sync's default role 
+ * @return object A basic Cohort sync enrolment object
+ */
 function create_cohortsync_data($name, $cohortid, $default_role_shortname) {
     global $DB;
     $roleid = $DB->get_record('role', array('shortname'=>$default_role_shortname))->id;
@@ -899,6 +1010,7 @@ function create_cohortsync_data($name, $cohortid, $default_role_shortname) {
                   'roleid'=>$roleid, 'customint2'=>0);
     return $data;
 }
+
 
 class enrolukfn_cohort_plugin extends enrol_plugin {
 
