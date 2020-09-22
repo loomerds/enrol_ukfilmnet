@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of a 3rd party plugin for the Moodle LMS - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * A Template Class to collect/create the data for the courses.php page.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer
@@ -31,21 +31,37 @@ use stdClass;
 require_once('coursesform.php');
 require_once(__DIR__.'/../../signuplib.php');
 
-// This is a Template Class it collects/creates the data for a template
 class coursespage implements \renderable, \templatable {
 
     private $page_number;
 
+    /**
+     * A class constructor
+     *
+     * @param string $page_number A number in string format
+     * @return object An object of this class
+     */
     public function __construct($page_number) {
         $this->page_number = $page_number;
     }
 
+    /**
+     * Exports data to for rendering
+     *
+     * @param object A renderer class object
+     * @return object The data captured and created by this object
+     */
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
         $data->coursesinput = $this->get_courses_content();
         return $data;
     }
 
+    /**
+     * Gets and form data and processes it and data it may create for rendering
+     *
+     * @return string Data obtained for rendering
+     */
     public function get_courses_content() {
 
         global $CFG, $USER;

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of a 3rd party plugin for the Moodle LMS - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * A Template Class to collect/create the data for the assurance.php page.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer
@@ -31,8 +31,6 @@ use stdClass;
 require_once('assuranceform.php');
 require_once('signuplib.php');
 
-
-// This is a Template Class it collects/creates the data for a template
 class assurancepage implements \renderable, \templatable {
 
     private $checkbox_values = array('applicant_is_employed'=>"no",
@@ -45,15 +43,29 @@ class assurancepage implements \renderable, \templatable {
                                      'brit_school_abroad_mod_or_dubai_school'=>'no',
                                      'school_subject_to_inspection'=>'no');
 
+    /**
+     * A default class constructor
+     */                                 
     public function __construct($sometext = null) {
     }
 
+    /**
+     * Exports data to for rendering
+     *
+     * @param object A renderer class object
+     * @return object The data captured and created by this object
+     */
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
         $data->assuranceinput = $this->get_assurance_content();
         return $data;
     }
 
+    /**
+     * Gets and form data and processes it and data it may create for rendering
+     *
+     * @return string Data obtained for rendering
+     */
     public function get_assurance_content() {
 
         global $CFG, $DB, $USER, $SESSION;
@@ -153,7 +165,6 @@ class assurancepage implements \renderable, \templatable {
             redirect(PAGE_WWWROOT);
         } else {
             // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed or on the first display of the form
-
             $applicant_user;
             
             if(isset($_POST['assurance_code'])) {
@@ -206,6 +217,11 @@ class assurancepage implements \renderable, \templatable {
         return $assuranceinput;
     }
 
+    /**
+     * Creates a checkbox results list
+     *
+     * @return array Array of checkbox values
+     */
     private function create_checkbox_results_list() {
         $results = [];
         foreach($_POST as $key=>$value) {
@@ -228,6 +244,12 @@ class assurancepage implements \renderable, \templatable {
         return $results;
     }
 
+    /**
+     * Sets checkbox variable values
+     *
+     * @param array $checkboxes An array of checkbox values
+     * @return 
+     */
     private function set_checkbox_values($checkboxes) {
         foreach($checkboxes as $key=>$value) {
             switch($key) {

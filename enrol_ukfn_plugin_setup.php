@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of a 3rd party plugin for the Moodle LMS - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,13 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Development data generator.
+ * Contains setup scripts to programmatically create the environment and administrative setting necessary for the plugin to work.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer 
  * @author     Doug Loomer doug@dougloomer.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 global $USER, $DB, $CFG;
 require(__DIR__ .'/../../config.php');
 require_once('./signuplib.php');
@@ -30,7 +31,6 @@ require_once('../../lib/moodlelib.php');
 require_once('../../course/lib.php');
 require_once('../../blocks/moodleblock.class.php');
 require_once('../../blocks/html/block_html.php');
-//use block_html;
 
 require_login();
 $context = context_system::instance();
@@ -38,11 +38,6 @@ $PAGE->set_context($context);
 if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
 }
-
-/*
- * 
- * 
- */
 
 // Run setup tasks and display success data
 echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-left: 25px"><ol>');
@@ -274,7 +269,6 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
         echo('<li>The CLASSROOMS category was not created. <strong>Try running the setup script again.</strong></li>');
     }
     
-
     $dfm_category_data = array(
         'name'=>get_string('dfm_category_name', 'enrol_ukfilmnet'),
         'idnumber'=>get_string('dfm_category_idnumber', 'enrol_ukfilmnet'),
@@ -293,7 +287,6 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
     } else {
         echo('<li>The DIGITAL FILMMAKING category was not created. <strong>Try running the setup script again.</strong></li>');
     }
-
 
     // Create a Classroom Course template with shortname of classroom_course_template if one does not already exist
     $classroom_course_template_data = (object) array(
@@ -318,7 +311,6 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
     } else {
         echo('<li>The Classroom Course template was not created. <strong>Try running the setup script again.</strong></li>');
     }
-
 
     // Create a UKfilmNet Safeguarding user
     $ukfn_sg_user = create_ukfnsafeguarding_user($auth = 'manual');

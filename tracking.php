@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of a 3rd party plugin for the Moodle LMS - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Development data generator.
+ * Creates a page for the site administrator to track the progress of, approve, and deny teacher applications.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer 
@@ -37,7 +37,6 @@ require_login();
 $context = context_system::instance();
 if(!has_capability('moodle/role:manage', $context)) {
     redirect(PAGE_WWWROOT);
-
 }
 
 // We can uncomment and use the update_list function (call to it below) located in signuplib.php to create a list of uk schools from a .csv file and save the list in a json encoded .txt file named uk_schools_selector_list_array.txt
@@ -65,7 +64,6 @@ $context = $PAGE->context;
 
 try {
     require_capability('moodle/role:manage', $context);
-
 } catch (Exception $e) {
     redirect(PAGE_WWWROOT);
 }

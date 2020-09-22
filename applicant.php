@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of a 3rd party plugin for the Moodle LMS - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Development data generator.
+ * Creates an initial Applicant basic information collection page
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer 
@@ -23,7 +23,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- global $DB, $CFG, $USER;
+global $DB, $CFG, $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
@@ -33,8 +33,6 @@ $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));
 $PAGE->set_context(context_system::instance());
 $PAGE->set_title(get_string('applicant_title', 'enrol_ukfilmnet'));
 $page_number = 1;
-//$progress = $page_number;
-
 
 $output = $PAGE->get_renderer('enrol_ukfilmnet');
 $applicantpage = new \enrol_ukfilmnet\output\applicantpage($page_number);
@@ -50,7 +48,6 @@ if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
         }
     }
 }           
-//}
 
 echo $output->header();
 echo $page_content;
