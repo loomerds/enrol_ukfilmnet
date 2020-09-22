@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/schoolpage
+    @template enrol_ukfilmnet/safeguardingpage
 
-    Template which defines a school information page.
+    Template which defines a Safeguarding page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,12 @@
     * none
 
     Context variables required for this template:
-    * 
+    * safeguardinginput raw HTML encoded string
 
     Example content (json):
-
+    {
+        "safeguardinginput": "< autocomplete="off" action="http://localhost:8000/enrol/ukfilmnet/safeguarding.php" method="post" accept-charset="utf-8" id="mform1_I9QFjlXqwt3YsoY" class="mform">..."
+    }
 }}
 
 

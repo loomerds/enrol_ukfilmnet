@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/schoolpage
+    @template enrol_ukfilmnet/trackingpage
 
-    Template which defines a school information page.
+    Template which defines a Tracking page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,55 @@
     * none
 
     Context variables required for this template:
-    * 
+    * headings Object containing key/value pairs.
+    * rows Array of Objects containing key/value pairs.
 
     Example content (json):
-
+    {
+        "headings":
+            {
+                "title0":"App",
+                "title1":"Progress",
+                "title2":"Role",
+                "title3":"Name",
+                "title4":"Email",
+                "title5":"Country",
+                "title14":"Courses",
+                "title6":"School",
+                "title13":"UKPRN",
+                "title7":"SG Name",
+                "title8":"SG Phone",
+                "title9":"SG Email",
+                "title10":"SG Form",
+                "title11":"Assurance Uploaded",
+                "title12":"Den"
+            },
+        "rows":
+            [
+                {
+                    "userid":"340",
+                    "firstname":"Doug",
+                    "familyname":"Loom73",
+                    "fullname":"Loom73, Doug<\/a>",
+                    "email":"loom73@school.edu<\/a>",
+                    "courses":"2",
+                    "currentrole":"01",
+                    "applicationprogress":"7<\/span>",
+                    "schoolname":"ACE Schools Plymouth, Martins Gate",
+                    "ukprn":"10056716",
+                    "schoolcountry":"GB",
+                    "contact_firstname":"Big",
+                    "contact_familyname":"Deal",
+                    "contact_email":"big@school.edu<\/a>",
+                    "contact_phone":"20394578",
+                    "qtsnumber":"777",
+                    "assurancesubmissiondate":"2020-08-13 22:57:37",
+                    "assurancedoc":"View<\/a>",
+                    "applicationapproved":"1\"340\"<\/span>",
+                    "applicationdenied":"0\"340\"<\/span>"
+                },
+            ]
+    }
 }}
 <form action="../ukfilmnet/tracking.php" method="post">
 
@@ -53,7 +98,6 @@
         <h4 class='ukfn_applicant_subheading one_panel'>{{#str}}tracking_subheading, enrol_ukfilmnet{{/str}}</h4>
         <div class='ukfn_applicant_content'>
             <p>{{#str}}tracking_instructions, enrol_ukfilmnet{{/str}}</p>
-            <!--{{{trackinginput}}}-->
             {{testName}}
             <table class="generaltable sortable-table">
                 <thead>

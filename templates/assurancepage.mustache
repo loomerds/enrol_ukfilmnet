@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/emailverifypage
+    @template enrol_ukfilmnet/assurancepage
 
-    Template which defines a email verification page.
+    Template which defines a Assurance page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,12 @@
     * none
 
     Context variables required for this template:
-    * 
+    * assuranceinput raw HTML encoded string
 
     Example content (json):
-
+    {
+        "assuranceinput": "< autocomplete="off" action="http://localhost:8000/enrol/ukfilmnet/assurance.php" method="post" accept-charset="utf-8" id="mform1_I9QFjlXqwt3YsoY" class="mform">..."
+    }
 }}
 
 

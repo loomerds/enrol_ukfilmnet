@@ -15,9 +15,9 @@
     along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
 {{!
-    @template enrol_ukfilmnet/emailverifypage
+    @template enrol_ukfilmnet/studentspage
 
-    Template which defines a email verification page.
+    Template which defines a Students page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,28 @@
     * none
 
     Context variables required for this template:
-    * 
+    * headings Object containing key/value pairs.
+    * rows Array of Objects containing key/value pairs.
 
     Example content (json):
-
+    {
+        "headings":
+            {
+                "title0":"Email",
+                "title1":"First Name",
+                "title2":"Family Name",
+                "extra_header_cols":"Loom007-0<\/th>Loom007-1<\/th>"}
+        "rows":
+            [
+                {
+                    "userid":"",
+                    "student_email":"slim@school.edu<\/span>",
+                    "student_firstname":"dsl-slim<\/span>",
+                    "student_familyname":"chance<\/span>",
+                    "extra_row_cols":"1<\/span><\/td>1<\/span><\/td>"
+                }
+            ]
+    }
 }}
 <form action="../ukfilmnet/students.php" method="post" onkeydown="return event.key != 'Enter';">
 

@@ -17,7 +17,7 @@
 {{!
     @template enrol_ukfilmnet/emailverifypage
 
-    Template which defines a email verification page.
+    Template which defines a Email Verification page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,12 @@
     * none
 
     Context variables required for this template:
-    * 
+    * emailverifyinput raw HTML encoded string
 
     Example content (json):
-
+    {
+        "emailverifyinput": "< autocomplete="off" action="http://localhost:8000/enrol/ukfilmnet/emailverify.php" method="post" accept-charset="utf-8" id="mform1_I9QFjlXqwt3YsoY" class="mform">..."
+    }
 }}
 
 <div class='ukfn_enrol_main'>

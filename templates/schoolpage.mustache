@@ -17,7 +17,7 @@
 {{!
     @template enrol_ukfilmnet/schoolpage
 
-    Template which defines a school information page.
+    Template which defines a School page.
 
     Classes required for JS:
     * none
@@ -26,10 +26,12 @@
     * none
 
     Context variables required for this template:
-    * 
+    * schoolinput raw HTML encoded string
 
     Example content (json):
-
+    {
+        "schoolinput": "< autocomplete="off" action="http://localhost:8000/enrol/ukfilmnet/school.php" method="post" accept-charset="utf-8" id="mform1_I9QFjlXqwt3YsoY" class="mform">..."
+    }
 }}
 
 

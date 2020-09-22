@@ -30,7 +30,6 @@ class renderer extends \plugin_renderer_base {
    /**
     * Renders the HTML for the applicant page.
     */
-
    public function render_applicantpage(\templatable $applicantpage) {
       $data = $applicantpage->export_for_template($this);
       return $this->render_from_template('enrol_ukfilmnet/applicantpage', $data);
