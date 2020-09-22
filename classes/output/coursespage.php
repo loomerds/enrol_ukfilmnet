@@ -58,7 +58,7 @@ class coursespage implements \renderable, \templatable {
     }
 
     /**
-     * Gets and form data and processes it and data it may create for rendering
+     * Gets form data and processes it and data it may create for rendering
      *
      * @return string Data obtained for rendering
      */

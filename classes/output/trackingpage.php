@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * A Template Class to collect/create the data for the tracking.php page.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer
@@ -30,19 +30,36 @@ defined('MOODLE_INTERNAL' || die());
 use stdClass;
 use moodle_url;
 
-// This is a Template Class it collects/creates the data for a template
 class trackingpage implements \renderable, \templatable {
 
+    /**
+     * A default class constructor
+     *
+     * @param string $sometext A string
+     * @return object An object of this class
+     */
     public function __construct($sometext = null) {
     }
 
+    /**
+     * Exports data to for rendering
+     *
+     * @param object A renderer class object
+     * @return object The data captured and created by this object
+     */
     public function export_for_template(\renderer_base $output) {
         $data = new stdClass();
         $data = $this->get_tracking_content();
         return $data;
     }
 
-    // Consider rewriting this function to use an mform approach
+    /**
+     * Gets form data and processes it and data it may create for rendering
+     * 
+     * Consider rewriting this function to use an mform approach
+     *
+     * @return string Data obtained for rendering
+     */
     public function get_tracking_content() {
         global $CFG, $USER, $DB;
 

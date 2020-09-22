@@ -60,7 +60,7 @@ class studentspage implements \renderable, \templatable {
     }
 
     /**
-     * Gets and form data and processes it and data it may create for rendering
+     * Gets form data and processes it and data it may create for rendering
      * 
      * Consider rewriting this function to use an mform approach
      *
@@ -90,6 +90,11 @@ class studentspage implements \renderable, \templatable {
         return $form_data;
     }
 
+    /**
+     * Creates an array of cohort names for all cohorts to be associated with Classroom courses belonging to a teacher
+     *
+     * @return array An array of strings
+     */
     private function get_teacher_cohort_names() {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot.'/lib/accesslib.php');
@@ -109,6 +114,12 @@ class studentspage implements \renderable, \templatable {
         return $cohort_names;
     }
 
+    /**
+     * Makes extra table header columns for the students.php page table
+     *
+     * @param array $cohort_names An array of strings
+     * @return string A string with html encoding
+     */
     private function make_extra_header_cols($cohort_names) {
         $extra_header_cols = '';
         $cohort_length = count($cohort_names);
@@ -121,6 +132,13 @@ class studentspage implements \renderable, \templatable {
         return $extra_header_cols;
     }
 
+    /**
+     * Makes extra table row columns for the students.php page table
+     *
+     * @param array $cohort_names An array of strings
+     * @param array $student An array of selected user object fields (id, email, firstname, lastname)
+     * @return string A string with html encoding
+     */
     private function make_extra_row_cols($cohort_names, $student) {
         $extra_row_cols = '';
         $cohort_length = count($cohort_names);
@@ -149,26 +167,58 @@ class studentspage implements \renderable, \templatable {
         return $extra_row_cols;
     }
 
-    private function set_checkbox($cohort_name, $student) {
+    /**
+     * Creates an html encoded string of checkboxes with checked or unchecked status
+     *
+     * Note: this function is not currently being used - consider removing
+     * 
+     * @param string $cohort_name A cohort_name
+     * @param string $id A student id in string format
+     * @return string A string with html encoding
+     */
+    private function set_checkbox($cohort_name, $id) {
         if($approval_status == 1) {
             return '<input type="checkbox" name="approved[]" value="'.$id.'" checked="checked">';
         }
         return '<input type="checkbox" name="approved[]" value="'.$id.'">';
     }
 
+    /**
+     * Creates an html formated string for an email input element
+     *
+     * @param string $student_email An email address as a string
+     * @return string A string with html encoding
+     */
     private function create_student_email_input($student_email) {
         return '<span class="ukfn_0em_text">'.strtolower($student_email).'</span><input type="text" name="student_email[]" value="'.$student_email.'">';
     }
 
+    /**
+     * Creates an html formated string for an firstname input element
+     *
+     * @param string $student_firstname A firstname as a string
+     * @return string A string with html encoding
+     */
     private function create_student_firstname_input($student_firstname) {
         return '<span class="ukfn_0em_text">'.strtolower($student_firstname).'</span><input type="text" name="student_firstname[]" value="'.$student_firstname.'">';
     }
 
+    /**
+     * Creates an html formated string for an familyname input element
+     *
+     * @param string $student_familyname An familyname as a string
+     * @return string A string with html encoding
+     */
     private function create_student_familyname_input($student_familyname) {
         return '<span class="ukfn_0em_text">'.strtolower($student_familyname).'</span><input type="text" name="student_familyname[]" value="'.$student_familyname.'">';
     }
 
-    // Create the table that will be used on the page and prepopuate it with any existing student data
+    /**
+     * Creates the table that will be used on the page and prepopuates it with any existing student data
+     *
+     * @param array $cohort_names An array of cohort_name strings
+     * @return string A string with html encoding that represents a table with prepopulated data
+     */
     private function build_table($cohort_names) {
         global $CFG, $DB, $USER;
         require_once($CFG->dirroot.'/lib/accesslib.php');
@@ -215,6 +265,9 @@ class studentspage implements \renderable, \templatable {
         return $studentsdata;
     }
 
+    /**
+     * Creates number of empty rows to be added to the table on the students.php page
+     */
     public function make_empty_table_rows() {
 
         // This controls how many empty rows are added to our enrol table
@@ -231,6 +284,11 @@ class studentspage implements \renderable, \templatable {
 
     // Functions to make initial page content from teacher's persisted course/cohort/student data
 
+    /**
+     * Get an array of the cohort ids of cohorts associated with Classroom courses assigned to a teacher 
+     *
+     * @return array An array of cohort ids
+     */
     private function get_teacher_cohort_ids() {
         global $DB;
         $teacher_cohort_names = $this->get_teacher_cohort_names();
@@ -247,6 +305,11 @@ class studentspage implements \renderable, \templatable {
         return $teacher_cohort_ids;
     } 
 
+    /**
+     * Gets an array of key(cohortid)/value(userid) pairs for all cohorts associated with Classroom courses assigned to a teacher
+     *
+     * @return array An associative array of (cohortid/userid) elements
+     */
     private function get_students_in_cohorts() {
         global $DB;
 
@@ -267,6 +330,11 @@ class studentspage implements \renderable, \templatable {
         return $students_in_cohorts;
     }
 
+    /**
+     * Get an array of ids of students in a cohort associated with Classroom courses assigned to a teacher
+     * 
+     * @return array An array of user ids
+     */
     private function get_students_list_by_ids() {
         global $DB;
 
@@ -283,6 +351,11 @@ class studentspage implements \renderable, \templatable {
         return $students_list_by_id;
     }
 
+    /**
+     * Get an array of student users enroled in Classroom courses assigned to a teacher 
+     *
+     * @return stdClass An array of user objects
+     */
     private function get_enroled_students() {
         global $DB;
 
