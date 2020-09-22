@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * Generic enrolment helper function(s).
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer

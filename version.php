@@ -25,6 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2020091600;
+$plugin->version = 2020092200;
 $plugin->requires = 2019052003.00;
 $plugin->component = 'enrol_ukfilmnet';

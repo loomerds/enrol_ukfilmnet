@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * A class to execute an No Associated Cohorts user cleanup task.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer
@@ -30,9 +30,6 @@ global $USER, $DB, $CFG;
 require_once(__DIR__.'/../../signuplib.php');
 require_once(__DIR__.'/../../../cohort/lib.php');
 
-/**
- * An example of a scheduled task.
- */
 class cleanup_nocohort_accounts extends \core\task\scheduled_task {
  
     /**
@@ -48,7 +45,6 @@ class cleanup_nocohort_accounts extends \core\task\scheduled_task {
      * Execute the task.
      */
     public function execute() {
-        //global $DB;
 
         mtrace("enrol_ukfilmnet no cohort accounts cleanup task started");
         suspend_nocohort_accounts();

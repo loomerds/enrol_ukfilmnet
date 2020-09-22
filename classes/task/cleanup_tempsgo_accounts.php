@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Generator tool functions.
+ * A class to execute a Temporary SGO users cleanup task.
  *
  * @package    enrol_ukfilmnet
  * @copyright  2020, Doug Loomer
@@ -30,9 +30,6 @@ global $USER, $DB, $CFG;
 require_once(__DIR__.'/../../signuplib.php');
 require_once(__DIR__.'/../../../cohort/lib.php');
 
-/**
- * An example of a scheduled task.
- */
 class cleanup_tempsgo_accounts extends \core\task\scheduled_task {
  
     /**
@@ -44,11 +41,7 @@ class cleanup_tempsgo_accounts extends \core\task\scheduled_task {
         return get_string('cleanup_tempsgo_accounts_task', 'enrol_ukfilmnet');
     }
  
-    /**
-     * Execute the task.
-     */
     public function execute() {
-        //global $DB;
 
         mtrace("enrol_ukfilmnet temp sgo accounts cleanup task started");
         delete_temp_sgo_accounts();
