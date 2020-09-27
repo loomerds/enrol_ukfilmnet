@@ -28,6 +28,11 @@ use \core\session\manager;
 global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
+
+if(!enrol_is_enabled('ukfilmnet')) {
+    redirect(PAGE_WWWROOT);
+}
 
 // Create a temporary Safeguarding Officer user account for the person accessing this page.
 // Do it only once.

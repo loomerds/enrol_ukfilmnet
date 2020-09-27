@@ -31,6 +31,11 @@ require_once('../../lib/moodlelib.php');
 require_once('../../course/lib.php');
 require_once('../../blocks/moodleblock.class.php');
 require_once('../../blocks/html/block_html.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
+
+if(!enrol_is_enabled('ukfilmnet')) {
+    redirect(PAGE_WWWROOT);
+}
 
 require_login();
 $context = context_system::instance();

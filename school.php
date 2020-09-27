@@ -26,6 +26,11 @@
 global $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
+
+if(!enrol_is_enabled('ukfilmnet')) {
+    redirect(PAGE_WWWROOT);
+}
 
 require_login();
 is_applicant_user($USER);

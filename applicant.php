@@ -27,6 +27,11 @@ global $DB, $CFG, $USER;
 require(__DIR__ . '/../../config.php');
 require_once('./signuplib.php');
 require_once($CFG->dirroot.'/user/profile/lib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
+
+if(!enrol_is_enabled('ukfilmnet')) {
+    redirect(PAGE_WWWROOT);
+}
 
 $PAGE->set_pagelayout('standard');
 $PAGE->set_url(new moodle_url('/enrol/ukfilmnet/applicant.php'));

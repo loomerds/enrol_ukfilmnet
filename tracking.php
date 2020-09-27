@@ -31,11 +31,12 @@ require_once($CFG->dirroot.'/lib/dml/moodle_database.php');
 require_once($CFG->dirroot.'/course/externallib.php');
 require_once($CFG->dirroot.'/user/externallib.php');
 require_once($CFG->dirroot.'/lib/pagelib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
 
 require_login();
 
 $context = context_system::instance();
-if(!has_capability('moodle/role:manage', $context)) {
+if(!has_capability('moodle/role:manage', $context) or !enrol_is_enabled('ukfilmnet')) {
     redirect(PAGE_WWWROOT);
 }
 

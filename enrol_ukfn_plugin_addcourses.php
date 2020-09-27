@@ -27,6 +27,11 @@ global $USER, $DB;
 require(__DIR__ .'/../../config.php');
 require_once('./signuplib.php');
 require_once('../../cohort/lib.php');
+require_once($CFG->dirroot.'/lib/enrollib.php');
+
+if(!enrol_is_enabled('ukfilmnet')) {
+    redirect(PAGE_WWWROOT);
+}
 
 require_login();
 $context = context_system::instance();
