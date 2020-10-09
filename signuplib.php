@@ -437,12 +437,13 @@ function process_students($datum) {
         foreach($users as $user) {
             
             // Remove student rows if the email address (after being set to all lower case) matches an existing user name
-            if(strtolower($student['student_email']) === $user->username) {                
+            if(strcasecmp($student['student_email'], $user->username) === 0) {                
                 $email_taken = true;
                 if(strtolower($student['student_email']) != $student['student_email']) {
                     $taken = $taken.', '.$student['student_email'];
                     unset($students[$key]);
                 }
+                //unset($students[$key]);
                 break;
             } 
         }

@@ -209,6 +209,8 @@ $string['students_instructions'] =
 <br>
 <strong>To enrol a student</strong> - enter their school email address, first name, family name (all three are required), and click the checkbox(es) for the courses in which that student should be enroled. When you click the "Submit" button all the student enrolment information you have entered will be saved, and you will be shown an updated list of all your enroled students and five fresh lines of input boxes for enroling more students. Remember, you may ONLY ENROL YOUR OWN STUDENTS. <br>
 <br>
+Note that if you have already enroled a student once on this page, any attempt to enrol them a second time will be ignored.<br>
+<br>
 <strong>To unenrol a student</strong> - uncheck the course checkbox of that student for that course and click the "Submit" button. If all course checkboxes of a student are unchecked, that student will no longer appear in your enrolments list after you click "Submit."<br>
 <br>
 Your school Designated Safeguarding Lead is able to view your UKfilmNet Enrol Students page at all times.<br>
@@ -353,8 +355,6 @@ $string['dfm_category_name'] = 'DIGITAL FILMMAKING';
 $string['dfm_category_idnumber'] = 'DFM';
 $string['dfm_category_parent'] = 0;
 $string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
-//$string['misc_course_category'] = 'CLASSROOMS';
-//$string['student_role_id'] = '5';
 $string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '5';
 $string['resource_courses_idnumber'] = 'resource_courses';
