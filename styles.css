@@ -74,7 +74,13 @@ body#page-enrol-ukfilmnet-tracking #page {
     margin-top: 0px !important;
 }
 
-#region-main {
+#page-enrol-ukfilmnet-applicant #region-main, 
+#page-enrol-ukfilmnet-emailverify #region-main,
+#page-enrol-ukfilmnet-courses #region-main, 
+#page-enrol-ukfilmnet-school #region-main, 
+#page-enrol-ukfilmnet-students #region-main, 
+#page-enrol-ukfilmnet-tracking #region-main, 
+#page-enrol-ukfilmnet-assurance #region-main {
     padding: 0px !important;
     background-color: unset !important;
 }
@@ -181,7 +187,7 @@ h3.ukfn_enrol_page_title {
     width: unset !important;
 }
 
-#fitem_id_email .col-md-3, 
+#page-enrol-ukfilmnet-emailverify #fitem_id_email .col-md-3, 
 #fitem_id_assurance_code .col-md-3 {
     width: 40%;
 } 
@@ -247,12 +253,12 @@ h3.ukfn_enrol_page_title {
     margin-left: 10px;
 }
 
-#fitem_id_form_filepicker .col-md-3 {
+#page-enrol-ukfilmnet-assurance #fitem_id_form_filepicker .col-md-3 {
     max-width: 30%;
     text-align: right;
 }
 
-#fitem_id_form_filepicker .col-md-9 {
+#page-enrol-ukfilmnet-assurance #fitem_id_form_filepicker .col-md-9 {
     max-width: 60%;
     text-align: left;
 }
@@ -872,11 +878,12 @@ h3.ukfn_enrol_page_title {
     vertical-align: top;
 }
 
-.generaltable {
+#page-enrol-ukfilmnet-students .generaltable, 
+#page-enrol-ukfilmnet-tracking .generaltable {
     font-size: .8rem;
 }
 
-.one_panel {
+.ukfn_applicant_subheading .one_panel {
     width: 100%;
 }
 
@@ -910,7 +917,8 @@ td.ukfn_enrol_col input {
     width: 100px;
 }
 
-.generaltable th {
+#page-enrol-ukfilmnet-students .generaltable th, 
+#page-enrol-ukfilmnet-tracking .generaltable th {
     padding-left: .3rem !important;
     padding-right: .3rem !important;
 }
@@ -1003,7 +1011,7 @@ td.ukfn_enrol_col input {
 }
 
 .ukfn_progress_1 {
-    background-color: #bb2222;
+    background-color: #b22;
     color: #fff;
 }
 
@@ -1025,7 +1033,8 @@ td.ukfn_enrol_col input {
     width: 100%;
 }
 
-.generaltable td {
+#page-enrol-ukfilmnet-students .generaltable td, 
+#page-enrol-ukfilmnet-tracking .generaltable td {
     vertical-align: middle !important;
 }
 
