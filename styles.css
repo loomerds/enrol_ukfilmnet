@@ -923,7 +923,8 @@ td.ukfn_enrol_col input {
     padding-right: .3rem !important;
 }
 
-.sortable-table thead th[data-sort-direction="0"]:after {
+#page-enrol-ukfilmnet-students .sortable-table thead th[data-sort-direction="0"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th[data-sort-direction="0"]:after {
     display: none;
 }
 
@@ -932,7 +933,7 @@ td.ukfn_enrol_col input {
 }
 
 /* help tips begin*/
-.help-tip{
+#page-enrol-ukfilmnet-tracking .help-tip{
     position: absolute;
     display: inline-block;
     margin-left: 6px;
@@ -947,20 +948,20 @@ td.ukfn_enrol_col input {
     cursor: default;
 }
 
-.help-tip:before{
+#page-enrol-ukfilmnet-tracking .help-tip:before{
     content:'?';
     font-weight: bold;
     color:#fff;
 }
 
-.help-tip:hover p{
+#page-enrol-ukfilmnet-tracking .help-tip:hover p{
     display:block;
     transform-origin: 100% 0%;
-    -webkit-animation: fadeIn 0.3s ease-in-out;
-    animation: fadeIn 0.3s ease-in-out;
+    -webkit-animation: ukfn_enrol_fadeIn 0.3s ease-in-out;
+    animation: ukfn_enrol_fadeIn 0.3s ease-in-out;
 }
 
-.help-tip p{    /* The tooltip */
+#page-enrol-ukfilmnet-tracking .help-tip p{    /* The tooltip */
     display: none;
     margin-left: 20px;
     text-align: left;
@@ -977,7 +978,7 @@ td.ukfn_enrol_col input {
     z-index: 2;
 }
 
-.help-tip p:before{ /* The pointer of the tooltip */
+#page-enrol-ukfilmnet-tracking .help-tip p:before{ /* The pointer of the tooltip */
     position: absolute;
     content: '';
     width:0;
@@ -988,7 +989,7 @@ td.ukfn_enrol_col input {
     top:-12px;
 }
 
-.help-tip p:after{ /* Prevents the tooltip from being hidden */
+#page-enrol-ukfilmnet-tracking .help-tip p:after{ /* Prevents the tooltip from being hidden */
     width:100%;
     height:40px;
     content:'';
@@ -1006,7 +1007,7 @@ td.ukfn_enrol_col input {
     align-self: center;
 }
 
-.help-tip .tracking_progress_tip {
+#page-enrol-ukfilmnet-tracking .help-tip .tracking_progress_tip {
     width: 220px;
 }
 
@@ -1044,13 +1045,13 @@ td.ukfn_enrol_col input {
     margin-right: auto;
 }
 
-.help-tip .tracking_role_tip {
+#page-enrol-ukfilmnet-tracking .help-tip .tracking_role_tip {
     width: 480px;
 }
 
 /* CSS animation */
 
-@-webkit-keyframes fadeIn {
+@-webkit-keyframes ukfn_enrol_fadeIn {
     0% { 
         opacity:0; 
         transform: scale(0.6);
@@ -1062,7 +1063,7 @@ td.ukfn_enrol_col input {
     }
 }
 
-@keyframes fadeIn {
+@keyframes ukfn_enrol_fadeIn {
     0% { opacity:0; }
     100% { opacity:100%; }
 }
@@ -1070,22 +1071,31 @@ td.ukfn_enrol_col input {
 
 /*Sortable Tables CSS - @charset "UTF-8";*/
 
-.sortable-table thead th {
+#page-enrol-ukfilmnet-students .sortable-table thead th, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th {
   cursor: pointer; }
-.sortable-table thead th:after {
+#page-enrol-ukfilmnet-students .sortable-table thead th:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th:after {
     padding-left: 7px; }
-.sortable-table thead th[data-sort-direction="0"]:after {
+#page-enrol-ukfilmnet-students .sortable-table thead th[data-sort-direction="0"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th[data-sort-direction="0"]:after {
     content: "⇕"; }
-.sortable-table thead th[data-sort-direction="1"]:after {
+#page-enrol-ukfilmnet-students .sortable-table thead th[data-sort-direction="1"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th[data-sort-direction="1"]:after {
     content: "▴"; }
-.sortable-table thead th[data-sort-direction="-1"]:after {
+#page-enrol-ukfilmnet-students .sortable-table thead th[data-sort-direction="-1"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table thead th[data-sort-direction="-1"]:after {
     content: "▾"; }
-.sortable-table.sortable-fa-icons thead th:after {
+#page-enrol-ukfilmnet-students .sortable-table.sortable-fa-icons thead th:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table.sortable-fa-icons thead th:after {
   font-family: FontAwesome; }
-.sortable-table.sortable-fa-icons thead th[data-sort-direction="0"]:after {
+#page-enrol-ukfilmnet-students .sortable-table.sortable-fa-icons thead th[data-sort-direction="0"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table.sortable-fa-icons thead th[data-sort-direction="0"]:after {
   content: ""; }
-.sortable-table.sortable-fa-icons thead th[data-sort-direction="1"]:after {
+#page-enrol-ukfilmnet-students .sortable-table.sortable-fa-icons thead th[data-sort-direction="1"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table.sortable-fa-icons thead th[data-sort-direction="1"]:after {
   content: ""; }
-.sortable-table.sortable-fa-icons thead th[data-sort-direction="-1"]:after {
+#page-enrol-ukfilmnet-students .sortable-table.sortable-fa-icons thead th[data-sort-direction="-1"]:after, 
+#page-enrol-ukfilmnet-tracking .sortable-table.sortable-fa-icons thead th[data-sort-direction="-1"]:after {
   content: ""; }
 /*sortable-tables css ends*/
