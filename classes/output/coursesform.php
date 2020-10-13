@@ -58,7 +58,7 @@ class courses_form extends \moodleform {
         $errors = parent::validation($data, $files);
         
         if(empty($data['total_courses']) OR $data['total_courses'] > intval(get_string('max_courses_allowed', 'enrol_ukfilmnet'))) {
-            
+
             if(empty($data['total_courses'])) {
                 $errors['total_courses'] = get_string('error_missing_total_courses', 'enrol_ukfilmnet');
             } else {
