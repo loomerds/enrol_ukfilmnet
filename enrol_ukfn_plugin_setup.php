@@ -325,53 +325,6 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
         echo('<li>The UKfilmNet Safeguarding user exists.</li>');
     }
 
-    // Create a UKFN Enrol Admin Options block if it doesn't exist
-    $ukfn_enrol_admin_block_configdata = 
-        // This configdata value does not have /learning in link paths
-        //'Tzo4OiJzdGRDbGFzcyI6Mzp7czo1OiJ0aXRsZSI7czoyNDoiVUtGTiBFbnJvbCBBZG1pbiBPcHRpb25zIjtzOjY6ImZvcm1hdCI7czoxOiIxIjtzOjQ6InRleHQiO3M6NTQyOiI8cD48L3A+DQo8dWw+DQogICAgPGxpIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyI+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC90cmFja2luZy5waHAiPlZpZXcgU2lnbi11cCBQcm9ncmVzczwvYT48L2xpPg0KPC91bD4NCjxkaXYgY2xhc3M9ImVkaXRvci1pbmRlbnQiIHN0eWxlPSJtYXJnaW4tbGVmdDogMzBweDsiPg0KICAgIDxwPiZuYnNwOyAmbmJzcDsgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3A+DQo8L2Rpdj4NCjx1bD4NCiAgICA8bGk+PGEgaHJlZj0iL2Vucm9sL3VrZmlsbW5ldC9lbnJvbF91a2ZuX3BsdWdpbl9zZXR1cC5waHAiPlJ1biBTZXQtdXAgU2NyaXB0PC9hPjwvbGk+DQogICAgPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fY2xlYW51cC5waHAiPlJ1biBDbGVhbnVwIFNjcmlwdDwvYT48L2xpPg0KICAJPGxpPjxhIGhyZWY9Ii9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fYWRkY291cnNlcy5waHAiPlJ1biBBZGQgQ291cnNlcyAgU2NyaXB0PC9hPjwvbGk+DQo8L3VsPiI7fQ==';
-        // This configdata value has /learning in link paths
-        'Tzo4OiJzdGRDbGFzcyI6Mzp7czo1OiJ0aXRsZSI7czoyNDoiVUtGTiBFbnJvbCBBZG1pbiBPcHRpb25zIjtzOjY6ImZvcm1hdCI7czoxOiIxIjtzOjQ6InRleHQiO3M6NDc2OiI8cD48L3A+DQo8dWw+DQogICAgPGxpIHN0eWxlPSJ0ZXh0LWFsaWduOiBsZWZ0OyI+PGEgaHJlZj0iL2xlYXJuaW5nL2Vucm9sL3VrZmlsbW5ldC90cmFja2luZy5waHAiPlZpZXcgU2lnbi11cCBQcm9ncmVzczwvYT48L2xpPg0KPC91bD4NCjxkaXYgY2xhc3M9ImVkaXRvci1pbmRlbnQiIHN0eWxlPSJtYXJnaW4tbGVmdDogMzBweDsiPg0KICAgIDxwPiZuYnNwOyAmbmJzcDsgLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS08L3A+DQo8L2Rpdj4NCjx1bD4NCiAgICA8bGk+PGEgaHJlZj0iL2xlYXJuaW5nL2Vucm9sL3VrZmlsbW5ldC9lbnJvbF91a2ZuX3BsdWdpbl9zZXR1cC5waHAiPlJ1biBTZXQtdXAgU2NyaXB0PC9hPjwvbGk+DQogICAgPGxpPjxhIGhyZWY9Ii9sZWFybmluZy9lbnJvbC91a2ZpbG1uZXQvZW5yb2xfdWtmbl9wbHVnaW5fYWRkY291cnNlcy5waHAiPlJ1biBBZGQgQ291cnNlcyAgU2NyaXB0PC9hPjwvbGk+DQo8L3VsPiI7fQ==';
-
-    $htmlblock_instances = $DB->get_records('block_instances', array('blockname'=>'html'));
-
-    // If the Moodle admin manually makes changes to the UKFN Enrol Admin Options block you can find the new value of the configdata field of that block by uncommenting the line of code below and running this Setup Script.
-    //print_r2($htmlblock_instances);
-
-    $instance_exists = false;
-    foreach($htmlblock_instances as $instance) {
-        if($instance->configdata === $ukfn_enrol_admin_block_configdata) {  
-            $instance_exists = true;
-            break;
-        }
-    }
-
-    if(!$instance_exists) {
-        $html_blockinstance = new stdClass;
-        $html_blockinstance->blockname = 'html';
-        $html_blockinstance->parentcontextid = 1;
-        $html_blockinstance->showinsubcontexts = 1;
-        $html_blockinstance->pagetypepattern = 'admin-search';
-        $html_blockinstance->subpagepattern = null;
-        $html_blockinstance->defaultregion = 'side-nav';
-        $html_blockinstance->defaultweight = 3;
-        $html_blockinstance->configdata = $ukfn_enrol_admin_block_configdata;
-        $html_blockinstance->timecreated = time();
-        $html_blockinstance->timemodified = $html_blockinstance->timecreated;
-        $html_blockinstance->id = $DB->insert_record('block_instances', $html_blockinstance);
-        context_block::instance($html_blockinstance->id);
-
-        // If the new instance was created, allow it to do additional setup
-        if ($block = block_instance($html_blockinstance->blockname, $html_blockinstance)) {
-            $block->instance_create();
-            $instance_exists = true;
-        }
-    }
-    if($instance_exists) {
-        echo('<li>The UKFN Enrol Admin Options block exists.</li>');
-    } else {
-        echo('<li>The UKFN Enrol Admin Options block was not created. <strong>Try running the setup script again.</strong></li>');
-    }
-
     // HANDLE CREATION OF CUSTOM PROFILE FIELDS IF THEY DO NOT YET EXIST
 
     // Create user_info_category "UKfilmNet Applicant Info" if it doesn't exist
