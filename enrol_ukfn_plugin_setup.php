@@ -176,7 +176,7 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
 
     // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
     $ukfnstudent_capabilities_to_change = [
-
+        // To be determined by Dom
     ];
 
     $ukfnstudent_context_types = [CONTEXT_COURSE, CONTEXT_MODULE];
@@ -189,7 +189,7 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
         echo('<li>The UKfilmNet Student role was not created. <strong>Try running the setup script again.</strong></li>');
     }
 
-    // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    // Array of capabilities to be changed in order to restrict ukfn_resource_course_user role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict ukfn_resource_course_user role permissions
     $ukfn_resourcecourse_user_capabilities_to_change = [
         ['moodle/course:viewparticipants', $prohibit],
     ];
@@ -204,7 +204,7 @@ echo('<div style="margin-left: 25px">Setup Script Results<br><div style="margin-
         echo('<li>The UKfilmNet Resource Course User role was not created. <strong>Try running the setup script again.</strong></li>');
     }
 
-    // Array of capabilities to be changed in order to restrict ukfnstudent role permissions beyond those of its student role prototype - modify this array and run this script to  further expand or restrict applicant role permissions
+    // Array of capabilities to be changed in order to restrict ukfnnoneditingteacher role permissions beyond those of its (non-editing) teacher role prototype - modify this array and run this script to  further expand or restrict (non-editing) teacher role permissions
     $ukfnnoneditingteacher_capabilities_to_change = [
         ['enrol/manual:enrol', $prohibit],
         ['enrol/flatfile:manage', $prohibit],
