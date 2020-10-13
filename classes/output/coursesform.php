@@ -41,8 +41,6 @@ class courses_form extends \moodleform {
         $mform = $this->_form; 
         $mform->addElement('text', 'total_courses', get_string('total_courses_question', 'enrol_ukfilmnet'), ['class'=>'ukfn_courses_questions']);
         $mform->setType('total_courses', PARAM_INT);
-        //$mform->addRule('total_courses', get_string('error_missing_total_courses_questions', 'enrol_ukfilmnet'), 'required', null, 'server');
-        //$mform->addRule('total_courses', get_string('error_max_courses_allowed', 'enrol_ukfilmnet'), 'compare', null, 'server');
         $this->add_action_buttons($cancel=true, $submitlabel=get_string('button_submit', 'enrol_ukfilmnet'), ['class'=>'ukfn-form-buttons']);           
     }
     
@@ -67,9 +65,6 @@ class courses_form extends \moodleform {
                 $errors['total_courses'] = get_string('error_total_courses_excessive', 'enrol_ukfilmnet');
             }
         }
-        /*if($data['total_courses'] > intval(get_string('max_courses_allowed', 'enrol_ukfilmnet'))) {
-            $errors['total_courses'] = get_string('error_total_courses_excessive', 'enrol_ukfilmnet');
-        }*/
         
         return $errors;
     }
