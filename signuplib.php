@@ -119,8 +119,13 @@ function create_applicant_user($applicantinfo, $password, $auth = 'manual') {
  */
 function is_applicant_user($user) {
     profile_load_data($user);
-    $is_applicant = strlen($user->profile_field_applicationprogress) >0;
-    if (isguestuser() or !$is_applicant) {
+    if(property_exists($user, 'profile_field_applicationprogress')) {
+        $is_applicant = strlen($user->profile_field_applicationprogress) > 0;
+        if(!$is_applicant){
+            redirect(PAGE_WWWROOT);
+        }
+    }
+    if(isguestuser()) {
         redirect(PAGE_WWWROOT);
     }
 } 

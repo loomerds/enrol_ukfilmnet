@@ -684,7 +684,7 @@ h3.ukfn_enrol_page_title {
 }
 
 .ukfn_applicant_content .form-control-feedback.invalid-feedback {
-    text-align: center !important;
+    /*text-align: center !important;*/
     color: red;
     font-weight: bold;
 } 
