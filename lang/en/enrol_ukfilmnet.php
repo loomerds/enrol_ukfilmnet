@@ -203,7 +203,8 @@ $string['courses_instructions'] =
 You now have access to all of our digital text books (e.g. Cinematography, Camera Concepts, Location Sound), our Video User Guide, our Teachers & Trainers Chat, and your very own Private Teaching Space where you can create materials, hold discussions and forums with your students, set and collect  student tasks, and paste links to topics from our digital text books to support student learning.<br>
 <br>
 Before you enrol you students, however, we must determine whether you need more than one Private Teaching Space. Please help us by answering the following question. When you have finished, click the "Submit" button below.<br>
-<br>';
+<br>
+<strong>Please do not request more courses than you need. The maximum number of courses allowed is </strong>';
 $string['students_instructions'] = 
 'Use this page to enrol and unenrol your student to and from your UKfilmNet hosted digital classrooms. You may return to this page to adjust your student enrolments at any time.<br>
 <br>
@@ -356,7 +357,7 @@ $string['dfm_category_name'] = 'DIGITAL FILMMAKING';
 $string['dfm_category_idnumber'] = 'DFM';
 $string['dfm_category_parent'] = 0;
 $string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
-$string['max_courses_allowed'] = '5';
+$string['max_courses_allowed'] = '<strong>5.</strong>';
 $string['number_of_enrol_table_rows'] = '5';
 $string['resource_courses_idnumber'] = 'resource_courses';
 $string['support_courses_idnumber'] = 'support_courses';
@@ -364,7 +365,7 @@ $string['sgo_role_name'] = 'user';
 $string['essential_teacher_dsl_capacity'] = 'enrol/manual:manage';
 $string['sgo_temp_account_max_life'] = '3600'; // This value is in number of seconds, e.g. 3600 equals 2 hours
 $string['application_account_max_life'] = '2419200'; // This value is in number of seconds, e.g. 2419200 equals 28 days
-$string['application_reminder_interval'] = '172800'; // This value is in number of seconds, e.g. 604800 equals 7 days
+$string['application_reminder_interval'] = '684800'; // This value is in number of seconds, e.g. 604800 equals 7 days
 //$string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org2'; // testing only
 $string['moodle_admin_safeguarding_user_username'] = 'ukfn_sg';
 $string['moodle_admin_safeguarding_user_email'] = 'safeguarding@ukfilmnet.org';
