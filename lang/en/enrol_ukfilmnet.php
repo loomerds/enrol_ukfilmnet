@@ -357,7 +357,7 @@ $string['dfm_category_name'] = 'DIGITAL FILMMAKING';
 $string['dfm_category_idnumber'] = 'DFM';
 $string['dfm_category_parent'] = 0;
 $string['dfm_category_description'] = 'All Resource and Support Courses go in this category.';
-$string['max_courses_allowed'] = '<strong>5.</strong>';
+$string['max_courses_allowed'] = '5';
 $string['number_of_enrol_table_rows'] = '5';
 $string['resource_courses_idnumber'] = 'resource_courses';
 $string['support_courses_idnumber'] = 'support_courses';
@@ -380,6 +380,7 @@ $string['ukfnstudent_cohort_name'] = 'student';
 
 // URL variables
 $string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
+$string['helpdesk_url'] = 'https://help.ukfilmnet.org';
 $string['emailverify_url'] = '/enrol/ukfilmnet/emailverify.php';
 $string['students_url'] = '/enrol/ukfilmnet/students.php';
 $string['assurance_url'] = '/enrol/ukfilmnet/assurance.php';

@@ -2667,8 +2667,8 @@ function remove_stale_applicant_accounts() {
         //if(true) { //for testing only
             $emailvariables = (object) array(
                 'firstname'=>$applicant->firstname,
-                'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
-        
+                //'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+                'ukfilmnet_url'=>PAGE_WWWROOT);
             email_to_user($applicant, get_admin(), get_string('application_deleted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_deleted_text', 'enrol_ukfilmnet', $emailvariables));
             $applicants_cohort_id = get_cohort_id_from_cohort_idnumber('applicants');
             cohort_remove_member($applicants_cohort_id, $applicant->id);
@@ -2677,8 +2677,8 @@ function remove_stale_applicant_accounts() {
         //elseif(true) { //for testing only
             $emailvariables = (object) array(
                 'firstname'=>$applicant->firstname,
-                'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'), 'application_period_end_date'=>$application_period_end_date_formated);
-
+                //'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'), 'application_period_end_date'=>$application_period_end_date_formated);
+                'ukfilmnet_url'=>PAGE_WWWROOT);
             email_to_user($applicant, get_admin(), get_string('application_warning_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_warning_text', 'enrol_ukfilmnet', $emailvariables));
         }
     }
