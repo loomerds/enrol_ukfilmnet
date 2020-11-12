@@ -85,7 +85,11 @@ class applicantpage implements \renderable, \templatable {
             $username = $form_data->email;
             $password = make_random_password();
             $code = generate_random_verification_code();
-            $emailvariables = (object) array('username'=>$username, 'password'=>$password, 'code'=>$code, 'emailverify_url'=>PAGE_WWWROOT.get_string('emailverify_url', 'enrol_ukfilmnet'));
+            $emailvariables = (object) array('username'=>$username, 
+                                             'password'=>$password, 
+                                             'code'=>$code,
+                                             'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
+                                             'emailverify_url'=>PAGE_WWWROOT.get_string('emailverify_url', 'enrol_ukfilmnet'));
             // Create a new user
             $newuser = (object) array('email'=>$form_data->email,
                                       'username'=>$username,

@@ -152,7 +152,6 @@ class assurancepage implements \renderable, \templatable {
                 'dsl_fullname'=>$form_data->referee_firstname.' '.$form_data->referee_familyname,
                 'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                 'ukfilmnet_url'=>PAGE_WWWROOT);
-                //'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
 
             email_to_user($USER, get_admin(), get_string('safeguarding_assurance_form_submitted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('safeguarding_assurance_form_submitted_text_dsl', 'enrol_ukfilmnet', $emailvariables));
 

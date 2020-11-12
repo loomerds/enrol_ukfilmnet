@@ -379,7 +379,6 @@ $string['cohort_sync_default_role'] = 'ukfnstudent';
 $string['ukfnstudent_cohort_name'] = 'student';
 
 // URL variables
-$string['ukfilmnet_url'] = 'https://ukfilmnet.org/learning';
 $string['helpdesk_url'] = 'https://help.ukfilmnet.org';
 $string['emailverify_url'] = '/enrol/ukfilmnet/emailverify.php';
 $string['students_url'] = '/enrol/ukfilmnet/students.php';
@@ -398,6 +397,8 @@ Thank you for requesting a UKfilmNet account. As a part of the signup process, w
 <li>your Email Verification Code: <strong>{$a->code}</strong></li>
 </ul>
 If the UKfilmNet website Applicant Email Verification page is not already open in your browser, click on this <a href="{$a->emailverify_url}">link to the UKfilmNet website Applicant Email Verification page</a>. You should be taken to a signup page titled Applicant Email Verification. On that page, input your username, password, and verification code, then click "Submit" to continue the UKfilmNet Signup process.<br>
+<br>
+If you get stuck and are not sure what to do next during this UKfilmNet teacher application process - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
 <br>
 Your Friends at UKfilmNet';
 $string['assurance_subject'] = 'Reference in Respect of {$a->applicant_firstname} {$a->applicant_familyname}';
@@ -433,7 +434,7 @@ Once you have completed these steps we can consider the application your employe
 <br>
 Please note that as part of the process you may receive a reminder of this request, but please note that <strong>after 4 weeks, the application from {$a->applicant_firstname} {$a->applicant_familyname} will automatically be deleted if the reference has not been received</strong>.<br>
 <br>
-If you have any queries, please email <a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+If you get stuck and are not sure what to do next during this UKfilmNet teacher application process - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
 <br>
 The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="mailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
@@ -468,7 +469,7 @@ Your login instructions and credentials are as follows:
 <li>Your Password is - <strong>{$a->contact_password}</strong></li>
 </ul>
 
-If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+If you get stuck and are not sure what to do next while using your UKfilmNet account - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
 <br>
 The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
@@ -495,7 +496,7 @@ For reasons of safeguarding, your employee will not have access to students othe
 <br>
 In order to help you to carry out student safeguarding, we have also given you non-editing teacher access to your teacher\'s UKfilmNet Classroom courses via your existing UKfilmNet Safeguarding Officer account.<br>
 <br>
-If you have any queries, please email <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> where we hope to address any further questions.<br>
+If you get stuck and are not sure what to do next while using your UKfilmNet account - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
 <br>
 The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>';
@@ -510,6 +511,8 @@ When you log in to UKfilmNet you should find that you are able to access the UKf
 <br>
 To set up your personal teaching classes and enrol your students, please return to the <a href="{$a->students_url}">UKfilmNet Student Enrolment</a> signup page.<br>
 <br>
+If you get stuck and are not sure what to do next while using your UKfilmNet account - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
+<br>
 Enjoy!<br>
 <br>
 Your Friends at UKfilmNet';
@@ -518,9 +521,9 @@ Dear {$a->firstname},<br>
 <br>
 After review of the information provided by your school Safeguarding Officer, we regret to inform you that we are unable to grant your request for a UKfilmNet account.<br>
 <br>
-Other stuff to be determined.<br>
-<br>
-Your Friends at UKfilmNet';
+The UKfilmNet Safeguarding and Enrolment Team<br>
+<a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
+<br>';
 $string['determination_text_tester'] = 'This is an email test - hope you got it!';
 
 $string['application_deleted_subject'] = 'Your UKfilmNet Application Has Been Deleted';
@@ -543,6 +546,8 @@ We are writing to let you know that your application for teacher access to UKfil
 <br>
 We hope to received your completed application and DSL employment verification before {$a->application_period_end_date}.<br>
 <br>
+If you get stuck and are not sure what to do next during this UKfilmNet teacher application process - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
+<br>
 The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>
 <br>';
@@ -562,6 +567,8 @@ $string['safeguarding_assurance_form_submitted_text_applicant'] = '
 Dear {$a->applicant_firstname},<br>
 <br>
 This is to let you know that {$a->dsl_fullname} submitted a Safeguarding Assurance Form today in respect of your application for teacher access to UKfilmNet\'s teaching resouces and online teaching environmnet. We will let you know in the very near future whether we are able to grant your application request.<br>
+<br>
+If you get stuck and are not sure what to do next during this UKfilmNet teacher application process - please visit our <a href="{$a->helpdesk_url}">UKfilmNet Helpdesk</a> to raise a ticket to get help from our volunteer team.<br>
 <br>
 The UKfilmNet Safeguarding and Enrolment Team<br>
 <a href="emailto:safeguarding@ukfilmnet.org">safeguarding@ukfilmnet.org</a> | <a href="{$a->ukfilmnet_url}">UKfilmNet.org</a>

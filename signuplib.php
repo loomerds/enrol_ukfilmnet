@@ -806,6 +806,7 @@ function email_sgo_newuser_info($applicant_user, $sgo_user, $sgo_password) {
                                      'contact_password'=>$sgo_password,
                                      'contact_username'=>$sgo_user->username,
                                      'emailverify_url'=>PAGE_WWWROOT.get_string('emailverify_url', 'enrol_ukfilmnet'),
+                                     'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                                      'ukfilmnet_url'=>PAGE_WWWROOT);
 
     // Send email to safeguarding officer
@@ -833,6 +834,7 @@ function email_sgo_existinguser_info($applicant_user, $sgo_user) {
                                      'applicant_firstname'=>$applicant_user->firstname,
                                      'applicant_familyname'=>$applicant_user->lastname,
                                      'applicant_email'=>$applicant_user->email,
+                                     'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                                      'ukfilmnet_url'=>PAGE_WWWROOT);
 
     // Send email to safeguarding officer
@@ -853,6 +855,7 @@ function email_user_accept_reject($applicant, $status){
     $emailvariables = (object) array('firstname'=>$applicant->firstname, 
                                      'familyname'=>$applicant->lastname, 
                                      'email'=>$applicant->email,
+                                     'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                                      'students_url'=>PAGE_WWWROOT.get_string('students_url', 'enrol_ukfilmnet'));
     if($status === "denied") {
         email_to_user($applicant, get_admin(), get_string('determination_subject', 'enrol_ukfilmnet', $emailvariables), get_string('determination_text_denied', 'enrol_ukfilmnet', $emailvariables));
@@ -2667,7 +2670,7 @@ function remove_stale_applicant_accounts() {
         //if(true) { //for testing only
             $emailvariables = (object) array(
                 'firstname'=>$applicant->firstname,
-                //'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'));
+                'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                 'ukfilmnet_url'=>PAGE_WWWROOT);
             email_to_user($applicant, get_admin(), get_string('application_deleted_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_deleted_text', 'enrol_ukfilmnet', $emailvariables));
             $applicants_cohort_id = get_cohort_id_from_cohort_idnumber('applicants');
@@ -2677,7 +2680,7 @@ function remove_stale_applicant_accounts() {
         //elseif(true) { //for testing only
             $emailvariables = (object) array(
                 'firstname'=>$applicant->firstname,
-                //'ukfilmnet_url'=>PAGE_WWWROOT.get_string('ukfilmnet_url', 'enrol_ukfilmnet'), 'application_period_end_date'=>$application_period_end_date_formated);
+                'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                 'ukfilmnet_url'=>PAGE_WWWROOT);
             email_to_user($applicant, get_admin(), get_string('application_warning_subject', 'enrol_ukfilmnet', $emailvariables), get_string('application_warning_text', 'enrol_ukfilmnet', $emailvariables));
         }

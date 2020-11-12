@@ -137,6 +137,7 @@ class schoolpage implements \renderable, \templatable {
                                              'assurance_code'=>$assurance_code,
                                              'form_url'=>$form_url,
                                              'assurance_url'=>$assurance_url,
+                                             'helpdesk_url'=>get_string('helpdesk_url', 'enrol_ukfilmnet'),
                                              'ukfilmnet_url'=>PAGE_WWWROOT);
             // Send email to safeguarding officer
             email_to_user($contact_user, get_admin(), get_string('assurance_subject', 'enrol_ukfilmnet', $emailvariables), get_string('assurance_text', 'enrol_ukfilmnet', $emailvariables));
