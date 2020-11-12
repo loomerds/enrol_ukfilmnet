@@ -57,10 +57,8 @@ if(isset($USER) and $USER->id != 0 and $USER->username != 'guest') {
     profile_load_data($USER);
     if(isset($USER->profile_field_applicationprogress)) {
         $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
-        if($progress != $page_number) {
-            if($progress != 7) {
-                go_to_page(strval($progress));
-            }
+        if($progress != 7) {
+            go_to_page(strval($progress));
         }
     }
 }

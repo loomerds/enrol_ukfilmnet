@@ -73,7 +73,7 @@ else {
         profile_load_data($USER);
         if(isset($USER->profile_field_applicationprogress)) {
             $progress = convert_progressstring_to_progressnum($USER->profile_field_applicationprogress);
-            if($progress != $page_number) {
+            if($progress != $page_number AND $progress != $page_number+1) {
                 go_to_page(strval($progress));
             }
         }

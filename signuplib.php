@@ -1102,7 +1102,7 @@ function go_to_page($target_page) {
             redirect(PAGE_SAFEGUARDING);
             break;
         case '6':
-            redirect(PAGE_STUDENTS);
+            redirect(PAGE_SAFEGUARDING);
             break;
         case '7':
             redirect(PAGE_STUDENTS);
