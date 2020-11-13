@@ -79,7 +79,8 @@ body#page-enrol-ukfilmnet-tracking #page {
 #page-enrol-ukfilmnet-courses #region-main, 
 #page-enrol-ukfilmnet-school #region-main, 
 #page-enrol-ukfilmnet-students #region-main, 
-#page-enrol-ukfilmnet-tracking #region-main, 
+#page-enrol-ukfilmnet-tracking #region-main,
+#page-enrol-ukfilmnet-safeguarding #region-main, 
 #page-enrol-ukfilmnet-assurance #region-main {
     padding: 0px !important;
     background-color: unset !important;
@@ -90,7 +91,8 @@ body#page-enrol-ukfilmnet-tracking #page {
 #page-enrol-ukfilmnet-courses #page-footer, 
 #page-enrol-ukfilmnet-school #page-footer, 
 #page-enrol-ukfilmnet-students #page-footer, 
-#page-enrol-ukfilmnet-tracking #page-footer, 
+#page-enrol-ukfilmnet-tracking #page-footer,
+#page-enrol-ukfilmnet-safeguarding #page-footer, 
 #page-enrol-ukfilmnet-assurance #page-footer {
     padding-top: 20px;
 }
